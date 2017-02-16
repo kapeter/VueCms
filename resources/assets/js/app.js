@@ -13,8 +13,20 @@ require('./bootstrap');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('example', require('./components/Example.vue'));
+import Vue from 'vue'
+import App from './App.vue'
+import VueRouter from 'vue-router'
 
-const app = new Vue({
-    el: '#app'
-});
+Vue.use(VueRouter)
+
+import Example from './components/Example.vue'
+
+const router = new VueRouter({
+  mode: 'history',
+  base: __dirname,
+  routes: [
+    { path: '/dashboard', component: Example }
+  ]
+})
+
+new Vue(Vue.util.extend({ router }, App)).$mount('#app');
