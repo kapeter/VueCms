@@ -2,10 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Vue.js Example</title>
+  <title>Frontend Example</title>
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <link rel="shortcut icon" href="favicon.ico">
-  <link rel="stylesheet" type="text/css" href="{{ mix('css/app.css') }}">
 </head>
 <body>
   <div id="app"></div>
