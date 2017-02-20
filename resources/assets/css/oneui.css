@@ -72,7 +72,7 @@ h6,
 .h5,
 .h6 {
   margin: 0;
-  font-family: "Source Sans Pro", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 600;
   line-height: 1.2;
   color: inherit;
@@ -5199,11 +5199,11 @@ a.list-group-item:focus {
 .side-header > span,
 .side-header > a {
   display: inline-block;
-  line-height: 34px;
+  line-height: 40px;
 }
 .side-header img {
   display: inline-block;
-  margin-top: -2px;
+  margin-top: -6px;
 }
 .side-content {
   margin: 0 auto;
@@ -5244,7 +5244,7 @@ a.list-group-item:focus {
   overflow-x: hidden;
 }
 #main-container {
-  background-color: #f5f5f5;
+  background-color: #f1f1f1;
 }
 .content {
   margin: 0 auto;
@@ -8267,8 +8267,8 @@ a.bg-smooth-lighter:focus {
   }
 }
 .animated {
-  -webkit-animation-duration: 1s;
-  animation-duration: 1s;
+  -webkit-animation-duration: .5s;
+  animation-duration: .5s;
   -webkit-animation-fill-mode: both;
   animation-fill-mode: both;
 }

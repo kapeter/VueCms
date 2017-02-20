@@ -1,14 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Frontend Example</title>
-  <meta name="csrf-token" content="{{ csrf_token() }}">
-  <link rel="shortcut icon" href="favicon.ico">
-</head>
-<body>
-  <div id="app"></div>
+@extends('layouts.app')
 
-  <script src="{{ mix('js/app.js') }}"></script>
-</body>
-</html>
+@section('content')
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">Dashboard</div>
+
+                <div class="panel-body">
+                    You are logged in!
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection

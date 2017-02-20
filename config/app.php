@@ -14,6 +14,10 @@ return [
 
     'name' => 'Kapeter',
 
+    'author' => 'kapeter',
+
+    'description' => 'kapeter',
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment
