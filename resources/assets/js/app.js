@@ -16,11 +16,11 @@ require('./bootstrap');
 import Vue from 'vue'
 import App from './App.vue'
 import VueRouter from 'vue-router'
-import routes from './routes.js';
+import routes from './routes.js'
+
+
 
 Vue.use(VueRouter)
-
-import Example from './components/Example.vue'
 
 const router = new VueRouter({
   mode: 'history',

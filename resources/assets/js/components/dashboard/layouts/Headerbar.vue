@@ -13,31 +13,33 @@
                                 <li>
                                     <a tabindex="-1" href="base_pages_inbox.html">
                                         <i class="si si-envelope-open pull-right"></i>
-                                        <span class="badge badge-primary pull-right">3</span>Inbox
+                                        <span class="badge badge-primary pull-right">3</span>收件箱
                                     </a>
                                 </li>
                                 <li>
                                     <a tabindex="-1" href="base_pages_profile.html">
-                                        <i class="si si-user pull-right"></i>
-                                        <span class="badge badge-success pull-right">1</span>Profile
+                                        <i class="si si-user pull-right"></i>个人中心
                                     </a>
                                 </li>
                                 <li>
                                     <a tabindex="-1" href="javascript:void(0)">
-                                        <i class="si si-settings pull-right"></i>Settings
+                                        <i class="si si-settings pull-right"></i>系统设置
                                     </a>
                                 </li>
                                 <li class="divider"></li>
                                 <li class="dropdown-header">Actions</li>
                                 <li>
                                     <a tabindex="-1" href="base_pages_lock.html">
-                                        <i class="si si-lock pull-right"></i>Lock Account
+                                        <i class="si si-lock pull-right"></i>锁定账户
                                     </a>
                                 </li>
                                 <li>
-                                    <a tabindex="-1" href="base_pages_login.html">
-                                        <i class="si si-logout pull-right"></i>Log out
+                                    <a tabindex="-1" @click.prevent="doLogout" href="javascript:;">
+                                        <i class="si si-logout pull-right"></i>注销账户
                                     </a>
+                                    <form id="logout-form" action="/logout" method="POST" style="display: none;">
+                                        <input type="hidden" name="_token" value=""/>
+                                    </form>
                                 </li>
                             </ul>
                         </div>
@@ -66,7 +68,7 @@
                         </button>
                     </li>
                     <li class="js-header-search header-search">
-                        <form class="form-horizontal" action="base_pages_search.html" method="post">
+                        <form class="form-horizontal" action="#" method="post">
                             <div class="form-material form-material-primary input-group remove-margin-t remove-margin-b">
                                 <input class="form-control" type="text" id="base-material-text" name="base-material-text" placeholder="Search..">
                                 <span class="input-group-addon"><i class="si si-magnifier"></i></span>
@@ -80,7 +82,12 @@
 
 <script>
     export default {
-
+        methods: {
+            doLogout() {
+                $('input[name=_token]').val(csrfToken);
+                $('#logout-form').submit();
+            }
+        }
     }
 </script>
 

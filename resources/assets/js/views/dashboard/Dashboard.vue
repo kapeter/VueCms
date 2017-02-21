@@ -16,7 +16,7 @@
         components: {
             Sidebar,
             HeaderBar,
-            FooterBar
+            FooterBar,
         },
     }
 </script>

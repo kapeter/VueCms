@@ -1,4 +1,5 @@
 import Dashboard from './views/dashboard/Dashboard.vue'
+import Parent from './views/dashboard/Parent.vue'
 
 export default [
     {
@@ -10,8 +11,14 @@ export default [
                 component: require('./views/dashboard/home/Index.vue')
             },
             {
-                path: 'home',
-                component: require('./views/dashboard/home/Index.vue')
+                path: 'post',
+                component: Parent,
+                children: [
+                    {
+                        path: '/',
+                        component: require('./views/dashboard/post/Index.vue')
+                    }
+                ]
             },
         ]
     }

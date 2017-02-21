@@ -26,12 +26,12 @@ mix.combine([
     'resources/assets/js/plugins/jquery.slimscroll.min.js',
     'resources/assets/js/plugins/jquery.scrollLock.min.js',
     'resources/assets/js/plugins/jquery.appear.min.js',
-    'resources/assets/js/plugins/jquery.countTo.min.js',
     'resources/assets/js/plugins/jquery.placeholder.min.js',
     'resources/assets/js/plugins/js.cookie.min.js',
-    'resources/assets/js/plugins/jquery.validate.min.js',
     'resources/assets/js/plugins/common.js',    
 ], 'public/js/oneui.js');
+
+mix.copy('resources/assets/js/plugins/','public/js/plugins/');
 
 
 mix.js('resources/assets/js/app.js', 'public/js');

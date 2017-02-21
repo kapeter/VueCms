@@ -16,7 +16,6 @@
         <style type="text/css">
             body{
                 width: 100%;
-                height: 100%;
                 background: url('img/login-bg.jpg') no-repeat;
                 background-position: right center;
                 background-size: cover; 
@@ -27,6 +26,9 @@
                 padding:15px 30px;
                 box-sizing: border-box;
                 box-shadow: 0 1px 3px rgba(0,0,0,.13);
+            }
+            .login-error{
+                margin-top: -15px;
             }
         </style>
 
@@ -51,9 +53,10 @@
                                 <div class="form-group">
                                     <div class="col-xs-12">
                                         <div class="form-material form-material-primary floating">
-                                            <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" autofocus>
+                                            <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}">
                                             <label for="login-username"><i class="si si-user"></i> 用户名</label>
                                         </div>
+
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -64,10 +67,23 @@
                                         </div>
                                     </div>
                                 </div>
+                                @if ($errors->has('email') || $errors->has('password'))
+                                    <div class="form-group has-error login-error" >
+                                        <div class="col-xs-12">
+                                            <div class="help-block animated fadeInDown">
+                                                @if ($errors->has('email'))
+                                                    {{ $errors->first('email') }}
+                                                @else
+                                                    {{ $errors->first('password') }}
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
                                 <div class="form-group">
                                     <div class="col-xs-6">
                                         <label class="css-input switch switch-sm switch-primary">
-                                            <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> <span></span> 记住我?
+                                            <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> <span></span> 记住我
                                         </label>
                                     </div>
                                     <div class="col-xs-6">
@@ -98,8 +114,14 @@
 
         <!-- OneUI Core JS -->
         <script src="{{ mix('js/oneui.js') }}"></script>
+        <script src="{{ asset('js/plugins/jquery.validate.min.js') }}"></script>
 
         <script type="text/javascript">
+
+            $('#email').on('focus',function () {
+                $('.login-error').remove();
+            })
+
             var BasePagesLogin = function() {
                 var initValidationLogin = function(){
                     jQuery('.js-validation-login').validate({

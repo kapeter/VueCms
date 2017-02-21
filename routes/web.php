@@ -15,10 +15,14 @@ Route::get('/', function () {
     return view('home');
 });
 
+
+/* Auth */
 Route::get('/login', function () {
     return view('auth.login');
 });
-
 Auth::routes();
 
-Route::get('/dashboard', 'DashboardController@index');
+/* Dashboard */
+Route::group(['prefix' => 'dashboard'], function () {
+   Route::get('{path?}', 'DashboardController@index')->where('path', '[\/\w\.-]*');
+});

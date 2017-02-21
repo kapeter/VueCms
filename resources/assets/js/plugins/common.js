@@ -778,37 +778,6 @@ var App = function() {
     };
 
     /*
-     * jQuery Appear + jQuery countTo, for more examples you can check out https://github.com/bas2k/jquery.appear and https://github.com/mhuggins/jquery-countTo
-     *
-     * App.initHelper('appear-countTo');
-     *
-     */
-    var uiHelperAppearCountTo = function(){
-        // Init counter functionality
-        jQuery('[data-toggle="countTo"]').each(function(){
-            var $this       = jQuery(this);
-            var $after      = $this.data('after');
-            var $before     = $this.data('before');
-            var $speed      = $this.data('speed') ? $this.data('speed') : 1500;
-            var $interval   = $this.data('interval') ? $this.data('interval') : 15;
-
-            $this.appear(function() {
-                $this.countTo({
-                    speed: $speed,
-                    refreshInterval: $interval,
-                    onComplete: function() {
-                        if($after) {
-                            $this.html($this.html() + $after);
-                        } else if ($before) {
-                            $this.html($before + $this.html());
-                        }
-                    }
-                });
-            });
-        });
-    };
-
-    /*
      * jQuery SlimScroll, for more examples you can check out http://rocha.la/jQuery-slimScroll
      *
      * App.initHelper('slimscroll');
@@ -1277,9 +1246,6 @@ var App = function() {
                     break;
                 case 'appear':
                     uiHelperAppear();
-                    break;
-                case 'appear-countTo':
-                    uiHelperAppearCountTo();
                     break;
                 case 'slimscroll':
                     uiHelperSlimscroll();
