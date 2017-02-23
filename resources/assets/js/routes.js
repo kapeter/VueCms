@@ -20,6 +20,10 @@ export default [
                     }
                 ]
             },
+            {
+                path: '*',
+                component: require('./views/dashboard/error/404.vue')
+            }
         ]
     }
 ]

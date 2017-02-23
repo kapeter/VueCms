@@ -1,8 +1,10 @@
 <template>
-    <div id="page-container" class="sidebar-l sidebar-o side-scroll header-navbar-fixed">
+    <div id="page-container" class="sidebar-l sidebar-o side-scroll header-navbar-fixed" :class="{ 'sidebar-mini' : isMini }">
         <Sidebar></Sidebar>
         <HeaderBar></HeaderBar>
-        <router-view></router-view>
+        <main id="main-container">
+            <router-view></router-view>
+        </main>
         <FooterBar></FooterBar>
     </div>
 </template>
@@ -18,6 +20,22 @@
             HeaderBar,
             FooterBar,
         },
+        mounted() {
+            let hWindow     = $(window).height();
+            var hHeader     = $('#header-navbar').outerHeight();
+            var hFooter     = $('#page-footer').outerHeight();
+
+            if ($('#page-container').hasClass('header-navbar-fixed')) {
+                $('#main-container').css('min-height', hWindow - hFooter);
+            } else {
+                $('#main-container').css('min-height', hWindow - (hHeader + hFooter));
+            }
+        },
+        computed: {
+            isMini() {
+                return this.$store.state.isMini;
+            }
+        }
     }
 </script>
 

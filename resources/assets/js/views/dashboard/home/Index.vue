@@ -1,5 +1,5 @@
 <template>
-	<main id="main-container">
+	<div>
 	    <!-- Page Header -->
 	    <div class="bg-image overflow-hidden" style="background-image: url('/img/header-bg.jpg');">
 	        <div class="bg-black-op">
@@ -227,7 +227,7 @@
             <!-- END Dashboard Cards -->
         </div>
         <!-- END Page Content -->    	
-	</main>
+	</div>
 </template>
 
 <script>
@@ -251,7 +251,6 @@
                     }
                 });
             });
-
         }
     }
 </script>

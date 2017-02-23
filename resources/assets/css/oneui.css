@@ -295,6 +295,7 @@ h6,
     margin-top: 0;
     display: inline;
     line-height: inherit;
+    margin-left: 10px;
   }
 }
 .content-heading {
@@ -804,7 +805,7 @@ a.bg-gray-light:focus {
   background-color: #dadada;
 }
 .bg-gray-lighter {
-  background-color: #f9f9f9;
+  background-color: #f6f6f6;
 }
 a.bg-gray-lighter:hover,
 a.bg-gray-lighter:focus {
@@ -5384,7 +5385,7 @@ a.list-group-item:focus {
   overflow-x: hidden;
 }
 #main-container {
-  background-color: #f1f1f1;
+  background-color: #f3f3f3;
 }
 .content {
   margin: 0 auto;
@@ -6531,7 +6532,7 @@ a.block.block-link-hover3:active {
 }
 .nav-main ul {
   margin: 0;
-  padding: 0 0 0 50px;
+  padding: 0 0 0 48px;
   height: 0;
   list-style: none;
   background-color: rgba(0, 0, 0, 0.15);

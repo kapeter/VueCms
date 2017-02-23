@@ -11,9 +11,15 @@
 	<link rel="shortcut icon" href="/favicon.ico">
 
 	<link rel="stylesheet" href="{{ mix('css/oneui.css') }}">
+
+	<style>
+		[v-cloak] {
+		  display: none;
+		}
+	</style>
 </head>
 <body>
-  	<div id="app"></div>
+  	<div id="app" v-cloak></div>
 
  	<script src="{{ mix('js/oneui.js') }}"></script>
  	<script src="{{ mix('js/app.js') }}"></script>

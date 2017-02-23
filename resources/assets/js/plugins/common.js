@@ -240,11 +240,6 @@ var App = function() {
                     $lPage.removeClass('sidebar-o-xs');
                 }
                 break;
-            case 'sidebar_mini_toggle':
-                if ($windowW > 991) {
-                    $lPage.toggleClass('sidebar-mini');
-                }
-                break;
             case 'sidebar_mini_on':
                 if ($windowW > 991) {
                     $lPage.addClass('sidebar-mini');

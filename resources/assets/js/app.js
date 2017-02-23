@@ -14,18 +14,30 @@ require('./bootstrap');
  */
 
 import Vue from 'vue'
-import App from './App.vue'
 import VueRouter from 'vue-router'
-import routes from './routes.js'
-
-
+import Vuex from 'vuex'
 
 Vue.use(VueRouter)
+Vue.use(Vuex)
+
+import routes from './routes.js'
+import storeObj from './store.js'
+import App from './App.vue'
+
+Vue.component(
+    'page-heading', require('./components/dashboard/Heading.vue')
+);
+Vue.component(
+    'data-table', require('./components/dashboard/DataTable.vue')
+);
 
 const router = new VueRouter({
-  mode: 'history',
-  base: __dirname,
-  routes: routes
+	mode: 'history',
+	base: __dirname,
+	linkActiveClass: 'active',
+	routes: routes
 })
 
-new Vue(Vue.util.extend({ router }, App)).$mount('#app');
+const store = new Vuex.Store(storeObj);
+
+new Vue(Vue.util.extend({ router, store }, App)).$mount('#app');
