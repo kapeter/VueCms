@@ -6115,7 +6115,7 @@ fieldset[disabled] .form-material.floating > label {
 }
 .block-content {
   margin: 0 auto;
-  padding: 20px 20px 1px;
+  padding: 0px 20px 1px;
   max-width: 100%;
   overflow-x: visible;
   -webkit-transition: opacity 0.2s ease-out;

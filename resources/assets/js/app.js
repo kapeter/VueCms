@@ -28,7 +28,10 @@ Vue.component(
     'page-heading', require('./components/dashboard/Heading.vue')
 );
 Vue.component(
-    'data-table', require('./components/dashboard/DataTable.vue')
+    'vuetable', require('./components/dashboard/Vuetable.vue')
+);
+Vue.component(
+    'vuetable-pagination', require('./components/dashboard/VuetablePagination.vue')
 );
 
 const router = new VueRouter({
