@@ -1,5 +1,5 @@
 <template>
-  <table :class="['vuetable', css.tableClass]">
+  <table :class="[css.tableClass]">
     <thead>
       <tr>
         <template v-for="field in fields">
@@ -199,12 +199,11 @@ export default {
       type: Object,
       default: function() {
         return {
-          tableClass: 'table table-bordered table-striped js-dataTable-full',
+          tableClass: 'table table-bordered table-striped',
           loadingClass: 'loading',
-          ascendingIcon: 'blue chevron up icon',
-          descendingIcon: 'blue chevron down icon',
-          detailRowClass: 'vuetable-detail-row',
-          sortHandleIcon: 'grey sidebar icon',
+          ascendingIcon: 'fa fa-sort-asc',
+          descendingIcon: 'fa fa-sort-desc',
+          sortHandleIcon: 'fa fa-sort',
         }
       }
     },
@@ -750,25 +749,3 @@ export default {
   },
 }
 </script>
-
-<style>
-  [v-cloak] {
-    display: none;
-  }
-  .vuetable th.sortable:hover {
-    color: #2185d0;
-    cursor: pointer;
-  }
-  .vuetable-actions {
-    width: 15%;
-    padding: 12px 0px;
-    text-align: center;
-  }
-  .vuetable-pagination {
-    background: #f9fafb !important;
-  }
-  .vuetable-pagination-info {
-    margin-top: auto;
-    margin-bottom: auto;
-  }
-</style>

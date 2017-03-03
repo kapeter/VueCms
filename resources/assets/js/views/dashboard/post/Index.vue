@@ -1,20 +1,38 @@
 <template>
 	<div>
-        <page-heading title="文章管理" subTitle="Post"></page-heading>
+        <page-heading title="所有文章" subTitle="All Articles"></page-heading>
         <div class="content">
 	     	<div class="block">
 	     		<div class="block-header">
-	     			<router-link to="/dashboard/post/create" class="btn btn-minw btn-square btn-info pull-right">
-	     				<i class="fa fa-paint-brush"></i>  写文章
-	     			</router-link>
+	     			<div class="row">
+	     				<div class="col-sm-6">
+		     				<filter-bar></filter-bar>
+		     			</div>
+		     			<div class="col-sm-6">
+		     				<router-link to="/dashboard/post/create" class="btn btn-minw btn-info pull-right">
+		     					<i class="fa fa-paint-brush"></i>  写文章
+		     				</router-link>	
+		     			</div>	
+	     			</div>
 	     		</div>
+
 	     		<div class="block-content">
 					<vuetable ref="vuetable"
 					    api-url="http://vuetable.ratiw.net/api/users"
-					    :fields="['name', 'email', 'birthdate']"
 					    pagination-path=""
+					    :fields="fields"
+					    :sort-order="sortOrder"
+					    @vuetable:pagination-data="onPaginationData"
+					    :append-params="moreParams"
 					></vuetable> 
-					<vuetable-pagination ref="pagination"></vuetable-pagination>
+					<div class="row">
+						<div class="col-sm-6">
+							<vuetable-pagination-info ref="paginationInfo" info-class="pagination-info"></vuetable-pagination-info>
+						</div>
+						<div class="col-sm-6">
+							<vuetable-pagination ref="pagination" @vuetable-pagination:change-page="onChangePage"></vuetable-pagination>
+						</div>
+					</div>
 			    </div>  		
 	     	</div>        	
         </div>
@@ -23,58 +41,74 @@
 
 <script> 
     export default {
-        data () {
-        	return {
-        		columns: [
-	                'name',
-	                'nickname',
-	                'email',
-	                'birthdate',
-	                '__actions'
-	            ],
-	            itemActions: [
-	                { name: 'view-item', label: 'view', icon: 'fa fa-eyes', class: 'btn btn-xs btn-default' },
-	                { name: 'edit-item', label: 'edit', icon: 'fa fa-pencil', class: 'btn btn-xs btn-default'},
-	                { name: 'delete-item', label: 'delete', icon: 'fa fa-times', class: 'btn btn-xs btn-default' }
-	            ],
-			      css: {
-			        table: {
-			          tableClass: 'table table-bordered table-striped table-hover',
-			          ascendingIcon: 'glyphicon glyphicon-chevron-up',
-			          descendingIcon: 'glyphicon glyphicon-chevron-down'
-			        },
-			        pagination: {
-			          wrapperClass: 'pagination',
-			          activeClass: 'active',
-			          disabledClass: 'disabled',
-			          pageClass: 'page',
-			          linkClass: 'link',
-			        },
-			        icons: {
-			          first: 'glyphicon glyphicon-step-backward',
-			          prev: 'glyphicon glyphicon-chevron-left',
-			          next: 'glyphicon glyphicon-chevron-right',
-			          last: 'glyphicon glyphicon-step-forward',
-			        },
-			      },
-        	}
-        },
+		data () {
+		    return {
+		      fields: [
+		        {
+		          name: 'name',
+		          sortField: 'name',
+		        },
+		        {
+		          name: 'email',
+		          sortField: 'email'
+		        },
+		        {
+		          name: 'birthdate',
+		          sortField: 'birthdate',
+		          titleClass: 'text-center',
+		          dataClass: 'text-center',
+		        },
+		        {
+		          name: 'nickname',
+		          sortField: 'nickname',
+		        },
+		        {
+		          name: 'gender',
+		          sortField: 'gender',
+		          titleClass: 'text-center',
+		          dataClass: 'text-center',
+		        },
+		        {
+		          name: 'salary',
+		          sortField: 'salary',
+		          titleClass: 'text-center',
+		          dataClass: 'text-right',
+		        },
+		        {
+		          name: '__component:custom-actions',
+		          title: 'Actions',
+		          titleClass: 'text-center',
+		          dataClass: 'text-center'
+		        }
+		      ],
+		      sortOrder: [
+		        { field: 'email', sortField: 'email', direction: 'asc'}
+		      ],
+		      moreParams: {}
+		    }
+		},
         methods: {
-            viewProfile: function(id) {
-                console.log('view profile with id:', id)
-            }
+		    onPaginationData (paginationData) {
+		      	this.$refs.pagination.setPaginationData(paginationData);
+		      	this.$refs.paginationInfo.setPaginationData(paginationData);
+		    },
+		    onChangePage (page) {
+		      	this.$refs.vuetable.changePage(page)
+		    },
         },
         events: {
-            'vuetable:action': function(action, data) {
-                console.log('vuetable:action', action, data)
-                if (action == 'view-item') {
-                    this.viewProfile(data.id)
-                }
-            },
-            'vuetable:load-error': function(response) {
-                console.log('Load Error: ', response)
-            }
+		    'filter-set' (filterText) {
+		      	this.moreParams = {
+		        	filter: filterText
+		      	}
+		      	Vue.nextTick( () => this.$refs.vuetable.refresh() )
+		    },
+		    'filter-reset' () {
+		      	this.moreParams = {}
+		      	Vue.nextTick( () => this.$refs.vuetable.refresh() )
+		    }
         }
     }
 </script>
+
 

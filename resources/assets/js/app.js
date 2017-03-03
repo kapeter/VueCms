@@ -33,6 +33,15 @@ Vue.component(
 Vue.component(
     'vuetable-pagination', require('./components/dashboard/VuetablePagination.vue')
 );
+Vue.component(
+    'custom-actions', require('./components/dashboard/CustomActions.vue')
+);
+Vue.component(
+    'vuetable-pagination-info', require('./components/dashboard/VuetablePaginationInfo.vue')
+);
+Vue.component(
+    'filter-bar', require('./components/dashboard/FilterBar.vue')
+);
 
 const router = new VueRouter({
 	mode: 'history',
