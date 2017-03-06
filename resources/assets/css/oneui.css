@@ -155,6 +155,7 @@ body {
 .no-focus *:focus {
   outline: 0 !important;
 }
+
 a {
   color: #5c90d2;
   -webkit-transition: color 0.12s ease-out;
@@ -5427,7 +5428,7 @@ a.list-group-item:focus {
 @media screen and (min-width: 768px) {
   .content {
     margin: 0 auto;
-    padding: 30px 30px 1px;
+    padding: 25px 30px 1px;
     max-width: 100%;
     overflow-x: visible;
   }
@@ -5435,7 +5436,7 @@ a.list-group-item:focus {
   .content .push,
   .content .block,
   .content .items-push > div {
-    margin-bottom: 30px;
+    margin-bottom: 25px;
   }
   .content .items-push-2x > div {
     margin-bottom: 60px;
@@ -5592,7 +5593,7 @@ a.list-group-item:focus {
   top: 6px;
   left: 0;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 400;
   -webkit-transform: translateY(-24px);
   -ms-transform: translateY(-24px);
   transform: translateY(-24px);
@@ -6103,8 +6104,8 @@ fieldset[disabled] .form-material.floating > label {
   clear: both;
 }
 .block-title {
-  font-size: 15px;
-  font-weight: 600;
+  font-size: 16px;
+  font-weight: 400;
   text-transform: uppercase;
   line-height: 1.2;
 }
@@ -6118,7 +6119,7 @@ fieldset[disabled] .form-material.floating > label {
 }
 .block-content {
   margin: 0 auto;
-  padding: 0px 20px 1px;
+  padding: 20px 20px 1px;
   max-width: 100%;
   overflow-x: visible;
   -webkit-transition: opacity 0.2s ease-out;
@@ -6445,6 +6446,7 @@ a.block.block-link-hover3:active {
   padding: 2px 3px;
   color: #999999;
   opacity: .6;
+  outline: 0;
 }
 .block.block-themed > .block-header .block-options > li > a,
 .block.block-themed > .block-header .block-options > li > button {

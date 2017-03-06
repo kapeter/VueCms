@@ -42,6 +42,9 @@ Vue.component(
 Vue.component(
     'filter-bar', require('./components/dashboard/FilterBar.vue')
 );
+Vue.component(
+    'vue-form', require('./components/dashboard/Form.vue')
+);
 
 const router = new VueRouter({
 	mode: 'history',

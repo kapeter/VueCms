@@ -1,6 +1,6 @@
 export default [
     {
-        name : 'Dashboard',
+        name : '仪表盘',
         icon : 'si si-speedometer',
         uri  : '/dashboard/'
     },
@@ -19,6 +19,10 @@ export default [
     			name : '写文章',
     			uri  : '/dashboard/post/create',
     		},
+            {
+                name : '分类目录',
+                uri  : '/dashboard/post/category',
+            },
     	]
     },
     {

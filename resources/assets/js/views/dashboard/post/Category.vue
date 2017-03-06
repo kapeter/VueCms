@@ -1,6 +1,6 @@
 <template>
 	<div>
-        <page-heading title="所有文章" subTitle="All Articles"></page-heading>
+        <page-heading title="分类目录" subTitle="Category"></page-heading>
         <div class="content">
 	     	<div class="block block-bordered">
 	     		<div class="block-header">
@@ -10,7 +10,7 @@
 		     			</div>
 		     			<div class="col-sm-6">
 		     				<router-link to="/dashboard/post/create" class="btn btn-minw btn-info pull-right">
-		     					<i class="fa fa-paint-brush"></i>  写文章
+		     					<i class="fa fa-paint-brush"></i>  新增目录
 		     				</router-link>	
 		     			</div>	
 	     			</div>
@@ -110,5 +110,3 @@
         }
     }
 </script>
-
-

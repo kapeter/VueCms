@@ -17,6 +17,14 @@ export default [
                     {
                         path: '/',
                         component: require('./views/dashboard/post/Index.vue')
+                    },
+                    {
+                        path: 'create',
+                        component: require('./views/dashboard/post/Create.vue')
+                    },
+                    {
+                        path: 'category',
+                        component: require('./views/dashboard/post/Category.vue')
                     }
                 ]
             },

@@ -17,7 +17,8 @@ mix.copy('resources/assets/img','public/img');
 
 mix.combine([
     'resources/assets/css/bootstrap.min.css',
-    'resources/assets/css/oneui.css'
+    'resources/assets/css/oneui.css',
+    'resources/assets/css/simplemde.css'
 ], 'public/css/oneui.css');
 
 mix.combine([
@@ -31,7 +32,7 @@ mix.combine([
     'resources/assets/js/plugins/common.js',    
 ], 'public/js/oneui.js');
 
-mix.copy('resources/assets/js/plugins/','public/js/plugins/');
+mix.copy('resources/assets/js/plugins/','public/js/plugins/',false);
 
 
 mix.js('resources/assets/js/app.js', 'public/js');
