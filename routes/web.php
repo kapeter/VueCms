@@ -23,6 +23,6 @@ Route::get('/login', function () {
 Auth::routes();
 
 /* Dashboard */
-Route::group(['prefix' => 'dashboard'], function () {
-   Route::get('{path?}', 'DashboardController@index')->where('path', '[\/\w\.-]*');
+Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard'], function () {
+   Route::get('{path?}', 'HomeController@index')->where('path', '[\/\w\.-]*');
 });

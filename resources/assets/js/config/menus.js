@@ -18,21 +18,27 @@ export default [
     		{
     			name : '写文章',
     			uri  : '/dashboard/post/create',
-    		},
-            {
-                name : '分类目录',
-                uri  : '/dashboard/post/category',
-            },
+    		}
     	]
     },
     {
         name : '媒体库',
-        icon : 'si si-book-open',
+        icon : 'si si-camera',
+        uri  : '/dashboard/media',
+    },
+    {
+        name : '系统设置',
+        icon : 'si si-settings',
         children : [
             {
-                name : '文章列表',
-                uri  : '/dashboard/media'
+                name : '分类目录',
+                uri  : '/dashboard/setting/category'
             },
+            {
+                name : '基础设置',
+                uri  : '/dashboard/setting/system',
+            }
         ]
-    }
+    },
+
 ]

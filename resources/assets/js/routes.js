@@ -21,11 +21,21 @@ export default [
                     {
                         path: 'create',
                         component: require('./views/dashboard/post/Create.vue')
-                    },
+                    }
+                ]
+            },
+            {
+                path: 'setting',
+                component: Parent,
+                children: [
                     {
                         path: 'category',
-                        component: require('./views/dashboard/post/Category.vue')
-                    }
+                        component: require('./views/dashboard/setting/Category.vue')
+                    },
+                    {
+                        path: 'system',
+                        component: require('./views/dashboard/setting/System.vue')
+                    },
                 ]
             },
             {
