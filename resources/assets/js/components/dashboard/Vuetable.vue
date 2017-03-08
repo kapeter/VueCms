@@ -128,7 +128,7 @@ export default {
     },
     paginationPath: {
         type: [String],
-        default: 'links.pagination'
+        default: 'meta.pagination'
     },
     queryParams: {
       type: Object,
@@ -155,7 +155,7 @@ export default {
     perPage: {
         type: Number,
         default: function() {
-            return 10
+          return 10
         }
     },
     sortOrder: {
@@ -231,7 +231,7 @@ export default {
   computed: {
     useDetailRow: function() {
       if (this.tableData && this.tableData[0] && typeof this.tableData[0][this.trackBy] === 'undefined') {
-        this.warn('You need to define "detail-row-id" in order for detail-row feature to work!')
+        //this.warn('You need to define "detail-row-id" in order for detail-row feature to work!')
         return false
       }
 
@@ -323,8 +323,20 @@ export default {
       let body = this.transform(response.body)
 
       this.tableData = this.getObjectValue(body, this.dataPath, null)
-      this.tablePagination = this.getObjectValue(body, this.paginationPath, null)
 
+      let myPagination = this.getObjectValue(body, this.paginationPath, null)
+      myPagination.last_page = myPagination.total_pages;
+      myPagination.from = myPagination.per_page * (myPagination.current_page - 1) + 1;
+      if (myPagination.total_pages == myPagination.current_page){
+        myPagination.to = myPagination.total;
+      }else{
+        myPagination.to = myPagination.per_page * myPagination.current_page;
+      }
+      myPagination.next_page_url = myPagination.links.next;
+      myPagination.prev_page_url = myPagination.links.previous;
+
+      this.tablePagination = myPagination;
+      
       if (this.tablePagination === null) {
         this.warn('vuetable: pagination-path "' + this.paginationPath + '" not found. '
           + 'It looks like the data returned from the sever does not have pagination information '

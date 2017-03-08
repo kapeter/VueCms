@@ -18,8 +18,7 @@
 
 	     		<div class="block-content">
 					<vuetable ref="vuetable"
-					    api-url="http://vuetable.ratiw.net/api/users"
-					    pagination-path=""
+					    api-url="/api/posts"
 					    :fields="fields"
 					    :sort-order="sortOrder"
 					    @vuetable:pagination-data="onPaginationData"
@@ -45,34 +44,26 @@
 		    return {
 		      fields: [
 		        {
-		          name: 'name',
-		          sortField: 'name',
+		          title: '标题',
+		          name: 'title',
+		          sortField: 'title',
 		        },
 		        {
-		          name: 'email',
-		          sortField: 'email'
+		          title: '摘要',
+		          name: 'description',
+		          sortField: 'description'
 		        },
 		        {
-		          name: 'birthdate',
-		          sortField: 'birthdate',
+		          title: '作者',
+		          name: 'last_user_id',
+		          sortField: 'last_user_id',
 		          titleClass: 'text-center',
 		          dataClass: 'text-center',
 		        },
 		        {
-		          name: 'nickname',
-		          sortField: 'nickname',
-		        },
-		        {
-		          name: 'gender',
-		          sortField: 'gender',
-		          titleClass: 'text-center',
-		          dataClass: 'text-center',
-		        },
-		        {
-		          name: 'salary',
-		          sortField: 'salary',
-		          titleClass: 'text-center',
-		          dataClass: 'text-right',
+		          title: '发布时间',
+		          name: 'published_at',
+		          sortField: 'published_at',
 		        },
 		        {
 		          name: '__component:custom-actions',
@@ -82,7 +73,7 @@
 		        }
 		      ],
 		      sortOrder: [
-		        { field: 'email', sortField: 'email', direction: 'asc'}
+		        { field: 'title', sortField: 'title', direction: 'asc'}
 		      ],
 		      moreParams: {}
 		    }

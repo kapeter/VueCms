@@ -22,3 +22,20 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'remember_token' => str_random(10),
     ];
 });
+
+$factory->define(App\Models\Post::class, function (Faker\Generator $faker) {
+    $user_ids = App\User::pluck('id')->random();
+    $title = $faker->sentence(mt_rand(3,10));
+    return [
+        'user_id'      => $user_ids,
+        'category_id'  => '0',
+        'last_user_id' => $user_ids,
+        'slug'     => str_slug($title),
+        'title'    => $title,
+        'content'  => $faker->paragraph,
+        'cover_img'   => $faker->imageUrl(),
+        'description' => $faker->sentence,
+        'is_draft'         => false,
+        'published_at'     => $faker->dateTimeBetween($startDate = '-2 months', $endDate = 'now')
+    ];
+});
