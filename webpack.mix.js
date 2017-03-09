@@ -11,14 +11,17 @@ const { mix } = require('laravel-mix');
  |
  */
 
-//封装OneUI的CSS和JS
+
 mix.copy('resources/assets/fonts','public/fonts');
 mix.copy('resources/assets/img','public/img');
+
+//封装OneUI的CSS和JS
+mix.combine(['resources/assets/css/simplemde.css'],'public/css/simplemde.css');
 
 mix.combine([
     'resources/assets/css/bootstrap.min.css',
     'resources/assets/css/oneui.css',
-    'resources/assets/css/simplemde.css'
+    'resources/assets/css/sweetalert.css',
 ], 'public/css/oneui.css');
 
 mix.combine([

@@ -42,43 +42,43 @@
     export default {
 		data () {
 		    return {
-		      fields: [
-		        {
-		          title: '标题',
-		          name: 'title',
-		          sortField: 'title',
-		        },
-		        {
-		          title: '摘要',
-		          name: 'description',
-		          sortField: 'description'
-		        },
-		        {
-		          title: '作者',
-		          name: 'last_user_id',
-		          sortField: 'last_user_id',
-		          titleClass: 'text-center',
-		          dataClass: 'text-center',
-		        },
-		        {
-		          title: '发布时间',
-		          name: 'published_at',
-		          sortField: 'published_at',
-		        },
-		        {
-		          name: '__component:custom-actions',
-		          title: 'Actions',
-		          titleClass: 'text-center',
-		          dataClass: 'text-center'
-		        }
-		      ],
-		      sortOrder: [
-		        { field: 'title', sortField: 'title', direction: 'asc'}
-		      ],
-		      moreParams: {}
+		      	fields: [
+			        {
+			          title: '标题',
+			          name: 'title',
+			          sortField: 'title',
+			        },
+			        {
+			          title: '作者',
+			          name: 'last_user',
+			          titleClass: 'text-center',
+			          dataClass: 'text-center',
+			        },
+			        {
+			          title: '发布时间',
+			          name: 'published_at',
+			          sortField: 'published_at',
+			          titleClass: 'text-center',
+			          dataClass: 'text-center',
+			          callback: 'dateFormat'
+			        },
+			        {
+			          name: '__component:custom-actions',
+			          title: 'Actions',
+			          titleClass: 'text-center',
+			          dataClass: 'text-center'
+			        }
+		      	],
+		      	sortOrder: [
+		        	{ field: 'published_at', sortField: 'published_at', direction: 'desc'}
+		      	],
+		      	moreParams: {}
 		    }
 		},
         methods: {
+        	dateFormat (value) {
+        		return (value == null) ? '' : value.substring(0,10);
+        	},
 		    onPaginationData (paginationData) {
 		      	this.$refs.pagination.setPaginationData(paginationData);
 		      	this.$refs.paginationInfo.setPaginationData(paginationData);
@@ -86,6 +86,9 @@
 		    onChangePage (page) {
 		      	this.$refs.vuetable.changePage(page)
 		    },
+		    deleteSuccess() {
+		    	Vue.nextTick( () => this.$refs.vuetable.refresh() )
+		    }
         },
         events: {
 		    'filter-set' (filterText) {
@@ -97,8 +100,13 @@
 		    'filter-reset' () {
 		      	this.moreParams = {}
 		      	Vue.nextTick( () => this.$refs.vuetable.refresh() )
-		    }
-        }
+		    },
+
+        },
+		created: function () {
+		},
+		beforeDestroy: function () {
+		},
     }
 </script>
 

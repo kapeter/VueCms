@@ -41,6 +41,8 @@
 </script>
 
 <style>
+	@import '/css/simplemde.css';
+
 	.form-group > label{
 		font-size: 15px;
 		font-weight: 400;

@@ -325,23 +325,24 @@ export default {
       this.tableData = this.getObjectValue(body, this.dataPath, null)
 
       let myPagination = this.getObjectValue(body, this.paginationPath, null)
-      myPagination.last_page = myPagination.total_pages;
-      myPagination.from = myPagination.per_page * (myPagination.current_page - 1) + 1;
-      if (myPagination.total_pages == myPagination.current_page){
-        myPagination.to = myPagination.total;
-      }else{
-        myPagination.to = myPagination.per_page * myPagination.current_page;
-      }
-      myPagination.next_page_url = myPagination.links.next;
-      myPagination.prev_page_url = myPagination.links.previous;
-
-      this.tablePagination = myPagination;
       
-      if (this.tablePagination === null) {
+      if (myPagination === null) {
         this.warn('vuetable: pagination-path "' + this.paginationPath + '" not found. '
           + 'It looks like the data returned from the sever does not have pagination information '
           + 'or you may have set it incorrectly.'
         )
+      }else{
+        myPagination.last_page = myPagination.total_pages;
+        myPagination.from = myPagination.per_page * (myPagination.current_page - 1) + 1;
+        if (myPagination.total_pages == myPagination.current_page){
+          myPagination.to = myPagination.total;
+        }else{
+          myPagination.to = myPagination.per_page * myPagination.current_page;
+        }
+        myPagination.next_page_url = myPagination.links.next;
+        myPagination.prev_page_url = myPagination.links.previous;
+
+        this.tablePagination = myPagination;
       }
 
       this.$nextTick(function() {

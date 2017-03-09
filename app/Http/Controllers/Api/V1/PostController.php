@@ -5,10 +5,17 @@ namespace App\Http\Controllers\Api\V1;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Api\V1\BaseController;
 use App\Transformers\PostTransformer;
-use App\Models\Post;
+use App\Repositories\PostRepository;
 
 class PostController extends BaseController
 {
+
+    protected $postRepository;
+
+    public function __construct(PostRepository $postRepository)
+    {
+        $this->postRepository = $postRepository;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -16,10 +23,7 @@ class PostController extends BaseController
      */
     public function index(Request $request)
     {
-        
-        $per_page = isset($request->per_page) ? $request->per_page : 10;
-        
-        $posts = Post::paginate($per_page);
+        $posts = $this->postRepository->getPostByPaginate($request);
 
         return $this->response->paginator($posts, new PostTransformer);
     }
@@ -87,6 +91,8 @@ class PostController extends BaseController
      */
     public function destroy($id)
     {
-        //
+        $this->postRepository->destroy($id);
+
+        return $this->response->noContent()->setStatusCode(200);
     }
 }

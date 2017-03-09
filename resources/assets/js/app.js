@@ -55,4 +55,5 @@ const router = new VueRouter({
 
 const store = new Vuex.Store(storeObj);
 
+
 new Vue(Vue.util.extend({ router, store }, App)).$mount('#app');
