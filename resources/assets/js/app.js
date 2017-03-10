@@ -34,9 +34,6 @@ Vue.component(
     'vuetable-pagination', require('./components/dashboard/VuetablePagination.vue')
 );
 Vue.component(
-    'custom-actions', require('./components/dashboard/CustomActions.vue')
-);
-Vue.component(
     'vuetable-pagination-info', require('./components/dashboard/VuetablePaginationInfo.vue')
 );
 Vue.component(
@@ -56,4 +53,7 @@ const router = new VueRouter({
 const store = new Vuex.Store(storeObj);
 
 
-new Vue(Vue.util.extend({ router, store }, App)).$mount('#app');
+window.VM = new Vue(Vue.util.extend({ router, store }, App));
+
+VM.$mount('#app');
+

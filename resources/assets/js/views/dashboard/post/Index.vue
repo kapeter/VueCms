@@ -18,12 +18,18 @@
 
 	     		<div class="block-content">
 					<vuetable ref="vuetable"
-					    api-url="/api/posts"
+					    api-url="/api/post"
 					    :fields="fields"
 					    :sort-order="sortOrder"
 					    @vuetable:pagination-data="onPaginationData"
-					    :append-params="moreParams"
-					></vuetable> 
+					    :append-params="moreParams">
+						<template slot="actions" scope="props">
+					    	<div class="custom-actions">
+	        					<button class="btn btn-sm btn-default" @click="itemAction('edit-item', props.rowData)"><i class="fa fa-pencil"></i></button>
+	        					<button class="btn btn-sm btn-danger" @click="itemAction('delete-item', props.rowData)"><i class="fa fa-times"></i></button>
+					    	</div>
+					    </template>
+					</vuetable> 
 					<div class="row">
 						<div class="col-sm-6">
 							<vuetable-pagination-info ref="paginationInfo" info-class="pagination-info"></vuetable-pagination-info>
@@ -40,6 +46,14 @@
 
 <script> 
     export default {
+    	props: {
+	        rowData: {
+	            type: Object,
+	        },
+	        rowIndex: {
+	            type: Number
+	        }
+	    },
 		data () {
 		    return {
 		      	fields: [
@@ -63,7 +77,7 @@
 			          callback: 'dateFormat'
 			        },
 			        {
-			          name: '__component:custom-actions',
+			          name: '__slot:actions',
 			          title: 'Actions',
 			          titleClass: 'text-center',
 			          dataClass: 'text-center'
@@ -72,7 +86,7 @@
 		      	sortOrder: [
 		        	{ field: 'published_at', sortField: 'published_at', direction: 'desc'}
 		      	],
-		      	moreParams: {}
+		      	moreParams: {},
 		    }
 		},
         methods: {
@@ -88,7 +102,40 @@
 		    },
 		    deleteSuccess() {
 		    	Vue.nextTick( () => this.$refs.vuetable.refresh() )
-		    }
+		    },
+	        itemAction (action, data) {
+	            if (action == 'delete-item'){
+	            	var _self = this;
+	                sweetAlert({
+	                    title: "危险操作",
+	                    text: "您确认删除该项信息吗？",
+	                    type: "warning",
+	                    showCancelButton: true,
+	                    confirmButtonColor: "#d26a5c",
+	                    confirmButtonText: "删  除",
+	                    cancelButtonText: "取  消",
+	                    closeOnConfirm: false,
+	                    showLoaderOnConfirm: true,
+	                },
+	                function(isConfirm){
+	                    if (isConfirm){
+	                        let deleteUrl = '/api/post/' + data.id;
+	                        axios.delete(deleteUrl)
+	                            .then(function(response){
+	                            	if (response.status == 200){
+										sweetAlert.success();
+		                                _self.$refs.vuetable.refresh();
+	                            	}
+	                            })
+	                            .catch(function (error) {
+	                            	sweetAlert.error();
+								});
+	                    }
+	                });                
+	            }else{
+
+	            }
+	        }
         },
         events: {
 		    'filter-set' (filterText) {
@@ -101,12 +148,7 @@
 		      	this.moreParams = {}
 		      	Vue.nextTick( () => this.$refs.vuetable.refresh() )
 		    },
-
         },
-		created: function () {
-		},
-		beforeDestroy: function () {
-		},
     }
 </script>
 

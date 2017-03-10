@@ -37,6 +37,9 @@ window.axios.defaults.headers.common = {
 /*import sweetAlert*/
 
 window.sweetAlert = require('sweetalert/dist/sweetalert.min.js');
+window.sweetAlert.success = () => sweetAlert({ title: "操作成功", type: "success", timer: 1250, showConfirmButton: false});
+window.sweetAlert.error = () => sweetAlert({ title: "操作失败", type: "error", timer: 1250, showConfirmButton: false});
+
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening

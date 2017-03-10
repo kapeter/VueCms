@@ -27,12 +27,6 @@ $api->version('v1', function ($api) {
 	});
 	
 	//Post
-	$api->resource('posts','App\Http\Controllers\Api\V1\PostController');
-
-	// $api->group(['prefix' => 'posts'], function($api){
-	// 	$api->get('/', 'App\Http\Controllers\Api\V1\PostController@index');
-	// 	$api->get('/{post}', 'App\Http\Controllers\Api\V1\PostController@show');
-	// 	$api->delete('/{post}', 'App\Http\Controllers\Api\V1\PostController@show');
-	// });
+	$api->resource('post','App\Http\Controllers\Api\V1\PostController');
 
 });
