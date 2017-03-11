@@ -21,11 +21,6 @@
                                 <i class="si si-user pull-right"></i>个人中心
                             </a>
                         </li>
-                        <li>
-                            <a tabindex="-1" href="javascript:void(0)">
-                                <i class="si si-settings pull-right"></i>系统设置
-                            </a>
-                        </li>
                         <li class="divider"></li>
                         <li class="dropdown-header">Actions</li>
                         <li>
@@ -60,6 +55,10 @@
                 <button class="btn btn-default" type="button" @click= 'sidebarMiniToggle'>
                     <i class="fa fa-ellipsis-v"></i>
                 </button>
+            </li>
+            <li>
+                <!-- Opens the Apps modal found at the bottom of the page, before including JS code -->
+                <a href="/" class="btn btn-default pull-right"><i class="si si-grid"></i></a>
             </li>
             <li class="visible-xs">
                 <!-- Toggle class helper (for .js-header-search below), functionality initialized in App() -> uiToggleClass() -->

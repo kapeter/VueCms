@@ -1,5 +1,5 @@
 <template>
-    <footer id="page-footer" class="content-mini content-mini-full font-s12 bg-gray-lighter clearfix">
+    <footer id="page-footer" class="content-mini content-mini-full font-s12 bg-white clearfix">
         <div class="pull-left">
         	{{ year }} &copy; <a href="https://www.github.com/kapeter">Kapeter.com</a>
         </div>

@@ -806,14 +806,13 @@ a.bg-gray-light:focus {
   background-color: #dadada;
 }
 .bg-gray-lighter {
-  background-color: #f6f6f6;
+  background-color: #f9f9f9;
 }
 a.bg-gray-lighter:hover,
 a.bg-gray-lighter:focus {
   background-color: #e0e0e0;
 }
 .btn {
-  font-weight: 600;
   border-radius: 2px;
   -webkit-transition: all 0.15s ease-out;
   transition: all 0.15s ease-out;
@@ -1832,6 +1831,7 @@ a.list-group-item:focus {
 .table > tfoot > tr > td {
   padding: 10px;
   border-top: 1px solid #f0f0f0;
+  vertical-align: middle;
 }
 .table > thead > tr > th,
 .table > tbody > tr > th,

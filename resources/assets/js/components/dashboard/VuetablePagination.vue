@@ -16,7 +16,8 @@
     <template v-else>
       <template v-for="n in windowSize">
         <li class="paginate_button" @click="loadPage(windowStart+n-1)" :class="[isCurrentPage(windowStart+n-1) ? css.activeClass : '']">
-        <a href="javascript:;" v-html="windowStart+n-1"></a>
+          <a href="javascript:;" v-html="windowStart+n-1"></a>
+        </li>
       </template>
     </template>
     <li class="paginate_button" @click="loadPage('next')" :class="[isOnLastPage ? css.disabledClass : '']">

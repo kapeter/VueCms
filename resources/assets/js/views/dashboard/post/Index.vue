@@ -10,7 +10,7 @@
 		     			</div>
 		     			<div class="col-sm-6">
 		     				<router-link to="/dashboard/post/create" class="btn btn-minw btn-info pull-right">
-		     					<i class="fa fa-paint-brush"></i>  写文章
+								写文章
 		     				</router-link>	
 		     			</div>	
 	     			</div>
@@ -78,7 +78,7 @@
 			        },
 			        {
 			          name: '__slot:actions',
-			          title: 'Actions',
+			          title: '操作',
 			          titleClass: 'text-center',
 			          dataClass: 'text-center'
 			        }
