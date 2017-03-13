@@ -2,48 +2,62 @@
 	<div>
         <page-heading title="写文章" subTitle="New Article"></page-heading>
         <div class="content">
-        	<div class="row">
-        		<div class="col-sm-9">
-        		    <div class="block">
-			     		<div class="block-content">
-			     			<vue-form></vue-form>
-					    </div>  		
-			     	</div>	
-        		</div>
-				<div class="col-sm-3">
-					<div class="block block-themed">
-						<div class="block-header bg-info">
-                            <ul class="block-options">
-                                <li>
-                                    <button type="button" data-toggle="block-option" data-action="content_toggle"></button>
-                                </li>
-                            </ul>
-							<h3 class="block-title">发布</h3>
+ 			<vue-form
+				:fields="fields"
+ 			>
+				<!-- 发布按钮 -->
+				<div slot="form-publish">
+					<div class="row">
+						<div class="col-sm-6">
+							<button class="btn btn-default pull-left" @click="formStore()">保存为书稿</button>
 						</div>
-						<div class="block-content">
-							<p>dasssdasdasdas</p>
+						<div class="col-sm-6">
+							<button class="btn btn-info pull-right" @click.prevent="formPublish()">发 布</button>
 						</div>
 					</div>
-					<div class="block block-bordered">
-						<div class="block-header">
-                            <ul class="block-options">
-                                <li>
-                                    <button type="button" data-toggle="block-option" data-action="content_toggle"></button>
-                                </li>
-                            </ul>
-							<h3 class="block-title">分类目录</h3>
-						</div>
-						<div class="block-content">
-							<p>dasssdasdasdas</p>
-						</div>
-					</div>
-				</div>  
-        	</div>	
+				</div>
+				
+				<!-- 分类目录 -->
+				<div slot="form-category">
+					<p>dasssdasdasdas</p>
+				</div>
+
+ 			</vue-form>
         </div>
 	</div>
 </template>
 
 <script>
-export default {
-}
+	export default {
+		data() {
+			return {
+				fields: [
+					{
+						label: '标题',
+						name: 'title',
+						type: 'text',
+						value: ''
+					},
+					{
+						label: '摘要',
+						name: 'decription',
+						type: 'textarea',
+						rows: 4,
+						value: ''
+					},
+					{
+						label: '正文内容',
+						name: 'content',
+						type: 'editor',
+						value: ''
+					}
+				],
+			}
+		},
+		methods: {
+			formPublish() {
+				
+			}
+		}
+	}
 </script>

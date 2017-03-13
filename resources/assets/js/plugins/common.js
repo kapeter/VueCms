@@ -341,8 +341,6 @@ var App = function() {
         // Set default icons for fullscreen and content toggle buttons
         var $iconFullscreen         = 'si si-size-fullscreen';
         var $iconFullscreenActive   = 'si si-size-actual';
-        var $iconContent            = 'si si-arrow-up';
-        var $iconContentActive      = 'si si-arrow-down';
 
         if ($mode === 'init') {
             // Auto add the default toggle icons to fullscreen and content toggle buttons
@@ -352,11 +350,6 @@ var App = function() {
                 $this.html('<i class="' + (jQuery(this).closest('.block').hasClass('block-opt-fullscreen') ? $iconFullscreenActive : $iconFullscreen) + '"></i>');
             });
 
-            jQuery('[data-toggle="block-option"][data-action="content_toggle"]').each(function(){
-                var $this = jQuery(this);
-
-                $this.html('<i class="' + ($this.closest('.block').hasClass('block-opt-hidden') ? $iconContentActive : $iconContent) + '"></i>');
-            });
         } else {
             // Get block element
             var $elBlock = ($block instanceof jQuery) ? $block : jQuery($block);
@@ -365,7 +358,6 @@ var App = function() {
             if ($elBlock.length) {
                 // Get block option buttons if exist (need them to update their icons)
                 var $btnFullscreen  = jQuery('[data-toggle="block-option"][data-action="fullscreen_toggle"]', $elBlock);
-                var $btnToggle      = jQuery('[data-toggle="block-option"][data-action="content_toggle"]', $elBlock);
 
                 // Mode selection
                 switch($mode) {
@@ -416,22 +408,6 @@ var App = function() {
                             jQuery('i', $btnFullscreen)
                                 .removeClass($iconFullscreenActive)
                                 .addClass($iconFullscreen);
-                        }
-                        break;
-                    case 'content_toggle':
-                        $elBlock.toggleClass('block-opt-hidden');
-
-                        // Update block option icon
-                        if ($btnToggle.length) {
-                            if ($elBlock.hasClass('block-opt-hidden')) {
-                                jQuery('i', $btnToggle)
-                                    .removeClass($iconContent)
-                                    .addClass($iconContentActive);
-                            } else {
-                                jQuery('i', $btnToggle)
-                                    .removeClass($iconContentActive)
-                                    .addClass($iconContent);
-                            }
                         }
                         break;
                     case 'content_hide':
