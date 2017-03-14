@@ -13,7 +13,7 @@
 		     					<textarea class="form-control" :name="field.name" v-model="field.value" :rows=" !field.rows ? 3 : field.rows"></textarea>
 		     				</div>
 		     				<div v-if="field.type == 'editor'">
-		     					<textarea id="editor" :name="field.name" v-model="field.value"></textarea>
+		     					<textarea id="editor" :name="field.name"></textarea>
 		     				</div>
 		     			</div>
 		     		</div>
@@ -30,10 +30,19 @@
                                 </button>
                             </li>
                         </ul>
-						<h3 class="block-title">发布</h3>
+						<h3 class="block-title">文章发布</h3>
 					</div>
 					<div class="block-content">
-						<slot name="form-publish"></slot>
+						<div class="row">
+							<div class="col-sm-6">
+								<button class="btn btn-default pull-left" @click.prevent="formStore()">保存为书稿</button>
+							</div>
+							<div class="col-sm-6">
+								<button class="btn btn-info pull-right" @click.prevent="formPublish()">
+									{{ action == 'edit' ? '更 新' : '发 布' }}
+								</button>
+							</div>
+						</div>
 					</div>
 				</div>
 				<!-- 分类目录 -->
@@ -67,10 +76,14 @@
 		      	type: Array,
 		      	required: true
 		    },
-			actionUrl: {
+			apiUrl: {
 				type: String,
 				default: ''
 			},
+			action: {
+				type: String,
+				required: true
+			}
 			
 		},
         data() {
@@ -83,16 +96,48 @@
         	}
         },
 		mounted() {
-	        this.simplemde = new SimpleMDE({
-	            element: document.getElementById("editor"),
-	            autoDownloadFontAwesome: true,
-	            tabSize: 4
-	        });
+			let editor = document.getElementById("editor");
+			let hasEditor = false;
+			for (let i = 0; i < this.fields.length; i++ ){
+				if (this.fields[i].type == 'editor' ){
+					hasEditor = true;
+					break;
+				}
+			}
+			if (editor && hasEditor){
+		        this.simplemde = new SimpleMDE({
+		            element: editor,
+		            autoDownloadFontAwesome: true,
+		            tabSize: 4
+		        });				
+			}
 		},
 		methods: {
 			toggleBlock(name) {
 				this.isHidden[name] = !this.isHidden[name]; 
 			},
+			// publish btn
+			formPublish() {
+				let param = this.serialize();
+				axios.post(this.apiUrl,param);
+			},
+			// serialize data
+			serialize() {
+				let formData = new FormData();
+				for (let i = 0; i < this.fields.length; i++ ){
+					let temp = this.fields[i];
+					switch (temp.type)
+					{
+						case 'editor':
+							formData.append(temp.name, this.simplemde.value());
+							break;
+						default:
+							formData.append(temp.name, temp.value);
+							break;
+					}
+				}
+				return formData;
+			}
 		},
 	}
 </script>

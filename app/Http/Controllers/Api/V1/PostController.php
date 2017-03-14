@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Api\V1\BaseController;
 use App\Transformers\PostTransformer;
 use App\Repositories\PostRepository;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends BaseController
 {
@@ -46,7 +47,8 @@ class PostController extends BaseController
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+        dd(Auth::id());
     }
 
     /**

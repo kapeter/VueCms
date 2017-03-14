@@ -13,6 +13,17 @@ trait BaseRepository
     {
         return $this->model->get();
     }
+
+    /**
+     * Store a new record.
+     *
+     * @param  $input
+     * @return User
+     */
+    public function store($data)
+    {
+        return $this->model->save($data);
+    }
 }
 
 ?>
