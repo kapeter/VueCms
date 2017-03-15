@@ -48,7 +48,7 @@
                             <!-- END Login Title -->
 
                             <!-- Login Form -->
-                            <form class="js-validation-login form-horizontal push-30-t" action="{{ route('login') }}" method="post" autocomplete="off">
+                            <form class="js-validation-login form-horizontal push-30-t" autocomplete="off" id="login-form">
                                 {{ csrf_field() }}
                                 <div class="form-group">
                                     <div class="col-xs-12">
@@ -59,6 +59,7 @@
 
                                     </div>
                                 </div>
+
                                 <div class="form-group">
                                     <div class="col-xs-12">
                                         <div class="form-material form-material-primary floating">
@@ -67,23 +68,13 @@
                                         </div>
                                     </div>
                                 </div>
-                                @if ($errors->has('email') || $errors->has('password'))
-                                    <div class="form-group has-error login-error" >
-                                        <div class="col-xs-12">
-                                            <div class="help-block animated fadeInDown">
-                                                @if ($errors->has('email'))
-                                                    {{ $errors->first('email') }}
-                                                @else
-                                                    {{ $errors->first('password') }}
-                                                @endif
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endif
+
+                                <div class="form-group has-error login-error"></div>
+
                                 <div class="form-group">
                                     <div class="col-xs-6">
                                         <label class="css-input switch switch-sm switch-primary">
-                                            <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> <span></span> 记住我
+                                            <input type="checkbox" name="remember"> <span></span> 记住我
                                         </label>
                                     </div>
                                     <div class="col-xs-6">
@@ -92,9 +83,10 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="form-group push-30-t">
                                     <div class="col-xs-12 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
-                                        <button class="btn btn-block btn-primary" type="submit">登  录</button>
+                                        <button class="btn btn-block btn-primary" id="login-btn">登  录</button>
                                     </div>
                                 </div>
                             </form>
@@ -117,11 +109,6 @@
         <script src="{{ asset('js/plugins/jquery.validate.min.js') }}"></script>
 
         <script type="text/javascript">
-
-            $('#email').on('focus',function () {
-                $('.login-error').remove();
-            })
-
             var BasePagesLogin = function() {
                 var initValidationLogin = function(){
                     jQuery('.js-validation-login').validate({
@@ -166,7 +153,34 @@
                 };
             }();
 
-            jQuery(function(){ BasePagesLogin.init(); });
+            jQuery(function(){ 
+                BasePagesLogin.init(); 
+
+                $('#login-btn').on('click',function(event){
+                    var e = event || window.event;
+                    e.preventDefault();
+                    $('.login-error').empty();
+
+                    $.ajax({
+                        url: "/api/login",
+                        type: "POST",
+                        data: $('#login-form').serialize(),
+                        success: function(res){
+                            if (res.code != 200){
+                                $('.login-error').append('<div class="col-xs-12"><div class="help-block animated fadeInDown">'+res.error+'</div></div>');
+                            }else{
+                                localStorage.token = res.token;
+                                window.location.href = '/dashboard?token=' + localStorage.token;
+                            }
+                        },
+                        error: function(res){
+                            $('.login-error').append('<div class="help-block animated fadeInDown">服务器错误</div>');
+                        }
+                    });
+                })
+
+
+            });
         </script>
     </body>
 </html>

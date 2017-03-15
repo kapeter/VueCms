@@ -20,6 +20,9 @@ Route::middleware('jwt.auth')->get('/user', function (Request $request) {
 $api = app('Dingo\Api\Routing\Router');
 
 $api->version('v1',['namespace' => 'App\Http\Controllers\Api\V1'], function ($api) {
+	//Auth
+	$api->post('/login', 'Auth\LoginController@login');
+
 	//User
 	$api->group(['prefix' => 'users'], function($api){
 		$api->get('/', 'UserController@index');
