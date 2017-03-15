@@ -13,20 +13,20 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+Route::middleware('jwt.auth')->get('/user', function (Request $request) {
     return $request->user();
 });
 
 $api = app('Dingo\Api\Routing\Router');
 
-$api->version('v1', function ($api) {
+$api->version('v1',['namespace' => 'App\Http\Controllers\Api\V1'], function ($api) {
 	//User
 	$api->group(['prefix' => 'users'], function($api){
-		$api->get('/', 'App\Http\Controllers\Api\V1\UserController@index');
-		$api->get('/{user}', 'App\Http\Controllers\Api\V1\UserController@show');
+		$api->get('/', 'UserController@index');
+		$api->get('/{user}', 'UserController@show');
 	});
 	
 	//Post
-	$api->resource('post','App\Http\Controllers\Api\V1\PostController');
+	$api->resource('post','PostController');
 
 });

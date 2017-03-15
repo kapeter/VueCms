@@ -16,6 +16,8 @@ class PostController extends BaseController
     public function __construct(PostRepository $postRepository)
     {
         $this->postRepository = $postRepository;
+
+        $this->middleware('jwt.auth');
     }
     /**
      * Display a listing of the resource.
@@ -48,7 +50,6 @@ class PostController extends BaseController
     public function store(Request $request)
     {
         $data = $request->all();
-        dd(Auth::id());
     }
 
     /**
