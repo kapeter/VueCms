@@ -17,10 +17,7 @@ Route::get('/', function () {
 
 
 /* Auth */
-Route::get('/login', function () {
-    return view('auth.login');
-});
-Auth::routes();
+$this->get('login', 'Auth\LoginController@show')->name('login');
 
 /* Dashboard */
 Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard'], function () {

@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Api\V1\BaseController;
 use App\Transformers\PostTransformer;
 use App\Repositories\PostRepository;
-use Illuminate\Support\Facades\Auth;
 
 class PostController extends BaseController
 {
@@ -17,7 +16,7 @@ class PostController extends BaseController
     {
         $this->postRepository = $postRepository;
 
-        $this->middleware('jwt.auth');
+        $this->middleware('jwt.auth',['except' => ['index','show']]);
     }
     /**
      * Display a listing of the resource.

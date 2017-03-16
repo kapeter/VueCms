@@ -79,7 +79,7 @@
                                     </div>
                                     <div class="col-xs-6">
                                         <div class="font-s13 text-right push-5-t">
-                                            <a href="{{ route('password.request') }}">忘记密码?</a>
+                                            <a href="#">忘记密码?</a>
                                         </div>
                                     </div>
                                 </div>
@@ -166,15 +166,15 @@
                         type: "POST",
                         data: $('#login-form').serialize(),
                         success: function(res){
-                            if (res.code != 200){
-                                $('.login-error').append('<div class="col-xs-12"><div class="help-block animated fadeInDown">'+res.error+'</div></div>');
+                            if (res.code != 10000){
+                                $('.login-error').append('<div class="col-xs-12"><div class="help-block animated fadeInDown">'+res.message+'</div></div>');
                             }else{
-                                localStorage.token = res.token;
-                                window.location.href = '/dashboard?token=' + localStorage.token;
+                                localStorage.token = res.data.token;
+                                window.location.href = '/dashboard';
                             }
                         },
                         error: function(res){
-                            $('.login-error').append('<div class="help-block animated fadeInDown">服务器错误</div>');
+                            $('.login-error').append('<div class="col-xs-12"><div class="help-block animated fadeInDown">服务器错误</div></div>');
                         }
                     });
                 })

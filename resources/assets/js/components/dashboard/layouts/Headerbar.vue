@@ -32,9 +32,6 @@
                             <a tabindex="-1" @click.prevent="doLogout" href="javascript:;">
                                 <i class="si si-logout pull-right"></i>注销账户
                             </a>
-                            <form id="logout-form" action="/logout" method="POST" style="display: none;">
-                                <input type="hidden" name="_token" value=""/>
-                            </form>
                         </li>
                     </ul>
                 </div>
@@ -83,8 +80,15 @@
     export default {
         methods: {
             doLogout() {
-                $('input[name=_token]').val(csrfToken);
-                $('#logout-form').submit();
+                axios.post('api/logout')
+                    .then(function (res) {
+                        if (res.data.code == 10000){
+                            localStorage.removeItem("token");
+                            window.location.href = "/login";
+                        }else{
+                            sweetAlert.error();
+                        }
+                    });
             },
             sidebarMiniToggle() {
                 let winW = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;

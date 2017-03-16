@@ -22,6 +22,7 @@ $api = app('Dingo\Api\Routing\Router');
 $api->version('v1',['namespace' => 'App\Http\Controllers\Api\V1'], function ($api) {
 	//Auth
 	$api->post('/login', 'Auth\LoginController@login');
+	$api->post('/logout', 'Auth\LoginController@logout');
 
 	//User
 	$api->group(['prefix' => 'users'], function($api){
