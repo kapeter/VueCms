@@ -4,7 +4,7 @@
 			<div class="col-sm-9">
 				<div class="block">
 					<div class="block-content">
-		     			<div class="form-group" v-for="field in fields">
+		     			<div class="form-group" v-for="field in fields" :class="{ 'has-error' : field.error  }">
 		     				<label :for="field.name">{{ field.label }}</label>
 		     				<div v-if="field.type == 'text'">
 		     					<input type="text" class="form-control" :name="field.name" v-model="field.value">
@@ -15,6 +15,7 @@
 		     				<div v-if="field.type == 'editor'">
 		     					<textarea id="editor" :name="field.name"></textarea>
 		     				</div>
+		     				<div class="help-block animated fadeInDown" v-show="field.error">提示：{{ field.label }}不能为空</div>
 		     			</div>
 		     		</div>
 		     	</div>
@@ -30,7 +31,7 @@
                                 </button>
                             </li>
                         </ul>
-						<h3 class="block-title">文章发布</h3>
+						<h3 class="block-title">发布模块</h3>
 					</div>
 					<div class="block-content">
 						<div class="row">
@@ -99,6 +100,7 @@
 			let editor = document.getElementById("editor");
 			let hasEditor = false;
 			for (let i = 0; i < this.fields.length; i++ ){
+				this.fields[i]['value'] = '';
 				if (this.fields[i].type == 'editor' ){
 					hasEditor = true;
 					break;
@@ -118,8 +120,13 @@
 			},
 			// publish btn
 			formPublish() {
+				for (let i = 0; i < this.fields.length; i++ ){
+					this.fields[i].error = false;
+				}
 				let param = this.serialize();
-				axios.post(this.apiUrl,param);
+				if ( param != false ){
+					axios.post(this.apiUrl, param);
+				}				
 			},
 			// serialize data
 			serialize() {
@@ -129,12 +136,16 @@
 					switch (temp.type)
 					{
 						case 'editor':
-							formData.append(temp.name, this.simplemde.value());
+							temp.value = this.simplemde.value();
 							break;
 						default:
-							formData.append(temp.name, temp.value);
 							break;
 					}
+					if ( temp.required && temp.value == ''){
+						temp.error = true;
+						return false;
+					}
+					formData.append(temp.name, temp.value);
 				}
 				return formData;
 			}

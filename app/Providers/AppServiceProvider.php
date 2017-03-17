@@ -13,6 +13,7 @@ class AppServiceProvider extends ServiceProvider
         10001 => '用户未认证',
         10002 => '用户名或密码错误',
         10003 => '参数错误',
+        10004 => 'token未提供',
         10005 => '请求服务器失败',
     );
     /**

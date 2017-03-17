@@ -169,7 +169,6 @@
                             if (res.code != 10000){
                                 $('.login-error').append('<div class="col-xs-12"><div class="help-block animated fadeInDown">'+res.message+'</div></div>');
                             }else{
-                                localStorage.token = res.data.token;
                                 window.location.href = '/dashboard';
                             }
                         },

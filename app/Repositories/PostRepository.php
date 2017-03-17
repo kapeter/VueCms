@@ -26,11 +26,11 @@ class PostRepository
 	*/
 	public function getPostByPaginate(Request $request)
 	{
-		$result = '';
+		$result = $this->model;
 
         if ( isset($request->sort) ){
             $orderby = explode('|', $request->sort);
-            $result = $this->model->orderBy($orderby[0], $orderby[1]);
+            $result = $result->orderBy($orderby[0], $orderby[1]);
         }
         
         $per_page = isset($request->per_page) ? $request->per_page : 10;

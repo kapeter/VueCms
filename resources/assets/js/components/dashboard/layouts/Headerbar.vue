@@ -80,7 +80,7 @@
     export default {
         methods: {
             doLogout() {
-                axios.post('api/logout')
+                axios.post('/api/logout')
                     .then(function (res) {
                         if (res.data.code == 10000){
                             localStorage.removeItem("token");

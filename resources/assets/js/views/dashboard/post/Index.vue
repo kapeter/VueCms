@@ -119,7 +119,7 @@
 	                },
 	                function(isConfirm){
 	                    if (isConfirm){
-	                        let deleteUrl = '/api/post/' + data.id + '?token=' + localStorage.token;
+	                        let deleteUrl = '/api/post/' + data.id;
 	                        axios.delete(deleteUrl)
 	                            .then(function(response){
 	                            	if (response.status == 200){

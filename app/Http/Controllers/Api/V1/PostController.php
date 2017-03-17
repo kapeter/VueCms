@@ -16,7 +16,7 @@ class PostController extends BaseController
     {
         $this->postRepository = $postRepository;
 
-        $this->middleware('jwt.auth',['except' => ['index','show']]);
+        $this->middleware('blog.api',['except' => ['index','show']]);
     }
     /**
      * Display a listing of the resource.
@@ -48,7 +48,7 @@ class PostController extends BaseController
      */
     public function store(Request $request)
     {
-        $data = $request->all();
+        dd($request->all());
     }
 
     /**

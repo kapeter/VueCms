@@ -5,28 +5,9 @@ namespace App\Http\Controllers\Api\V1\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Api\V1\BaseController;
 use Tymon\JWTAuth\Facades\JWTAuth;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Contracts\Routing\ResponseFactory;
 
 class LoginController extends BaseController
 {
-    /**
-     * @var \Illuminate\Contracts\Routing\ResponseFactory
-     */
-    protected $response;
-
-    /**
-     * Create a new BaseMiddleware instance.
-     *
-     * @param \Illuminate\Contracts\Routing\ResponseFactory  $response
-     * @param \Illuminate\Contracts\Events\Dispatcher  $events
-     * @param \Tymon\JWTAuth\JWTAuth  $auth
-     */
-    public function __construct(ResponseFactory $response)
-    {
-        $this->response = $response;
-    }
-
     /**
      * Handle a login request to the application.
      *
@@ -64,7 +45,8 @@ class LoginController extends BaseController
     protected function validateLogin(Request $request)
     {
         $this->validate($request, [
-            'email' => 'required', 'password' => 'required',
+            'email' => 'required', 
+            'password' => 'required',
         ]);
     }
 

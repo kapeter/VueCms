@@ -5330,6 +5330,10 @@ a.list-group-item:focus {
 .side-header {
   margin: 0 auto;
   min-height: 60px;
+  background: linear-gradient(to left, #39c5bb, #39c5ee);
+  background: -webkit-linear-gradient(right, #39c5bb, #39c5ee); /* Safari 5.1 - 6.0 */
+  background: -o-linear-gradient(left, #39c5bb, #39c5ee); /* Opera 11.1 - 12.0 */
+  background: -moz-linear-gradient(left, #39c5bb, #39c5ee); /* Firefox 3.6 - 15 */
 }
 .side-header:before,
 .side-header:after {
@@ -5349,11 +5353,11 @@ a.list-group-item:focus {
 }
 .side-header img {
   display: inline-block;
-  margin-top: -6px;
+  margin-top: -8px;
 }
 .side-content {
   margin: 0 auto;
-  padding: 13px 20px 1px;
+  padding: 12px 20px 1px;
   max-width: 100%;
   overflow-x: hidden;
 }
@@ -5390,7 +5394,7 @@ a.list-group-item:focus {
   overflow-x: hidden;
 }
 #main-container {
-  background-color: #f3f3f3;
+  background-color: #f0f3f4;
 }
 .content {
   margin: 0 auto;

@@ -26,28 +26,27 @@
 						label: '标题',
 						name: 'title',
 						type: 'text',
-						value: ''
+						required: true,
+						error: false,
 					},
 					{
 						label: '摘要',
 						name: 'decription',
 						type: 'textarea',
 						rows: 4,
-						value: ''
+						error: false,
 					},
 					{
 						label: '正文内容',
 						name: 'content',
 						type: 'editor',
-						value: ''
+						required: true,
+						error: false,
 					}
 				],
 			}
 		},
 		methods: {
-			formPublish() {
-				
-			}
 		}
 	}
 </script>

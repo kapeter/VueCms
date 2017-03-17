@@ -4,7 +4,8 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Tymon\JWTAuth\JWTAuth;
-use Illuminate\Contracts\Routing\ResponseFactory;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 
 class RedirectWithoutToken
 {
@@ -32,11 +33,15 @@ class RedirectWithoutToken
     {
         if ( !$request->session()->has('access_token') ){
             return redirect()->route('login');
-        }else{
-            $token = $request->session()->get('access_token');
         }
 
-        if (! $user = $this->auth->authenticate($token)) {
+        $token = $request->session()->get('access_token');
+        try {
+            $user = $this->auth->authenticate($token);
+        } catch(TokenExpiredException $e) {
+            $newToken = $this->auth->setToken($token)->refresh();
+            $request->session()->put('access_token',$newToken);
+        } catch (JWTException $e) {
             $request->session()->forget('access_token');
             return redirect()->route('login');
         }
