@@ -31,7 +31,7 @@
 					},
 					{
 						label: '摘要',
-						name: 'decription',
+						name: 'description',
 						type: 'textarea',
 						rows: 4,
 						error: false,

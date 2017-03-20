@@ -16,16 +16,16 @@ class CreatePostsTable extends Migration
         if ( !Schema::hasTable('posts') ){
             Schema::create('posts', function (Blueprint $table) {
                 $table->increments('id');
-                $table->integer('category_id')->unsigned();
-                $table->integer('user_id')->unsigned();
-                $table->integer('last_user_id')->unsigned();
-                $table->string('title');
-                $table->string('slug')->unique();
-                $table->text('description');
-                $table->text('content');
+                $table->integer('category_id')->unsigned()->default(0);
+                $table->integer('user_id')->unsigned()->default(0);
+                $table->integer('last_user_id')->unsigned()->default(0);
+                $table->string('title')->default('');
+                $table->string('slug')->unique()->default('');
+                $table->text('description')->nullable();
+                $table->text('content')->nullable();
                 $table->string('cover_img')->nullable();
                 $table->string('tag')->nullable();
-                $table->string('is_draft')->default(false);
+                $table->boolean('is_draft')->default(false);
                 $table->integer('view_count')->unsigned()->default(0)->index();
                 $table->timestamp('published_at')->nullable();
                 $table->timestamps();

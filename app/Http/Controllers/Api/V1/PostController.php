@@ -48,7 +48,21 @@ class PostController extends BaseController
      */
     public function store(Request $request)
     {
-        dd($request->all());
+        $data = array_merge($request->all(),
+            [
+                'category_id' => 1,
+                'slug' => '312312',                
+                'user_id' => $request->user->id,
+                'last_user_id' => $request->user->id,
+                'cover_img' => 'adsas',
+                'tag' => 'tag',
+                'is_draft' => false,
+                'view_count' => 2121
+            ]
+        );
+        $this->postRepository->store($data);
+
+        return $this->response->noContent()->setStatusCode(200);
     }
 
     /**

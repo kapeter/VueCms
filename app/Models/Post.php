@@ -14,8 +14,27 @@ class Post extends Model
      *
      * @var array
      */
-    protected $dates = ['deleted_at'];
+    protected $dates = ['published_at','deleted_at'];
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'user_id',
+        'last_user_id',
+        'category_id',
+        'title',
+        'slug',
+        'cover_img',
+        'content',
+        'description',
+        'is_draft',
+        'tag',
+        'view_count',
+        'published_at',
+    ];
      /**
      * Get the user for the blog article.
      *
