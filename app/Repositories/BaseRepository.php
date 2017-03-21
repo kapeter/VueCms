@@ -29,6 +29,25 @@ trait BaseRepository
         return $this->model;
     }
 
+
+    /**
+     * update a new record.
+     *
+     * @param  $data
+     * @param  $id
+     * @return User
+     */
+    public function update($id, $data)
+    {
+        $this->model = $this->getById($id);
+
+        $this->model->fill($data);
+
+        $this->model->save();
+
+        return $this->model;
+    }
+
     /**
      * Get the record
      * 

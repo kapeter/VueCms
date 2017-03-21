@@ -16,11 +16,18 @@ export default [
                 children: [
                     {
                         path: '/',
+                        name: 'showPost',
                         component: require('./views/dashboard/post/Index.vue')
                     },
                     {
                         path: 'create',
+                        name: 'createPost',
                         component: require('./views/dashboard/post/Create.vue')
+                    },
+                    {
+                        path: ':id/edit',
+                        name: 'editPost',
+                        component: require('./views/dashboard/post/Edit.vue')
                     }
                 ]
             },

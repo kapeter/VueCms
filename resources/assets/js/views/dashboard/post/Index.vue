@@ -133,7 +133,7 @@
 	                    }
 	                });                
 	            }else{
-
+					this.$router.push({ name: 'editPost', params: { id: data.id }});
 	            }
 	        }
         },

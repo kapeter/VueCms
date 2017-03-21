@@ -36,10 +36,10 @@
 					<div class="block-content">
 						<div class="row">
 							<div class="col-sm-6">
-								<button class="btn btn-default pull-left" @click.prevent="formStore()">保存为书稿</button>
+								<button class="btn btn-default pull-left" @click.prevent="formSubmit(false)">保存为书稿</button>
 							</div>
 							<div class="col-sm-6">
-								<button class="btn btn-info pull-right" @click.prevent="formPublish()">
+								<button class="btn btn-info pull-right" @click.prevent="formSubmit(true)">
 									{{ action == 'edit' ? '更 新' : '发 布' }}
 								</button>
 							</div>
@@ -77,7 +77,7 @@
 		      	type: Array,
 		      	required: true
 		    },
-			apiUrl: {
+			url: {
 				type: String,
 				default: ''
 			},
@@ -94,39 +94,92 @@
 					block_2: false
 				},
 				simplemde: '',
+				uID: '',
         	}
         },
-		mounted() {
-			let editor = document.getElementById("editor");
-			let hasEditor = false;
-			for (let i = 0; i < this.fields.length; i++ ){
-				this.fields[i]['value'] = '';
-				if (this.fields[i].type == 'editor' ){
-					hasEditor = true;
-					break;
-				}
-			}
-			if (editor && hasEditor){
-		        this.simplemde = new SimpleMDE({
-		            element: editor,
-		            autoDownloadFontAwesome: true,
-		            tabSize: 4
-		        });				
+        computed: {
+        	apiUrl() {
+        		return '/api/' + this.url;
+        	},
+        	backUrl() {
+        		return '/dashboard/' + this.url;
+        	}
+		},
+		mounted() {	
+			if (document.getElementById("editor")){
+				this.newEditor();			
+			}	
+			if (this.action && this.action == 'edit'){
+				this.loadData();
+			}else{
+				this.freshData();
 			}
 		},
 		methods: {
 			toggleBlock(name) {
 				this.isHidden[name] = !this.isHidden[name]; 
 			},
-			// publish btn
-			formPublish() {
+			// submit
+			formSubmit(isPublish = false) {
 				for (let i = 0; i < this.fields.length; i++ ){
 					this.fields[i].error = false;
 				}
 				let param = this.serialize();
+				let backPath = this.backUrl; 
 				if ( param != false ){
-					axios.post(this.apiUrl, param);
+					if (isPublish){
+						param.append('isPublish', 'true');
+					}
+
+					let submitUrl = '';
+					if (this.action == 'create'){
+						submitUrl = this.apiUrl;
+					}else{
+						submitUrl = this.apiUrl + '/' + this.uID;
+						param.append('_method', 'PUT');
+					}
+
+					axios.post(submitUrl, param)
+						.then(function (res) {
+							sweetAlert.success();
+							VM.$router.push({ path: backPath });
+						})
+						.catch(function (error) {
+							sweetAlert.error();
+						    console.log(error);
+						});
 				}				
+			},
+			// get data if the action is edit
+			loadData() {
+				this.uID = this.$route.params.id;
+				let editUrl = this.apiUrl + '/' + this.uID;
+        		let _self = this;
+        		axios.get(editUrl)
+        			.then(function (response) {
+        				let data = response.data.data;
+        				for (let i = 0; i < _self.fields.length; i++ ){
+        					let temp = _self.fields[i]; 
+        					temp.value = data[temp.name];
+        					if (temp.type == 'editor'){
+								_self.simplemde.value(temp.value);
+        					}
+        				}
+        			});
+			},
+			// refresh data if the action is create
+			freshData() {
+				for (let i = 0; i < this.fields.length; i++ ){
+					this.fields[i].value = '';
+				}
+			},
+			// new a editor if needed
+			newEditor() {
+				this.simplemde = new SimpleMDE({
+		            element: document.getElementById("editor"),
+		            autoDownloadFontAwesome: true,
+		            tabSize: 4
+		        });	
 			},
 			// serialize data
 			serialize() {
@@ -143,6 +196,7 @@
 					}
 					if ( temp.required && temp.value == ''){
 						temp.error = true;
+						console.log(temp.error);
 						return false;
 					}
 					formData.append(temp.name, temp.value);

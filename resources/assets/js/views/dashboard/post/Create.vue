@@ -28,13 +28,15 @@
 						type: 'text',
 						required: true,
 						error: false,
+						value: '',
 					},
 					{
 						label: '摘要',
 						name: 'description',
 						type: 'textarea',
-						rows: 4,
+						required: true,
 						error: false,
+						value: '',
 					},
 					{
 						label: '正文内容',
@@ -42,6 +44,7 @@
 						type: 'editor',
 						required: true,
 						error: false,
+						value: '',
 					}
 				],
 			}
