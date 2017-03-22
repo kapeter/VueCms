@@ -69,9 +69,17 @@
 			          dataClass: 'text-center',
 			        },
 			        {
-			          title: '发布时间',
+			          title: '发布状态',
 			          name: 'published_at',
 			          sortField: 'published_at',
+			          titleClass: 'text-center',
+			          dataClass: 'text-center',
+			          callback: 'publishedLabel'
+			        },
+			        {
+			          title: '最后修改',
+			          name: 'updated_at',
+			          sortField: 'updated_at',
 			          titleClass: 'text-center',
 			          dataClass: 'text-center',
 			          callback: 'dateFormat'
@@ -84,14 +92,19 @@
 			        }
 		      	],
 		      	sortOrder: [
-		        	{ field: 'published_at', sortField: 'published_at', direction: 'desc'}
+		        	{ field: 'updated_at', sortField: 'updated_at', direction: 'desc'}
 		      	],
 		      	moreParams: {},
 		    }
 		},
         methods: {
         	dateFormat (value) {
-        		return (value == null) ? '' : value.substring(0,10);
+        		return (value == null) ? '' : value.date.substring(0,10);
+        	},
+        	publishedLabel(value) {
+        		return value != null
+			        ? '<span class="label label-info"><i class="fa fa-check"></i> 已发布</span>'
+			        : '<span class="label label-warning"><i class="fa fa-exclamation-triangle"></i> 未发布</span>'
         	},
 		    onPaginationData (paginationData) {
 		      	this.$refs.pagination.setPaginationData(paginationData);
@@ -151,5 +164,12 @@
         },
     }
 </script>
+
+<style>
+	.label{
+		font-weight: normal;
+		padding: 3px 7px;
+	}
+</style>
 
 

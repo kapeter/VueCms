@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Api\V1\BaseController;
 use App\Transformers\PostTransformer;
@@ -41,13 +42,13 @@ class PostController extends BaseController
         $data = array_merge($request->all(),
             [
                 'category_id' => 1,
-                'slug' => '312312',                
+                'slug' => translug($request->title),                
                 'user_id' => $request->user->id,
                 'last_user_id' => $request->user->id,
                 'cover_img' => 'adsas',
                 'tag' => 'tag',
-                'is_draft' => false,
-                'view_count' => 2121
+                'is_draft' => isset($request->isPublish) ? false : true,
+                'published_at' => isset($request->isPublish) ? Carbon::now() : null
             ]
         );
         $this->postRepository->store($data);
@@ -78,6 +79,14 @@ class PostController extends BaseController
     public function update(Request $request, $id)
     {
         $data =  $request->all();
+
+        if (isset($request->isPublish) && $request->isPublish){
+            $data['is_draft'] = false;
+            $data['published_at'] = Carbon::now();
+        }else{
+            $data['is_draft'] = true;
+            $data['published_at'] = null;
+        }
 
         $this->postRepository->update($id,$data);
 

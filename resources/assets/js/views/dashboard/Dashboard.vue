@@ -4,7 +4,9 @@
         <Sidebar></Sidebar>
         <HeaderBar></HeaderBar>
         <main id="main-container">
-            <router-view></router-view>
+            <transition mode="out-in" enter-active-class="animated lightSpeedIn" leave-active-class="animated lightSpeedOut">
+                <router-view></router-view>
+            </transition>
         </main>
         <FooterBar></FooterBar>
     </div>
@@ -21,11 +23,6 @@
             HeaderBar,
             FooterBar,
         },
-        data() {
-            return {
-                isLoading : true,
-            }
-        },
         mounted() {
             let hWindow     = $(window).height();
             let hHeader     = $('#header-navbar').outerHeight();
@@ -36,10 +33,6 @@
             } else {
                 $('#main-container').css('min-height', hWindow - (hHeader + hFooter));
             }
-            this.$nextTick(function () {
-                this.$store.commit('loadingToggle');
-            });
-
         },
         computed: {
             isMini() {
@@ -48,4 +41,3 @@
         }
     }
 </script>
-

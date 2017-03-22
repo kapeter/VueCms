@@ -36,14 +36,43 @@
 					<div class="block-content">
 						<div class="row">
 							<div class="col-sm-6">
-								<button class="btn btn-default pull-left" @click.prevent="formSubmit(false)">保存为书稿</button>
+								<button class="btn btn-default pull-left">预 览</button>
+							</div>
+							<div class="col-sm-6">
+								<button class="btn btn-default pull-right"  @click.prevent="backToIndex()">
+									返回列表
+								</button>
+							</div>
+						</div>
+						<div class="publish-status">
+							<p>
+								<i class="fa fa-calendar-plus-o"></i> 首次创建：
+								<span>{{ createdDate }}</span>
+							</p>
+							<p v-if="updatedDate != ''">
+								<i class="fa fa-calendar-check-o"></i> 最后修改：
+								<span>{{ updatedDate }}</span>
+							</p>
+							<p v-if="">
+								<i class="fa fa-calendar"></i> 发布状态：
+								<span v-html="publishedStatus"></span>
+							</p>
+						</div>
+						<div class="row">
+							<div class="col-sm-6">
+								<button v-if="action == 'create'" class="btn btn-default pull-left" @click.prevent="formSubmit(false)">
+									保存为书稿
+								</button>
+								<button v-else class="btn btn-danger pull-left" @click.prevent="turnToTrash()">
+									移动到回收站
+								</button>
 							</div>
 							<div class="col-sm-6">
 								<button class="btn btn-info pull-right" @click.prevent="formSubmit(true)">
 									{{ action == 'edit' ? '更 新' : '发 布' }}
 								</button>
 							</div>
-						</div>
+						</div>							
 					</div>
 				</div>
 				<!-- 分类目录 -->
@@ -79,13 +108,12 @@
 		    },
 			url: {
 				type: String,
-				default: ''
+				required: true
 			},
 			action: {
 				type: String,
 				required: true
 			}
-			
 		},
         data() {
         	return {
@@ -95,6 +123,9 @@
 				},
 				simplemde: '',
 				uID: '',
+				createdDate: '',
+				updatedDate: '',
+				publishedDate: ''
         	}
         },
         computed: {
@@ -103,6 +134,9 @@
         	},
         	backUrl() {
         		return '/dashboard/' + this.url;
+        	},
+        	publishedStatus() {
+        		return  this.publishedDate != '' ? '于 <u class="text-primary">'+ this.publishedDate + '</u> 发布' : '未发布';
         	}
 		},
 		mounted() {	
@@ -118,6 +152,10 @@
 		methods: {
 			toggleBlock(name) {
 				this.isHidden[name] = !this.isHidden[name]; 
+			},
+			backToIndex() {
+				let backPath = this.backUrl; 
+				VM.$router.push({ path: backPath });
 			},
 			// submit
 			formSubmit(isPublish = false) {
@@ -138,7 +176,6 @@
 						submitUrl = this.apiUrl + '/' + this.uID;
 						param.append('_method', 'PUT');
 					}
-
 					axios.post(submitUrl, param)
 						.then(function (res) {
 							sweetAlert.success();
@@ -152,9 +189,10 @@
 			},
 			// get data if the action is edit
 			loadData() {
-				this.uID = this.$route.params.id;
-				let editUrl = this.apiUrl + '/' + this.uID;
-        		let _self = this;
+				let _self = this;
+				_self.uID = _self.$route.params.id;
+				let editUrl = _self.apiUrl + '/' + _self.uID;
+
         		axios.get(editUrl)
         			.then(function (response) {
         				let data = response.data.data;
@@ -165,20 +203,36 @@
 								_self.simplemde.value(temp.value);
         					}
         				}
+        				_self.createdDate = _self.dateFormat(data['created_at']);
+        				_self.updatedDate = _self.dateFormat(data['updated_at']);
+        				_self.publishedDate = _self.dateFormat(data['published_at']);
         			});
 			},
+
+			// change the data format
+			dateFormat (value) {
+        		return (value == null) ? '' : value.date.substring(0,10);
+        	},
 			// refresh data if the action is create
 			freshData() {
 				for (let i = 0; i < this.fields.length; i++ ){
 					this.fields[i].value = '';
 				}
+				this.createdDate = this.getNowDate();
+			},
+			// get today's date 
+			getNowDate () {
+				let myDate = new Date();
+				let mon = myDate.getMonth() + 1;
+				let day = myDate.getDate();
+				return myDate.getFullYear() + "-" + (mon < 10 ? "0"+mon : mon) + "-" +(day < 10 ? "0"+day : day);				
 			},
 			// new a editor if needed
 			newEditor() {
 				this.simplemde = new SimpleMDE({
 		            element: document.getElementById("editor"),
 		            autoDownloadFontAwesome: true,
-		            tabSize: 4
+		            tabSize: 4,
 		        });	
 			},
 			// serialize data
@@ -202,6 +256,37 @@
 					formData.append(temp.name, temp.value);
 				}
 				return formData;
+			},
+			// delete the data and back to the list
+			turnToTrash() {
+				let _self = this;
+				let backPath = _self.backUrl; 
+                sweetAlert({
+                    title: "危险操作",
+                    text: "您确认删除该项信息吗？",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#d26a5c",
+                    confirmButtonText: "删  除",
+                    cancelButtonText: "取  消",
+                    closeOnConfirm: false,
+                    showLoaderOnConfirm: true,
+                },
+                function(isConfirm){
+                    if (isConfirm){
+                        let deleteUrl = '/api/post/' + _self.uID;
+                        axios.delete(deleteUrl)
+                            .then(function(response){
+                            	if (response.status == 200){
+									sweetAlert.success();
+	                                VM.$router.push({ path: backPath });
+                            	}
+                            })
+                            .catch(function (error) {
+                            	sweetAlert.error();
+							});
+                    }
+                });
 			}
 		},
 	}
@@ -219,6 +304,13 @@
 	}
 	textarea {
 		resize: none;
+	}
+	.publish-status{
+		margin:20px 0;
+	}
+	.publish-status p{
+		margin-bottom: 10px;
+		line-height: 1.5;
 	}
 </style>
 

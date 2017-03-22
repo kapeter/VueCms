@@ -14,7 +14,7 @@ class Post extends Model
      *
      * @var array
      */
-    protected $dates = ['deleted_at'];
+    protected $dates = ['deleted_at','published_at'];
 
     /**
      * The attributes that are mass assignable.

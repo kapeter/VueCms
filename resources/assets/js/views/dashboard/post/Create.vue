@@ -3,7 +3,7 @@
         <page-heading title="写文章" subTitle="New Article"></page-heading>
         <div class="content">
  			<vue-form ref="vueForm"
- 				apiUrl="/api/post"
+ 				url="post"
 				action="create"
 				:fields="fields"
 			>
