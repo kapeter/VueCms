@@ -1,11 +1,14 @@
 <template>
-	<form>
+	<form enctype="multipart/form-data">
     	<div class="row">
 			<div class="col-sm-9">
 				<div class="block">
 					<div class="block-content">
 		     			<div class="form-group" v-for="field in fields" :class="{ 'has-error' : field.error  }">
-		     				<label :for="field.name">{{ field.label }}</label>
+		     				<label :for="field.name">
+		     					{{ field.label }}
+		     					<span class="text-muted font-s13" v-if="field.info">（<i class="fa fa-info"></i> {{ field.info }}）</span>
+		     				</label>
 		     				<div v-if="field.type == 'text'">
 		     					<input type="text" class="form-control" :name="field.name" v-model="field.value">
 		     				</div>

@@ -45,6 +45,13 @@
 						required: true,
 						error: false,
 						value: '',
+					},
+					{
+						label: '固定链接',
+						info: '仅支持英文、数字，单词之间用 “-” 连接。如果该项空白，系统会通过有道翻译自动填充',
+						name: 'slug',
+						type: 'text',
+						value: '',
 					}
 				],
 			}

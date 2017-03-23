@@ -22,11 +22,6 @@ export default [
     	]
     },
     {
-        name : '媒体库',
-        icon : 'si si-camera',
-        uri  : '/dashboard/media',
-    },
-    {
         name : '系统设置',
         icon : 'si si-settings',
         children : [
@@ -39,6 +34,16 @@ export default [
                 uri  : '/dashboard/setting/system',
             }
         ]
+    },
+    {
+        name : '媒体库',
+        icon : 'si si-camera',
+        uri  : '/dashboard/media',
+    },
+    {
+        name : '回收站',
+        icon : 'si si-trash',
+        uri  : '/dashboard/trash',
     },
 
 ]

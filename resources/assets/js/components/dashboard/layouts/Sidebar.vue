@@ -10,7 +10,7 @@
                     <button class="btn btn-link text-gray pull-right hidden-md hidden-lg" type="button" data-toggle="layout" data-action="sidebar_close">
                         <i class="fa fa-times"></i>
                     </button>
-                    <a class="h5 text-white" href="index.html">
+                    <a class="h5 text-white" href="/dashboard">
                         <img src="/img/logo-sm.png" alt="kapeter">
                         <span class="h4 sidebar-mini-hide">&nbsp;VueCMS</span>
                     </a>

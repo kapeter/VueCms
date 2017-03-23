@@ -97,6 +97,22 @@
 		      	moreParams: {},
 		    }
 		},
+		mounted() {
+			VM.$on('filter-set', (filterText) => {
+		      	this.moreParams = {
+		        	filter: filterText
+		      	};
+		      	Vue.nextTick( () => this.$refs.vuetable.refresh() );
+		    });
+		    VM.$on('filter-reset', () => {
+		      	this.moreParams = {};
+		      	Vue.nextTick( () => this.$refs.vuetable.refresh() );
+		    });
+		},
+		beforeDestroy() {
+			VM.$off('filter-set');
+			VM.$off('filter-reset');
+		},
         methods: {
         	dateFormat (value) {
         		return (value == null) ? '' : value.date.substring(0,10);
@@ -149,19 +165,7 @@
 					this.$router.push({ name: 'editPost', params: { id: data.id }});
 	            }
 	        }
-        },
-        events: {
-		    'filter-set' (filterText) {
-		      	this.moreParams = {
-		        	filter: filterText
-		      	}
-		      	Vue.nextTick( () => this.$refs.vuetable.refresh() )
-		    },
-		    'filter-reset' () {
-		      	this.moreParams = {}
-		      	Vue.nextTick( () => this.$refs.vuetable.refresh() )
-		    },
-        },
+        }
     }
 </script>
 

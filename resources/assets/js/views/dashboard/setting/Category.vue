@@ -3,7 +3,7 @@
 	<div class="content content-narrow">
 	    <!-- Breadcrumb -->
 	    <ol class="breadcrumb push-15">
-	        <li><a class="text-muted" href="base_pages_forum_categories.html">Forums</a></li>
+	        <li><a class="text-muted" href="base_pages_forum_categories.html">分类目录</a></li>
 	    </ol>
 	    <!-- END Breadcrumb -->
 

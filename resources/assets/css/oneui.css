@@ -1281,6 +1281,11 @@ input[type="email"].form-control {
 .form-group {
   margin-bottom: 20px;
 }
+@media screen and (max-width: 640px){
+  .form-group{
+    margin-bottom: 15px;
+  }
+}
 .form-bordered .form-group {
   padding-bottom: 10px;
   margin-bottom: 10px;

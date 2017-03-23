@@ -39,10 +39,14 @@ class PostController extends BaseController
      */
     public function store(Request $request)
     {
+        $slug = isset($request->slug) ? $request->slug : translug($request->title);
+
+        $slug = $this->postRepository->getUniqueSlug($slug,null);
+
         $data = array_merge($request->all(),
             [
                 'category_id' => 1,
-                'slug' => translug($request->title),                
+                'slug' => $slug,                
                 'user_id' => $request->user->id,
                 'last_user_id' => $request->user->id,
                 'cover_img' => 'adsas',
@@ -51,6 +55,7 @@ class PostController extends BaseController
                 'published_at' => isset($request->isPublish) ? Carbon::now() : null
             ]
         );
+
         $this->postRepository->store($data);
 
         return $this->response->noContent()->setStatusCode(200);
@@ -78,15 +83,18 @@ class PostController extends BaseController
      */
     public function update(Request $request, $id)
     {
-        $data =  $request->all();
+        $slug = isset($request->slug) ? $request->slug : translug($request->title);
 
-        if (isset($request->isPublish) && $request->isPublish){
-            $data['is_draft'] = false;
-            $data['published_at'] = Carbon::now();
-        }else{
-            $data['is_draft'] = true;
-            $data['published_at'] = null;
-        }
+        $slug = $this->postRepository->getUniqueSlug($slug, $id);
+
+        $data = array_merge($request->all(),
+            [
+                'slug' => $slug,                
+                'last_user_id' => $request->user->id,
+                'is_draft' => isset($request->isPublish) ? false : true,
+                'published_at' => isset($request->isPublish) ? Carbon::now() : null
+            ]
+        );
 
         $this->postRepository->update($id,$data);
 
