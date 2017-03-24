@@ -25,6 +25,7 @@ $api->version('v1',['namespace' => 'App\Http\Controllers\Api\V1'], function ($ap
 		$api->get('/', 'UserController@index');
 		$api->get('/{user}', 'UserController@show');
 	});
+	$api->get('/profile','UserController@profile');
 	
 	//Post
 	$api->resource('post','PostController');

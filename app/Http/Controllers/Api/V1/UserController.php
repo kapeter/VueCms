@@ -2,12 +2,22 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\User;
+use App\Http\Controllers\Api\V1\BaseController;
+use App\Transformers\UserTransformer;
+use App\Repositories\UserRepository;
 
-class UserController extends Controller
+class UserController extends BaseController
 {
+    protected $userRepository;
+
+    public function __construct(UserRepository $userRepository)
+    {
+        $this->userRepository = $userRepository;
+
+        $this->middleware('blog.api');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -16,16 +26,6 @@ class UserController extends Controller
     public function index()
     {
         return User::all();
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -51,17 +51,6 @@ class UserController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -83,4 +72,14 @@ class UserController extends Controller
     {
         //
     }
+
+    /**
+     * show the current user.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function profile(Request $request)
+    {
+        return $this->response->item($request->user, new UserTransformer);
+    }    
 }

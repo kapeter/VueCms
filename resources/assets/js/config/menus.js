@@ -22,28 +22,43 @@ export default [
     	]
     },
     {
-        name : '系统设置',
-        icon : 'si si-settings',
-        children : [
-            {
-                name : '分类目录',
-                uri  : '/dashboard/setting/category'
-            },
-            {
-                name : '基础设置',
-                uri  : '/dashboard/setting/system',
-            }
-        ]
-    },
-    {
         name : '媒体库',
         icon : 'si si-camera',
         uri  : '/dashboard/media',
+    },
+    {
+        name : '个人中心',
+        icon : 'si si-user',
+        uri  : '/dashboard/profile',
     },
     {
         name : '回收站',
         icon : 'si si-trash',
         uri  : '/dashboard/trash',
     },
+    {
+        name : 'System Interface',
+    },
 
+
+    {
+        name : '分类目录',
+        icon : 'si si-grid',
+        uri  : '/dashboard/setting/category'
+    },
+    {
+        name : '用户设置',
+        icon : 'si si-users',
+        uri  : '/dashboard/setting/system',
+    },
+    {
+        name : '系统设置',
+        icon : 'si si-settings',
+        uri  : '/dashboard/setting/system',
+    },
+    {
+        name : '接口日志',
+        icon : 'si si-notebook',
+        uri  : '/dashboard/setting/logs',
+    },
 ]

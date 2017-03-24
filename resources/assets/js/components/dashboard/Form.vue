@@ -298,10 +298,6 @@
 <style>
 	@import '/css/simplemde.css';
 
-	.form-group > label{
-		font-size: 15px;
-		font-weight: 400;
-	}
 	.block-content{
 		padding-bottom: 20px;
 	}

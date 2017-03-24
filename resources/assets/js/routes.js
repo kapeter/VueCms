@@ -32,6 +32,10 @@ export default [
                 ]
             },
             {
+                path: 'profile',
+                component: require('./views/dashboard/profile/Index.vue')
+            },
+            {
                 path: 'setting',
                 component: Parent,
                 children: [

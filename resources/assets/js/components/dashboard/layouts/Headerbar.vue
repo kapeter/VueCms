@@ -5,7 +5,7 @@
             <li>
                 <div class="btn-group">
                     <button class="btn btn-default btn-image dropdown-toggle" data-toggle="dropdown" type="button">
-                        <img src="/img/avatar.jpg" alt="Avatar">
+                        <img  :src="thisUser.avatar" :alt="thisUser.name">
                         <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-right">
@@ -17,9 +17,9 @@
                             </a>
                         </li>
                         <li>
-                            <a tabindex="-1" href="base_pages_profile.html">
+                            <router-link tabindex="-1" :to="'/dashboard/profile'">
                                 <i class="si si-user pull-right"></i>个人中心
-                            </a>
+                            </router-link>
                         </li>
                         <li class="divider"></li>
                         <li class="dropdown-header">Actions</li>
@@ -55,7 +55,9 @@
             </li>
             <li>
                 <!-- Opens the Apps modal found at the bottom of the page, before including JS code -->
-                <a href="/" class="btn btn-default pull-right"><i class="si si-grid"></i></a>
+                <a href="/" class="btn btn-default pull-right" data-toggle="tooltip" title="返回首页" data-placement="bottom">
+                    <i class="si si-grid"></i>
+                </a>
             </li>
             <li class="visible-xs">
                 <!-- Toggle class helper (for .js-header-search below), functionality initialized in App() -> uiToggleClass() -->
@@ -78,6 +80,21 @@
 
 <script>
     export default {
+        data() {
+            return {
+                thisUser: {},
+            }
+        },
+        created() {
+            var _self = this;
+            axios.get('/api/profile')
+                .then(function (res) {
+                    _self.thisUser = res.data.data;
+                })
+                .catch(function (res) {
+                    console.log(res);
+                });            
+        },
         methods: {
             doLogout() {
                 axios.post('/api/logout')

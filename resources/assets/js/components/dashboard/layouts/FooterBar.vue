@@ -1,17 +1,7 @@
 <template>
     <footer id="page-footer" class="content-mini content-mini-full font-s12 bg-white clearfix">
         <div class="pull-left">
-        	{{ year }} &copy; <a href="https://www.github.com/kapeter">Kapeter.com</a>
+        	&copy; VueCms, an elegant blogging tool powered by <a href="https://www.github.com/kapeter">Kapeter.com</a>.
         </div>
     </footer>
 </template>
-
-<script>
-	export default {
-		computed: {
-			year() {
-				return (new Date()).getFullYear();
-			}
-		}
-	}
-</script>

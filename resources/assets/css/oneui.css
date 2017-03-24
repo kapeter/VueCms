@@ -1233,8 +1233,8 @@ fieldset[disabled] .btn-danger.active {
   background-color: #fff;
 }
 label {
-  font-size: 13px;
-  font-weight: 600;
+  font-size: 15px;
+  font-weight: normal;
 }
 .form-control {
   color: #646464;
