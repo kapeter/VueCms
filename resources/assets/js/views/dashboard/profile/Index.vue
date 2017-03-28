@@ -49,20 +49,20 @@
         <!-- Main Content -->
         <form action="pages_profile_edit.html" method="post" onsubmit="return false;">
             <div class="block">
-                <ul class="nav nav-tabs nav-justified push-20" data-toggle="tabs">
+                <ul class="nav nav-tabs nav-justified push-20">
                     <li class="active">
-                        <a href="#tab-profile-personal"><i class="fa fa-fw fa-pencil"></i> 个人设置</a>
+                        <a href="#personal" data-toggle="tab"><i class="fa fa-fw fa-pencil"></i> 个人设置</a>
                     </li>
                     <li>
-                        <a href="#tab-profile-password"><i class="fa fa-fw fa-asterisk"></i> 密码设置</a>
+                        <a href="#password" data-toggle="tab"><i class="fa fa-fw fa-asterisk"></i> 密码设置</a>
                     </li>
                     <li>
-                        <a href="#tab-profile-privacy"><i class="fa fa-fw fa-photo"></i> 头像修改</a>
+                        <a href="#avatar" data-toggle="tab"><i class="fa fa-fw fa-photo"></i> 头像修改</a>
                     </li>
                 </ul>
                 <div class="block-content tab-content">
                     <!-- Personal Tab -->
-                    <div class="tab-pane fade in active" id="tab-profile-personal">
+                    <div class="tab-pane fade in active" id="personal">
                         <div class="row">
                             <div class="col-sm-6 col-sm-offset-3 form-horizontal">
                                 <div class="form-group">
@@ -90,7 +90,7 @@
                     <!-- END Personal Tab -->
 
                     <!-- Password Tab -->
-                    <div class="tab-pane fade" id="tab-profile-password">
+                    <div class="tab-pane fade" id="password">
                         <div class="row">
                             <div class="col-sm-6 col-sm-offset-3 form-horizontal">
                                 <div class="form-group">
@@ -118,7 +118,7 @@
                     <!-- END Password Tab -->
 
                     <!-- Privacy Tab -->
-                    <div class="tab-pane fade" id="tab-profile-privacy">
+                    <div class="tab-pane fade" id="avatar">
                         <div class="row">
                             <div class="col-sm-6 col-sm-offset-3 form-horizontal">
                                 <div class="form-group">
@@ -216,6 +216,9 @@
         	},
         	resetData() {
         		this.loadData();
+        	},
+        	submitData() {
+        		
         	}
         }
     }
