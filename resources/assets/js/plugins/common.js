@@ -35,26 +35,26 @@ var App = function() {
         $lFooter            = jQuery('#page-footer');
 
         // Initialize Tooltips
-        jQuery('[data-toggle="tooltip"], .js-tooltip').tooltip({
+        $('[data-toggle="tooltip"], .js-tooltip').tooltip({
             container: 'body',
             animation: false
         });
 
         // Initialize Popovers
-        jQuery('[data-toggle="popover"], .js-popover').popover({
+        $('[data-toggle="popover"], .js-popover').popover({
             container: 'body',
             animation: true,
             trigger: 'hover'
         });
 
         // Initialize Tabs
-        jQuery('[data-toggle="tabs"] a, .js-tabs a').click(function(e){
+        $('[data-toggle="tabs"] a, .js-tabs a').click(function(e){
             e.preventDefault();
             jQuery(this).tab('show');
         });
 
         // Init form placeholder (for IE9)
-        jQuery('.form-control').placeholder();
+        $('.form-control').placeholder();
     };
 
     // Layout functionality

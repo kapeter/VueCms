@@ -24,8 +24,11 @@ mix.combine([
     'resources/assets/css/sweetalert.css',
 ], 'public/css/oneui.css');
 
-mix.combine([
-    'resources/assets/js/plugins/jquery.min.js',
+mix.autoload({
+    jquery: ['$', 'window.jQuery', 'jQuery']
+});
+
+mix.js([
     'resources/assets/js/plugins/bootstrap.min.js',
     'resources/assets/js/plugins/jquery.slimscroll.min.js',
     'resources/assets/js/plugins/jquery.scrollLock.min.js',

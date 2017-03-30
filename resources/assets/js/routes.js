@@ -8,7 +8,7 @@ export default [
         children: [
             {
                 path: '/',
-                component: require('./views/dashboard/home/Index.vue')
+                component: resolve => require(['./views/dashboard/home/Index.vue'], resolve)
             },
             {
                 path: 'post',
@@ -17,23 +17,23 @@ export default [
                     {
                         path: '/',
                         name: 'showPost',
-                        component: require('./views/dashboard/post/Index.vue')
+                        component: resolve => require(['./views/dashboard/post/Index.vue'], resolve) 
                     },
                     {
                         path: 'create',
                         name: 'createPost',
-                        component: require('./views/dashboard/post/Create.vue')
+                        component: resolve => require(['./views/dashboard/post/Create.vue'], resolve)
                     },
                     {
                         path: ':id/edit',
                         name: 'editPost',
-                        component: require('./views/dashboard/post/Edit.vue')
+                        component: resolve => require(['./views/dashboard/post/Edit.vue'], resolve)
                     }
                 ]
             },
             {
                 path: 'profile',
-                component: require('./views/dashboard/profile/Index.vue')
+                component: resolve => require(['./views/dashboard/profile/Index.vue'], resolve)
             },
             {
                 path: 'setting',
@@ -41,17 +41,17 @@ export default [
                 children: [
                     {
                         path: 'category',
-                        component: require('./views/dashboard/setting/Category.vue')
+                        component: resolve => require(['./views/dashboard/setting/Category.vue'], resolve) 
                     },
                     {
                         path: 'system',
-                        component: require('./views/dashboard/setting/System.vue')
+                        component: resolve => require(['./views/dashboard/setting/System.vue'], resolve)
                     },
                 ]
             },
             {
                 path: '*',
-                component: require('./views/dashboard/error/404.vue')
+                component: resolve => require(['./views/dashboard/error/404.vue'], resolve)
             }
         ]
     }

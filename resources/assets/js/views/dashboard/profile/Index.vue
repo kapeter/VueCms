@@ -68,20 +68,22 @@
                                 <div class="form-group">
                                     <div class="col-xs-6">
                                         <label>邮箱地址</label>
-                                        <div class="form-control-static font-w700">{{ formUser.email }}</div>
+                                        <div class="form-control-static font-w700">{{ thisUser.email }}</div>
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" :class="{ 'has-error' : userName.hasError  }">
                                     <div class="col-xs-12">
                                         <label for="profile-email">用户名</label>
-                                        <input class="form-control" type="text" id="profile-email" name="profile-email" v-model="formUser.name">
+                                        <input class="form-control" type="text" id="profile-email" name="profile-email" v-model="userName.value">
+                                        <div class="help-block animated fadeInDown" v-show="userName.hasError">用户名不能为空。</div>
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" :class="{ 'has-error' : userBio.hasError  }">
                                     <div class="col-xs-12">
                                         <label for="profile-bio">个人签名</label>
-                                        <textarea class="form-control" id="profile-bio" name="profile-bio" rows="10" v-model="formUser.bio">
+                                        <textarea class="form-control" id="profile-bio" name="profile-bio" rows="10" v-model="userBio.value">
                                         </textarea>
+                                        <div class="help-block animated fadeInDown" v-show="userBio.hasError">个人签名不能为空</div>
                                     </div>
                                 </div>
                             </div>
@@ -93,23 +95,26 @@
                     <div class="tab-pane fade" id="password">
                         <div class="row">
                             <div class="col-sm-6 col-sm-offset-3 form-horizontal">
-                                <div class="form-group">
+                                <div class="form-group" :class="{ 'has-error' : currentPwd.hasError  }">
                                     <div class="col-xs-12">
                                         <label for="profile-password">当前密码</label>
-                                        <input class="form-control" type="password" id="profile-password" name="profile-password">
+                                        <input class="form-control" type="password" v-model="currentPwd.value">
+                                        <div class="help-block animated fadeInDown" v-show="currentPwd.hasError">当前密码不能为空</div>
                                     </div>
                                 </div>
                                 <hr>
-                                <div class="form-group">
+                                <div class="form-group" :class="{ 'has-error' : newPwd.hasError  }">
                                     <div class="col-xs-12">
                                         <label for="profile-password-new">新的密码</label>
-                                        <input class="form-control" type="password" id="profile-password-new" name="profile-password-new">
+                                        <input class="form-control" type="password" v-model="newPwd.value">
+                                        <div class="help-block animated fadeInDown" v-show="newPwd.hasError">新密码不能与当前密码一致</div>
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" :class="{ 'has-error' : newPwdConfirm.hasError  }">
                                     <div class="col-xs-12">
                                         <label for="profile-password-new-confirm">重复新的密码</label>
-                                        <input class="form-control" type="password" id="profile-password-new-confirm" name="profile-password-new-confirm">
+                                        <input class="form-control" type="password" v-model="newPwdConfirm.value">
+                                        <div class="help-block animated fadeInDown" v-show="newPwdConfirm.hasError">两次输入的密码不一致</div>
                                     </div>
                                 </div>
                             </div>
@@ -120,61 +125,13 @@
                     <!-- Privacy Tab -->
                     <div class="tab-pane fade" id="avatar">
                         <div class="row">
-                            <div class="col-sm-6 col-sm-offset-3 form-horizontal">
-                                <div class="form-group">
-                                    <div class="col-xs-8">
-                                        <div class="font-s13 font-w600">Online Status</div>
-                                        <div class="font-s13 font-w400 text-muted">Show your status to all</div>
-                                    </div>
-                                    <div class="col-xs-4 text-right">
-                                        <label class="css-input switch switch-sm switch-primary push-10-t">
-                                            <input type="checkbox"><span></span>
-                                        </label>
-                                    </div>
-                                </div>
-                                <hr>
-                                <div class="form-group">
-                                    <div class="col-xs-8">
-                                        <div class="font-s13 font-w600">Auto Updates</div>
-                                        <div class="font-s13 font-w400 text-muted">Keep up to date</div>
-                                    </div>
-                                    <div class="col-xs-4 text-right">
-                                        <label class="css-input switch switch-sm switch-primary push-10-t">
-                                            <input type="checkbox"><span></span>
-                                        </label>
-                                    </div>
-                                </div>
-                                <hr>
-                                <div class="form-group">
-                                    <div class="col-xs-8">
-                                        <div class="font-s13 font-w600">Notifications</div>
-                                        <div class="font-s13 font-w400 text-muted">Do you need them?</div>
-                                    </div>
-                                    <div class="col-xs-4 text-right">
-                                        <label class="css-input switch switch-sm switch-primary push-10-t">
-                                            <input type="checkbox" checked><span></span>
-                                        </label>
-                                    </div>
-                                </div>
-                                <hr>
-                                <div class="form-group">
-                                    <div class="col-sm-8">
-                                        <div class="font-s13 font-w600">API Access</div>
-                                        <div class="font-s13 font-w400 text-muted">Enable/Disable access</div>
-                                    </div>
-                                    <div class="col-sm-4 text-right">
-                                        <label class="css-input switch switch-sm switch-primary push-10-t">
-                                            <input type="checkbox" checked><span></span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                     <!-- END Privacy Tab -->
                 </div>
                 <div class="block-content block-content-full text-center">
-                    <button class="btn btn-sm btn-info" type="submit"><i class="fa fa-check push-5-r"></i> 保存设置 </button>
+                   
+                    <button class="btn btn-sm btn-info" type="submit" @click.prevent="submitData()"><i class="fa fa-check push-5-r"></i> 保存设置 </button>
                     <button class="btn btn-sm btn-warning" @click.prevent="resetData()"><i class="fa fa-refresh push-5-r"></i> 表单重置 </button>
                 </div>
             </div>
@@ -189,7 +146,27 @@
         data() {
             return {
                 thisUser: {},
-                formUser: {},
+                userName: {
+                    value: '',
+                    hasError: false,                   
+                },
+                userBio: {
+                    value: '',
+                    hasError: false,                   
+                },
+                currentPwd: {
+                    value: '',
+                    hasError: false,
+                },
+                newPwd: {
+                    value: '',
+                    hasError: false,
+                },
+                newPwdConfirm: {
+                    value: '',
+                    hasError: false,
+                },
+
             }
         },
         computed: {
@@ -202,13 +179,12 @@
         },
         methods: {
         	loadData() {
-	            var _self = this;
+	            let _self = this;
 	            axios.get('/api/profile')
 	                .then(function (res) {
 	                    _self.thisUser = res.data.data;
-	                    for (let x in _self.thisUser){
-	                    	_self.formUser[x] = _self.thisUser[x];
-	                    }
+	                    _self.userName.value = _self.thisUser.name;
+                        _self.userBio.value = _self.thisUser.bio;
 	                })
 	                .catch(function (res) {
 	                    console.log(res);
@@ -218,7 +194,49 @@
         		this.loadData();
         	},
         	submitData() {
-        		
+        		let formData = new FormData();
+                let _self = this;
+
+                if (_self.userName.value == ''){
+                     _self.userName.hasError = true;
+                    return false;
+                }else{
+                    _self.userName.hasError = false;
+                    formData.append('name',_self.userName.value);
+                }
+
+                if (_self.userBio.value == ''){
+                    _self.userBio.hasError = true;
+                    return false;
+                }else{
+                    _self.userBio.hasError = false;
+                    formData.append('bio',_self.userBio.value);
+                }
+
+                if (_self.newPwd != ''){
+
+                    if(_self.currentPwd.value == ''){
+                        _self.currentPwd.hasError = true;
+                        return false;
+                    }else{
+                        _self.currentPwd.hasError = false;
+                        formData.append('currentPwd',_self.currentPwd.value);
+                    }
+
+                    if (_self.currentPwd.value == _self.newPwd.value){
+                        _self.newPwd.hasError = true;
+                        return false;
+                    }
+
+                    if (_self.newPwd.value != _self.newPwdConfirm.value){
+                        _self.newPwdConfirm.hasError = true;
+                        return false;
+                    }else{
+                        _self.newPwd.hasError = false;
+                        _self.newPwdConfirm.hasError = false;
+                        formData.append('newPwd',_self.newPwd.value);
+                    }
+                }
         	}
         }
     }
