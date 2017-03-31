@@ -105,6 +105,7 @@
     <!-- END Login Footer -->
 
     <!-- OneUI Core JS -->
+    <script src="{{ asset('js/plugins/jquery.min.js') }}"></script>
     <script src="{{ mix('js/oneui.js') }}"></script>
     <script src="{{ asset('js/plugins/jquery.validate.min.js') }}"></script>
 

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Api\V1\BaseController;
 use App\Transformers\UserTransformer;
 use App\Repositories\UserRepository;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class UserController extends BaseController
 {
@@ -74,12 +75,34 @@ class UserController extends BaseController
     }
 
     /**
-     * show the current user.
+     * show and edit the current user.
      *
      * @return \Illuminate\Http\Response
      */
     public function profile(Request $request)
     {
-        return $this->response->item($request->user, new UserTransformer);
+        if($request->isMethod('post')){ 
+            $id = $request->user->id;
+
+            $data['name'] = $request->name;
+            $data['bio'] = $request->bio;
+            
+            if (isset($request->currentPwd)){
+                $credentials['email'] = $request->user->email;
+                $credentials['password'] = $request->currentPwd;
+                if ( JWTAuth::attempt($credentials) ){
+                    $data['password'] = bcrypt($request->newPwd);
+                }else{
+                    return response()->json(['status'=>400,'message' => '当前密码错误！']);
+                }                
+            }
+
+            $this->userRepository->update($id,$data);
+
+            return $this->response->noContent()->setStatusCode(200);
+
+        }else{
+            return $this->response->item($request->user, new UserTransformer);
+        }        
     }    
 }

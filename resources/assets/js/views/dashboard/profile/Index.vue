@@ -32,13 +32,7 @@
                     </div>
                     <div class="col-xs-6 col-sm-3">
                         <div class="font-w700 text-gray-darker animated fadeIn">3603 Ratings</div>
-                        <div class="text-warning push-10-t animated flipInX">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                        </div>
+                        <a class="h2 font-w300 text-primary animated flipInX" href="javascript:void(0)">2600</a>
                     </div>
                 </div>
             </div>
@@ -66,25 +60,19 @@
                         <div class="row">
                             <div class="col-sm-6 col-sm-offset-3 form-horizontal">
                                 <div class="form-group">
-                                    <div class="col-xs-6">
-                                        <label>邮箱地址</label>
-                                        <div class="form-control-static font-w700">{{ thisUser.email }}</div>
-                                    </div>
+                                    <label>邮箱地址</label>
+                                    <div class="form-control-static font-w700">{{ thisUser.email }}</div>
                                 </div>
                                 <div class="form-group" :class="{ 'has-error' : userName.hasError  }">
-                                    <div class="col-xs-12">
                                         <label for="profile-email">用户名</label>
                                         <input class="form-control" type="text" id="profile-email" name="profile-email" v-model="userName.value">
                                         <div class="help-block animated fadeInDown" v-show="userName.hasError">用户名不能为空。</div>
-                                    </div>
                                 </div>
                                 <div class="form-group" :class="{ 'has-error' : userBio.hasError  }">
-                                    <div class="col-xs-12">
-                                        <label for="profile-bio">个人签名</label>
-                                        <textarea class="form-control" id="profile-bio" name="profile-bio" rows="10" v-model="userBio.value">
-                                        </textarea>
-                                        <div class="help-block animated fadeInDown" v-show="userBio.hasError">个人签名不能为空</div>
-                                    </div>
+                                    <label for="profile-bio">个人签名</label>
+                                    <textarea class="form-control" id="profile-bio" name="profile-bio" rows="10" v-model="userBio.value">
+                                    </textarea>
+                                    <div class="help-block animated fadeInDown" v-show="userBio.hasError">个人签名不能为空</div>
                                 </div>
                             </div>
                         </div>
@@ -96,26 +84,20 @@
                         <div class="row">
                             <div class="col-sm-6 col-sm-offset-3 form-horizontal">
                                 <div class="form-group" :class="{ 'has-error' : currentPwd.hasError  }">
-                                    <div class="col-xs-12">
-                                        <label for="profile-password">当前密码</label>
-                                        <input class="form-control" type="password" v-model="currentPwd.value">
-                                        <div class="help-block animated fadeInDown" v-show="currentPwd.hasError">当前密码不能为空</div>
-                                    </div>
+                                    <label for="profile-password">当前密码</label>
+                                    <input class="form-control" type="password" v-model="currentPwd.value">
+                                    <div class="help-block animated fadeInDown" v-show="currentPwd.hasError">{{ currentPwd.errorText }}</div>
                                 </div>
                                 <hr>
                                 <div class="form-group" :class="{ 'has-error' : newPwd.hasError  }">
-                                    <div class="col-xs-12">
-                                        <label for="profile-password-new">新的密码</label>
-                                        <input class="form-control" type="password" v-model="newPwd.value">
-                                        <div class="help-block animated fadeInDown" v-show="newPwd.hasError">新密码不能与当前密码一致</div>
-                                    </div>
+                                    <label for="profile-password-new">新的密码</label>
+                                    <input class="form-control" type="password" v-model="newPwd.value">
+                                    <div class="help-block animated fadeInDown" v-show="newPwd.hasError">新密码不能与当前密码一致</div>
                                 </div>
                                 <div class="form-group" :class="{ 'has-error' : newPwdConfirm.hasError  }">
-                                    <div class="col-xs-12">
-                                        <label for="profile-password-new-confirm">重复新的密码</label>
-                                        <input class="form-control" type="password" v-model="newPwdConfirm.value">
-                                        <div class="help-block animated fadeInDown" v-show="newPwdConfirm.hasError">两次输入的密码不一致</div>
-                                    </div>
+                                    <label for="profile-password-new-confirm">重复新的密码</label>
+                                    <input class="form-control" type="password" v-model="newPwdConfirm.value">
+                                    <div class="help-block animated fadeInDown" v-show="newPwdConfirm.hasError">两次输入的密码不一致</div>
                                 </div>
                             </div>
                         </div>
@@ -132,7 +114,7 @@
                 <div class="block-content block-content-full text-center">
                    
                     <button class="btn btn-sm btn-info" type="submit" @click.prevent="submitData()"><i class="fa fa-check push-5-r"></i> 保存设置 </button>
-                    <button class="btn btn-sm btn-warning" @click.prevent="resetData()"><i class="fa fa-refresh push-5-r"></i> 表单重置 </button>
+                    <button class="btn btn-sm btn-warning" @click.prevent="resetData()"><i class="fa fa-refresh push-5-r"></i> 重置表单 </button>
                 </div>
             </div>
         </form>
@@ -157,6 +139,7 @@
                 currentPwd: {
                     value: '',
                     hasError: false,
+                    errorText: '',
                 },
                 newPwd: {
                     value: '',
@@ -187,57 +170,89 @@
                         _self.userBio.value = _self.thisUser.bio;
 	                })
 	                .catch(function (res) {
-	                    console.log(res);
+                        if (res.status == 400){
+                            window.location.href = '/dashboard';
+                        }else{
+                            sweetAlert.error();
+                        }
+	                    
 	                });         		
         	},
         	resetData() {
         		this.loadData();
+                this.clearError();
+                this.clearInput();
         	},
         	submitData() {
         		let formData = new FormData();
                 let _self = this;
 
-                if (_self.userName.value == ''){
-                     _self.userName.hasError = true;
-                    return false;
-                }else{
-                    _self.userName.hasError = false;
-                    formData.append('name',_self.userName.value);
-                }
+                if ( _self.validateData() ){
 
-                if (_self.userBio.value == ''){
-                    _self.userBio.hasError = true;
-                    return false;
-                }else{
-                    _self.userBio.hasError = false;
+                    _self.clearError();
+
+                    formData.append('name',_self.userName.value); 
                     formData.append('bio',_self.userBio.value);
-                }
-
-                if (_self.newPwd != ''){
-
-                    if(_self.currentPwd.value == ''){
-                        _self.currentPwd.hasError = true;
-                        return false;
-                    }else{
-                        _self.currentPwd.hasError = false;
+                    if(_self.newPwd.value != ''){
                         formData.append('currentPwd',_self.currentPwd.value);
+                        formData.append('newPwd',_self.newPwd.value);                        
                     }
 
-                    if (_self.currentPwd.value == _self.newPwd.value){
-                        _self.newPwd.hasError = true;
+                    axios.post('/api/profile',formData)
+                        .then(function(res){
+                            if (res.data.status == 400){
+                                _self.currentPwd.hasError = true;
+                                _self.currentPwd.errorText = "当前密码错误";
+                            }else{
+                                sweetAlert.success();
+                                _self.resetData();
+                            }
+                        })
+                        .catch(function (err) {
+                            sweetAlert.error();
+                        })
+                }
+        	},
+            validateData() {
+                if (this.userName.value == ''){
+                     this.userName.hasError = true;
+                    return false;
+                }
+
+                if (this.userBio.value == ''){
+                    this.userBio.hasError = true;
+                    return false;
+                }
+
+                if (this.newPwd.value != ''){
+                    if(this.currentPwd.value == ''){
+                        this.currentPwd.hasError = true;
+                        this.currentPwd.errorText = "当前密码不能为空";
                         return false;
                     }
-
-                    if (_self.newPwd.value != _self.newPwdConfirm.value){
-                        _self.newPwdConfirm.hasError = true;
+                    if (this.currentPwd.value == this.newPwd.value){
+                        this.newPwd.hasError = true;
                         return false;
-                    }else{
-                        _self.newPwd.hasError = false;
-                        _self.newPwdConfirm.hasError = false;
-                        formData.append('newPwd',_self.newPwd.value);
+                    }
+                    if (this.newPwd.value != this.newPwdConfirm.value){
+                        this.newPwdConfirm.hasError = true;
+                        return false;
                     }
                 }
-        	}
+                return true;
+            },
+            clearError() {
+                this.userName.hasError = false;
+                this.newPwd.hasError = false;
+                this.newPwdConfirm.hasError = false;
+                this.userBio.hasError = false;
+                this.currentPwd.hasError = false;
+            },
+            clearInput() {
+                this.newPwd.value = '';
+                this.newPwdConfirm.value = '';
+                this.currentPwd.value = '';
+            }
         }
     }
 </script>

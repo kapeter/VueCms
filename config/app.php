@@ -12,11 +12,11 @@ return [
     | any other location as required by the application or its packages.
     */
 
-    'name' => 'Kapeter',
+    'name' => env('APP_NAME', 'VueCMS'),
 
-    'author' => 'kapeter',
+    'author' => 'Kapeter',
 
-    'description' => 'kapeter',
+    'description' => env('APP_DESCRIPTION', 'VueCMS'),
 
     /*
     |--------------------------------------------------------------------------

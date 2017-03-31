@@ -146,44 +146,44 @@
             <!-- Dashboard Cards -->
             <div class="row">
                 <div class="col-lg-4">
-                    <!-- Add Friend -->
-                    <div class="bg-image" style="background-image: url('assets/img/photos/photo29.jpg');">
-                        <div class="bg-black-op">
-                            <div class="block block-themed block-transparent">
-                                <div class="block-header">
-                                    <h3 class="block-title text-center">Friend Suggestion</h3>
-                                </div>
-                                <div class="block-content text-center">
-                                    <div class="push">
-                                        <img class="img-avatar img-avatar96 img-avatar-thumb" src="assets/img/avatars/avatar10.jpg" alt="">
-                                    </div>
-                                    <h3 class="font-w300 text-white">Eugene Burke</h3>
-                                </div>
-                                <div class="block-content block-content-full text-center">
-                                    <a class="btn btn-sm btn-default" href="javascript:void(0)">
-                                        <i class="fa fa-fw fa-plus text-success"></i> Add friend
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- END Add Friend -->
-                </div>
-                <div class="col-lg-4">
                     <!-- Category -->
-                    <div class="bg-image" style="background-image: url('assets/img/photos/photo28.jpg');">
+                    <div class="bg-image" style="background-image: url('/img/photo29.jpg');">
                         <div class="bg-black-op">
                             <div class="block block-themed block-transparent">
                                 <div class="block-header">
                                     <ul class="block-options">
                                         <li>
-                                            <button type="button"><i class="si si-settings"></i></button>
+                                            <button type="button"><i class="si si-refresh"></i></button>
                                         </li>
                                     </ul>
-                                    <h3 class="block-title">Category</h3>
+                                    <h3 class="block-title">最新文章</h3>
                                 </div>
-                                <div class="block-content block-content-full text-center push-50-t push-50">
-                                    <a class="h1 font-w300 text-white" href="javascript:void(0)">Photography</a>
+                                <div class="block-content block-content-full text-center new-block">
+                                    <a class="h4 font-w300 text-white" href="javascript:void(0)">永远相信美好的事即将发生</a>
+                                </div>
+                                <div class="block-content block-content-full text-center">
+                                    <span class="text-white-op"><em>Updated 10 hours ago</em></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END Category -->
+                </div>
+                <div class="col-lg-4">
+                    <!-- Category -->
+                    <div class="bg-image" style="background-image: url('/img/photo28.jpg');">
+                        <div class="bg-black-op">
+                            <div class="block block-themed block-transparent">
+                                <div class="block-header">
+                                    <ul class="block-options">
+                                        <li>
+                                            <button type="button"><i class="si si-refresh"></i></button>
+                                        </li>
+                                    </ul>
+                                    <h3 class="block-title">最新图像</h3>
+                                </div>
+                                <div class="block-content block-content-full text-center new-block">
+                                    <a class="h4 font-w300 text-white" href="javascript:void(0)">永远相信美好的事即将发生</a>
                                 </div>
                                 <div class="block-content block-content-full text-center">
                                     <span class="text-white-op"><em>Updated 10 hours ago</em></span>
@@ -195,28 +195,25 @@
                 </div>
                 <div class="col-lg-4">
                     <!-- Weather -->
-                    <div class="block">
-                        <div class="bg-image" style="background-image: url('assets/img/photos/photo33.jpg');">
-                            <div class="bg-black-op">
-                                <div class="block-content text-center">
-                                    <h3 class="h2 font-w300 text-uppercase text-white push-50-t">San Francisco</h3>
-                                    <h4 class="h5 text-white-op push-50">California, US</h4>
+                    <div class="bg-image" style="background-image: url('/img/photo33.jpg');">
+                        <div class="bg-black-op">
+                            <div class="block block-themed block-transparent">
+                                <div class="block-header">
+                                    <ul class="block-options">
+                                        <li>
+                                            <button type="button"><i class="si si-refresh"></i></button>
+                                        </li>
+                                        <li>
+                                            <button type="button"><i class="si si-action-redo"></i></button>
+                                        </li>
+                                    </ul>
+                                    <h3 class="block-title">最新项目</h3>
                                 </div>
-                                <div class="block-content block-content-full text-center bg-black-op">
-                                    <div class="row push-5-t push-5">
-                                        <div class="col-xs-4">
-                                            <div class="h2 font-w300 text-white">24&deg;C</div>
-                                            <div class="h5 text-muted push-5-t">MON</div>
-                                        </div>
-                                        <div class="col-xs-4">
-                                            <div class="h2 font-w300 text-white">26&deg;C</div>
-                                            <div class="h5 text-muted push-5-t">TUE</div>
-                                        </div>
-                                        <div class="col-xs-4">
-                                            <div class="h2 font-w300 text-white">25&deg;C</div>
-                                            <div class="h5 text-muted push-5-t">WED</div>
-                                        </div>
-                                    </div>
+                                <div class="block-content block-content-full text-center new-block">
+                                    <a class="h4 font-w300 text-white" href="javascript:void(0)">永远相信美好的事即将发生,永远相信美好的事即将发生</a>
+                                </div>
+                                <div class="block-content block-content-full text-center">
+                                    <span class="text-white-op"><em>Updated 10 hours ago</em></span>
                                 </div>
                             </div>
                         </div>
@@ -254,4 +251,15 @@
         }
     }
 </script>
+
+<style>
+   .new-block{
+        height: 80px;
+        margin: 50px;
+   } 
+   .new-block > .h4{
+        line-height: 1.5;
+        letter-spacing: 1px;
+   }
+</style>
 

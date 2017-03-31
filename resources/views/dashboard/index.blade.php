@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>{{ config('app.name') }} > Dashboard</title>
+	<title>Dashboard - {{ config('app.name') }}</title>
 	<meta name="csrf-token" content="{{ csrf_token() }}">
 	<meta name="description" content="{{ config('app.description') }}">
 	<meta name="author" content="{{ config('app.author') }}">
