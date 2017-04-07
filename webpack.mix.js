@@ -12,8 +12,8 @@ const { mix } = require('laravel-mix');
  */
 
 
-mix.copy('resources/assets/fonts','public/fonts');
-mix.copy('resources/assets/img','public/img');
+mix.copyDirectory('resources/assets/fonts','public/fonts');
+mix.copyDirectory('resources/assets/img','public/img');
 
 //封装OneUI的CSS和JS
 mix.combine(['resources/assets/css/simplemde.css'],'public/css/simplemde.css');
@@ -38,7 +38,7 @@ mix.js([
     'resources/assets/js/plugins/common.js',    
 ], 'public/js/oneui.js');
 
-mix.copy('resources/assets/js/plugins/','public/js/plugins/',false);
+mix.copyDirectory('resources/assets/js/plugins','public/js/plugins');
 
 
 mix.js('resources/assets/js/app.js', 'public/js');

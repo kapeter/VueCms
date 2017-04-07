@@ -1,6 +1,13 @@
 import Dashboard from './views/dashboard/Dashboard.vue'
 import Parent from './views/dashboard/Parent.vue'
 
+const showPost = r => require.ensure([], () => r(require('./views/dashboard/post/Index.vue')), 'post')
+const createPost = r => require.ensure([], () => r(require('./views/dashboard/post/Create.vue')), 'post')
+const editPost = r => require.ensure([], () => r(require('./views/dashboard/post/Edit.vue')), 'post')
+
+const category = r => require.ensure([], () => r(require('./views/dashboard/setting/Category.vue')), 'setting')
+const system = r => require.ensure([], () => r(require('./views/dashboard/setting/System.vue')), 'setting')
+
 export default [
     {
         path: '/dashboard',
@@ -8,7 +15,7 @@ export default [
         children: [
             {
                 path: '/',
-                component: resolve => require(['./views/dashboard/home/Index.vue'], resolve)
+                component: require('./views/dashboard/home/Index.vue')
             },
             {
                 path: 'post',
@@ -17,23 +24,23 @@ export default [
                     {
                         path: '/',
                         name: 'showPost',
-                        component: resolve => require(['./views/dashboard/post/Index.vue'], resolve) 
+                        component: showPost
                     },
                     {
                         path: 'create',
                         name: 'createPost',
-                        component: resolve => require(['./views/dashboard/post/Create.vue'], resolve)
+                        component: createPost
                     },
                     {
                         path: ':id/edit',
                         name: 'editPost',
-                        component: resolve => require(['./views/dashboard/post/Edit.vue'], resolve)
+                        component: editPost
                     }
                 ]
             },
             {
                 path: 'profile',
-                component: resolve => require(['./views/dashboard/profile/Index.vue'], resolve)
+                component: require('./views/dashboard/profile/Index.vue')
             },
             {
                 path: 'setting',
@@ -41,17 +48,18 @@ export default [
                 children: [
                     {
                         path: 'category',
-                        component: resolve => require(['./views/dashboard/setting/Category.vue'], resolve) 
+                        name: 'category',
+                        component: category
                     },
                     {
                         path: 'system',
-                        component: resolve => require(['./views/dashboard/setting/System.vue'], resolve)
+                        component: system
                     },
                 ]
             },
             {
                 path: '*',
-                component: resolve => require(['./views/dashboard/error/404.vue'], resolve)
+                component: require('./views/dashboard/error/404.vue')
             }
         ]
     }
