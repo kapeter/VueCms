@@ -43,6 +43,8 @@ Vue.component(
     'vue-form', require('./components/dashboard/Form.vue')
 );
 
+const store = new Vuex.Store(storeObj);
+
 const router = new VueRouter({
 	mode: 'history',
 	base: __dirname,
@@ -50,7 +52,10 @@ const router = new VueRouter({
 	routes: routes
 })
 
-const store = new Vuex.Store(storeObj);
+router.beforeEach((to, from, next) => {
+    console.log(routes)
+    next();
+})
 
 
 window.VM = new Vue(Vue.util.extend({ router, store }, App));

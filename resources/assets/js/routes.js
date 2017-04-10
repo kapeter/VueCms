@@ -1,6 +1,7 @@
 import Dashboard from './views/dashboard/Dashboard.vue'
 import Parent from './views/dashboard/Parent.vue'
 
+//post
 const showPost = r => require.ensure([], () => r(require('./views/dashboard/post/Index.vue')), 'post')
 const createPost = r => require.ensure([], () => r(require('./views/dashboard/post/Create.vue')), 'post')
 const editPost = r => require.ensure([], () => r(require('./views/dashboard/post/Edit.vue')), 'post')
@@ -15,6 +16,9 @@ export default [
         children: [
             {
                 path: '/',
+                meta: {
+                    breadcrumb: '仪表盘',
+                },
                 component: require('./views/dashboard/home/Index.vue')
             },
             {
@@ -24,16 +28,25 @@ export default [
                     {
                         path: '/',
                         name: 'showPost',
+                        meta: {
+                            breadcrumb: '所有文章',
+                        },
                         component: showPost
                     },
                     {
                         path: 'create',
                         name: 'createPost',
+                        meta: {
+                            breadcrumb: '写文章',
+                        },
                         component: createPost
                     },
                     {
                         path: ':id/edit',
                         name: 'editPost',
+                        meta: {
+                            breadcrumb: '编辑文章',
+                        },
                         component: editPost
                     }
                 ]

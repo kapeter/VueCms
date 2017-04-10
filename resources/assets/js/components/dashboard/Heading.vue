@@ -9,8 +9,11 @@
             </div>
             <div class="col-sm-5 text-right hidden-xs">
                 <ol class="breadcrumb push-10-t">
-                    <li>UI Elements</li>
-                    <li><a class="link-effect" href="">Widgets</a></li>
+                    <li v-for = "(crumb, index) in thisCrumbs">
+                        <i class="si si-speedometer crumb-head" v-if="index == 0"></i>
+                        <router-link :to="crumb.link" exact v-if= "index != thisCrumbs.length - 1" class="link-effect"> {{ crumb.name }}</router-link>
+                        <span v-else>{{ crumb.name }}</span>
+                    </li>
                 </ol>
             </div>
         </div>
@@ -28,6 +31,19 @@
 			subTitle: {
 				type: String
 			}
-		}
+		},
+        computed: {
+            thisCrumbs() {
+                return this.$store.state.crumbs;
+            }
+        },
 	}
 </script>
+
+<style>
+    .crumb-head{
+        width: 20px;
+        display: inline-block;
+        text-align: center;
+    }
+</style>

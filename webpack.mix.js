@@ -10,10 +10,9 @@ const { mix } = require('laravel-mix');
  | file for the application as well as bundling up all the JS files.
  |
  */
-
-
 mix.copyDirectory('resources/assets/fonts','public/fonts');
 mix.copyDirectory('resources/assets/img','public/img');
+mix.copyDirectory('resources/assets/js/plugins','public/js/plugins');
 
 //封装OneUI的CSS和JS
 mix.combine(['resources/assets/css/simplemde.css'],'public/css/simplemde.css');
@@ -38,7 +37,7 @@ mix.js([
     'resources/assets/js/plugins/common.js',    
 ], 'public/js/oneui.js');
 
-mix.copyDirectory('resources/assets/js/plugins','public/js/plugins');
-
-
-mix.js('resources/assets/js/app.js', 'public/js');
+mix.js('resources/assets/js/app.js', 'public/js')
+    .webpackConfig({
+        output: { chunkFilename: 'js/chunks/[name].chunk.js', publicPath: '/' }
+    });
