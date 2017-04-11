@@ -20,9 +20,9 @@
                 <!-- Side Content -->
                 <div class="side-content">
                     <ul class="nav-main">
-                        <li v-for= "menu in menus" :class = "{ 'nav-main-heading' : !('icon' in menu) }">
+                        <li v-for= "menu in menus" :class = "{ 'nav-main-heading' : !('icon' in menu), 'open' : ('isOpen' in menu && menu.isOpen) }">
 
-                            <a v-if=" 'children' in menu " href="javascript:;" class="nav-submenu" data-toggle='nav-submenu'>
+                            <a v-if=" 'children' in menu " href="javascript:;" class="nav-submenu" @click="toggleSubMenu(menu)">
                                 <i :class="menu.icon"></i><span class="sidebar-mini-hide">{{ menu.name }}</span>
                             </a>
                             
@@ -57,6 +57,16 @@
                 menus: menus,
             }
         },
+        methods: {
+            toggleSubMenu(menu) {
+                menu.isOpen = !menu.isOpen;
+                for (let i = 0; i<this.menus.length; i++){
+                    if ('isOpen' in this.menus[i] && this.menus[i].name != menu.name){
+                        this.menus[i].isOpen = false;
+                    }
+                }
+            }
+        }
 
     }
 </script>

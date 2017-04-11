@@ -10,6 +10,7 @@ export default [
     {
     	name : '文章管理',
     	icon : 'si si-book-open',
+        isOpen : false,
     	children : [
     		{
     			name : '文章列表',
@@ -39,8 +40,6 @@ export default [
     {
         name : 'System Interface',
     },
-
-
     {
         name : '分类目录',
         icon : 'si si-grid',

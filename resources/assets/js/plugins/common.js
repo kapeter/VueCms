@@ -294,37 +294,6 @@ var App = function() {
         }
     };
 
-    // Main navigation functionality
-    var uiNav = function() {
-        // When a submenu link is clicked
-        jQuery('[data-toggle="nav-submenu"]').on('click', function(e){
-            // Get link
-            var $link = jQuery(this);
-
-            // Get link's parent
-            var $parentLi = $link.parent('li');
-
-            if ($parentLi.hasClass('open')) { // If submenu is open, close it..
-                $parentLi.removeClass('open');
-            } else { // .. else if submenu is closed, close all other (same level) submenus first before open it
-                $link
-                    .closest('ul')
-                    .find('> li')
-                    .removeClass('open');
-
-                $parentLi
-                    .addClass('open');
-            }
-
-            // Remove focus from submenu link
-            if ($lHtml.hasClass('no-focus')) {
-                $link.blur();
-            }
-
-            return false;
-        });
-    };
-
     // Blocks options functionality
     var uiBlocks = function() {
         // Init default icons fullscreen and content toggle buttons
@@ -1159,9 +1128,6 @@ var App = function() {
                 case 'uiLayout':
                     uiLayout();
                     break;
-                case 'uiNav':
-                    uiNav();
-                    break;
                 case 'uiBlocks':
                     uiBlocks();
                     break;
@@ -1187,7 +1153,6 @@ var App = function() {
                     // Init all vital functions
                     uiInit();
                     uiLayout();
-                    uiNav();
                     uiBlocks();
                     uiForms();
                     uiHandleTheme();
