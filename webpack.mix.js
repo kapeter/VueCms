@@ -32,8 +32,6 @@ mix.js([
     'resources/assets/js/plugins/jquery.slimscroll.min.js',
     'resources/assets/js/plugins/jquery.scrollLock.min.js',
     'resources/assets/js/plugins/jquery.appear.min.js',
-    'resources/assets/js/plugins/jquery.placeholder.min.js',
-    'resources/assets/js/plugins/js.cookie.min.js',
     'resources/assets/js/plugins/common.js',    
 ], 'public/js/oneui.js');
 

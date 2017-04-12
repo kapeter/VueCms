@@ -5,7 +5,7 @@
 	     	<div class="block block-bordered">
 	     		<div class="block-header">
 	     			<div class="row">
-	     				<div class="col-sm-6">
+	     				<div class="col-sm-6 filter-bar">
 		     				<filter-bar></filter-bar>
 		     			</div>
 		     			<div class="col-sm-6">
@@ -17,21 +17,23 @@
 	     		</div>
 
 	     		<div class="block-content">
-					<vuetable ref="vuetable"
-					    api-url="/api/post"
-					    :fields="fields"
-					    :sort-order="sortOrder"
-					    @vuetable:pagination-data="onPaginationData"
-					    :append-params="moreParams">
-						<template slot="actions" scope="props">
-					    	<div class="custom-actions">
-	        					<button class="btn btn-sm btn-default" @click="itemAction('edit-item', props.rowData)"><i class="fa fa-pencil"></i></button>
-	        					<button class="btn btn-sm btn-danger" @click="itemAction('delete-item', props.rowData)"><i class="fa fa-times"></i></button>
-					    	</div>
-					    </template>
-					</vuetable> 
+	     			<div class="table-responsive">
+						<vuetable ref="vuetable"
+						    api-url="/api/post"
+						    :fields="fields"
+						    :sort-order="sortOrder"
+						    @vuetable:pagination-data="onPaginationData"
+						    :append-params="moreParams">
+							<template slot="actions" scope="props">
+						    	<div class="custom-actions">
+		        					<button class="btn btn-sm btn-default" @click="itemAction('edit-item', props.rowData)"><i class="fa fa-pencil"></i> 编辑</button>
+		        					<button class="btn btn-sm btn-danger" @click="itemAction('delete-item', props.rowData)"><i class="fa fa-times"></i> 删除</button>
+						    	</div>
+						    </template>
+						</vuetable> 
+					</div>
 					<div class="row">
-						<div class="col-sm-6">
+						<div class="col-sm-6 pagination-info">
 							<vuetable-pagination-info ref="paginationInfo" info-class="pagination-info"></vuetable-pagination-info>
 						</div>
 						<div class="col-sm-6">
@@ -98,20 +100,20 @@
 		    }
 		},
 		mounted() {
-			VM.$on('filter-set', (filterText) => {
+			eventBus.$on('filter-set', (filterText) => {
 		      	this.moreParams = {
 		        	filter: filterText
 		      	};
 		      	Vue.nextTick( () => this.$refs.vuetable.refresh() );
 		    });
-		    VM.$on('filter-reset', () => {
+		    eventBus.$on('filter-reset', () => {
 		      	this.moreParams = {};
 		      	Vue.nextTick( () => this.$refs.vuetable.refresh() );
 		    });
 		},
 		beforeDestroy() {
-			VM.$off('filter-set');
-			VM.$off('filter-reset');
+			eventBus.$off('filter-set');
+			eventBus.$off('filter-reset');
 		},
         methods: {
         	dateFormat (value) {
@@ -173,6 +175,14 @@
 	.label{
 		font-weight: normal;
 		padding: 3px 7px;
+	}
+	.pagination-info,.filter-bar{
+		display: none;
+	}
+	@media screen and (min-width: 768px) {
+		.pagination-info,.filter-bar{
+			display: block;
+		}
 	}
 </style>
 

@@ -17,12 +17,12 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Vuex from 'vuex'
 
-Vue.use(VueRouter)
-Vue.use(Vuex)
-
 import routes from './routes.js'
 import storeObj from './store.js'
 import App from './App.vue'
+
+Vue.use(VueRouter)
+Vue.use(Vuex)
 
 Vue.component(
     'page-heading', require('./components/dashboard/Heading.vue')
@@ -53,12 +53,14 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-    console.log(routes)
+    console.log(routes[0])
     next();
 })
 
+window.eventBus = new Vue();
 
-window.VM = new Vue(Vue.util.extend({ router, store }, App));
-
-VM.$mount('#app');
-
+new Vue({
+    store,
+    router,
+    render: h => h(App)
+}).$mount('#app');

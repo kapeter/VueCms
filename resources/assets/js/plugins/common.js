@@ -52,9 +52,6 @@ var App = function() {
             e.preventDefault();
             jQuery(this).tab('show');
         });
-
-        // Init form placeholder (for IE9)
-        $('.form-control').placeholder();
     };
 
     // Layout functionality

@@ -13,7 +13,7 @@
                     <div class="form-group">
                         <div class="col-sm-6 col-sm-offset-3">
                             <div class="input-group input-group-lg">
-                                <input class="form-control" type="text" placeholder="Search application..">
+                                <input class="form-control" type="text" placeholder="Search..">
                                 <div class="input-group-btn">
                                     <button class="btn btn-default"><i class="fa fa-search"></i></button>
                                 </div>

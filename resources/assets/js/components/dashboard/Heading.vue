@@ -37,6 +37,8 @@
                 return this.$store.state.crumbs;
             }
         },
+        mounted() {
+        }
 	}
 </script>
 

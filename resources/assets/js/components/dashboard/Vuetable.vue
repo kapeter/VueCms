@@ -104,10 +104,6 @@
 </template>
 
 <script>
-import Vue from 'vue'
-import VueResource from 'vue-resource'
-Vue.use(VueResource)
-
 export default {
   props: {
     fields: {
@@ -312,15 +308,14 @@ export default {
 
       this.httpOptions['params'] = this.getAllQueryParams()
 
-      Vue.http.get(this.apiUrl, this.httpOptions).then(
-        success,
-        failed
-      )
+      axios.get(this.apiUrl, this.httpOptions)
+        .then(success)
+        .catch(failed);
     },
     loadSuccess: function(response) {
       this.fireEvent('load-success', response)
 
-      let body = this.transform(response.body)
+      let body = this.transform(response.data)
 
       this.tableData = this.getObjectValue(body, this.dataPath, null)
 

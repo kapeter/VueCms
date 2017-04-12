@@ -2,21 +2,36 @@
 	<div>
         <page-heading title="分类目录" subTitle="All Categories"></page-heading>
         <!-- Page Content -->
-        <div class="content content-boxed">
+        <div class="content">
             <!-- Frequently Asked Questions -->
             <div class="block">
+                <div class="block-header bg-gray-lighter">
+                    <ul class="block-options">
+                        <li>
+                            <button type="button"><i class="si si-refresh"></i></button>
+                        </li>
+                    </ul>
+                    <ul class="block-options block-options-left">
+                        <li>
+                            <a @click="openModal('newCategory')"><i class="fa fa-plus"></i> 新增目录</a>
+                        </li>
+                    </ul>
+                </div>
                 <div class="block-content block-content-full">
-                    <vuetable ref="vuetable"
-                        api-url="/api/category"
-                        :fields="fields"
-                        :append-params="moreParams">
-                        <template slot="actions" scope="props">
-                            <div class="custom-actions">
-                                <button class="btn btn-sm btn-default" @click="itemAction('edit-item', props.rowData)"><i class="fa fa-pencil"></i></button>
-                                <button class="btn btn-sm btn-danger" @click="itemAction('delete-item', props.rowData)"><i class="fa fa-times"></i></button>
-                            </div>
-                        </template>
-                    </vuetable> 
+                    <div class="table-responsive">
+                        <vuetable ref="vuetable"
+                            api-url="/api/category"
+                            :fields="fields"
+                            :css="css.table"
+                            :append-params="moreParams">
+                            <template slot="actions" scope="props">
+                                <div class="custom-actions">
+                                    <button class="btn btn-sm btn-default" @click="itemAction('edit-item', props.rowData)"><i class="fa fa-pencil"></i> 编辑</button>
+                                    <button class="btn btn-sm btn-danger" @click="itemAction('delete-item', props.rowData)"><i class="fa fa-times"></i> 删除</button>
+                                </div>
+                            </template>
+                        </vuetable> 
+                    </div>
                 </div>
             </div>
             <!-- END Frequently Asked Questions -->
@@ -31,9 +46,9 @@
             return {
                 fields: [
                     {
-                      title: '名称',
+                      title: '名称  /  唯一标识',
                       name: 'name',
-                      sortField: 'name',
+                      callback: 'devideName'
                     },
                     {
                       title: '模型',
@@ -44,8 +59,10 @@
                     {
                       title: '描述',
                       name: 'description',
-                      titleClass: 'text-center',
-                      dataClass: 'text-center',
+                    },
+                    {
+                      name: 'updated_at',
+                      title: '最新发表',
                     },
                     {
                       name: '__slot:actions',
@@ -54,19 +71,19 @@
                       dataClass: 'text-center'
                     }
                 ],
+                css: {
+                    table: {
+                      tableClass: 'table table-striped table-borderless table-vcenter',
+                    },
+                },
                 moreParams: {},
             }
         },
         methods: {
-            dateFormat (value) {
-                return (value == null) ? '' : value.date.substring(0,10);
+            devideName (value) {
+                let valArr = value.split('|');
+                return '<h4 class="h5 push-5 text-primary">'+valArr[0]+'</h4><div class="font-s13 text-muted">/ '+valArr[1]+'</div>';
             },
-            publishedLabel(value) {
-                return value != null
-                    ? '<span class="label label-info"><i class="fa fa-check"></i> 已发布</span>'
-                    : '<span class="label label-warning"><i class="fa fa-exclamation-triangle"></i> 未发布</span>'
-            },
-
             deleteSuccess() {
                 Vue.nextTick( () => this.$refs.vuetable.refresh() )
             },
