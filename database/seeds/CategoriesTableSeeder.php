@@ -30,5 +30,14 @@ class CategoriesTableSeeder extends Seeder
             'created_at'  => Carbon::now(),
             'updated_at'  => Carbon::now()
         ]);
+        DB::table('categories')->insert([
+            'name' => '唯美风景',
+            'parent_id' => 0,
+            'model' => 'image',
+            'slug' => 'backend',
+            'description' => '永远相信美好的事情即将发生',
+            'created_at'  => Carbon::now(),
+            'updated_at'  => Carbon::now()
+        ]);
     }
 }

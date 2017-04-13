@@ -1,6 +1,6 @@
 <template>
 	<div>
-        <page-heading title="分类目录" subTitle="All Categories"></page-heading>
+        <page-heading title="分类目录" subTitle="All Categories" :crumbs="crumbs"></page-heading>
         <!-- Page Content -->
         <div class="content">
             <!-- Frequently Asked Questions -->
@@ -23,6 +23,7 @@
                             api-url="/api/category"
                             :fields="fields"
                             :css="css.table"
+                            @vuetable:pagination-data="onPaginationData"
                             :append-params="moreParams">
                             <template slot="actions" scope="props">
                                 <div class="custom-actions">
@@ -31,6 +32,9 @@
                                 </div>
                             </template>
                         </vuetable> 
+                        <nav class="text-right">
+                            <vuetable-pagination ref="pagination" @vuetable-pagination:change-page="onChangePage"></vuetable-pagination>
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -44,6 +48,9 @@
     export default {
         data () {
             return {
+                crumbs: [
+                    {to: null, text: '分类目录'},
+                ],
                 fields: [
                     {
                       title: '名称  /  唯一标识',
@@ -86,6 +93,12 @@
             },
             deleteSuccess() {
                 Vue.nextTick( () => this.$refs.vuetable.refresh() )
+            },
+            onPaginationData (paginationData) {
+                this.$refs.pagination.setPaginationData(paginationData);
+            },
+            onChangePage (page) {
+                this.$refs.vuetable.changePage(page)
             },
             itemAction (action, data) {
                 if (action == 'delete-item'){

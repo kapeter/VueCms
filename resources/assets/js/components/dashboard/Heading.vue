@@ -8,13 +8,14 @@
                 </h1>
             </div>
             <div class="col-sm-5 text-right hidden-xs">
-                <ol class="breadcrumb push-10-t">
-                    <li v-for = "(crumb, index) in thisCrumbs">
-                        <i class="si si-speedometer crumb-head" v-if="index == 0"></i>
-                        <router-link :to="crumb.link" exact v-if= "index != thisCrumbs.length - 1" class="link-effect"> {{ crumb.name }}</router-link>
-                        <span v-else>{{ crumb.name }}</span>
+                <Breadcrumb>
+                    <li>
+                        <BreadcrumbItem :to="{ path: '/dashboard' }"><i class="si si-speedometer crumb-head"></i> 首页</BreadcrumbItem>
                     </li>
-                </ol>
+                    <li v-for="crumb in crumbs" class="el-breadcrumb__item">
+                        <BreadcrumbItem :to="{ path: crumb.to }">{{ crumb.text }}</BreadcrumbItem>
+                    </li>
+                </Breadcrumb>
             </div>
         </div>
     </div>
@@ -22,7 +23,14 @@
 </template>
 
 <script>
+    import Breadcrumb from '../../packages/breadcrumb';
+    import BreadcrumbItem from '../../packages/breadcrumb-item';
+
 	export default {
+        components: {
+            Breadcrumb,
+            BreadcrumbItem,
+        },
 		props: {
 			title: {
 				type: String,
@@ -30,7 +38,10 @@
 			},
 			subTitle: {
 				type: String
-			}
+			},
+            crumbs: {
+                type: Array
+            }
 		},
         computed: {
             thisCrumbs() {

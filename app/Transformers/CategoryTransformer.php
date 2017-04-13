@@ -13,6 +13,7 @@ class CategoryTransformer extends TransformerAbstract
             'name'          => $category['name'].'|'.$category['slug'],
             'parent_id'     => $category['parent_id'],
 	        'model'         => $category['model'],
+            'count'         => $category['count'],
 	        'description'   => $category['description'],
 	        'updated_at'    => $category['updated_at'],
             'created_at'    => $category['created_at']

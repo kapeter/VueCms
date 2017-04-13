@@ -28,11 +28,6 @@ export default [
         uri  : '/dashboard/media',
     },
     {
-        name : '个人中心',
-        icon : 'si si-user',
-        uri  : '/dashboard/profile',
-    },
-    {
         name : '回收站',
         icon : 'si si-trash',
         uri  : '/dashboard/trash',

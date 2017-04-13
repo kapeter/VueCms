@@ -22,11 +22,11 @@ class CategoryController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $categories = $this->categoryRepository->all();
+        $categories = $this->categoryRepository->getPostByPaginate($request);
 
-        return $this->response->collection($categories, new CategoryTransformer);
+        return $this->response->paginator($categories, new CategoryTransformer);
     }
 
     /**

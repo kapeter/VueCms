@@ -1,17 +1,8 @@
 <template>
 	<div>
-        <page-heading title="写文章" subTitle="New Article"></page-heading>
+        <page-heading title="写文章" subTitle="New Article" :crumbs="crumbs"></page-heading>
         <div class="content">
- 			<vue-form ref="vueForm"
- 				url="post"
-				action="create"
-				:fields="fields"
-			>
-				<!-- 分类目录 -->
-				<div slot="form-category">
-					<p>dasssdasdasdas</p>
-				</div>
-
+ 			<vue-form ref="vueForm" url="post" action="create" :fields="fields">
  			</vue-form>
         </div>
 	</div>
@@ -21,6 +12,10 @@
 	export default {
 		data() {
 			return {
+		    	crumbs: [
+		    		{to: '/dashboard/post', text: '文章管理'},
+		    		{to: null, text: '写文章'},
+		    	],
 				fields: [
 					{
 						label: '标题',

@@ -52,11 +52,6 @@ const router = new VueRouter({
 	routes: routes
 })
 
-router.beforeEach((to, from, next) => {
-    console.log(routes[0])
-    next();
-})
-
 window.eventBus = new Vue();
 
 new Vue({

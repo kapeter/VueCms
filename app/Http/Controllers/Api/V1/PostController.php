@@ -45,7 +45,6 @@ class PostController extends BaseController
 
         $data = array_merge($request->all(),
             [
-                'category_id' => 1,
                 'slug' => $slug,                
                 'user_id' => $request->user->id,
                 'last_user_id' => $request->user->id,

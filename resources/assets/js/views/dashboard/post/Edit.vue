@@ -1,6 +1,6 @@
 <template>
 	<div>
-        <page-heading title="编辑文章" subTitle="Edit Article"></page-heading>
+        <page-heading title="编辑文章" subTitle="Edit Article" :crumbs="crumbs"></page-heading>
         <div class="content">
  			<vue-form ref="vueForm"
  				url="post"
@@ -21,6 +21,10 @@
 	export default {
 		data() {
 			return {
+		    	crumbs: [
+		    		{to: '/dashboard/post', text: '文章管理'},
+		    		{to: null, text: '编辑文章'},
+		    	],
 				fields: [
 					{
 						label: '标题',

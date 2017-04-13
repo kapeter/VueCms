@@ -91,7 +91,19 @@
 						<h3 class="block-title">分类目录</h3>
 					</div>
 					<div class="block-content">
-						<slot name="form-category"></slot>	
+						<!-- 分类目录 -->
+						<div class="form-category">
+						  	<RadioGroup v-model="categoryData">
+						    	<li v-for = "category in categories">
+						    		<Radio :label="category.id">
+						    			{{ category.name.split('|')[0] }}
+						    		</Radio>
+						    	</li>
+						    	<li>
+						    		<Radio :label="0">未分类</Radio>
+						    	</li>
+						  	</RadioGroup>
+						</div>
 					</div>
 				</div> 
 
@@ -102,8 +114,14 @@
 
 <script>
 	import { default as SimpleMDE } from 'simplemde/dist/simplemde.min.js'
+	import Radio from '../../packages/radio'
+    import RadioGroup from '../../packages/radio-group'
 	
 	export default {
+        components: {
+            Radio,
+            RadioGroup,
+        },
 		props: {
 		    fields: {
 		      	type: Array,
@@ -128,7 +146,9 @@
 				uID: '',
 				createdDate: '',
 				updatedDate: '',
-				publishedDate: ''
+				publishedDate: '',
+				categories: {},
+				categoryData: 0
         	}
         },
         computed: {
@@ -151,6 +171,7 @@
 			}else{
 				this.freshData();
 			}
+			this.getCategory();
 		},
 		methods: {
 			toggleBlock(name) {
@@ -158,37 +179,48 @@
 			},
 			backToIndex() {
 				let backPath = this.backUrl; 
-				VM.$router.push({ path: backPath });
+				this.$router.push({ path: backPath });
 			},
 			// submit
 			formSubmit(isPublish = false) {
-				for (let i = 0; i < this.fields.length; i++ ){
-					this.fields[i].error = false;
+				var _self = this;
+				for (let i = 0; i < _self.fields.length; i++ ){
+					_self.fields[i].error = false;
 				}
-				let param = this.serialize();
-				let backPath = this.backUrl; 
+				let param = _self.serialize();
+				let backPath = _self.backUrl; 
 				if ( param != false ){
 					if (isPublish){
 						param.append('isPublish', 'true');
 					}
+					param.append('category_id', _self.categoryData);
 
 					let submitUrl = '';
-					if (this.action == 'create'){
-						submitUrl = this.apiUrl;
+					if (_self.action == 'create'){
+						submitUrl = _self.apiUrl;
 					}else{
-						submitUrl = this.apiUrl + '/' + this.uID;
+						submitUrl = _self.apiUrl + '/' + _self.uID;
 						param.append('_method', 'PUT');
 					}
 					axios.post(submitUrl, param)
 						.then(function (res) {
 							sweetAlert.success();
-							VM.$router.push({ path: backPath });
+							_self.$router.push({ path: backPath });
 						})
 						.catch(function (error) {
 							sweetAlert.error();
 						    console.log(error);
 						});
 				}				
+			},
+			// get category list
+			getCategory() {
+				let _self = this;
+				let categoryUrl = '/api/category?model=' + _self.url;
+        		axios.get(categoryUrl)
+        			.then(function (response) {
+        				_self.categories = response.data.data;
+        			})
 			},
 			// get data if the action is edit
 			loadData() {
@@ -209,6 +241,7 @@
         				_self.createdDate = _self.dateFormat(data['created_at']);
         				_self.updatedDate = _self.dateFormat(data['updated_at']);
         				_self.publishedDate = _self.dateFormat(data['published_at']);
+        				_self.categoryData = data['category_id'];
         			});
 			},
 
@@ -310,6 +343,10 @@
 	.publish-status p{
 		margin-bottom: 10px;
 		line-height: 1.5;
+	}
+	.form-category li{
+		list-style: none;
+		margin-bottom: 10px;
 	}
 </style>
 

@@ -1,6 +1,6 @@
 <template>
 	<div>
-        <page-heading title="所有文章" subTitle="All Articles"></page-heading>
+        <page-heading title="所有文章" subTitle="All Articles" :crumbs="crumbs"></page-heading>
         <div class="content">
 	     	<div class="block block-bordered">
 	     		<div class="block-header">
@@ -58,6 +58,10 @@
 	    },
 		data () {
 		    return {
+		    	crumbs: [
+		    		{to: '/dashboard/post', text: '文章管理'},
+		    		{to: null, text: '所有文章'},
+		    	],
 		      	fields: [
 			        {
 			          title: '标题',
