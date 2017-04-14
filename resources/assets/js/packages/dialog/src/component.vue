@@ -1,23 +1,25 @@
 <template>
-  <transition name="dialog-fade">
+  <transition name="dialog-pop">
     <div class="el-dialog__wrapper" v-show="visible" @click.self="handleWrapperClick">
-      <div
-        class="el-dialog"
-        :class="[sizeClass, customClass]"
-        ref="dialog"
-        :style="style">
-        <div class="el-dialog__header">
-          <slot name="title">
-            <span class="el-dialog__title">{{title}}</span>
-          </slot>
-          <div class="el-dialog__headerbtn">
-            <i v-if="showClose" class="el-dialog__close el-icon el-icon-close" @click='close()'></i>
+      <div class="modal-dialog" :class="[sizeClass, customClass]" :style="style">
+        <div class="modal-content">
+          <div class="block block-themed" ref="dialog" >
+            <div class="block-header bg-primary-dark">
+              <ul class="block-options">
+                <li>
+                  <button v-if="showClose" @click='close()'><i class="si si-close"></i></button>
+                </li>
+              </ul>
+              <slot name="title">
+                <h3 class="block-title">{{title}}</h3>
+              </slot>
+            </div>
+            <div class="block-content" v-if="rendered"><slot></slot></div>
           </div>
-        </div>
-        <div class="el-dialog__body" v-if="rendered"><slot></slot></div>
-        <div class="el-dialog__footer" v-if="$slots.footer">
-          <slot name="footer"></slot>
-        </div>
+          <div class="modal-footer" v-if="$slots.footer">
+            <slot name="footer"></slot>
+          </div>
+        </div>        
       </div>
     </div>
   </transition>
@@ -80,7 +82,7 @@
 
       top: {
         type: String,
-        default: '15%'
+        default: '12%'
       }
     },
     data() {
@@ -137,3 +139,101 @@
     }
   };
 </script>
+
+<style>
+  .v-modal-enter {
+    animation:v-modal-in .12s ease-out;
+  }
+  .v-modal-leave {
+    animation:v-modal-out .12s ease-out forwards
+  }
+  @keyframes v-modal-in {
+    0% {
+      opacity:0
+    }
+  }
+  @keyframes v-modal-out {
+    100% {
+      opacity:0
+    }
+  }
+  .v-modal {
+    position:fixed;
+    left:0;
+    top:0;
+    width:100%;
+    height:100%;
+    opacity:.5;
+    background:#000
+  }
+  .el-dialog {
+    position:absolute;
+    left:50%;
+    -ms-transform:translateX(-50%);
+    transform:translateX(-50%);
+    background:#fff;
+    border-radius:2px;
+    box-shadow:0 1px 3px rgba(0,0,0,.3);
+    box-sizing:border-box;
+    margin-bottom:50px
+  }
+  .el-dialog--tiny {
+    width:30%
+  }
+  .el-dialog--small {
+    width:50%
+  }
+  .el-dialog--large {
+    width:90%
+  }
+  .el-dialog--full {
+    width:100%;
+    top:0;
+    margin-bottom:0;
+    height:100%;
+    overflow:auto
+  }
+  .el-dialog__wrapper {
+    top:0;
+    right:0;
+    bottom:0;
+    left:0;
+    position:fixed;
+    overflow:auto;
+    margin:0
+  }
+  .dialog-pop-enter-active {
+    animation:dialog-pop-in .12s ease-out;
+  }
+  .dialog-pop-leave-active {
+    animation:dialog-pop-out .12s ease-out;
+  }
+  @keyframes dialog-pop-in {
+    0% {
+      -webkit-transform: scale(0.9);
+      -ms-transform: scale(0.9);
+      transform: scale(0.9);
+      opacity:0
+    }
+    100% {
+      -webkit-transform: scale(1);
+      -ms-transform: scale(1);
+      transform: scale(1);
+      opacity:1
+    }
+  }
+  @keyframes dialog-pop-out {
+    0% {
+      -webkit-transform: scale(1);
+      -ms-transform: scale(1);
+      transform: scale(1);
+      opacity:1
+    }
+    100% {
+      -webkit-transform: scale(0.9);
+      -ms-transform: scale(0.9);
+      transform: scale(0.9);
+      opacity:0
+    }
+  }  
+</style>

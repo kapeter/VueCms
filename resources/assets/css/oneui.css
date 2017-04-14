@@ -2040,64 +2040,6 @@ a.list-group-item:focus {
 .js-table-sections-header.open + tbody {
   display: table-row-group;
 }
-.modal.fade .modal-dialog {
-  -webkit-transition: all 0.12s ease-out;
-  transition: all 0.12s ease-out;
-}
-.modal.fade .modal-dialog.modal-dialog-popin {
-  -webkit-transform: scale(1.1);
-  -ms-transform: scale(1.1);
-  transform: scale(1.1);
-}
-.modal.fade .modal-dialog.modal-dialog-popout {
-  -webkit-transform: scale(0.9);
-  -ms-transform: scale(0.9);
-  transform: scale(0.9);
-}
-.modal.fade .modal-dialog.modal-dialog-slideup {
-  -webkit-transform: translate(0, 10%);
-  -ms-transform: translate(0, 10%);
-  transform: translate(0, 10%);
-}
-.modal.fade .modal-dialog.modal-dialog-slideright {
-  -webkit-transform: translate(-10%, 0);
-  -ms-transform: translate(-10%, 0);
-  transform: translate(-10%, 0);
-}
-.modal.fade .modal-dialog.modal-dialog-slideleft {
-  -webkit-transform: translate(10%, 0);
-  -ms-transform: translate(10%, 0);
-  transform: translate(10%, 0);
-}
-.modal.fade .modal-dialog.modal-dialog-fromright {
-  -webkit-transform: translateX(25%) rotate(10deg) scale(0.9);
-  -ms-transform: translateX(25%) rotate(10deg) scale(0.9);
-  transform: translateX(25%) rotate(10deg) scale(0.9);
-}
-.modal.fade .modal-dialog.modal-dialog-fromleft {
-  -webkit-transform: translateX(-25%) rotate(-10deg) scale(0.9);
-  -ms-transform: translateX(-25%) rotate(-10deg) scale(0.9);
-  transform: translateX(-25%) rotate(-10deg) scale(0.9);
-}
-.modal.in .modal-dialog.modal-dialog-popin,
-.modal.in .modal-dialog.modal-dialog-popout {
-  -webkit-transform: scale(1);
-  -ms-transform: scale(1);
-  transform: scale(1);
-}
-.modal.in .modal-dialog.modal-dialog-slideup,
-.modal.in .modal-dialog.modal-dialog-slideright,
-.modal.in .modal-dialog.modal-dialog-slideleft {
-  -webkit-transform: translate(0, 0);
-  -ms-transform: translate(0, 0);
-  transform: translate(0, 0);
-}
-.modal.in .modal-dialog.modal-dialog-fromright,
-.modal.in .modal-dialog.modal-dialog-fromleft {
-  -webkit-transform: translateX(0) rotate(0) scale(1);
-  -ms-transform: translateX(0) rotate(0) scale(1);
-  transform: translateX(0) rotate(0) scale(1);
-}
 .modal-dialog.modal-dialog-top {
   margin-top: 0;
   padding: 0 !important;

@@ -26,7 +26,6 @@ class Category extends Model
         'name',
         'parent_id',
         'model',
-        'title',
         'slug',
         'description',
     ];

@@ -71,6 +71,8 @@ class CategoryController extends BaseController
      */
     public function destroy($id)
     {
-        //
+        $this->categoryRepository->destroy($id);
+
+        return $this->response->noContent()->setStatusCode(200);
     }
 }
