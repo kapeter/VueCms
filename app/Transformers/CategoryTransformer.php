@@ -10,7 +10,8 @@ class CategoryTransformer extends TransformerAbstract
     public function transform(Category $category) {
         return [
         	'id'   		    => $category['id'],
-            'name'          => $category['name'].'|'.$category['slug'],
+            'name'          => $category['name'],
+            'slug'          => $category['slug'],
             'parent_id'     => $category['parent_id'],
 	        'model'         => $category['model'],
             'detail'        => $category['detail'],

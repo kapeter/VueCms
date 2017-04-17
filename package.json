@@ -20,6 +20,7 @@
     "vuex": "^2.1.2"
   },
   "dependencies": {
+    "babel-plugin-component": "^0.9.1",
     "babel-preset-es2015": "^6.24.1",
     "element-ui": "^1.2.8"
   }

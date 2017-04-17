@@ -16,9 +16,6 @@ export default [
         children: [
             {
                 path: '/',
-                meta: {
-                    breadcrumb: '仪表盘',
-                },
                 component: require('./views/dashboard/home/Index.vue')
             },
             {
@@ -28,17 +25,11 @@ export default [
                     {
                         path: '/',
                         name: 'showPost',
-                        meta: {
-                            breadcrumb: '所有文章',
-                        },
                         component: showPost
                     },
                     {
                         path: 'create',
                         name: 'createPost',
-                        meta: {
-                            breadcrumb: '写文章',
-                        },
                         component: createPost
                     },
                     {

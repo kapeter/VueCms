@@ -37,7 +37,11 @@ class CategoryController extends BaseController
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+
+        $this->categoryRepository->store($data);
+
+        return $this->response->noContent()->setStatusCode(200);
     }
 
     /**
@@ -48,7 +52,9 @@ class CategoryController extends BaseController
      */
     public function show($id)
     {
-        //
+        $category = $this->categoryRepository->getById($id);
+
+        return $this->response->item($category, new CategoryTransformer);
     }
 
     /**

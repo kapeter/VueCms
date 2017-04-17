@@ -17,6 +17,7 @@ class PostTransformer extends TransformerAbstract
 	        'slug'          => $post['slug'],
 	        'cover_img'     => $post['cover_img'],
 	        'description'   => $post['description'],
+            'is_publish'    => isset($post['published_at']) ? true : false,
             'published_at'  => $post['published_at'],
 	        'updated_at'    => $post['updated_at'],
             'created_at'    => $post['created_at']

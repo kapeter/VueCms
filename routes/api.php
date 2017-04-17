@@ -32,6 +32,7 @@ $api->version('v1',['namespace' => 'App\Http\Controllers\Api\V1'], function ($ap
 
 	//Post
 	$api->resource('post','PostController');
+	$api->post('post/{id}/change','PostController@change');
 
 	//Category
 	$api->resource('category','CategoryController');

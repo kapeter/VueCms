@@ -17,12 +17,18 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Vuex from 'vuex'
 
-import routes from './routes.js'
-import storeObj from './store.js'
-import App from './App.vue'
-
 Vue.use(VueRouter)
 Vue.use(Vuex)
+
+
+import { Switch, Radio, RadioGroup, Option, Select } from 'element-ui'
+
+Vue.use(Select)
+Vue.use(Option)
+Vue.use(Radio)
+Vue.use(RadioGroup)
+Vue.use(Switch)
+
 
 Vue.component(
     'page-heading', require('./components/dashboard/Heading.vue')
@@ -43,6 +49,11 @@ Vue.component(
     'vue-form', require('./components/dashboard/Form.vue')
 );
 
+
+import routes from './routes.js'
+import storeObj from './store.js'
+import App from './App.vue'
+
 const store = new Vuex.Store(storeObj);
 
 const router = new VueRouter({
@@ -53,6 +64,7 @@ const router = new VueRouter({
 })
 
 window.eventBus = new Vue();
+
 
 new Vue({
     store,

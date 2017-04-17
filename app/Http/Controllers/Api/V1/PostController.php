@@ -113,4 +113,22 @@ class PostController extends BaseController
 
         return $this->response->noContent()->setStatusCode(200);
     }
+
+    /**
+     * Change the post's publish state
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function change(Request $request,$id)
+    {
+
+        $data = [
+            'published_at' => $request->is_publish ? Carbon::now() :null
+        ];
+
+        $this->postRepository->update($id,$data);
+
+        return $this->response->noContent()->setStatusCode(200);
+    }
 }

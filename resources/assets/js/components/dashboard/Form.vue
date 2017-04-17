@@ -72,7 +72,7 @@
 							</div>
 							<div class="col-sm-6">
 								<button class="btn btn-info pull-right" @click.prevent="formSubmit(true)">
-									{{ action == 'edit' ? '更 新' : '发 布' }}
+									<i class="fa fa-paper-plane"></i> {{ action == 'edit' ? '更 新' : '发 布' }}
 								</button>
 							</div>
 						</div>							
@@ -93,16 +93,14 @@
 					<div class="block-content">
 						<!-- 分类目录 -->
 						<div class="form-category">
-						  	<RadioGroup v-model="categoryData">
+						  	<el-radio-group v-model="categoryData">
 						    	<li v-for = "category in categories">
-						    		<Radio :label="category.id">
-						    			{{ category.name.split('|')[0] }}
-						    		</Radio>
+						    		<el-radio :label="category.id">
+						    			{{ category.name }}
+						    		</el-radio>
 						    	</li>
-						    	<li>
-						    		<Radio :label="0">未分类</Radio>
-						    	</li>
-						  	</RadioGroup>
+						    	<el-radio :label="0">未分类</el-radio>
+						  	</el-radio-group>
 						</div>
 					</div>
 				</div> 
@@ -114,14 +112,8 @@
 
 <script>
 	import { default as SimpleMDE } from 'simplemde/dist/simplemde.min.js'
-	import Radio from '../../packages/radio'
-    import RadioGroup from '../../packages/radio-group'
 	
 	export default {
-        components: {
-            Radio,
-            RadioGroup,
-        },
 		props: {
 		    fields: {
 		      	type: Array,

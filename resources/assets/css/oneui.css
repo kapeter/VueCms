@@ -460,7 +460,7 @@ button.text-warning:focus {
   opacity: .75;
 }
 .text-info {
-  color: #70b9eb;
+  color: #66ccff;
 }
 a.text-info:hover,
 a.text-info:active,
@@ -713,11 +713,11 @@ a.bg-warning:focus {
   background-color: #efa231;
 }
 .bg-info {
-  background-color: #70b9eb;
+  background-color: #66ccff;
 }
 a.bg-info:hover,
 a.bg-info:focus {
-  background-color: #43a3e5;
+  background-color: #70b9eb;
 }
 .bg-danger {
   background-color: #d26a5c;
@@ -1048,8 +1048,8 @@ fieldset[disabled] .btn-success.active {
 }
 .btn-info {
   color: #fff;
-  background-color: #70b9eb;
-  border-color: #43a3e5;
+  background-color: #66ccff;
+  border-color: #70b9eb;
 }
 .btn-info:focus,
 .btn-info.focus,
@@ -1255,7 +1255,7 @@ label {
   color: #aaa;
 }
 .form-control:focus {
-  border-color: #ccc;
+  border-color: #66ccff;
   background-color: #fcfcfc;
   -webkit-box-shadow: none;
   box-shadow: none;
@@ -6325,7 +6325,7 @@ a.block.block-link-hover3:active {
 .block > .nav-tabs > li.active > a,
 .block > .nav-tabs > li.active > a:hover,
 .block > .nav-tabs > li.active > a:focus {
-  color: #5c90d2;
+  color: #66ccff;
   background-color: #fff;
   border-color: transparent;
 }

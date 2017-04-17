@@ -24,6 +24,9 @@
 						    :sort-order="sortOrder"
 						    @vuetable:pagination-data="onPaginationData"
 						    :append-params="moreParams">
+							<template slot="publishSwitch" scope="props">
+								<el-switch v-model="props.rowData.is_publish" on-text="ON" off-text="OFF" @change="changePublish(props.rowData)"></el-switch>
+						    </template>
 							<template slot="actions" scope="props">
 						    	<div class="custom-actions">
 		        					<button class="btn btn-sm btn-default" @click="itemAction('edit-item', props.rowData)"><i class="fa fa-pencil"></i> 编辑</button>
@@ -75,16 +78,14 @@
 			          dataClass: 'text-center',
 			        },
 			        {
+			          name: '__slot:publishSwitch',
 			          title: '发布状态',
-			          name: 'published_at',
-			          sortField: 'published_at',
 			          titleClass: 'text-center',
-			          dataClass: 'text-center',
-			          callback: 'publishedLabel'
+			          dataClass: 'text-center'
 			        },
 			        {
-			          title: '最后修改',
-			          name: 'updated_at',
+			          title: '创建时间',
+			          name: 'created_at',
 			          sortField: 'updated_at',
 			          titleClass: 'text-center',
 			          dataClass: 'text-center',
@@ -98,7 +99,7 @@
 			        }
 		      	],
 		      	sortOrder: [
-		        	{ field: 'updated_at', sortField: 'updated_at', direction: 'desc'}
+		        	{ field: 'created_at', sortField: 'created_at', direction: 'desc'}
 		      	],
 		      	moreParams: {},
 		    }
@@ -123,11 +124,6 @@
         	dateFormat (value) {
         		return (value == null) ? '' : value.date.substring(0,10);
         	},
-        	publishedLabel(value) {
-        		return value != null
-			        ? '<span class="label label-info"><i class="fa fa-check"></i> 已发布</span>'
-			        : '<span class="label label-warning"><i class="fa fa-exclamation-triangle"></i> 未发布</span>'
-        	},
 		    onPaginationData (paginationData) {
 		      	this.$refs.pagination.setPaginationData(paginationData);
 		      	this.$refs.paginationInfo.setPaginationData(paginationData);
@@ -138,9 +134,16 @@
 		    deleteSuccess() {
 		    	Vue.nextTick( () => this.$refs.vuetable.refresh() )
 		    },
+		    changePublish(data) {
+		    	let _self = this;
+		    	axios.post('/api/post/'+data.id+'/change',{is_publish: data.is_publish})
+		    		.catch(function (res) {
+		    			sweetAlert.error();
+		    		})
+		    },
 	        itemAction (action, data) {
 	            if (action == 'delete-item'){
-	            	var _self = this;
+	            	let _self = this;
 	                sweetAlert({
 	                    title: "危险操作",
 	                    text: "您确认删除该项信息吗？",

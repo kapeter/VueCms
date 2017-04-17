@@ -20,11 +20,11 @@
     transition:color .15s linear;
   }
   .el-breadcrumb__item__inner a,.el-breadcrumb__item__inner{
-    color:#70b9eb;
+    color:#66ccff;
     cursor:pointer
   }
   .el-breadcrumb__item__inner a:hover,.el-breadcrumb__item__inner:hover{
-    color: #3169b1;
+    color: #4ca7e6;
   }
 
 </style>

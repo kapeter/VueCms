@@ -13,7 +13,7 @@
                     </ul>
                     <ul class="block-options block-options-left">
                         <li>
-                            <a @click="CreatedialogVisible = true"><i class="fa fa-plus"></i> 新增目录</a>
+                            <a @click="createDialog()"><i class="fa fa-plus"></i> 新增目录</a>
                         </li>
                     </ul>
                 </div>
@@ -25,6 +25,10 @@
                             :css="css.table"
                             @vuetable:pagination-data="onPaginationData"
                             :append-params="moreParams">
+                            <template slot="devideName" scope="props">
+                                <h4 class="h5 text-info">{{ props.rowData.name }}</h4>
+                                <span class="font-s13 text-muted">/ {{ props.rowData.slug }}</span>
+                            </template>
                             <template slot="recentLink" scope="props">
                                 <span v-if="props.rowData.detail.count == 0">无</span>
                                 <span v-else>
@@ -53,7 +57,7 @@
         <!-- END Page Content -->
 
         <!-- Create Model -->
-        <ElDialog title="新增目录" v-model="CreatedialogVisible" size="tiny">
+        <ElDialog title="新增目录" v-model="dialogVisible" size="tiny">
             <div class="form-horizontal">
                 <div class="form-group">
                     <label for="name" class="col-sm-2 control-label">目录名称</label>
@@ -70,7 +74,13 @@
                 <div class="form-group">
                     <label for="model" class="col-sm-2 control-label">所属模型</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" v-model="formData.model">
+                      <el-select v-model="formData.model" placeholder="请选择模型">
+                        <el-option
+                          v-for="item in models"
+                          :label="item.label"
+                          :value="item.value" :key="item.value">
+                        </el-option>
+                      </el-select>
                     </div>
                 </div>
                 <div class="form-group">
@@ -82,13 +92,21 @@
                 <div class="form-group">
                     <label for="parent" class="col-sm-2 control-label">父级目录</label>
                     <div class="col-sm-10">
-                        <textarea class="form-control" v-model="formData.parent_id" rows="3"></textarea>
+                        <el-select v-model="formData.parent_id" placeholder="请选择父级目录">
+                            <el-option label="无" :value="0"></el-option>
+                            <el-option
+                              v-for="parent in parentCategory"
+                              :label="parent.name"
+                              :value="parent.id" :key="parent.slug">
+                            </el-option>
+                            
+                        </el-select>
                     </div>
                 </div>
             </div>
           <span slot="footer">
-            <button class="btn btn-default" @click="CreatedialogVisible = false">取 消</button>
-            <button class="btn btn-primary" @click="dialogVisible = false">确 定</button>
+            <button class="btn btn-default" @click="dialogVisible = false">取 消</button>
+            <button class="btn btn-primary" @click="submitCategory()">确 定</button>
           </span>
         </ElDialog>
         <!-- END Create Model-->
@@ -97,16 +115,17 @@
 
 <script>
     import ElDialog from '../../../packages/dialog'
-    import Select from '../../../packages/select'
+    import models from '../../../config/models.js'
 
     export default {
         components: {
             ElDialog,
-            Select
         },
         data () {
             return {
-                CreatedialogVisible: false,
+                models: models,
+                parentCategory: [],
+                dialogVisible: false,
                 crumbs: [
                     {to: null, text: '分类目录'},
                 ],
@@ -115,12 +134,12 @@
                     model: '',
                     description: '',
                     slug: '',
+                    parent_id: ''
                 },
                 fields: [
                     {
                       title: '名称  /  唯一标识',
-                      name: 'name',
-                      callback: 'devideName'
+                      name: '__slot:devideName',
                     },
                     {
                       title: '模型',
@@ -157,10 +176,38 @@
                 moreParams: {},
             }
         },
+        mounted() {
+            let _self = this;
+            axios.get('/api/category')
+                .then(function (res) {
+                    _self.parentCategory = res.data.data;
+                })
+        },
         methods: {
-            devideName (value) {
-                let valArr = value.split('|');
-                return '<h4 class="h5 text-primary">'+valArr[0]+'</h4><span class="font-s13 text-muted">/ '+valArr[1]+'</span>';
+            createDialog() {
+                this.freshDialog();
+                this.dialogVisible = true;
+            },
+            freshDialog() {
+                this.formData = {
+                    name: '',
+                    model: '',
+                    description: '',
+                    slug: '',
+                    parent_id: ''
+                };
+            },
+            setCategoryData(data) {
+                this.formData = {
+                    name: data.name,
+                    model: data.model,
+                    description: data.description,
+                    slug: data.slug,
+                    parent_id: data.parent_id
+                };
+            },
+            submitCategory() {
+
             },
             turnToEdit(model,id) {
                 this.$router.push({ path: '/dashboard/'+model+'/'+id+'/edit' });
@@ -175,8 +222,9 @@
                 this.$refs.vuetable.changePage(page)
             },
             itemAction (action, data) {
+                let _self = this;
                 if (action == 'delete-item'){
-                    var _self = this;
+                    
                     sweetAlert({
                         title: "危险操作",
                         text: "您确认删除该项信息吗？",
@@ -204,7 +252,15 @@
                         }
                     });                
                 }else{
-                    this.$router.push({ name: 'editPost', params: { id: data.id }});
+                    axios.get('/api/category/' + data.id)
+                        .then(function (res) {
+                            _self.setCategoryData(res.data.data);
+                            _self.dialogVisible = true;
+                        })
+                        .catch(function (error) {
+                            sweetAlert.error();
+                        })
+                    
                 }
             }
         }
@@ -215,5 +271,14 @@
     .form-horizontal .control-label{
         font-size: 14px;
         text-align: left;
+    }
+    .el-select{
+        display: block;
+    }
+    .el-input__inner{
+        border: 1px solid #e6e6e6;
+    }
+    .modal-content .block{
+        margin-bottom: 0;
     }
 </style>
