@@ -37,11 +37,12 @@ class CategoryController extends BaseController
      */
     public function store(Request $request)
     {
-        $data = $request->all();
+        // $data = $request->all();
 
-        $this->categoryRepository->store($data);
+        // $this->categoryRepository->store($data);
 
-        return $this->response->noContent()->setStatusCode(200);
+        // return $this->response->noContent()->setStatusCode(200);
+        return $request->all();
     }
 
     /**

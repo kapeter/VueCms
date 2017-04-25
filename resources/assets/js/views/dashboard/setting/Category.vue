@@ -207,7 +207,11 @@
                 };
             },
             submitCategory() {
-
+                let _self = this;
+                axios.post('/api/category',_self.formData)
+                    .then(function (res) {
+                        console.log(res);
+                    })
             },
             turnToEdit(model,id) {
                 this.$router.push({ path: '/dashboard/'+model+'/'+id+'/edit' });
