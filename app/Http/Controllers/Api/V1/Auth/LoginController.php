@@ -24,16 +24,16 @@ class LoginController extends BaseController
         try {
             // attempt to verify the credentials and create a token for the user
             if (! $token = JWTAuth::attempt($credentials)) {
-                return response()->tokenError(10002);
+                return $this->response->array($this->errorMsg[10003]);
             }
         } catch (Exception $e) {
             // something went wrong whilst attempting to encode the token
-            return response()->tokenError(10005);
+            return $this->response->array($this->errorMsg[10006]);
         }
         // all good so save the token to session and return the result
         $request->session()->put('access_token',$token);
 
-        return response()->tokenError(10000,compact('token'));        
+        return $this->response->array($this->errorMsg[10000]);    
     }
 
     /**
@@ -62,10 +62,10 @@ class LoginController extends BaseController
         if ( $request->session()->has('access_token') ){
             $request->session()->forget('access_token');        
         }else{
-            return response()->tokenError(10005);
+            return $this->response->array($this->errorMsg[10006]);
         }
 
-        return response()->tokenError(10000);        
+        return $this->response->array($this->errorMsg[10000]);        
     }
 
 }

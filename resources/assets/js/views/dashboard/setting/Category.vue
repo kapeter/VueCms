@@ -6,11 +6,6 @@
             <!-- Frequently Asked Questions -->
             <div class="block">
                 <div class="block-header bg-gray-lighter">
-                    <ul class="block-options">
-                        <li>
-                            <button type="button"><i class="si si-refresh"></i></button>
-                        </li>
-                    </ul>
                     <ul class="block-options block-options-left">
                         <li>
                             <a @click="createDialog()"><i class="fa fa-plus"></i> 新增目录</a>
@@ -57,36 +52,42 @@
         <!-- END Page Content -->
 
         <!-- Create Model -->
-        <ElDialog title="新增目录" v-model="dialogVisible" size="tiny">
-            <div class="form-horizontal">
-                <div class="form-group">
+        <ElDialog :title="modalTitle" v-model="dialogVisible" size="tiny">
+            <form class="form-horizontal">
+                <input type="hidden" name="id" v-model="currentID">
+                <div class="form-group" :class="{ 'has-error' : errorInfo.name  }">
                     <label for="name" class="col-sm-2 control-label">目录名称</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" v-model="formData.name">
+                        <div class="help-block animated fadeInDown" v-show="errorInfo.name">目录名称不能为空</div>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" :class="{ 'has-error' : errorInfo.slug || !uniqueCheck }">
                     <label for="slug" class="col-sm-2 control-label">唯一标识</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" v-model="formData.slug">
+                        <input type="text" class="form-control" v-model="formData.slug" placeholder="仅支持英文、数字">
+                        <div class="help-block animated fadeInDown" v-show="errorInfo.slug">唯一标识不能为空</div>
+                        <div class="help-block animated fadeInDown" v-show="!uniqueCheck">唯一标识重复</div>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" :class="{ 'has-error' : errorInfo.model  }">
                     <label for="model" class="col-sm-2 control-label">所属模型</label>
                     <div class="col-sm-10">
-                      <el-select v-model="formData.model" placeholder="请选择模型">
-                        <el-option
-                          v-for="item in models"
-                          :label="item.label"
-                          :value="item.value" :key="item.value">
-                        </el-option>
+                        <el-select v-model="formData.model" placeholder="请选择模型">
+                            <el-option
+                                v-for="item in models"
+                                :label="item.label"
+                                :value="item.value" :key="item.value">
+                            </el-option>
                       </el-select>
+                      <div class="help-block animated fadeInDown" v-show="errorInfo.model">请选择所属模型</div>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" :class="{ 'has-error' : errorInfo.description  }">
                     <label for="description" class="col-sm-2 control-label">目录描述</label>
                     <div class="col-sm-10">
                         <textarea class="form-control" v-model="formData.description" rows="3"></textarea>
+                        <div class="help-block animated fadeInDown" v-show="errorInfo.description">目录描述不能为空</div>
                     </div>
                 </div>
                 <div class="form-group">
@@ -99,11 +100,10 @@
                               :label="parent.name"
                               :value="parent.id" :key="parent.slug">
                             </el-option>
-                            
                         </el-select>
                     </div>
                 </div>
-            </div>
+            </form>
           <span slot="footer">
             <button class="btn btn-default" @click="dialogVisible = false">取 消</button>
             <button class="btn btn-primary" @click="submitCategory()">确 定</button>
@@ -131,11 +131,20 @@
                 ],
                 formData: {
                     name: '',
+                    slug: '',
                     model: '',
                     description: '',
-                    slug: '',
-                    parent_id: ''
+                    parent_id: 0
                 },
+                errorInfo: {
+                    name: false,
+                    model: false,
+                    description: false,
+                    slug: false,
+                },
+                uniqueCheck: true,
+                modalTitle: '新增目录',
+                currentID: 0,
                 fields: [
                     {
                       title: '名称  /  唯一标识',
@@ -186,32 +195,71 @@
         methods: {
             createDialog() {
                 this.freshDialog();
+                this.modalTitle = '新增目录';
+                this.dialogVisible = true;
+            },
+            editDialog(data) {
+                this.formData = {
+                    name: data.name,
+                    slug: data.slug,
+                    model: data.model,
+                    description: data.description,
+                    parent_id: data.parent_id
+                };
+                this.currentID = data.id;
+                this.modalTitle = '修改目录';
                 this.dialogVisible = true;
             },
             freshDialog() {
                 this.formData = {
                     name: '',
+                    slug: '',
                     model: '',
                     description: '',
-                    slug: '',
-                    parent_id: ''
+                    parent_id: 0
                 };
+                this.currentID = 0;
             },
-            setCategoryData(data) {
-                this.formData = {
-                    name: data.name,
-                    model: data.model,
-                    description: data.description,
-                    slug: data.slug,
-                    parent_id: data.parent_id
-                };
+            checkData() {
+                let value = this.formData;
+                for (let x in value){
+                    if (value[x] == '' && x != 'parent_id'){
+                        this.errorInfo[x] = true;
+                        return false;
+                    }
+                }
+                return true;
+            },
+            clearError() {
+                for (let x in this.errorInfo){
+                    this.errorInfo[x] = false;
+                }
+                this.uniqueCheck = true;
             },
             submitCategory() {
                 let _self = this;
-                axios.post('/api/category',_self.formData)
+                let apiUrl = '/api/category';
+                _self.clearError();
+
+                if (!_self.checkData()){
+                    return false;
+                }
+
+                if (_self.currentID != 0){
+                    apiUrl = '/api/category/' + _self.currentID;
+                    _self.formData['_method'] = 'PUT';
+                }
+                axios.post(apiUrl,_self.formData)
                     .then(function (res) {
                         console.log(res);
-                    })
+                        if (res.data.code && res.data.code == 10001){
+                            _self.uniqueCheck = false;
+                        }else{
+                            _self.dialogVisible = false;
+                            sweetAlert.success();
+                            _self.$refs.vuetable.refresh();
+                        }
+                    }) 
             },
             turnToEdit(model,id) {
                 this.$router.push({ path: '/dashboard/'+model+'/'+id+'/edit' });
@@ -228,7 +276,6 @@
             itemAction (action, data) {
                 let _self = this;
                 if (action == 'delete-item'){
-                    
                     sweetAlert({
                         title: "危险操作",
                         text: "您确认删除该项信息吗？",
@@ -258,8 +305,7 @@
                 }else{
                     axios.get('/api/category/' + data.id)
                         .then(function (res) {
-                            _self.setCategoryData(res.data.data);
-                            _self.dialogVisible = true;
+                            _self.editDialog(res.data.data);
                         })
                         .catch(function (error) {
                             sweetAlert.error();

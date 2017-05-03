@@ -150,7 +150,7 @@
                         type: "POST",
                         data: $('#login-form').serialize(),
                         success: function(res){
-                            if (res.code != 10000){
+                            if (res.code && res.code != '10000'){
                                 $('.login-error').append('<div class="col-xs-12"><div class="help-block animated fadeInDown">'+res.message+'</div></div>');
                             }else{
                                 window.location.href = '/dashboard';

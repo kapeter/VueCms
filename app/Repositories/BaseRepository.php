@@ -61,7 +61,7 @@ trait BaseRepository
     
 
     /**
-     * Delete the article.
+     * Delete the record.
      *
      * @param int $id
      * @return boolean

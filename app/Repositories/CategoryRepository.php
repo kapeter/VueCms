@@ -68,4 +68,16 @@ class CategoryRepository
 		];
 
 	}
+
+	/**
+	*  check the uniqueness of slug
+	*
+	*  @param  \Illuminate\Http\Request  $request
+	*/
+	public function checkUniqueSlug($slug)
+	{
+		$count = $this->model->where('slug',$slug)->count();
+
+        return ($count != 0) ? false : true; 
+	}
 }

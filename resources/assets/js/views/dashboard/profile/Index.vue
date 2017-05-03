@@ -170,12 +170,7 @@
                         _self.userBio.value = _self.thisUser.bio;
 	                })
 	                .catch(function (res) {
-                        if (res.status == 400){
-                            window.location.href = '/dashboard';
-                        }else{
-                            sweetAlert.error();
-                        }
-	                    
+                        window.location.href = '/dashboard'; 
 	                });         		
         	},
         	resetData() {
@@ -200,9 +195,9 @@
 
                     axios.post('/api/profile',formData)
                         .then(function(res){
-                            if (res.data.status == 400){
+                            if (res.data.code && res.data.code == 10002){
                                 _self.currentPwd.hasError = true;
-                                _self.currentPwd.errorText = "当前密码错误";
+                                _self.currentPwd.errorText = res.data.message;
                             }else{
                                 sweetAlert.success();
                                 _self.resetData();

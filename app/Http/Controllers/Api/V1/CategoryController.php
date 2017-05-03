@@ -37,12 +37,14 @@ class CategoryController extends BaseController
      */
     public function store(Request $request)
     {
-        // $data = $request->all();
+        $data = $request->all();
 
-        // $this->categoryRepository->store($data);
-
-        // return $this->response->noContent()->setStatusCode(200);
-        return $request->all();
+        if ( $this->categoryRepository->checkUniqueSlug($data['slug']) ){
+            $this->categoryRepository->store($data);
+            return $this->response->noContent()->setStatusCode(200);    
+        }else{
+            return $this->response->array($this->errorMsg[10001]);
+        }
     }
 
     /**
@@ -67,7 +69,14 @@ class CategoryController extends BaseController
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->all();
+
+        if ( $this->categoryRepository->checkUniqueSlug($data['slug']) ){
+            $this->categoryRepository->update($id,$data);
+            return $this->response->noContent()->setStatusCode(200);    
+        }else{
+            return $this->response->array($this->errorMsg[10001]);
+        }
     }
 
     /**

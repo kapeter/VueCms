@@ -93,7 +93,7 @@ class UserController extends BaseController
                 if ( JWTAuth::attempt($credentials) ){
                     $data['password'] = bcrypt($request->newPwd);
                 }else{
-                    return response()->json(['status'=>400,'message' => '当前密码错误！']);
+                    return $this->response->array($this->errorMsg[10002]);
                 }                
             }
 
