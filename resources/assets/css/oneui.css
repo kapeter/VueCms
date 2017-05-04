@@ -6046,6 +6046,7 @@ fieldset[disabled] .form-material.floating > label {
   padding: 15px 20px;
   -webkit-transition: opacity 0.2s ease-out;
   transition: opacity 0.2s ease-out;
+  border-bottom: 1px solid #e9e9e9;
 }
 .block-header:before,
 .block-header:after {
@@ -9089,4 +9090,12 @@ div.tagsinput span.tag a:hover {
 }
 .placeholder {
   color: #aaa;
+}
+.block-button{
+  list-style: none;
+  padding: 0;
+}
+.block-button > li {
+  float: left;
+  margin-right: 5px;
 }

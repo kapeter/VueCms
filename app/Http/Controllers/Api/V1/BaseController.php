@@ -8,7 +8,11 @@ use App\Http\Controllers\Controller;
 class BaseController extends Controller
 {
     use Helpers;
-
+    
+    /**
+     * 错误信息代码
+     * @var array
+     */
     public $errorMsg = [
     	10000 => ['code' => 10000, 'message' => 'Success'],
     	10001 => ['code' => 10001, 'message' => '唯一标识重复'],

@@ -4,7 +4,7 @@
       <div class="modal-dialog" :class="[sizeClass, customClass]" :style="style">
         <div class="modal-content">
           <div class="block block-themed" ref="dialog" >
-            <div class="block-header bg-primary-dark">
+            <div class="block-header bg-info">
               <ul class="block-options">
                 <li>
                   <button v-if="showClose" @click='close()'><i class="si si-close"></i></button>
@@ -115,7 +115,7 @@
         return `el-dialog--${ this.size }`;
       },
       style() {
-        return this.size === 'full' ? {} : { 'top': this.top };
+        return this.size === 'full' || this.size === 'large' ? {} : { 'top': this.top };
       }
     },
 

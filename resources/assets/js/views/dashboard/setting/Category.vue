@@ -6,9 +6,9 @@
             <!-- Frequently Asked Questions -->
             <div class="block">
                 <div class="block-header bg-gray-lighter">
-                    <ul class="block-options block-options-left">
+                    <ul class="block-button">
                         <li>
-                            <a @click="createDialog()"><i class="fa fa-plus"></i> 新增目录</a>
+                            <a @click="createDialog()" class="btn btn-info"><i class="fa fa-plus"></i> 新增目录</a>
                         </li>
                     </ul>
                 </div>
@@ -106,7 +106,7 @@
             </form>
           <span slot="footer">
             <button class="btn btn-default" @click="dialogVisible = false">取 消</button>
-            <button class="btn btn-primary" @click="submitCategory()">确 定</button>
+            <button class="btn btn-info" @click="submitCategory()">确 定</button>
           </span>
         </ElDialog>
         <!-- END Create Model-->

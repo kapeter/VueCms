@@ -1,117 +1,128 @@
 <template>
-	<form enctype="multipart/form-data">
-    	<div class="row">
-			<div class="col-sm-9">
-				<div class="block">
-					<div class="block-content">
-		     			<div class="form-group" v-for="field in fields" :class="{ 'has-error' : field.error  }">
-		     				<label :for="field.name">
-		     					{{ field.label }}
-		     					<span class="text-muted font-s13" v-if="field.info">（<i class="fa fa-info"></i> {{ field.info }}）</span>
-		     				</label>
-		     				<div v-if="field.type == 'text'">
-		     					<input type="text" class="form-control" :name="field.name" v-model="field.value">
-		     				</div>
-		     				<div v-if="field.type == 'textarea'">
-		     					<textarea class="form-control" :name="field.name" v-model="field.value" :rows=" !field.rows ? 3 : field.rows"></textarea>
-		     				</div>
-		     				<div v-if="field.type == 'editor'">
-		     					<textarea id="editor" :name="field.name"></textarea>
-		     				</div>
-		     				<div class="help-block animated fadeInDown" v-show="field.error">提示：{{ field.label }}不能为空</div>
-		     			</div>
-		     		</div>
-		     	</div>
-		    </div>
-		    <div class="col-sm-3">
-		    	<!-- 发布模块 -->
-		    	<div slot="form-publish" class="block block-themed" :class="{ 'block-opt-hidden': isHidden.block_1 }">
-					<div class="block-header bg-info">
-                        <ul class="block-options">
-                            <li>
-                                <button type="button" @click="toggleBlock('block_1')">
-                                	<i class="si" :class="[isHidden.block_1 ? 'si-arrow-down' : 'si-arrow-up']"></i>
-                                </button>
-                            </li>
-                        </ul>
-						<h3 class="block-title">发布模块</h3>
-					</div>
-					<div class="block-content">
-						<div class="row">
-							<div class="col-sm-6">
-								<button class="btn btn-default pull-left">预 览</button>
-							</div>
-							<div class="col-sm-6">
-								<button class="btn btn-default pull-right"  @click.prevent="backToIndex()">
-									返回列表
-								</button>
-							</div>
+	<div>
+		<form enctype="multipart/form-data">
+	    	<div class="row">
+				<div class="col-sm-9">
+					<div class="block">
+						<div class="block-content">
+			     			<div class="form-group" v-for="field in fields" :class="{ 'has-error' : field.error  }">
+			     				<label :for="field.name">
+			     					{{ field.label }}
+			     					<span class="text-muted font-s13" v-if="field.info">（<i class="fa fa-info"></i> {{ field.info }}）</span>
+			     				</label>
+			     				<div v-if="field.type == 'text'">
+			     					<input type="text" class="form-control" :name="field.name" v-model="field.value">
+			     				</div>
+			     				<div v-if="field.type == 'textarea'">
+			     					<textarea class="form-control" :name="field.name" v-model="field.value" :rows=" !field.rows ? 3 : field.rows"></textarea>
+			     				</div>
+			     				<div v-if="field.type == 'editor'" class="editor-content">
+			     					<button class="btn btn-sm btn-default" @click.prevent="mediaDialogVisible = true">
+										<i class="fa fa-cloud-upload"></i> 添加媒体
+									</button>	
+			     					<textarea id="editor" :name="field.name"></textarea>
+			     				</div>
+			     				<div class="help-block animated fadeInDown" v-show="field.error">提示：{{ field.label }}不能为空</div>
+			     			</div>
+			     		</div>
+			     	</div>
+			    </div>
+			    <div class="col-sm-3">
+			    	<!-- 发布模块 -->
+			    	<div slot="form-publish" class="block block-themed" :class="{ 'block-opt-hidden': isHidden.block_1 }">
+						<div class="block-header bg-info">
+	                        <ul class="block-options">
+	                            <li>
+	                                <button type="button" @click="toggleBlock('block_1')">
+	                                	<i class="si" :class="[isHidden.block_1 ? 'si-arrow-down' : 'si-arrow-up']"></i>
+	                                </button>
+	                            </li>
+	                        </ul>
+							<h3 class="block-title">发布模块</h3>
 						</div>
-						<div class="publish-status">
-							<p>
-								<i class="fa fa-calendar-plus-o"></i> 首次创建：
-								<span>{{ createdDate }}</span>
-							</p>
-							<p v-if="updatedDate != ''">
-								<i class="fa fa-calendar-check-o"></i> 最后修改：
-								<span>{{ updatedDate }}</span>
-							</p>
-							<p v-if="">
-								<i class="fa fa-calendar"></i> 发布状态：
-								<span v-html="publishedStatus"></span>
-							</p>
-						</div>
-						<div class="row">
-							<div class="col-sm-6">
-								<button v-if="action == 'create'" class="btn btn-default pull-left" @click.prevent="formSubmit(false)">
-									保存为书稿
-								</button>
-								<button v-else class="btn btn-danger pull-left" @click.prevent="turnToTrash()">
-									移动到回收站
-								</button>
+						<div class="block-content">
+							<div class="row">
+								<div class="col-sm-6">
+									<button class="btn btn-default pull-left">预 览</button>
+								</div>
+								<div class="col-sm-6">
+									<button class="btn btn-default pull-right"  @click.prevent="backToIndex()">
+										返回列表
+									</button>
+								</div>
 							</div>
-							<div class="col-sm-6">
-								<button class="btn btn-info pull-right" @click.prevent="formSubmit(true)">
-									<i class="fa fa-paper-plane"></i> {{ action == 'edit' ? '更 新' : '发 布' }}
-								</button>
+							<div class="publish-status">
+								<p>
+									<i class="fa fa-calendar-plus-o"></i> 首次创建：
+									<span>{{ createdDate }}</span>
+								</p>
+								<p v-if="updatedDate != ''">
+									<i class="fa fa-calendar-check-o"></i> 最后修改：
+									<span>{{ updatedDate }}</span>
+								</p>
+								<p v-if="">
+									<i class="fa fa-calendar"></i> 发布状态：
+									<span v-html="publishedStatus"></span>
+								</p>
 							</div>
-						</div>							
-					</div>
-				</div>
-				<!-- 分类目录 -->
-				<div class="block block-bordered" :class="{ 'block-opt-hidden': isHidden.block_2 }">
-					<div class="block-header">
-                        <ul class="block-options">
-                            <li>
-                                <button type="button" @click="toggleBlock('block_2')">
-                                	<i class="si" :class="[isHidden.block_2 ? 'si-arrow-down' : 'si-arrow-up']"></i>
-                                </button>
-                            </li>
-                        </ul>
-						<h3 class="block-title">分类目录</h3>
-					</div>
-					<div class="block-content">
-						<!-- 分类目录 -->
-						<div class="form-category">
-						  	<el-radio-group v-model="categoryData">
-						    	<li v-for = "category in categories">
-						    		<el-radio :label="category.id">
-						    			{{ category.name }}
-						    		</el-radio>
-						    	</li>
-						    	<el-radio :label="0">未分类</el-radio>
-						  	</el-radio-group>
+							<div class="row">
+								<div class="col-sm-6">
+									<button v-if="action == 'create'" class="btn btn-default pull-left" @click.prevent="formSubmit(false)">
+										保存为书稿
+									</button>
+									<button v-else class="btn btn-danger pull-left" @click.prevent="turnToTrash()">
+										移动到回收站
+									</button>
+								</div>
+								<div class="col-sm-6">
+									<button class="btn btn-info pull-right" @click.prevent="formSubmit(true)">
+										<i class="fa fa-paper-plane"></i> {{ action == 'edit' ? '更 新' : '发 布' }}
+									</button>
+								</div>
+							</div>							
 						</div>
 					</div>
-				</div> 
+					<!-- 分类目录 -->
+					<div class="block" :class="{ 'block-opt-hidden': isHidden.block_2 }">
+						<div class="block-header">
+	                        <ul class="block-options">
+	                            <li>
+	                                <button type="button" @click="toggleBlock('block_2')">
+	                                	<i class="si" :class="[isHidden.block_2 ? 'si-arrow-down' : 'si-arrow-up']"></i>
+	                                </button>
+	                            </li>
+	                        </ul>
+							<h3 class="block-title">分类目录</h3>
+						</div>
+						<div class="block-content">
+							<!-- 分类目录 -->
+							<div class="form-category">
+							  	<el-radio-group v-model="categoryData">
+							    	<li v-for = "category in categories">
+							    		<el-radio :label="category.id">
+							    			{{ category.name }}
+							    		</el-radio>
+							    	</li>
+							    	<li>
+							    		<el-radio :label="0">未分类</el-radio>
+							    	</li>
+							  	</el-radio-group>
+							</div>
+						</div>
+					</div> 
 
-		    </div>
-		</div>	
-	</form>
+			    </div>
+			</div>	
+		</form>
+		<ElDialog title="添加媒体" v-model="mediaDialogVisible" size="large">
+			<vue-media></vue-media>
+		</ElDialog>		
+	</div>
 </template>
 
 <script>
 	import { default as SimpleMDE } from 'simplemde/dist/simplemde.min.js'
+	import ElDialog from '../../packages/dialog'
 	
 	export default {
 		props: {
@@ -128,6 +139,9 @@
 				required: true
 			}
 		},
+        components: {
+            ElDialog,
+        },
         data() {
         	return {
     			isHidden: {
@@ -140,7 +154,8 @@
 				updatedDate: '',
 				publishedDate: '',
 				categories: {},
-				categoryData: 0
+				categoryData: 0,
+				mediaDialogVisible: false
         	}
         },
         computed: {
@@ -261,6 +276,17 @@
 		            element: document.getElementById("editor"),
 		            autoDownloadFontAwesome: true,
 		            tabSize: 4,
+		            toolbar: [
+		            	"heading","bold","italic", "strikethrough",
+		            	"|", 
+		            	"quote","code","unordered-list","ordered-list","horizontal-rule",
+		            	"|", 
+		            	"link","image","table",
+		            	"|",
+		            	"preview","side-by-side","fullscreen",
+		            	"|", 
+		            	"guide"
+		            ],
 		        });	
 			},
 			// serialize data
@@ -339,6 +365,15 @@
 	.form-category li{
 		list-style: none;
 		margin-bottom: 10px;
+	}
+	.editor-content{
+		position: relative;
+	}
+	.editor-content > button {
+		position: absolute;
+		right: 10px;
+		top: 10px;
+		z-index: 100;
 	}
 </style>
 

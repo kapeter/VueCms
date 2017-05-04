@@ -6,6 +6,7 @@ const showPost = r => require.ensure([], () => r(require('./views/dashboard/post
 const createPost = r => require.ensure([], () => r(require('./views/dashboard/post/Create.vue')), 'post')
 const editPost = r => require.ensure([], () => r(require('./views/dashboard/post/Edit.vue')), 'post')
 
+//setting
 const category = r => require.ensure([], () => r(require('./views/dashboard/setting/Category.vue')), 'setting')
 const system = r => require.ensure([], () => r(require('./views/dashboard/setting/System.vue')), 'setting')
 
@@ -41,6 +42,10 @@ export default [
                         component: editPost
                     }
                 ]
+            },
+            {
+                path: 'media',
+                component: require('./views/dashboard/media/Index.vue')
             },
             {
                 path: 'profile',

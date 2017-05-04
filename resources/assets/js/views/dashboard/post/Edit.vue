@@ -35,20 +35,20 @@
 						value: '',
 					},
 					{
-						label: '摘要',
-						name: 'description',
-						type: 'textarea',
-						rows: 4,
-						error: false,
-						value: '',
-					},
-					{
 						label: '正文内容',
 						name: 'content',
 						type: 'editor',
 						required: true,
 						error: false,
 						value: 'dasdas',
+					},
+					{
+						label: '摘要',
+						name: 'description',
+						type: 'textarea',
+						rows: 4,
+						error: false,
+						value: '',
 					},
 					{
 						label: '固定链接',

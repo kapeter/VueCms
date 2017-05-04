@@ -10,7 +10,7 @@
             <div class="col-sm-5 text-right hidden-xs">
                 <Breadcrumb>
                     <li>
-                        <BreadcrumbItem :to="{ path: '/dashboard' }"><i class="si si-speedometer crumb-head"></i> 首页</BreadcrumbItem>
+                        <BreadcrumbItem :to="{ path: '/dashboard' }"><i class="si si-speedometer crumb-head"></i> 仪表盘</BreadcrumbItem>
                     </li>
                     <li v-for="crumb in crumbs" class="el-breadcrumb__item">
                         <BreadcrumbItem :to="{ path: crumb.to }">{{ crumb.text }}</BreadcrumbItem>

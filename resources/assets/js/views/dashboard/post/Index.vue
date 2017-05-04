@@ -2,7 +2,7 @@
 	<div>
         <page-heading title="所有文章" subTitle="All Articles" :crumbs="crumbs"></page-heading>
         <div class="content">
-	     	<div class="block block-bordered">
+	     	<div class="block">
 	     		<div class="block-header">
 	     			<div class="row">
 	     				<div class="col-sm-6 filter-bar">

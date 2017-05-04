@@ -21,13 +21,15 @@ Vue.use(VueRouter)
 Vue.use(Vuex)
 
 
-import { Switch, Radio, RadioGroup, Option, Select } from 'element-ui'
+import { Switch, Radio, RadioGroup, Option, Select, Tabs, TabPane } from 'element-ui'
 
 Vue.use(Select)
 Vue.use(Option)
 Vue.use(Radio)
 Vue.use(RadioGroup)
 Vue.use(Switch)
+Vue.use(Tabs)
+Vue.use(TabPane)
 
 
 Vue.component(
@@ -47,6 +49,9 @@ Vue.component(
 );
 Vue.component(
     'vue-form', require('./components/dashboard/Form.vue')
+);
+Vue.component(
+    'vue-media', require('./components/dashboard/Media.vue')
 );
 
 
