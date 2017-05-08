@@ -18,7 +18,7 @@
 					</ul>
 	     		</div>
 
-	     		<div class="block-content">
+	     		<div class="block-content" style="min-height:350px;">
 					<vue-media></vue-media>
 			    </div>  		
 	     	</div>   
