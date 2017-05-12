@@ -5,7 +5,7 @@
         <div class="content">
             <!-- Frequently Asked Questions -->
             <div class="block">
-                <div class="block-header bg-gray-lighter">
+                <div class="block-header">
                     <ul class="block-button">
                         <li>
                             <a @click="createDialog()" class="btn btn-info"><i class="fa fa-plus"></i> 新增目录</a>
@@ -96,7 +96,7 @@
                         <el-select v-model="formData.parent_id" placeholder="请选择父级目录">
                             <el-option label="无" :value="0"></el-option>
                             <el-option
-                              v-for="parent in parentCategory"
+                              v-for="parent in parentCategory" v-if="parent.id != currentID"
                               :label="parent.name"
                               :value="parent.id" :key="parent.slug">
                             </el-option>

@@ -22,5 +22,10 @@ class BaseController extends Controller
     	10005 => ['code' => 10005, 'message' => 'token未提供'],
     	10006 => ['code' => 10006, 'message' => '请求服务器失败']
     ];
+
+    public function __construct()
+    {
+        $this->middleware('blog.log',['except' => ['index','show']]);
+    }
 }
 

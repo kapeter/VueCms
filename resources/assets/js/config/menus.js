@@ -53,6 +53,6 @@ export default [
     {
         name : '接口日志',
         icon : 'si si-notebook',
-        uri  : '/dashboard/setting/logs',
+        uri  : '/dashboard/log',
     },
 ]

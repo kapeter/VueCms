@@ -13,6 +13,8 @@ class CategoryController extends BaseController
 
     public function __construct(CategoryRepository $categoryRepository)
     {
+        parent::__construct();
+        
         $this->categoryRepository = $categoryRepository;
 
         $this->middleware('blog.api',['except' => ['index','show']]);
@@ -71,7 +73,7 @@ class CategoryController extends BaseController
     {
         $data = $request->all();
 
-        if ( $this->categoryRepository->checkUniqueSlug($data['slug']) ){
+        if ( $this->categoryRepository->checkUniqueSlug($id,$data['slug']) ){
             $this->categoryRepository->update($id,$data);
             return $this->response->noContent()->setStatusCode(200);    
         }else{

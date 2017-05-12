@@ -15,6 +15,16 @@ trait BaseRepository
     }
 
     /**
+     * Get all the records
+     *
+     * @return array
+     */
+    public function paginate($per_page)
+    {
+        return $this->model->paginate($per_page);
+    }
+
+    /**
      * Store a new record.
      *
      * @param  $data

@@ -74,9 +74,9 @@ class CategoryRepository
 	*
 	*  @param  \Illuminate\Http\Request  $request
 	*/
-	public function checkUniqueSlug($slug)
+	public function checkUniqueSlug($id, $slug)
 	{
-		$count = $this->model->where('slug',$slug)->count();
+		$count = $this->model->where('slug',$slug)->where('id','<>',$id)->count();
 
         return ($count != 0) ? false : true; 
 	}

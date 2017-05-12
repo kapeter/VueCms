@@ -8,6 +8,10 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class LoginController extends BaseController
 {
+    public function __construct()
+    {
+        
+    }
     /**
      * Handle a login request to the application.
      *

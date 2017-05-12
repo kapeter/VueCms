@@ -15,6 +15,8 @@ class UserController extends BaseController
 
     public function __construct(UserRepository $userRepository)
     {
+        parent::__construct();
+        
         $this->userRepository = $userRepository;
 
         $this->middleware('blog.api');

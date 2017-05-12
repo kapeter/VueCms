@@ -67,6 +67,10 @@ export default [
                 ]
             },
             {
+                path: 'log',
+                component: require('./views/dashboard/log/Index.vue')
+            },
+            {
                 path: '*',
                 component: require('./views/dashboard/error/404.vue')
             }
