@@ -84,7 +84,7 @@
 					</div>
 					<!-- 分类目录 -->
 					<div class="block" :class="{ 'block-opt-hidden': isHidden.block_2 }">
-						<div class="block-header">
+						<div class="block-header" style="border-bottom: 1px solid #e9e9e9;">
 	                        <ul class="block-options">
 	                            <li>
 	                                <button type="button" @click="toggleBlock('block_2')">
