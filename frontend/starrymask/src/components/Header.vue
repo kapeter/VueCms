@@ -5,7 +5,7 @@
         <img src="../assets/images/logo-lg.png">
       </div>
       <div class="slogan">
-        <p>Kapeter.com, A frontend blog built with VueCms.</p>
+        <p>Kapeter.com, A frontend blog built with VueCMS.</p>
       </div>
       <nav class="nav">
         <ul>

@@ -31,19 +31,18 @@
        url('//lib.baomitu.com/fonts/roboto/roboto-v16-latin-regular.svg#Roboto') format('svg'); /* Legacy iOS */
 }
 
-
-/* satisfy-normal - latin */
+/* lobster-normal - latin */
 @font-face {
-  font-family: 'Satisfy';
+  font-family: 'Lobster';
   font-style: normal;
   font-weight: regular;
-  src: url('//lib.baomitu.com/fonts/satisfy/satisfy-v6-latin-regular.eot'); /* IE9 Compat Modes */
-  src: local('Satisfy'), local('Satisfy-Normal'),
-       url('//lib.baomitu.com/fonts/satisfy/satisfy-v6-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-       url('//lib.baomitu.com/fonts/satisfy/satisfy-v6-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
-       url('//lib.baomitu.com/fonts/satisfy/satisfy-v6-latin-regular.woff') format('woff'), /* Modern Browsers */
-       url('//lib.baomitu.com/fonts/satisfy/satisfy-v6-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
-       url('//lib.baomitu.com/fonts/satisfy/satisfy-v6-latin-regular.svg#Satisfy') format('svg'); /* Legacy iOS */
+  src: url('//lib.baomitu.com/fonts/lobster/lobster-v18-latin-regular.eot'); /* IE9 Compat Modes */
+  src: local('Lobster'), local('Lobster-Normal'),
+       url('//lib.baomitu.com/fonts/lobster/lobster-v18-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('//lib.baomitu.com/fonts/lobster/lobster-v18-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
+       url('//lib.baomitu.com/fonts/lobster/lobster-v18-latin-regular.woff') format('woff'), /* Modern Browsers */
+       url('//lib.baomitu.com/fonts/lobster/lobster-v18-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
+       url('//lib.baomitu.com/fonts/lobster/lobster-v18-latin-regular.svg#Lobster') format('svg'); /* Legacy iOS */
 }
 
 @font-face {

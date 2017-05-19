@@ -3,7 +3,7 @@
     <!-- Recent Project  -->
     <div class="box">
       <div class="box-header">
-        <h2 class="box-title">Recent Project</h2>
+        <h2 class="box-title">Recent Projects</h2>
       </div>
       <div class="box-content">
         <div class="row">
@@ -35,7 +35,7 @@
     <!-- Recent Articles -->
     <div class="box">
       <div class="box-header">
-        <h2 class="box-title">Recent Article</h2>
+        <h2 class="box-title">Recent Articles</h2>
       </div>
       <div class="box-content">
         <div class="row">
@@ -123,22 +123,22 @@
     position: relative;
   }
   .box-title{
-    font-family: 'Satisfy','Roboto',Arial,sans-serif;
+    font-family: 'Lobster','Roboto',Arial,sans-serif;
     font-size: 24px;
     text-align: center;
-    color: #333;
+    color: #666;
     font-weight: normal;
   }
   .box-title:before{
-    content: '/';
+    content: '-';
     margin-right: 15px;
   }
   .box-title:after{
-    content: '/';
+    content: '-';
     margin-left: 15px;
   }
   .box-content{
-    margin-top: 30px;
+    margin-top: 45px;
   }
   .box-footer{
     margin-top: 30px;

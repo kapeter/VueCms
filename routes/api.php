@@ -40,4 +40,8 @@ $api->version('v1',['namespace' => 'App\Http\Controllers\Api\V1'], function ($ap
 	//Log
 	$api->get('log','LogController@index');
 
+	//Media
+	$api->post('media/create', 'MediaController@create');
+	$api->get('media/directory', 'MediaController@all');
+
 });

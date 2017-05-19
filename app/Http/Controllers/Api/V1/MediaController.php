@@ -34,9 +34,23 @@ class MediaController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function newDirectory(Request $request)
+    public function create(Request $request)
     {
+        $path = $request->get('path');
 
+        $this->mediaRepository->make($path);
+
+        return $this->mediaRepository->all();
+    }
+
+    /**
+     * get all directories
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function all()
+    {
+        return $this->mediaRepository->all();
     }
 
 }
