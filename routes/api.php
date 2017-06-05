@@ -43,5 +43,5 @@ $api->version('v1',['namespace' => 'App\Http\Controllers\Api\V1'], function ($ap
 	//Media
 	$api->post('media/create', 'MediaController@create');
 	$api->get('media/directory', 'MediaController@all');
-
+	$api->post('media/upload', 'MediaController@upload');
 });

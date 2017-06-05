@@ -21,7 +21,7 @@ trait BaseRepository
      */
     public function paginate($per_page)
     {
-        return $this->model->paginate($per_page);
+        return $this->model->orderby('created_at','dsc')->paginate($per_page);
     }
 
     /**

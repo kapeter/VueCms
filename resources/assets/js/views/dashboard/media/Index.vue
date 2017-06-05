@@ -38,11 +38,13 @@
         	<el-upload
 			  	class="upload-demo"
 			  	drag
-			  	action="https://jsonplaceholder.typicode.com/posts/"
+			  	:action="routeList.uploadUrl"
+			  	:data="uploadData"
+			  	:on-remove="removeFile"
 			  	multiple>
 			  	<i class="el-icon-upload"></i>
 			  	<div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-			  	<div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
+			  	<div class="el-upload__tip" slot="tip">支持jpg、png、gif、mp3的文件格式，大小不超过2MB</div>
 			</el-upload>
 			<span slot="footer">
 	            <button class="btn btn-default" @click="addMediaVisible = false">关  闭</button>
@@ -91,7 +93,8 @@
 		    	],
 		    	routeList: {
 		    		newDictUrl:'/api/media/create',
-		    		allDictUrl:'/api/media/directory'
+		    		allDictUrl:'/api/media/directory',
+		    		uploadUrl:'/api/media/upload'
 		    	},
 		    	addMediaVisible: false,
 		    	createDictVisible: false,
@@ -116,28 +119,35 @@
   					console.log(error);
   				})
 		},
+		computed: {
+			uploadData() {
+				return {
+					'dict': this.selectedDict
+				}
+			}
+		},
 		methods: {
+			//文件夹变更
 	      	handleChange(value) {
-	        	console.log(this.selectedDict);
+
 	      	},
 	      	newDictSubmit() {
 	      		let _self = this;
 	      		let path = _self.selectedDict.join('/') + '/' +_self.newDictObj.value;
 	      		if (_self.newDictObj.value == ''){
 	      			_self.newDictObj.hasError = true;
-	      			_self.newDictObj.errorText = '文件夹名不能为空'
+	      			_self.newDictObj.errorText = '文件夹名不能为空';
 	      			return false;
 	      		}
-
 	      		if (_self.dictIsExist(path)){
 	      			_self.newDictObj.hasError = true;
-	      			_self.newDictObj.errorText = '该文件夹已存在'
+	      			_self.newDictObj.errorText = '该文件夹已存在';
 	      			return false; 
 	      		}
 
 	      		if (_self.selectedDict.length >= 3){
 	      			_self.newDictObj.hasError = true;
-	      			_self.newDictObj.errorText = '系统只允许增加三级目录'
+	      			_self.newDictObj.errorText = '系统只允许增加三级目录';
 	      			return false; 	      			
 	      		}
 
@@ -145,6 +155,8 @@
       			axios.post(_self.routeList.newDictUrl, { 'path': path })
       				.then(function (res) {
       					_self.dictOptions = res.data;
+      					_self.createDictVisible = false;
+      					sweetAlert.success();
       				})
       				.catch(function (error) {
       					console.log(error);
@@ -154,9 +166,26 @@
 	      	dictIsExist(path) {
 	      		let arr = path.split('/');
 	      		let dictPath = this.dictOptions;
-				arr.forEach(function(value, index, array) {
-				  // ...
-				});
+				for (let i = 0; i < arr.length; i++ ) {
+				  	for (let j = 0; j < dictPath.length; j++){
+				  		if (arr[i] == dictPath[j]['value']){
+				  			if (i == arr.length - 1){
+				  				return true;
+				  			}
+			  				if (dictPath[j].hasOwnProperty('children')){
+			  					dictPath = dictPath[j]['children'];
+			  					break;
+			  				}else{
+			  					return false;
+			  				}
+				  		}
+				  	}
+				};
+				return false;
+	      	},
+	      	//删除文件
+	      	removeFile(file, fileList) {
+	      		console.log(file);
 	      	}
 	    }
 	}

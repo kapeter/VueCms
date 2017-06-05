@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\File;
 
 /**
 *  Category Repository
@@ -33,6 +34,16 @@ class MediaRepository
 		 $allPath = Storage::allDirectories($this->rootPath);
 
 		 return json_encode($this->format($allPath));
+	}
+
+    /**
+     * store file
+     *
+     * @return Array
+     */
+	public function store($directory, $file)
+	{
+		return Storage::putFile($this->rootPath.$directory, $file);
 	}
 
     /**

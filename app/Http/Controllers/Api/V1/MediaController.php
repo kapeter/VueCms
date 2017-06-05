@@ -53,4 +53,18 @@ class MediaController extends BaseController
         return $this->mediaRepository->all();
     }
 
+    /**
+     * upload file
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function upload(Request $request)
+    {
+        $path = str_replace(',','/',$request->get('dict'));
+        $file = $request->file('file');
+        
+        return $this->mediaRepository->store($path, $file);
+
+    }
+
 }
