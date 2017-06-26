@@ -7,7 +7,9 @@
             <div class="block-header bg-info">
               <ul class="block-options">
                 <li>
-                  <button v-if="showClose" @click='close()'><i class="si si-close"></i></button>
+                  <button type="button" aria-label="Close" v-if="showClose" @click="handleClose">
+                    <i class="el-dialog__close el-icon el-icon-close"></i>
+                  </button>
                 </li>
               </ul>
               <slot name="title">
@@ -82,21 +84,14 @@
 
       top: {
         type: String,
-        default: '12%'
-      }
-    },
-    data() {
-      return {
-        visible: false
-      };
+        default: '15%'
+      },
+      beforeClose: Function
     },
 
     watch: {
-      value(val) {
-        this.visible = val;
-      },
       visible(val) {
-        this.$emit('input', val);
+        this.$emit('update:visible', val);
         if (val) {
           this.$emit('open');
           this.$el.addEventListener('scroll', this.updatePopper);
@@ -115,14 +110,26 @@
         return `el-dialog--${ this.size }`;
       },
       style() {
-        return this.size === 'full' || this.size === 'large' ? {} : { 'top': this.top };
+        return this.size === 'full' ? {} : { 'top': this.top };
       }
     },
 
     methods: {
       handleWrapperClick() {
-        if (this.closeOnClickModal) {
-          this.close();
+        if (!this.closeOnClickModal) return;
+        this.handleClose();
+      },
+      handleClose() {
+        if (typeof this.beforeClose === 'function') {
+          this.beforeClose(this.hide);
+        } else {
+          this.hide();
+        }
+      },
+      hide(cancel) {
+        if (cancel !== false) {
+          this.$emit('update:visible', false);
+          this.$emit('visible-change', false);
         }
       },
       updatePopper() {
@@ -132,7 +139,7 @@
     },
 
     mounted() {
-      if (this.value) {
+      if (this.visible) {
         this.rendered = true;
         this.open();
       }

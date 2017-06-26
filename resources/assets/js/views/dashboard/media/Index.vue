@@ -24,9 +24,11 @@
 	     	</div>   
         </div>
         <!-- 添加媒体Modal -->
-        <ElDialog title="添加媒体" v-model="addMediaVisible" size="tiny">
+        <ElDialog title="添加媒体" :visible.sync="addMediaVisible" size="tiny" :before-close="closeAddMedia">
+        	<span class="text-info"><i class="fa fa-exclamation"></i> 若文件夹为空，则上传至媒体根目录。</span>
         	<div class="form-group">
 	          	<el-cascader
+	          		ref="upload-cascader"
 				    :options="dictOptions"
 				    v-model="selectedDict"
 				    @change="handleChange"
@@ -36,26 +38,28 @@
         	</div>
 
         	<el-upload
-			  	class="upload-demo"
+        		ref="mediaUpload"
+        		class="media-upload"
 			  	drag
 			  	:action="routeList.uploadUrl"
 			  	:data="uploadData"
-			  	:on-remove="removeFile"
+			  	:on-remove="removeFileInUpload"
 			  	multiple>
 			  	<i class="el-icon-upload"></i>
 			  	<div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
 			  	<div class="el-upload__tip" slot="tip">支持jpg、png、gif、mp3的文件格式，大小不超过2MB</div>
 			</el-upload>
 			<span slot="footer">
-	            <button class="btn btn-default" @click="addMediaVisible = false">关  闭</button>
+	            <button class="btn btn-default" @click="closeAddMedia()">关  闭</button>
 	        </span>
         </ElDialog>
         <!-- 添加媒体Modal End-->
 
         <!-- 新增文件夹Modal -->
-        <ElDialog title="新增文件夹" v-model="createDictVisible" size="tiny">
+        <ElDialog title="新增文件夹" :visible.sync="createDictVisible" size="tiny">
         	<div class="form-group">
 	          	<el-cascader
+	          		ref="dict-cascader"
 				    :options="dictOptions"
 				    v-model="selectedDict"
 				    @change="handleChange"
@@ -91,10 +95,12 @@
 				crumbs: [
 		    		{to: null, text: '媒体库'},
 		    	],
+		    	//API路由列表
 		    	routeList: {
 		    		newDictUrl:'/api/media/create',
-		    		allDictUrl:'/api/media/directory',
-		    		uploadUrl:'/api/media/upload'
+		    		allDictUrl:'/api/media/folders',
+		    		uploadUrl:'/api/media/upload',
+		    		delFileUrl:'/api/media/delete',
 		    	},
 		    	addMediaVisible: false,
 		    	createDictVisible: false,
@@ -131,6 +137,11 @@
 	      	handleChange(value) {
 
 	      	},
+	      	//添加媒体对话框关闭时的会掉函数
+	      	closeAddMedia() {
+	      		this.$refs.mediaUpload.clearFiles();
+	      		this.addMediaVisible = false;
+	      	},
 	      	newDictSubmit() {
 	      		let _self = this;
 	      		let path = _self.selectedDict.join('/') + '/' +_self.newDictObj.value;
@@ -160,7 +171,7 @@
       				})
       				.catch(function (error) {
       					console.log(error);
-      				})
+      				});
 	      	},
 	      	//判断文件夹是否存在，存在返回true
 	      	dictIsExist(path) {
@@ -183,9 +194,15 @@
 				};
 				return false;
 	      	},
-	      	//删除文件
-	      	removeFile(file, fileList) {
-	      		console.log(file);
+	      	//上传组件中移除文件的回调函数
+	      	removeFileInUpload(file, fileList) {
+	      		let _self = this;
+	      		let filePath = file.response;
+      			axios.post(_self.routeList.delFileUrl, { 'path': filePath })
+      				.catch(function (error) {
+      					console.log(error);
+      				});
+
 	      	}
 	    }
 	}
@@ -210,5 +227,15 @@
 	}
 	.el-upload-list__item-name{
 		padding-left: 0;
+	}
+	.media-upload{
+		margin-bottom: 20px;
+	}
+	.text-info{
+		display: block;
+		margin-bottom: 5px;
+	}
+	.el-cascader-menus{
+		z-index: 3000 !important;
 	}
 </style>

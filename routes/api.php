@@ -41,7 +41,9 @@ $api->version('v1',['namespace' => 'App\Http\Controllers\Api\V1'], function ($ap
 	$api->get('log','LogController@index');
 
 	//Media
+	$api->get('media', 'MediaController@index');
 	$api->post('media/create', 'MediaController@create');
-	$api->get('media/directory', 'MediaController@all');
+	$api->get('media/folders', 'MediaController@folders');
 	$api->post('media/upload', 'MediaController@upload');
+	$api->post('media/delete', 'MediaController@delete');
 });

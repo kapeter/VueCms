@@ -13,7 +13,16 @@ use Illuminate\Http\File;
 */
 class MediaRepository 
 {
-	protected $rootPath = 'public/';
+	protected $rootPath = 'public';
+
+	protected $tempPath = 'temp';
+
+	protected $mimeTypes;  //mime_type array
+
+	public function __construct()
+	{
+		$this->mimeTypes = explode(',',config('filesystems.mime_type'));
+	}
 
 	// make a new directory
 	public function make($directory)
@@ -43,7 +52,15 @@ class MediaRepository
      */
 	public function store($directory, $file)
 	{
-		return Storage::putFile($this->rootPath.$directory, $file);
+		$filePath = Storage::putFile($this->tempPath, $file);
+		$fileType = Storage::mimeType($filePath);
+		if (!in_array($fileType, $this->mimeTypes)){
+			$this->delFile($filePath);
+			return false;
+		}else{
+			$this->delFile($filePath);
+			return Storage::putFile($this->rootPath.$directory, $file);
+		}
 	}
 
     /**
@@ -57,7 +74,7 @@ class MediaRepository
 		$temp = [];
 		$hand = -1;
 		foreach ($arr as $key => $value) {
-			$str = str_replace($this->rootPath,"",$value);
+			$str = str_replace($this->rootPath.'/',"",$value);
 			$temp = explode("/", $str);
 			$len = sizeof($temp);
 			if ($len == 1){
@@ -88,6 +105,20 @@ class MediaRepository
 			}
 		}
 		return $result;
-
 	}
+
+    /**
+     * delete file
+     *
+     * @return Array
+     */
+	public function delFile($filePath)
+	{
+		if (Storage::exists($filePath)) {
+			return Storage::delete($filePath);
+		}else{
+			return false;
+		}
+	}
+
 }

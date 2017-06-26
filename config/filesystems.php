@@ -65,4 +65,6 @@ return [
 
     ],
 
+    'mime_type' => env('UPLOAD_MIMETYPE', 'audio/mpeg,image/jpeg,application/zip,text/plain,application/pdf'),
+
 ];

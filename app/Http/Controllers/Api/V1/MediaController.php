@@ -48,7 +48,7 @@ class MediaController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function all()
+    public function folders()
     {
         return $this->mediaRepository->all();
     }
@@ -62,8 +62,33 @@ class MediaController extends BaseController
     {
         $path = str_replace(',','/',$request->get('dict'));
         $file = $request->file('file');
-        
-        return $this->mediaRepository->store($path, $file);
+
+        $res = $this->mediaRepository->store($path, $file);
+
+        if (!$res){
+            return $this->response->array($this->errorMsg[10007]);
+        }else{
+            return $res;
+        }
+
+    }
+
+    /**
+     * delete file
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function delete(Request $request)
+    {
+        $path = $request->get('path');
+
+        $res = $this->mediaRepository->delFile($path);
+
+        if (!$res){
+            return $this->response->array($this->errorMsg[10008]);
+        }else{
+            return $this->response->array($this->errorMsg[10000]);
+        }
 
     }
 
