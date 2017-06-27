@@ -18,8 +18,40 @@
 					</ul>
 	     		</div>
 
-	     		<div class="block-content" style="min-height:350px;">
-					<Media></Media>
+	     		<div class="block-content" style="min-height:450px;">
+					<ul class="folder-crumb">
+						<li>当前路径：</li>
+						<li>
+							<a href="#">媒体库</a>
+						</li>
+						<li>
+							<a href="#">posts</a>
+						</li>
+						<li>
+							<span>cover</span>
+						</li>
+					</ul>
+					<div class="file-body" id="file-body">
+						<ul class="media-content">
+							<li v-for="item in currentList" @dblclick="dbclickEvent(item)">
+								<div class="file-box" @mouseenter="showFileDetail($event,item)" @mouseleave="hideFileDetail($event,item)">
+									<div class="file-icon">
+										<i v-if="item.type == 'text'" class="fa fa-file-text"></i>
+										<i v-if="item.type == 'folder'" class="fa fa-folder"></i>
+										<img v-if="item.type == 'image'" :src="item.url">
+										<i v-if="item.type == 'audio'" class="fa fa-music"></i>
+									</div>
+									<div class="file-text">
+										<h5>{{item.name}}</h5>
+										<span class="file-opera">
+											<a href="#">编辑</a>&nbsp;&nbsp;
+											<a href="#">删除</a>&nbsp;&nbsp;
+										</span>
+									</div>
+								</div>
+							</li>		
+						</ul>
+					</div>
 			    </div>  		
 	     	</div>   
         </div>
@@ -31,7 +63,6 @@
 	          		ref="upload-cascader"
 				    :options="dictOptions"
 				    v-model="selectedDict"
-				    @change="handleChange"
 				    :change-on-select=true
 				    placeholder="请选择文件夹">
 				</el-cascader>        		
@@ -62,7 +93,6 @@
 	          		ref="dict-cascader"
 				    :options="dictOptions"
 				    v-model="selectedDict"
-				    @change="handleChange"
 				    :change-on-select=true
 				    placeholder="请选择父目录">
 				</el-cascader>        		
@@ -78,6 +108,25 @@
 	        </span>
         </ElDialog>
         <!-- 新增文件夹Modal End-->
+
+        <!-- 详细信息Modal -->
+        <ElDialog title="详细信息" :visible.sync="detailVisible" size="tiny">
+        	<div class="media-detail">
+				<dl>
+					<dt>文件名</dt>
+					<dd>{{ activeItem.name }}</dd>
+					<dt>文件类型</dt>
+					<dd>{{ activeItem.type }}</dd>
+					<dt v-if="'size' in activeItem">文件大小</dt>
+					<dd v-if="'size' in activeItem">{{ activeItem.size }}</dd>
+					<dt>引用地址</dt>
+					<dd>{{ activeItem.url }}</dd>
+					<dt v-if="'lastModified' in activeItem">最近修改</dt>
+					<dd v-if="'lastModified' in activeItem">{{ activeItem.lastModified }}</dd>
+				</dl>        		
+        	</div>
+        </ElDialog>
+        <!-- 详细信息Modal End-->
 	</div>
 </template>
 
@@ -97,33 +146,30 @@
 		    	],
 		    	//API路由列表
 		    	routeList: {
-		    		newDictUrl:'/api/media/create',
-		    		allDictUrl:'/api/media/folders',
-		    		uploadUrl:'/api/media/upload',
-		    		delFileUrl:'/api/media/delete',
+		    		browseUrl : '/api/media',
+		    		newDictUrl: '/api/media/create',
+		    		allDictUrl: '/api/media/folders',
+		    		uploadUrl : '/api/media/upload',
+		    		delFileUrl: '/api/media/delete',
 		    	},
 		    	addMediaVisible: false,
 		    	createDictVisible: false,
 				dictOptions: {},
 				selectedDict: [],
-				currentDict:'',
+				currentDict:'public',
+				currentList:[],
+				activeItem:{},
 				newDictObj: {
 					value:'',
 					hasError: false,
 					errorText: ''
 				},
-
+				detailVisible: false,
 			}
 		},
 		mounted() {
-			let _self = this;
-			axios.get(_self.routeList.allDictUrl)
-				.then(function (res) {
-					_self.dictOptions = res.data;
-				})
-  				.catch(function (error) {
-  					console.log(error);
-  				})
+			this.allDicts();
+			this.browseList();
 		},
 		computed: {
 			uploadData() {
@@ -133,15 +179,45 @@
 			}
 		},
 		methods: {
-			//文件夹变更
-	      	handleChange(value) {
-
-	      	},
-	      	//添加媒体对话框关闭时的会掉函数
+	      	//添加媒体对话框关闭时的回调函数
 	      	closeAddMedia() {
 	      		this.$refs.mediaUpload.clearFiles();
 	      		this.addMediaVisible = false;
 	      	},
+	      	//获取文件列表
+	      	browseList() {
+	      		let _self = this;
+	      		let url = _self.routeList.browseUrl + "?path=" + _self.currentDict;
+				axios.get(url)
+					.then(function (res) {
+						_self.currentList = res.data;
+					})
+	  				.catch(function (error) {
+	  					console.log(error);
+	  				})
+	      	},
+			dbclickEvent(item){
+				if (item.type == 'folder'){
+					this.currentDict = item.origin;
+					this.browseList();
+					this.detailVisible = false;
+				}else{
+					this.activeItem = item;
+					this.detailVisible = true;
+				}
+			},
+	      	//获取所有目录
+	      	allDicts() {
+	      		let _self = this;
+				axios.get(_self.routeList.allDictUrl)
+					.then(function (res) {
+						_self.dictOptions = res.data;
+					})
+	  				.catch(function (error) {
+	  					console.log(error);
+	  				})
+	      	},
+	      	//新建目录
 	      	newDictSubmit() {
 	      		let _self = this;
 	      		let path = _self.selectedDict.join('/') + '/' +_self.newDictObj.value;
@@ -237,5 +313,128 @@
 	}
 	.el-cascader-menus{
 		z-index: 3000 !important;
+	}
+	.folder-crumb {
+		padding: 10px 20px;
+		margin:-20px -20px 0 -20px;
+		background: #f0f3f4;
+		list-style: none;
+		color: #999;
+	}
+	.folder-crumb > li {
+		float: left;
+	}
+	.folder-crumb > li::after{
+		content: '/';
+		padding: 0 10px;
+		color: #999;
+	}
+	.folder-crumb >li:last-child::after{
+		content: '';
+	}
+	.folder-crumb::after{
+		clear: both;
+		content: '';
+		height: 0;
+		display: block;
+	}
+	.file-body{
+		position: relative;
+	}
+	.media-content{
+		margin:10px -10px;
+		width: 100%;
+		display: flex;
+		list-style: none;
+		padding: 0;
+		flex-wrap: wrap;
+	}
+	.media-content::after{
+		content: '';
+		display: block;
+		height: 0;
+		clear: both;
+	}
+	.media-content > li {
+		flex: 1;
+		width: 100%;
+		min-width: 250px;
+		max-width: 250px;
+	}
+	.file-box{
+	    padding: 10px;
+	    margin: 10px;
+	    cursor: pointer;
+	    border-radius: 4px;
+	    border: 1px solid #e6e6e6;
+	    overflow: hidden;
+	    background: #f6f8f9;
+	    display: flex;
+	    color: #999;
+	    transition: all .2s ease-out;
+	}
+	.file-icon{
+		flex: 1;
+		font-size: 40px;
+	    text-align: center;
+	    padding-left: 0px;
+	    margin-left: 0px;
+	    margin-right: 10px;
+	}
+	.file-icon > img{
+		max-width: 100%;
+		max-height: 50px;
+	}
+	.file-text{
+		flex: 2;
+	    overflow: hidden;
+	    width: 100%;
+	}
+	.file-text h5 {
+	    margin-bottom: 2px;
+	    margin-top: 10px;
+	    max-height: 17px;
+	    height: 17px;
+	    overflow: hidden;
+	    font-size: 14px;
+	    text-overflow: ellipsis;
+	}
+	.file-text .file-opera > a {
+		font-size: 12px;
+		color: #999;
+	}
+	.file-text .file-opera > a:hover{
+		text-decoration: underline;
+	}
+	.file-box:hover{
+		color:#fff;
+		background: #66ccff;
+	}
+	.file-box:hover .file-opera > a {
+		color: #fff;
+	} 
+	.media-detail{
+		min-height: 80px;
+	    color: #646464;
+	}
+	.media-detail h4 {
+		font-size: 18px;
+		margin-bottom: 15px;
+		color: #66ccff;
+	}
+	.detail-img {
+		width: 100%;
+		margin-bottom: 15px;
+	}
+	.media-detail .detail-img > img {
+		max-width: 100%;
+	}
+	.media-detail dl{
+		margin-bottom: 0;
+	}
+	.media-detail dd {
+		margin-bottom: 10px;
+		text-indent: 2em;
+		word-break: break-word;
 	}
 </style>

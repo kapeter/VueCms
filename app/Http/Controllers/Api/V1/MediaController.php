@@ -19,6 +19,7 @@ class MediaController extends BaseController
 
         $this->middleware('blog.api');
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -26,11 +27,26 @@ class MediaController extends BaseController
      */
     public function index(Request $request)
     {
+        $path = $request->get('path');
 
+        $filesList = $this->mediaRepository->filesInThis($path);
+        $foldersList = $this->mediaRepository->foldersInThis($path);
+
+        $data = [];
+
+        foreach ($foldersList as $value) {
+            array_push($data,$this->mediaRepository->folderInfo($value));
+        }
+
+        foreach ($filesList as $value) {
+            array_push($data,$this->mediaRepository->fileInfo($value));
+        }
+
+        return $data;
     }
 
     /**
-     * make a new directory
+     * make a new folder
      *
      * @return \Illuminate\Http\Response
      */
@@ -40,17 +56,17 @@ class MediaController extends BaseController
 
         $this->mediaRepository->make($path);
 
-        return $this->mediaRepository->all();
+        return $this->mediaRepository->folders();
     }
 
     /**
-     * get all directories
+     * get all folders
      *
      * @return \Illuminate\Http\Response
      */
     public function folders()
     {
-        return $this->mediaRepository->all();
+        return $this->mediaRepository->folders();
     }
 
     /**

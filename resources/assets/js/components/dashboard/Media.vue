@@ -114,8 +114,6 @@
 				<span class="triangle-right" v-else></span>
 			</div>
 		</div>
-
-
 	</div>
 </template>
 

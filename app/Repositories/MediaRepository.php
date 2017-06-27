@@ -24,25 +24,78 @@ class MediaRepository
 		$this->mimeTypes = explode(',',config('filesystems.mime_type'));
 	}
 
-	// make a new directory
+	// make a new folder
 	public function make($directory)
 	{
 		$path = $this->rootPath.$directory;
 
-		return Storage::makeDirectory($path);
+		return Storage::makeDirectory($directory);
 	}
 
-
     /**
-     * get all directories
+     * get files list in current folders
      *
      * @return Array
      */
-	public function all()
+	public function filesInThis($directory)
+	{
+		return Storage::files($directory);
+	}
+
+    /**
+     * get folders list in current folders
+     *
+     * @return Array
+     */
+	public function foldersInThis($directory)
+	{
+		return Storage::directories($directory);
+	}
+
+    /**
+     * get all folders
+     *
+     * @return Array
+     */
+	public function folders()
 	{
 		 $allPath = Storage::allDirectories($this->rootPath);
 
 		 return json_encode($this->format($allPath));
+	}
+
+    /**
+     * get file info by file Path
+     *
+     * @return Array
+     */
+	public function fileInfo($filePath)
+	{
+		$fileName = explode('/', $filePath);
+		return [
+			'origin'       => $filePath,
+			'name'         => end($fileName),
+			'type'         => explode('/', Storage::mimeType($filePath))[0],
+			'size'         => $this->fileSize($filePath),
+			'url'          => Storage::url($filePath),
+			'lastModified' => date('Y-m-d H:i:s', Storage::lastModified($filePath))
+ 		];
+	}
+
+	/**
+     * get file info by file Path
+     *
+     * @return Array
+     */
+	public function folderInfo($folderPath)
+	{
+		$folderName = explode('/', $folderPath);
+		return [
+			'origin' => $folderPath,
+			'name'   => end($folderName),
+			'type'   => 'folder',
+			'url'    => Storage::url($folderPath),
+ 		];
 	}
 
     /**
@@ -61,6 +114,33 @@ class MediaRepository
 			$this->delFile($filePath);
 			return Storage::putFile($this->rootPath.$directory, $file);
 		}
+	}
+
+    /**
+     * delete file
+     *
+     * @return Array
+     */
+	public function delFile($filePath)
+	{
+		if (Storage::exists($filePath)) {
+			return Storage::delete($filePath);
+		}else{
+			return false;
+		}
+	}
+    /**
+     * change the format of size
+     *
+     * @return String
+     */
+	function fileSize($filePath) { 
+		$units = array('B', 'KB', 'MB', 'GB', 'TB'); 
+
+		$size = Storage::size($filePath);
+	  	for ($i = 0; $size >= 1024 && $i < 4; $i++) $size /= 1024; 
+
+	  	return round($size, 2).$units[$i]; 
 	}
 
     /**
@@ -106,19 +186,4 @@ class MediaRepository
 		}
 		return $result;
 	}
-
-    /**
-     * delete file
-     *
-     * @return Array
-     */
-	public function delFile($filePath)
-	{
-		if (Storage::exists($filePath)) {
-			return Storage::delete($filePath);
-		}else{
-			return false;
-		}
-	}
-
 }

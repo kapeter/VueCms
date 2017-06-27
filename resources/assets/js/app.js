@@ -14,11 +14,9 @@ require('./bootstrap');
  */
 
 import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Vuex from 'vuex'
-
-Vue.use(VueRouter)
-Vue.use(Vuex)
+import router from './routes.js'
+import store from './store.js'
+import App from './App.vue'
 
 
 import { Switch, Radio, RadioGroup, Option, Select, Tabs, TabPane, Upload, Cascader } from 'element-ui'
@@ -52,19 +50,6 @@ Vue.component(
 Vue.component(
     'vue-form', require('./components/dashboard/Form.vue')
 );
-
-import routes from './routes.js'
-import storeObj from './store.js'
-import App from './App.vue'
-
-const store = new Vuex.Store(storeObj);
-
-const router = new VueRouter({
-	mode: 'history',
-	base: __dirname,
-	linkActiveClass: 'active',
-	routes: routes
-})
 
 window.eventBus = new Vue();
 
