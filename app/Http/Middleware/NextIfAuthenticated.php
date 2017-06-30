@@ -67,7 +67,7 @@ class NextIfAuthenticated
     public function handle($request, Closure $next)
     {
         if ( !$request->session()->has('access_token') ){
-            return $this->respond('tymon.jwt.absent', 'token_not_provided', 400);
+            return $this->respond('tymon.jwt.absent', 'token_not_provided', 401);
         }
         $token = $request->session()->get('access_token');
 

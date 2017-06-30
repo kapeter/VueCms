@@ -76,7 +76,7 @@ class MediaController extends BaseController
      */
     public function upload(Request $request)
     {
-        $path = str_replace(',','/',$request->get('dict'));
+        $path = '/'.str_replace(',','/',$request->get('dict'));
         $file = $request->file('file');
 
         $res = $this->mediaRepository->store($path, $file);

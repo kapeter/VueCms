@@ -16,30 +16,39 @@
 							</button>
 						</li>
 					</ul>
+					<div class="pull-right">
+						<span class="text-info"><i class="fa fa-exclamation"></i> 双击文件夹或文件进行操作。</span>
+					</div>
 	     		</div>
 
-	     		<div class="block-content" style="min-height:450px;">
+	     		<div class="block-content">
 					<ul class="folder-crumb">
 						<li>当前路径：</li>
-						<li>
-							<a href="#">媒体库</a>
-						</li>
-						<li>
-							<a href="#">posts</a>
-						</li>
-						<li>
-							<span>cover</span>
+						<li v-for="crumb in crumbsArr" @click="turnToFolder(crumb)">
+							<a href="javascript:;">{{ crumb }}</a>
 						</li>
 					</ul>
 					<div class="file-body" id="file-body">
 						<ul class="media-content">
-							<li v-for="item in currentList" @dblclick="dbclickEvent(item)">
-								<div class="file-box" @mouseenter="showFileDetail($event,item)" @mouseleave="hideFileDetail($event,item)">
+							<li v-if="!isRoot" @dblclick="goBack()">
+								<div class="file-box">
+									<div class="file-icon">
+										<i class="fa fa-reply"></i>
+									</div>
+									<div class="file-text">
+										<h5>返回上一级</h5>
+										<span class="file-opera">..</span>
+									</div>
+								</div>
+							</li>	
+							<li v-for="item in currentList" @dblclick.prevent="dbclickEvent(item)">
+								<div class="file-box">
 									<div class="file-icon">
 										<i v-if="item.type == 'text'" class="fa fa-file-text"></i>
 										<i v-if="item.type == 'folder'" class="fa fa-folder"></i>
 										<img v-if="item.type == 'image'" :src="item.url">
 										<i v-if="item.type == 'audio'" class="fa fa-music"></i>
+										<i v-if="item.type == 'video'" class="fa fa-video-camera"></i>
 									</div>
 									<div class="file-text">
 										<h5>{{item.name}}</h5>
@@ -112,6 +121,7 @@
         <!-- 详细信息Modal -->
         <ElDialog title="详细信息" :visible.sync="detailVisible" size="tiny">
         	<div class="media-detail">
+        		<img v-if="activeItem.type == 'image'" :src="activeItem.url">
 				<dl>
 					<dt>文件名</dt>
 					<dd>{{ activeItem.name }}</dd>
@@ -131,12 +141,11 @@
 </template>
 
 <script>
-	import Media from '../../../components/dashboard/Media.vue'
 	import ElDialog from '../../../packages/dialog'
+	import { Loading } from 'element-ui'
 
 	export default {
 		components: {
-			Media,
 			ElDialog
 		},
 		data() {
@@ -158,6 +167,8 @@
 				selectedDict: [],
 				currentDict:'public',
 				currentList:[],
+				crumbsArr: ['public'],
+				isRoot: true,
 				activeItem:{},
 				newDictObj: {
 					value:'',
@@ -183,14 +194,26 @@
 	      	closeAddMedia() {
 	      		this.$refs.mediaUpload.clearFiles();
 	      		this.addMediaVisible = false;
+	      		this.browseList();
 	      	},
 	      	//获取文件列表
 	      	browseList() {
+	      		let loadingInstance = null;
 	      		let _self = this;
 	      		let url = _self.routeList.browseUrl + "?path=" + _self.currentDict;
+	      		let reqInterceptor = axios.interceptors.request.use(function (config) {
+	      			loadingInstance = Loading.service({target: document.querySelector('#file-body')});
+	      			return config;
+	      		});
+	      		let resInterceptor = axios.interceptors.response.use(function (response) {
+	      			loadingInstance.close();
+	      			return response;
+	      		});
 				axios.get(url)
 					.then(function (res) {
 						_self.currentList = res.data;
+						axios.interceptors.request.eject(reqInterceptor);
+						axios.interceptors.response.eject(resInterceptor);
 					})
 	  				.catch(function (error) {
 	  					console.log(error);
@@ -199,11 +222,41 @@
 			dbclickEvent(item){
 				if (item.type == 'folder'){
 					this.currentDict = item.origin;
+					this.isRoot = false;
+					this.crumbsArr = this.currentDict.split('/');
 					this.browseList();
-					this.detailVisible = false;
 				}else{
 					this.activeItem = item;
 					this.detailVisible = true;
+				}
+			},
+			goBack(){
+				let temp = this.currentDict.split('/');
+				temp.pop();
+				if (temp.length == 1){
+					this.isRoot = true;
+					this.currentDict = temp[0];
+				}else{
+					this.currentDict = temp.join('/');
+				}
+				this.crumbsArr = temp;
+				this.browseList();
+			},
+			turnToFolder(crumb) {
+				for(let i = 0; i<this.crumbsArr.length; i++){
+					if (crumb == this.crumbsArr[i]){
+						let temp = this.crumbsArr.slice(0,i);
+						temp.push(crumb);
+						if (temp.length == 1){
+							this.isRoot = true;
+							this.currentDict = temp[0];
+						}else{
+							this.currentDict = temp.join('/');
+						}
+						this.crumbsArr = temp;
+						this.browseList();
+						break;
+					}
 				}
 			},
 	      	//获取所有目录
@@ -244,6 +297,7 @@
       					_self.dictOptions = res.data;
       					_self.createDictVisible = false;
       					sweetAlert.success();
+      					_self.browseList();
       				})
       				.catch(function (error) {
       					console.log(error);
@@ -340,6 +394,7 @@
 	}
 	.file-body{
 		position: relative;
+		min-height:450px;
 	}
 	.media-content{
 		margin:10px -10px;
@@ -372,6 +427,7 @@
 	    display: flex;
 	    color: #999;
 	    transition: all .2s ease-out;
+    	user-select:none;
 	}
 	.file-icon{
 		flex: 1;
@@ -422,12 +478,11 @@
 		margin-bottom: 15px;
 		color: #66ccff;
 	}
-	.detail-img {
-		width: 100%;
-		margin-bottom: 15px;
-	}
-	.media-detail .detail-img > img {
+	.media-detail img {
+		display: block;
 		max-width: 100%;
+		max-height: 300px;
+		margin: 0 auto 15px auto;
 	}
 	.media-detail dl{
 		margin-bottom: 0;

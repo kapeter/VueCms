@@ -31,7 +31,6 @@ Vue.use(TabPane)
 Vue.use(Upload)
 Vue.use(Cascader)
 
-
 Vue.component(
     'page-heading', require('./components/dashboard/Heading.vue')
 );

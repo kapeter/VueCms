@@ -25,14 +25,36 @@ window.Vue = require('vue');
 
 window.csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
+/*axios setting*/
 
 window.axios = require('axios');
 
-window.axios.defaults.headers.common = {
-    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-    'X-Requested-With': 'XMLHttpRequest'
+window.axios.defaults = {
+	headers: {
+		'X-Requested-With': 'XMLHttpRequest',
+		'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+	},
+	validateStatus: function (status) {
+    	return status < 500; 
+	}
 };
 
+window.axios.interceptors.response.use(
+    response => {
+        return response;
+    },
+    //统一错误响应
+    error => {
+        if (error.response) {
+            switch (error.response.status) {
+                case 401:
+                	window.location.href="/login";
+                	break;
+            }
+        }
+        return Promise.reject(error);
+    }
+);
 
 /*import sweetAlert*/
 
@@ -40,18 +62,5 @@ window.sweetAlert = require('sweetalert/dist/sweetalert.min.js');
 window.sweetAlert.success = () => sweetAlert({ title: "操作成功", type: "success", timer: 1250, showConfirmButton: false});
 window.sweetAlert.error = () => sweetAlert({ title: "操作失败", type: "error", timer: 1250, showConfirmButton: false});
 
-
-/**
- * Echo exposes an expressive API for subscribing to channels and listening
- * for events that are broadcast by Laravel. Echo and event broadcasting
- * allows your team to easily build robust real-time web applications.
- */
-
-// import Echo from "laravel-echo"
-
-// window.Echo = new Echo({
-//     broadcaster: 'pusher',
-//     key: 'your-pusher-key'
-// });
 
 
