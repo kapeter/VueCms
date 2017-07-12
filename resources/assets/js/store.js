@@ -6,6 +6,7 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
 	state: {
 		isMini : false,
+		theUser : {},
 	},
 	mutations: {
 		sidebarMiniToggle (state) {

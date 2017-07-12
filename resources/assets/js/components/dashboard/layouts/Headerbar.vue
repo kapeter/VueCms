@@ -80,20 +80,20 @@
 
 <script>
     export default {
-        data() {
-            return {
-                thisUser: {},
-            }
-        },
         created() {
             var _self = this;
             axios.get('/api/profile')
                 .then(function (res) {
-                    _self.thisUser = res.data.data;
+                    _self.$store.state.theUser = res.data.data;
                 })
                 .catch(function (res) {
                     console.log(res);
                 });            
+        },
+        computed: {
+            thisUser() {
+                return this.$store.state.theUser;
+            }
         },
         methods: {
             doLogout() {

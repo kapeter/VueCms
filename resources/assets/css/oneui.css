@@ -2,75 +2,6 @@
 * OneUI - v3.0.0 - Auto-compiled on 2016-10-03 - Copyright 2016 
 * @author pixelcave
 */
-/* source-sans-pro-normal - latin */
-@font-face {
-  font-family: 'Source Sans Pro';
-  font-style: normal;
-  font-weight: 300;
-  src: url('//lib.baomitu.com/fonts/source-sans-pro/source-sans-pro-v9-latin-300.eot'); /* IE9 Compat Modes */
-  src: local('Source Sans Pro'), local('SourceSans Pro-Normal'),
-       url('//lib.baomitu.com/fonts/source-sans-pro/source-sans-pro-v9-latin-300.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-       url('//lib.baomitu.com/fonts/source-sans-pro/source-sans-pro-v9-latin-300.woff2') format('woff2'), /* Super Modern Browsers */
-       url('//lib.baomitu.com/fonts/source-sans-pro/source-sans-pro-v9-latin-300.woff') format('woff'), /* Modern Browsers */
-       url('//lib.baomitu.com/fonts/source-sans-pro/source-sans-pro-v9-latin-300.ttf') format('truetype'), /* Safari, Android, iOS */
-       url('//lib.baomitu.com/fonts/source-sans-pro/source-sans-pro-v9-latin-300.svg#SourceSans Pro') format('svg'); /* Legacy iOS */
-}
-  
-/* source-sans-pro-normal - latin */
-@font-face {
-  font-family: 'Source Sans Pro';
-  font-style: normal;
-  font-weight: regular;
-  src: url('//lib.baomitu.com/fonts/source-sans-pro/source-sans-pro-v9-latin-regular.eot'); /* IE9 Compat Modes */
-  src: local('Source Sans Pro'), local('SourceSans Pro-Normal'),
-       url('//lib.baomitu.com/fonts/source-sans-pro/source-sans-pro-v9-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-       url('//lib.baomitu.com/fonts/source-sans-pro/source-sans-pro-v9-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
-       url('//lib.baomitu.com/fonts/source-sans-pro/source-sans-pro-v9-latin-regular.woff') format('woff'), /* Modern Browsers */
-       url('//lib.baomitu.com/fonts/source-sans-pro/source-sans-pro-v9-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
-       url('//lib.baomitu.com/fonts/source-sans-pro/source-sans-pro-v9-latin-regular.svg#SourceSans Pro') format('svg'); /* Legacy iOS */
-}
-  
-/* source-sans-pro-italic - latin */
-@font-face {
-  font-family: 'Source Sans Pro';
-  font-style: italic;
-  font-weight: regular;
-  src: url('//lib.baomitu.com/fonts/source-sans-pro/source-sans-pro-v9-latin-italic.eot'); /* IE9 Compat Modes */
-  src: local('Source Sans Pro'), local('SourceSans Pro-Italic'),
-       url('//lib.baomitu.com/fonts/source-sans-pro/source-sans-pro-v9-latin-italic.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-       url('//lib.baomitu.com/fonts/source-sans-pro/source-sans-pro-v9-latin-italic.woff2') format('woff2'), /* Super Modern Browsers */
-       url('//lib.baomitu.com/fonts/source-sans-pro/source-sans-pro-v9-latin-italic.woff') format('woff'), /* Modern Browsers */
-       url('//lib.baomitu.com/fonts/source-sans-pro/source-sans-pro-v9-latin-italic.ttf') format('truetype'), /* Safari, Android, iOS */
-       url('//lib.baomitu.com/fonts/source-sans-pro/source-sans-pro-v9-latin-italic.svg#SourceSans Pro') format('svg'); /* Legacy iOS */
-}
-  
-/* source-sans-pro-normal - latin */
-@font-face {
-  font-family: 'Source Sans Pro';
-  font-style: normal;
-  font-weight: 600;
-  src: url('//lib.baomitu.com/fonts/source-sans-pro/source-sans-pro-v9-latin-600.eot'); /* IE9 Compat Modes */
-  src: local('Source Sans Pro'), local('SourceSans Pro-Normal'),
-       url('//lib.baomitu.com/fonts/source-sans-pro/source-sans-pro-v9-latin-600.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-       url('//lib.baomitu.com/fonts/source-sans-pro/source-sans-pro-v9-latin-600.woff2') format('woff2'), /* Super Modern Browsers */
-       url('//lib.baomitu.com/fonts/source-sans-pro/source-sans-pro-v9-latin-600.woff') format('woff'), /* Modern Browsers */
-       url('//lib.baomitu.com/fonts/source-sans-pro/source-sans-pro-v9-latin-600.ttf') format('truetype'), /* Safari, Android, iOS */
-       url('//lib.baomitu.com/fonts/source-sans-pro/source-sans-pro-v9-latin-600.svg#SourceSans Pro') format('svg'); /* Legacy iOS */
-}
-  
-/* source-sans-pro-normal - latin */
-@font-face {
-  font-family: 'Source Sans Pro';
-  font-style: normal;
-  font-weight: 700;
-  src: url('//lib.baomitu.com/fonts/source-sans-pro/source-sans-pro-v9-latin-700.eot'); /* IE9 Compat Modes */
-  src: local('Source Sans Pro'), local('SourceSans Pro-Normal'),
-       url('//lib.baomitu.com/fonts/source-sans-pro/source-sans-pro-v9-latin-700.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-       url('//lib.baomitu.com/fonts/source-sans-pro/source-sans-pro-v9-latin-700.woff2') format('woff2'), /* Super Modern Browsers */
-       url('//lib.baomitu.com/fonts/source-sans-pro/source-sans-pro-v9-latin-700.woff') format('woff'), /* Modern Browsers */
-       url('//lib.baomitu.com/fonts/source-sans-pro/source-sans-pro-v9-latin-700.ttf') format('truetype'), /* Safari, Android, iOS */
-       url('//lib.baomitu.com/fonts/source-sans-pro/source-sans-pro-v9-latin-700.svg#SourceSans Pro') format('svg'); /* Legacy iOS */
-}
   
 /* open-sans-normal - latin */
 @font-face {
@@ -213,7 +144,7 @@ h6,
 .h5,
 .h6 {
   margin: 0;
-  font-family: "Source Sans Pro", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 600;
   line-height: 1.2;
   color: inherit;
@@ -344,6 +275,9 @@ h6,
 }
 .font-s64 {
   font-size: 64px !important;
+}
+.font-s72 {
+  font-size: 72px !important;
 }
 .font-s96 {
   font-size: 96px !important;
@@ -1736,7 +1670,6 @@ a.list-group-item:focus {
   margin-bottom: 0;
   text-transform: uppercase;
   font-size: 12px;
-  font-weight: 600;
   color: #999999;
   background-color: transparent;
 }
@@ -1774,7 +1707,7 @@ a.list-group-item:focus {
 }
 .popover-title {
   padding: 10px 10px 1px;
-  font-family: "Source Sans Pro", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   background-color: #fff;
   border-bottom: none;
   border-radius: 1px 1px 0 0;
@@ -1843,7 +1776,7 @@ a.list-group-item:focus {
 .table > tbody > tr > th,
 .table > tfoot > tr > th {
   padding: 16px 10px 12px;
-  font-family: "Source Sans Pro", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 15px;
   font-weight: 600;
   text-transform: uppercase;
@@ -5053,8 +4986,8 @@ a.list-group-item:focus {
   min-width: 320px;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
-  -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
 }
 .header-navbar-fixed #main-container {
   padding-top: 60px;
@@ -5386,8 +5319,7 @@ a.list-group-item:focus {
   }
   .content p,
   .content .push,
-  .content .block,
-  .content .items-push > div {
+  .content .block {
     margin-bottom: 25px;
   }
   .content .items-push-2x > div {
@@ -5511,7 +5443,7 @@ a.list-group-item:focus {
 }
 .bg-image {
   background-color: #f9f9f9;
-  background-position: 0 50%;
+  background-position: 0 75%;
   -webkit-background-size: cover;
   background-size: cover;
 }
@@ -6831,7 +6763,7 @@ a.block.block-link-hover3:active {
   border-radius: 50%;
 }
 .list-timeline .list-timeline-content {
-  padding: 10px 10px 1px;
+  padding: 1px 10px;
 }
 .list-timeline .list-timeline-content > p:first-child {
   margin-bottom: 0;

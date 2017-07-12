@@ -1,10 +1,23 @@
 <template>
 	<div>
-        <page-heading title="媒体库" subTitle="Media Library" :crumbs="crumbs"></page-heading>
-        <div class="content">
-	     	<div class="block">
-	     		<div class="block-header">
-					<ul class="block-button">
+	    <!-- Page Header -->
+	    <div class="content bg-gray-lighter">
+	        <div class="row items-push">
+	            <div class="col-sm-8">
+	                <ul class="nav nav-pills">
+	                    <li>
+	                        <a href="javascript:void(0)">
+	                            <i class="fa fa-fw fa-folder-open-o push-5-r"></i> 媒体库
+	                        </a>
+
+	                    </li>
+						<li v-for="crumb in crumbsArr" @click="turnToFolder(crumb)">
+							<a href="javascript:;"><i class="fa fa-fw fa-angle-right"></i>{{ crumb }}</a>
+						</li>
+	                </ul>
+	            </div>
+	            <div class="col-sm-4 text-right hidden-xs">
+					<ul class="block-button pull-right">
 						<li>
 							<button class="btn btn-info" @click="addMediaVisible = true">
 								<i class="fa fa-cloud-upload"></i> 添加媒体
@@ -16,57 +29,76 @@
 							</button>
 						</li>
 					</ul>
-					<div class="pull-right">
-						<span class="text-info"><i class="fa fa-exclamation"></i> 双击文件夹或文件进行操作。</span>
-					</div>
-	     		</div>
+	            </div>
+	        </div>
+	    </div>
 
-	     		<div class="block-content">
-					<ul class="folder-crumb">
-						<li>当前路径：</li>
-						<li v-for="crumb in crumbsArr" @click="turnToFolder(crumb)">
-							<a href="javascript:;">{{ crumb }}</a>
-						</li>
-					</ul>
-					<div class="file-body" id="file-body">
-						<ul class="media-content">
-							<li v-if="!isRoot" @dblclick="goBack()">
-								<div class="file-box">
-									<div class="file-icon">
-										<i class="fa fa-reply"></i>
-									</div>
-									<div class="file-text">
-										<h5>返回上一级</h5>
-										<span class="file-opera">..</span>
-									</div>
-								</div>
-							</li>	
-							<li v-for="item in currentList" @dblclick.prevent="dbclickEvent(item)">
-								<div class="file-box">
-									<div class="file-icon">
-										<i v-if="item.type == 'text'" class="fa fa-file-text"></i>
-										<i v-if="item.type == 'folder'" class="fa fa-folder"></i>
-										<img v-if="item.type == 'image'" :src="item.url">
-										<i v-if="item.type == 'audio'" class="fa fa-music"></i>
-										<i v-if="item.type == 'video'" class="fa fa-video-camera"></i>
-									</div>
-									<div class="file-text">
-										<h5>{{item.name}}</h5>
-										<span class="file-opera">
-											<a href="#">编辑</a>&nbsp;&nbsp;
-											<a href="#">删除</a>&nbsp;&nbsp;
-										</span>
-									</div>
-								</div>
-							</li>		
-						</ul>
-					</div>
-			    </div>  		
-	     	</div>   
+        <div class="content">
+			<div class="row" id="file-body">
+				<div class="col-sm-4 col-md-3 col-lg-2" v-if="!isRoot">
+                    <div class="block block-rounded animated fadeIn">
+                        <div class="block-header">
+                        	<ul class="block-options"></ul>
+                        </div>
+                        <div class="block-content text-center">
+                            <div class="item item-2x item-circle bg-gray-light text-gray" @click="goBack()">
+								<i  class="si si-action-undo"></i>
+                            </div>                          
+                        </div>
+                        <div class="block-content block-content-full text-center mheight-100">
+                            <h3 class="h5 font-w300 text-black push-5 no-wrap">返回上一级</h3>
+                            <span class="text-gray">.. /</span>
+
+                        </div>
+                    </div>
+                </div>
+				<div class="col-sm-4 col-md-3 col-lg-2" v-for="item in currentList">
+                    <div class="block block-rounded animated fadeIn">
+                        <div class="block-header">
+                            <ul class="block-options">
+                                <li title="查看" v-if="item.type != 'folder'">
+                                    <button type="button" @click.prevent="showInfo(item)"><i class="si si-eye"></i></button>
+                                </li>
+                                <li title="编辑">
+                                    <button type="button"><i class="si si-pencil"></i></button>
+                                </li>
+                                <li title="删除">
+                                    <button type="button" @click.prevent="deleteFileOrFolder(item)"><i class="si si-close"></i></button>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="block-content text-center">
+                            <div class="item item-2x item-circle bg-success-light text-success" v-if="item.type == 'audio'">
+								<i  class="si si-music-tone-alt"></i>
+                            </div>
+                            <div class="item item-2x item-circle bg-warning-light text-warning" v-if="item.type == 'text'">
+								<i  class="si si-book-open"></i>
+                            </div>  
+                            <div class="item item-2x item-circle bg-danger-light text-danger" v-if="item.type == 'video'">
+								<i  class="si si-camcorder"></i>
+                            </div> 
+                            <div class="item-img" v-if="item.type == 'image'">
+                            	<img :src="item.url" :alt="item.name">
+                            </div>
+                            <div class="item item-2x item-circle bg-info-light text-info" v-if="item.type == 'folder'" @click="enterFolder(item)">
+								<i  class="si si-folder-alt"></i>
+                            </div>                           
+                        </div>
+                        <div class="block-content block-content-full text-center mheight-100">
+                            <h3 class="h5 font-w300 text-black push-5 no-wrap">{{item.name}}</h3>
+                            <span class="text-gray" v-if="item.type == 'folder'">点击图标进入</span>
+                            <span class="text-gray" v-else>{{ item.size }}</span>
+
+                        </div>
+                    </div>
+                </div>
+			</div>
         </div>
         <!-- 添加媒体Modal -->
         <ElDialog title="添加媒体" :visible.sync="addMediaVisible" size="tiny" :before-close="closeAddMedia">
-        	<span class="text-info"><i class="fa fa-exclamation"></i> 若文件夹为空，则上传至媒体根目录。</span>
+        	<div class="push-5">
+        		<span class="text-info"><i class="fa fa-exclamation"></i> 若文件夹为空，则上传至媒体根目录。</span>
+        	</div>
         	<div class="form-group">
 	          	<el-cascader
 	          		ref="upload-cascader"
@@ -155,11 +187,11 @@
 		    	],
 		    	//API路由列表
 		    	routeList: {
-		    		browseUrl : '/api/media',
-		    		newDictUrl: '/api/media/create',
-		    		allDictUrl: '/api/media/folders',
-		    		uploadUrl : '/api/media/upload',
-		    		delFileUrl: '/api/media/delete',
+		    		browseUrl    : '/api/media',
+		    		newDictUrl   : '/api/media/create',
+		    		allDictUrl   : '/api/media/folders',
+		    		uploadUrl    : '/api/media/upload',
+		    		delFileUrl   : '/api/media/delete',
 		    	},
 		    	addMediaVisible: false,
 		    	createDictVisible: false,
@@ -202,7 +234,7 @@
 	      		let _self = this;
 	      		let url = _self.routeList.browseUrl + "?path=" + _self.currentDict;
 	      		let reqInterceptor = axios.interceptors.request.use(function (config) {
-	      			loadingInstance = Loading.service({target: document.querySelector('#file-body')});
+	      			loadingInstance = Loading.service({target: '#file-body',body: "loading"});
 	      			return config;
 	      		});
 	      		let resInterceptor = axios.interceptors.response.use(function (response) {
@@ -219,17 +251,17 @@
 	  					console.log(error);
 	  				})
 	      	},
-			dbclickEvent(item){
-				if (item.type == 'folder'){
-					this.currentDict = item.origin;
-					this.isRoot = false;
-					this.crumbsArr = this.currentDict.split('/');
-					this.browseList();
-				}else{
-					this.activeItem = item;
-					this.detailVisible = true;
-				}
+			showInfo(item){
+				this.activeItem = item;
+				this.detailVisible = true;
 			},
+			enterFolder(item){
+				this.currentDict = item.origin;
+				this.isRoot = false;
+				this.crumbsArr = this.currentDict.split('/');
+				this.browseList();
+			},
+			//返回上一级
 			goBack(){
 				let temp = this.currentDict.split('/');
 				temp.pop();
@@ -333,7 +365,37 @@
       					console.log(error);
       				});
 
-	      	}
+	      	},
+	      	//删除按钮
+	      	deleteFileOrFolder(item) {
+				let _self = this;
+				let warnText = '您确认删除该文件吗？';
+				let url = _self.routeList.delFileUrl;
+				let filePath = item.origin;
+				if (item.type == 'folder'){	
+					warnText = '您确认删除该文件夹以及其中的所有文件吗？';
+				}
+                sweetAlert({
+                    title: "危险操作",
+                    text: warnText,
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#d26a5c",
+                    confirmButtonText: "删  除",
+                    cancelButtonText: "取  消",
+                },
+                function(isConfirm){
+                    if (isConfirm){
+		      			axios.post(url, { 'path': filePath })
+		      				.then(function () {
+		      					_self.browseList();
+		      				})
+		      				.catch(function (error) {
+		      					console.log(error);
+		      				});
+                    }
+                }); 
+	      	},
 	    }
 	}
 </script>
@@ -360,10 +422,6 @@
 	}
 	.media-upload{
 		margin-bottom: 20px;
-	}
-	.text-info{
-		display: block;
-		margin-bottom: 5px;
 	}
 	.el-cascader-menus{
 		z-index: 3000 !important;
@@ -491,5 +549,47 @@
 		margin-bottom: 10px;
 		text-indent: 2em;
 		word-break: break-word;
+	}
+	.nav-pills{
+		font-size: 18px;
+	}
+	.nav-pills > li > a{
+		font-weight: normal;
+		text-transform: uppercase;
+		padding: 0;
+		padding-top: 6px;
+	}
+	.nav-pills > li > a:hover{
+		color: #66ccff;
+	}
+	.item{
+		font-size: 32px;
+	}
+	.item-img{
+		width: 100%;
+		height: 100px;
+	}
+	.item-img img{
+		max-width: 100%;
+		max-height: 100%;
+	}
+	.no-wrap{
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+	.bg-gray-light{
+		cursor: pointer;
+		transition: all 0.25s ease-out;
+	}
+	.bg-gray-light:hover{
+		background: #efefef;
+	}
+	.bg-info-light{
+		cursor: pointer;
+		transition: all 0.25s ease-out;
+	}
+	.bg-info-light:hover{
+		background: #daeefe;
 	}
 </style>
