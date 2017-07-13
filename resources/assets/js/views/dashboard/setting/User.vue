@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<page-heading title="系统设置" subTitle="System Settings" :crumbs="crumbs"></page-heading>
+		<page-heading title="用户管理" subTitle="User Management" :crumbs="crumbs"></page-heading>
         <!-- Page Content -->
         <div class="content">
         </div>
@@ -13,7 +13,7 @@
 		data() {
 			return {
 				crumbs: [
-                    {to: null, text: '系统设置'},
+                    {to: null, text: '用户管理'},
                 ],
 			}
 		}

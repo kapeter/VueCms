@@ -129,6 +129,20 @@ class MediaRepository
 			return false;
 		}
 	}
+
+    /**
+     * delete folder
+     *
+     * @return Array
+     */
+	public function delFolder($directory)
+	{
+		if (Storage::exists($directory)) {
+			return Storage::deleteDirectory($directory);
+		}else{
+			return false;
+		}
+	}
     /**
      * change the format of size
      *

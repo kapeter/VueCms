@@ -57,6 +57,10 @@ const router = new VueRouter({
                             component: require(/* webpackChunkName: "setting" */ './views/dashboard/setting/Category.vue')
                         },
                         {
+                            path: 'user',
+                            component: require(/* webpackChunkName: "setting" */ './views/dashboard/setting/User.vue')
+                        },
+                        {
                             path: 'system',
                             component: require(/* webpackChunkName: "setting" */ './views/dashboard/setting/System.vue')
                         },

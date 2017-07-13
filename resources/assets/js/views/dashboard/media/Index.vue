@@ -5,14 +5,9 @@
 	        <div class="row items-push">
 	            <div class="col-sm-8">
 	                <ul class="nav nav-pills">
-	                    <li>
-	                        <a href="javascript:void(0)">
-	                            <i class="fa fa-fw fa-folder-open-o push-5-r"></i> 媒体库
-	                        </a>
-
-	                    </li>
 						<li v-for="crumb in crumbsArr" @click="turnToFolder(crumb)">
-							<a href="javascript:;"><i class="fa fa-fw fa-angle-right"></i>{{ crumb }}</a>
+							<a href="javascript:void(0)" v-if="crumb == 'public'"><i class="fa fa-fw fa-folder-open-o push-5-r"></i>媒体库</a>
+							<a href="javascript:void(0)" v-else><i class="fa fa-fw fa-angle-right"></i>{{ crumb }}</a>
 						</li>
 	                </ul>
 	            </div>
@@ -34,14 +29,14 @@
 	    </div>
 
         <div class="content">
-			<div class="row" id="file-body">
+			<div class="row file-body" id="file-body">
 				<div class="col-sm-4 col-md-3 col-lg-2" v-if="!isRoot">
                     <div class="block block-rounded animated fadeIn">
                         <div class="block-header">
                         	<ul class="block-options"></ul>
                         </div>
                         <div class="block-content text-center">
-                            <div class="item item-2x item-circle bg-gray-light text-gray" @click="goBack()">
+                            <div class="item item-2x item-circle bg-gray-light text-gray cursor-hover" @click="goBack()">
 								<i  class="si si-action-undo"></i>
                             </div>                          
                         </div>
@@ -56,11 +51,8 @@
                     <div class="block block-rounded animated fadeIn">
                         <div class="block-header">
                             <ul class="block-options">
-                                <li title="查看" v-if="item.type != 'folder'">
-                                    <button type="button" @click.prevent="showInfo(item)"><i class="si si-eye"></i></button>
-                                </li>
-                                <li title="编辑">
-                                    <button type="button"><i class="si si-pencil"></i></button>
+                                <li title="下载" v-if="item.type != 'folder'">
+                                    <a :href="routeList.downloadUrl + '?path=' + item.origin" download><i class="si si-cloud-download"></i></a>
                                 </li>
                                 <li title="删除">
                                     <button type="button" @click.prevent="deleteFileOrFolder(item)"><i class="si si-close"></i></button>
@@ -68,19 +60,19 @@
                             </ul>
                         </div>
                         <div class="block-content text-center">
-                            <div class="item item-2x item-circle bg-success-light text-success" v-if="item.type == 'audio'">
+                            <div class="item item-2x item-circle bg-success-light text-success cursor-hover" v-if="item.type == 'audio'" @click.prevent="showInfo(item)">
 								<i  class="si si-music-tone-alt"></i>
                             </div>
-                            <div class="item item-2x item-circle bg-warning-light text-warning" v-if="item.type == 'text'">
+                            <div class="item item-2x item-circle bg-warning-light text-warning cursor-hover" v-if="item.type == 'text'" @click.prevent="showInfo(item)">
 								<i  class="si si-book-open"></i>
                             </div>  
-                            <div class="item item-2x item-circle bg-danger-light text-danger" v-if="item.type == 'video'">
+                            <div class="item item-2x item-circle bg-danger-light text-danger cursor-hover" v-if="item.type == 'video'" @click.prevent="showInfo(item)">
 								<i  class="si si-camcorder"></i>
                             </div> 
-                            <div class="item-img" v-if="item.type == 'image'">
-                            	<img :src="item.url" :alt="item.name">
+                            <div class="item-img" v-if="item.type == 'image'" @click.prevent="showInfo(item)">
+                            	<img class="cursor-hover" :src="item.url" :alt="item.name">
                             </div>
-                            <div class="item item-2x item-circle bg-info-light text-info" v-if="item.type == 'folder'" @click="enterFolder(item)">
+                            <div class="item item-2x item-circle bg-info-light text-info cursor-hover" v-if="item.type == 'folder'" @click="enterFolder(item)">
 								<i  class="si si-folder-alt"></i>
                             </div>                           
                         </div>
@@ -192,6 +184,7 @@
 		    		allDictUrl   : '/api/media/folders',
 		    		uploadUrl    : '/api/media/upload',
 		    		delFileUrl   : '/api/media/delete',
+		    		downloadUrl  : '/api/media/download'
 		    	},
 		    	addMediaVisible: false,
 		    	createDictVisible: false,
@@ -360,7 +353,7 @@
 	      	removeFileInUpload(file, fileList) {
 	      		let _self = this;
 	      		let filePath = file.response;
-      			axios.post(_self.routeList.delFileUrl, { 'path': filePath })
+      			axios.post(_self.routeList.delFileUrl, { 'origin': filePath, 'type': 'file' })
       				.catch(function (error) {
       					console.log(error);
       				});
@@ -371,7 +364,6 @@
 				let _self = this;
 				let warnText = '您确认删除该文件吗？';
 				let url = _self.routeList.delFileUrl;
-				let filePath = item.origin;
 				if (item.type == 'folder'){	
 					warnText = '您确认删除该文件夹以及其中的所有文件吗？';
 				}
@@ -386,7 +378,7 @@
                 },
                 function(isConfirm){
                     if (isConfirm){
-		      			axios.post(url, { 'path': filePath })
+		      			axios.post(url, item)
 		      				.then(function () {
 		      					_self.browseList();
 		      				})
@@ -565,9 +557,13 @@
 	.item{
 		font-size: 32px;
 	}
+	.content .items-push > div{
+		margin-bottom: 20px;
+	}
 	.item-img{
 		width: 100%;
 		height: 100px;
+		overflow: hidden;
 	}
 	.item-img img{
 		max-width: 100%;
@@ -578,18 +574,20 @@
 		text-overflow: ellipsis;
 		white-space: nowrap;
 	}
-	.bg-gray-light{
+	.cursor-hover{
 		cursor: pointer;
 		transition: all 0.25s ease-out;
 	}
 	.bg-gray-light:hover{
 		background: #efefef;
 	}
-	.bg-info-light{
-		cursor: pointer;
-		transition: all 0.25s ease-out;
-	}
 	.bg-info-light:hover{
 		background: #daeefe;
+	}
+	.bg-warning-light:hover{
+		background: #fdedd6;
+	}
+	.item-img img:hover{
+		transform: scale(1.05);
 	}
 </style>

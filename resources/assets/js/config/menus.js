@@ -41,9 +41,9 @@ export default [
         uri  : '/dashboard/setting/category'
     },
     {
-        name : '用户设置',
+        name : '用户管理',
         icon : 'si si-users',
-        uri  : '/dashboard/setting/system',
+        uri  : '/dashboard/setting/user',
     },
     {
         name : '系统设置',

@@ -82,6 +82,7 @@ body {
   font-size: 14px;
   color: #646464;
   background-color: #f5f5f5;
+  overflow-x: hidden;
 }
 .no-focus *:focus {
   outline: 0 !important;
@@ -5313,14 +5314,15 @@ a.list-group-item:focus {
 @media screen and (min-width: 768px) {
   .content {
     margin: 0 auto;
-    padding: 25px 30px 1px;
+    padding: 30px 30px 1px;
     max-width: 100%;
     overflow-x: visible;
   }
   .content p,
   .content .push,
-  .content .block {
-    margin-bottom: 25px;
+  .content .block,
+  .content .items-push > div {
+    margin-bottom: 30px;
   }
   .content .items-push-2x > div {
     margin-bottom: 60px;
@@ -6367,11 +6369,11 @@ a.block.block-link-hover3:active {
 }
 .nav-main {
   margin: 0 -20px;
-  padding: 0;
+  padding: 8px 0;
   list-style: none;
 }
 .nav-main .nav-main-heading {
-  padding: 22px 20px 6px 20px;
+  padding: 20px 20px 6px 20px;
   font-size: 12px;
   font-weight: 600;
   text-transform: uppercase;

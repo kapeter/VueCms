@@ -46,4 +46,5 @@ $api->version('v1',['namespace' => 'App\Http\Controllers\Api\V1'], function ($ap
 	$api->get('media/folders', 'MediaController@folders');
 	$api->post('media/upload', 'MediaController@upload');
 	$api->post('media/delete', 'MediaController@delete');
+	$api->get('media/download', 'MediaController@download');
 });

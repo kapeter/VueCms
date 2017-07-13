@@ -96,15 +96,33 @@ class MediaController extends BaseController
      */
     public function delete(Request $request)
     {
-        $path = $request->get('path');
+        $type = $request->get('type');
+        $path = $request->get('origin');
 
-        $res = $this->mediaRepository->delFile($path);
+        if ($type == 'folder'){
+            $res = $this->mediaRepository->delFolder($path);
+        }else{
+            $res = $this->mediaRepository->delFile($path);
+        }
 
         if (!$res){
             return $this->response->array($this->errorMsg[10008]);
         }else{
             return $this->response->array($this->errorMsg[10000]);
         }
+
+    }
+
+    /**
+     * download file
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function download(Request $request)
+    {
+        $path = storage_path('app').'/'.$request->get('path');
+        
+        return response()->download($path);
 
     }
 
