@@ -1,7 +1,7 @@
 <template>
   <transition name="dialog-pop">
     <div class="el-dialog__wrapper" v-show="visible" @click.self="handleWrapperClick">
-      <div class="modal-dialog" :class="[sizeClass, customClass]" :style="style">
+      <div class="modal-dialog" :class="[sizeClass,customClass]" :style="style">
         <div class="modal-content">
           <div class="block block-themed" ref="dialog" >
             <div class="block-header bg-info">
@@ -107,10 +107,12 @@
 
     computed: {
       sizeClass() {
-        return `el-dialog--${ this.size }`;
+        if (this.size == 'large' || this.size == 'full'){
+          return `el-dialog--${ this.size }`;
+        }
       },
       style() {
-        return this.size === 'full' ? {} : { 'top': this.top };
+        return this.size === 'full' || this.size === 'large' ? {} : { 'top': this.top };
       }
     },
 
@@ -191,7 +193,10 @@
     width:50%
   }
   .el-dialog--large {
-    width:90%
+    width:90%;
+    height: 90%;
+    top:0;
+    overflow:auto
   }
   .el-dialog--full {
     width:100%;

@@ -557,6 +557,9 @@
 	.item{
 		font-size: 32px;
 	}
+	.item .si{
+		line-height: 100px;
+	}
 	.content .items-push > div{
 		margin-bottom: 20px;
 	}

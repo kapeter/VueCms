@@ -27,11 +27,11 @@ export default [
         icon : 'si si-camera',
         uri  : '/dashboard/media',
     },
-    {
-        name : '回收站',
-        icon : 'si si-trash',
-        uri  : '/dashboard/trash',
-    },
+    // {
+    //     name : '回收站',
+    //     icon : 'si si-trash',
+    //     uri  : '/dashboard/trash',
+    // },
     {
         name : 'System Interface',
     },

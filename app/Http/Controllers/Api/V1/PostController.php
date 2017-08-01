@@ -126,7 +126,7 @@ class PostController extends BaseController
     {
 
         $data = [
-            'published_at' => $request->is_publish ? Carbon::now() :null
+            'published_at' => $request->is_publish ? Carbon::now() : null
         ];
 
         $this->postRepository->update($id,$data);

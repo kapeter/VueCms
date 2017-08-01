@@ -3,6 +3,11 @@
         <!-- Header Navigation Right -->
         <ul class="nav-header pull-right">
             <li>
+                <a href="/" class="btn btn-default pull-right" data-toggle="tooltip" title="返回首页" data-placement="bottom">
+                    <i class="si si-grid"></i>
+                </a>
+            </li>
+            <li>
                 <div class="btn-group">
                     <button class="btn btn-default btn-image dropdown-toggle" data-toggle="dropdown" type="button">
                         <img  :src="thisUser.avatar" :alt="thisUser.name">
@@ -53,26 +58,6 @@
                     <i class="fa fa-ellipsis-v"></i>
                 </button>
             </li>
-            <li>
-                <!-- Opens the Apps modal found at the bottom of the page, before including JS code -->
-                <a href="/" class="btn btn-default pull-right" data-toggle="tooltip" title="返回首页" data-placement="bottom">
-                    <i class="si si-grid"></i>
-                </a>
-            </li>
-            <li class="visible-xs">
-                <!-- Toggle class helper (for .js-header-search below), functionality initialized in App() -> uiToggleClass() -->
-                <button class="btn btn-default" data-toggle="class-toggle" data-target=".js-header-search" data-class="header-search-xs-visible" type="button">
-                    <i class="fa fa-search"></i>
-                </button>
-            </li>
-            <li class="js-header-search header-search">
-                <form class="form-horizontal" action="#" method="post">
-                    <div class="form-material form-material-primary input-group remove-margin-t remove-margin-b">
-                        <input class="form-control" type="text" id="base-material-text" name="base-material-text" placeholder="Search..">
-                        <span class="input-group-addon"><i class="si si-magnifier"></i></span>
-                    </div>
-                </form>
-            </li>
         </ul>
         <!-- END Header Navigation Left -->
     </header>
@@ -80,16 +65,6 @@
 
 <script>
     export default {
-        created() {
-            var _self = this;
-            axios.get('/api/profile')
-                .then(function (res) {
-                    _self.$store.state.theUser = res.data.data;
-                })
-                .catch(function (res) {
-                    console.log(res);
-                });            
-        },
         computed: {
             thisUser() {
                 return this.$store.state.theUser;

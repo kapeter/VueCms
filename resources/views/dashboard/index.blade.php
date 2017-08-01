@@ -39,6 +39,20 @@
 	    .loading-box p{
 	    	line-height: 2;
 	    }
+		/*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/  
+		::-webkit-scrollbar  
+		{  
+		    width: 5px;  
+		    height: 5px;  
+		    background-color: rgba(0,0,0,0.15);  
+		}  
+
+		/*定义滑块 内阴影+圆角*/  
+		::-webkit-scrollbar-thumb  
+		{  
+		    border-radius: 5px;  
+		    background-color: #777;  
+		}  
 	</style>
 </head>
 <body>

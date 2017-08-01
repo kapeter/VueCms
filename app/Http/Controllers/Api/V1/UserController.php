@@ -26,9 +26,11 @@ class UserController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return User::all();
+        $users = $this->userRepository->getUserByPaginate($request);
+
+        return $this->response->paginator($users, new UserTransformer);
     }
 
     /**
@@ -39,7 +41,22 @@ class UserController extends BaseController
      */
     public function store(Request $request)
     {
-        //
+        $data = [
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => encrypt($request->pwd),
+            'is_admin' => (int)$request->auth ? true : false,
+            'avatar' => '/img/avatar.jpg',
+            'bio' => '3123',
+            'status' => false
+        ];
+
+        if ( $this->userRepository->checkUniqueEmail(0,$data['email']) ){
+            $this->userRepository->store($data);
+            return $this->response->noContent()->setStatusCode(200);    
+        }else{
+            return $this->response->array($this->errorMsg[10009]);
+        }
     }
 
     /**
@@ -50,7 +67,9 @@ class UserController extends BaseController
      */
     public function show($id)
     {
-        return User::findOrFail($id);
+        $user = $this->userRepository->getById($id);
+
+        return $this->response->item($user, new UserTransformer);
     }
 
     /**
@@ -62,7 +81,18 @@ class UserController extends BaseController
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = [
+            'name' => $request->name,
+            'is_admin' => (int)$request->auth ? true : false,
+        ];
+
+        if (isset($request->pwd)){
+            $data['password'] = encrypt($request->pwd);
+        }
+
+        $this->userRepository->update($id,$data);
+        
+        return $this->response->noContent()->setStatusCode(200);    
     }
 
     /**
@@ -73,7 +103,9 @@ class UserController extends BaseController
      */
     public function destroy($id)
     {
-        //
+        $this->userRepository->destroy($id);
+
+        return $this->response->noContent()->setStatusCode(200);
     }
 
     /**

@@ -21,10 +21,7 @@ $api->version('v1',['namespace' => 'App\Http\Controllers\Api\V1'], function ($ap
 	$api->post('/logout', 'Auth\LoginController@logout');
 
 	//User
-	$api->group(['prefix' => 'users'], function($api){
-		$api->get('/', 'UserController@index');
-		$api->get('/{user}', 'UserController@show');
-	});
+	$api->resource('user','UserController');
 
 	//profile
 	$api->get('/profile','UserController@profile');

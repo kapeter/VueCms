@@ -41,7 +41,7 @@ class CategoryController extends BaseController
     {
         $data = $request->all();
 
-        if ( $this->categoryRepository->checkUniqueSlug($data['slug']) ){
+        if ( $this->categoryRepository->checkUniqueSlug(0,$data['slug']) ){
             $this->categoryRepository->store($data);
             return $this->response->noContent()->setStatusCode(200);    
         }else{

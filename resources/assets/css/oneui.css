@@ -58,19 +58,33 @@
        url('//lib.baomitu.com/fonts/open-sans/open-sans-v13-latin-600.ttf') format('truetype'), /* Safari, Android, iOS */
        url('//lib.baomitu.com/fonts/open-sans/open-sans-v13-latin-600.svg#OpenSans') format('svg'); /* Legacy iOS */
 }
-  
-/* open-sans-normal - latin */
+
+/* poppins-normal - latin */
 @font-face {
-  font-family: 'Open Sans';
+  font-family: 'Poppins';
   font-style: normal;
-  font-weight: 700;
-  src: url('//lib.baomitu.com/fonts/open-sans/open-sans-v13-latin-700.eot'); /* IE9 Compat Modes */
-  src: local('Open Sans'), local('OpenSans-Normal'),
-       url('//lib.baomitu.com/fonts/open-sans/open-sans-v13-latin-700.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-       url('//lib.baomitu.com/fonts/open-sans/open-sans-v13-latin-700.woff2') format('woff2'), /* Super Modern Browsers */
-       url('//lib.baomitu.com/fonts/open-sans/open-sans-v13-latin-700.woff') format('woff'), /* Modern Browsers */
-       url('//lib.baomitu.com/fonts/open-sans/open-sans-v13-latin-700.ttf') format('truetype'), /* Safari, Android, iOS */
-       url('//lib.baomitu.com/fonts/open-sans/open-sans-v13-latin-700.svg#OpenSans') format('svg'); /* Legacy iOS */
+  font-weight: 300;
+  src: url('//lib.baomitu.com/fonts/poppins/poppins-v2-latin-300.eot'); /* IE9 Compat Modes */
+  src: local('Poppins'), local('Poppins-Normal'),
+       url('//lib.baomitu.com/fonts/poppins/poppins-v2-latin-300.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('//lib.baomitu.com/fonts/poppins/poppins-v2-latin-300.woff2') format('woff2'), /* Super Modern Browsers */
+       url('//lib.baomitu.com/fonts/poppins/poppins-v2-latin-300.woff') format('woff'), /* Modern Browsers */
+       url('//lib.baomitu.com/fonts/poppins/poppins-v2-latin-300.ttf') format('truetype'), /* Safari, Android, iOS */
+       url('//lib.baomitu.com/fonts/poppins/poppins-v2-latin-300.svg#Poppins') format('svg'); /* Legacy iOS */
+}
+  
+/* poppins-normal - latin */
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: regular;
+  src: url('//lib.baomitu.com/fonts/poppins/poppins-v2-latin-regular.eot'); /* IE9 Compat Modes */
+  src: local('Poppins'), local('Poppins-Normal'),
+       url('//lib.baomitu.com/fonts/poppins/poppins-v2-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('//lib.baomitu.com/fonts/poppins/poppins-v2-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
+       url('//lib.baomitu.com/fonts/poppins/poppins-v2-latin-regular.woff') format('woff'), /* Modern Browsers */
+       url('//lib.baomitu.com/fonts/poppins/poppins-v2-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
+       url('//lib.baomitu.com/fonts/poppins/poppins-v2-latin-regular.svg#Poppins') format('svg'); /* Legacy iOS */
 }
 
 html,
@@ -78,7 +92,7 @@ body {
   height: 100%;
 }
 body {
-  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Poppins","Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 14px;
   color: #646464;
   background-color: #f5f5f5;
@@ -145,7 +159,7 @@ h6,
 .h5,
 .h6 {
   margin: 0;
-  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Poppins", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 600;
   line-height: 1.2;
   color: inherit;
@@ -491,7 +505,7 @@ button.text-white-op:focus {
   opacity: .75;
 }
 .text-black {
-  color: #000;
+  color: #333;
 }
 a.text-black:hover,
 a.text-black:active,
@@ -499,7 +513,7 @@ a.text-black:focus,
 button.text-black:hover,
 button.text-black:active,
 button.text-black:focus {
-  color: #000;
+  color: #333;
   opacity: .75;
 }
 .text-black-op {
@@ -1973,6 +1987,10 @@ a.list-group-item:focus {
 }
 .js-table-sections-header.open + tbody {
   display: table-row-group;
+}
+.modal-dialog{
+  margin-left: auto;
+  margin-right: auto;
 }
 .modal-dialog.modal-dialog-top {
   margin-top: 0;
@@ -6005,7 +6023,7 @@ fieldset[disabled] .form-material.floating > label {
 }
 .block-content {
   margin: 0 auto;
-  padding: 20px 20px 1px;
+  padding: 20px;
   max-width: 100%;
   overflow-x: visible;
   -webkit-transition: opacity 0.2s ease-out;
@@ -9032,3 +9050,5 @@ div.tagsinput span.tag a:hover {
   float: left;
   margin-right: 5px;
 }
+
+

@@ -195,7 +195,7 @@ export default {
       type: Object,
       default: function() {
         return {
-          tableClass: 'table table-bordered table-striped',
+          tableClass: 'table table-striped',
           loadingClass: 'loading',
           ascendingIcon: 'fa fa-sort-asc',
           descendingIcon: 'fa fa-sort-desc',

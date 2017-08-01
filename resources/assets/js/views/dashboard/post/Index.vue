@@ -136,6 +136,7 @@
 		    },
 		    changePublish(data) {
 		    	let _self = this;
+		    	data.is_publish = !data.is_publish;
 		    	axios.post('/api/post/'+data.id+'/change',{is_publish: data.is_publish})
 		    		.catch(function (res) {
 		    			sweetAlert.error();

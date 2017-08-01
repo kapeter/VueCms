@@ -325,6 +325,9 @@
     .el-select{
         display: block;
     }
+    .el-select-dropdown{
+        z-index: 3000!important;
+    }
     .el-input__inner{
         border: 1px solid #e6e6e6;
     }

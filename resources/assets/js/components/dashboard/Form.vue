@@ -366,6 +366,9 @@
 		list-style: none;
 		margin-bottom: 10px;
 	}
+	.editor-toolbar{
+		padding-right: 100px;
+	}
 	.editor-content{
 		position: relative;
 	}

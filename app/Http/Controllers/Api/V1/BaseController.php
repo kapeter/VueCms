@@ -23,6 +23,7 @@ class BaseController extends Controller
     	10006 => ['code' => 10006, 'message' => '请求服务器失败'],
         10007 => ['code' => 10007, 'message' => '非法的文件类型'],
         10008 => ['code' => 10008, 'message' => '文件不存在'],
+        10009 => ['code' => 10009, 'message' => '当前邮箱已被注册'],
     ];
 
     public function __construct()
