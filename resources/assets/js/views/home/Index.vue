@@ -147,8 +147,6 @@
 </template>
 
 <script>
-    import countTo from '../../../plugins/jquery.countTo.min.js'
-
     export default {
         computed: {
             thisUser() {
@@ -159,22 +157,6 @@
             }
         },
         mounted() {
-            $('[data-toggle="countTo"]').each(function () {
-                let MycountTo = $(this);
-                let countToBefore = MycountTo.data('before');
-                let countToAfter = MycountTo.data('after');
-                MycountTo.countTo({
-                    speed: 1000,
-                    refreshInterval: 15,
-                    onComplete: function() {
-                        if(countToAfter) {
-                            MycountTo.html(MycountTo.html() + countToAfter);
-                        } else if (countToBefore) {
-                            MycountTo.html(countToBefore + MycountTo.html());
-                        }
-                    }
-                });
-            });
         }
     }
 </script>

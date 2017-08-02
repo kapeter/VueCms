@@ -32,22 +32,22 @@ Vue.use(Upload)
 Vue.use(Cascader)
 
 Vue.component(
-    'page-heading', require('./components/dashboard/Heading.vue')
+    'page-heading', require('./components/Heading.vue')
 );
 Vue.component(
-    'vuetable', require('./components/dashboard/Vuetable.vue')
+    'vuetable', require('./components/Vuetable.vue')
 );
 Vue.component(
-    'vuetable-pagination', require('./components/dashboard/VuetablePagination.vue')
+    'vuetable-pagination', require('./components/VuetablePagination.vue')
 );
 Vue.component(
-    'vuetable-pagination-info', require('./components/dashboard/VuetablePaginationInfo.vue')
+    'vuetable-pagination-info', require('./components/VuetablePaginationInfo.vue')
 );
 Vue.component(
-    'filter-bar', require('./components/dashboard/FilterBar.vue')
+    'filter-bar', require('./components/FilterBar.vue')
 );
 Vue.component(
-    'vue-form', require('./components/dashboard/Form.vue')
+    'vue-form', require('./components/Form.vue')
 );
 
 window.eventBus = new Vue();

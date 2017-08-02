@@ -114,8 +114,8 @@
 </template>
 
 <script>
-    import ElDialog from '../../../packages/dialog'
-    import models from '../../../config/models.js'
+    import ElDialog from '../../packages/dialog'
+    import models from '../../config/models.js'
 
     export default {
         components: {

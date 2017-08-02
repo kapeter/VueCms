@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<page-heading title="用户管理" subTitle="User Management" :crumbs="crumbs"></page-heading>
+		<page-heading title="角色管理" subTitle="Role Management" :crumbs="crumbs"></page-heading>
         <!-- Page Content -->
         <div class="content">
 	     	<div class="block">
@@ -132,8 +132,8 @@
 </template>
 
 <script>
-	import ElDialog from '../../../packages/dialog'
-	import roles from '../../../config/roles.js'
+	import ElDialog from '../../packages/dialog'
+	import roles from '../../config/roles.js'
 
 	export default {
     	props: {
@@ -151,7 +151,7 @@
 			return {
 				roles: roles,
 				crumbs: [
-                    {to: null, text: '用户管理'},
+                    {to: null, text: '角色管理'},
                 ],
 		      	fields: [
 			        {
@@ -286,23 +286,6 @@
                         })
 	            }
 	        },
-            //生成密码
-            generatePwd() {
-			  let iteration = 0;
-			  let password = "";
-			  let randomNumber;
-			  while (iteration < 12) {
-			    randomNumber = (Math.floor((Math.random() * 100)) % 94) + 33;
-			    if ((randomNumber >=33) && (randomNumber <=47)) { continue; }
-      			if ((randomNumber >=58) && (randomNumber <=64)) { continue; }
-      			if ((randomNumber >=91) && (randomNumber <=96)) { continue; }
-      			if ((randomNumber >=123) && (randomNumber <=126)) { continue; }
-			    iteration++;
-			    password += String.fromCharCode(randomNumber);
-			  }
-
-			  this.formData.pwd = password;
-            },
             clearError() {
                 for (let x in this.errorInfo){
                     this.errorInfo[x] = false;

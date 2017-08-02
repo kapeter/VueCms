@@ -58,6 +58,11 @@
                     <i class="fa fa-ellipsis-v"></i>
                 </button>
             </li>
+            <li>
+                <router-link :to="{ name: 'createPost' }" active-class='none' class="btn btn-default" data-toggle="tooltip" title="新增文章" data-placement="bottom">
+                    <i class="si si-note"></i>
+                </router-link>
+            </li>
         </ul>
         <!-- END Header Navigation Left -->
     </header>

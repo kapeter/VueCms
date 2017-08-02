@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Dashboard from './views/dashboard/Dashboard.vue'
-import Parent from './views/dashboard/Parent.vue'
+import Dashboard from './views/Dashboard.vue'
+import Parent from './views/Parent.vue'
 
 Vue.use(VueRouter)
 
@@ -16,7 +16,7 @@ const router = new VueRouter({
             children: [
                 {
                     path: '/',
-                    component: require('./views/dashboard/home/Index.vue')
+                    component: require('./views/home/Index.vue')
                 },
                 {
                     path: 'post',
@@ -25,27 +25,27 @@ const router = new VueRouter({
                         {
                             path: '/',
                             name: 'showPost',
-                            component: require(/* webpackChunkName: "post" */ './views/dashboard/post/Index.vue')
+                            component: require(/* webpackChunkName: "post" */ './views/post/Index.vue')
                         },
                         {
                             path: 'create',
                             name: 'createPost',
-                            component: require(/* webpackChunkName: "post" */ './views/dashboard/post/Create.vue')
+                            component: require(/* webpackChunkName: "post" */ './views/post/Create.vue')
                         },
                         {
                             path: ':id/edit',
                             name: 'editPost',
-                            component: require(/* webpackChunkName: "post" */ './views/dashboard/post/Edit.vue')
+                            component: require(/* webpackChunkName: "post" */ './views/post/Edit.vue')
                         }
                     ]
                 },
                 {
                     path: 'media',
-                    component: require('./views/dashboard/media/Index.vue')
+                    component: require('./views/media/Index.vue')
                 },
                 {
                     path: 'profile',
-                    component: require('./views/dashboard/profile/Index.vue')
+                    component: require('./views/profile/Index.vue')
                 },
                 {
                     path: 'setting',
@@ -54,25 +54,39 @@ const router = new VueRouter({
                         {
                             path: 'category',
                             name: 'category',
-                            component: require(/* webpackChunkName: "setting" */ './views/dashboard/setting/Category.vue')
-                        },
-                        {
-                            path: 'user',
-                            component: require(/* webpackChunkName: "setting" */ './views/dashboard/setting/User.vue')
+                            component: require(/* webpackChunkName: "setting" */ './views/setting/Category.vue')
                         },
                         {
                             path: 'system',
-                            component: require(/* webpackChunkName: "setting" */ './views/dashboard/setting/System.vue')
+                            component: require(/* webpackChunkName: "setting" */ './views/setting/System.vue')
+                        },
+                    ]
+                },
+                {
+                    path: 'rbac',
+                    component: Parent,
+                    children: [
+                        {
+                            path: 'user',
+                            component: require(/* webpackChunkName: "rbac" */ './views/rbac/User.vue')
+                        },
+                        {
+                            path: 'role',
+                            component: require(/* webpackChunkName: "rbac" */ './views/rbac/Role.vue')
+                        },
+                        {
+                            path: 'permission',
+                            component: require(/* webpackChunkName: "rbac" */ './views/rbac/Permission.vue')
                         },
                     ]
                 },
                 {
                     path: 'log',
-                    component: require('./views/dashboard/log/Index.vue')
+                    component: require('./views/log/Index.vue')
                 },
                 {
                     path: '*',
-                    component: require('./views/dashboard/error/404.vue')
+                    component: require('./views/error/404.vue')
                 }
             ]
         }

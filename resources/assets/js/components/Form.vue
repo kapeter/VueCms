@@ -122,7 +122,7 @@
 
 <script>
 	import { default as SimpleMDE } from 'simplemde/dist/simplemde.min.js'
-	import ElDialog from '../../packages/dialog'
+	import ElDialog from '../packages/dialog'
 	
 	export default {
 		props: {

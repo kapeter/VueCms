@@ -49,7 +49,7 @@
 </template>
 
 <script>
-   import menus from '../../../config/menus.js'
+   import menus from '../../config/menus.js'
 
     export default {
         data () {
