@@ -163,7 +163,7 @@
 			        {
 			          title: '用户名',
 			          name: 'name',
-			          sortField: 'title',
+			          sortField: 'name',
 			        },
 			        {
 			          title: '邮箱',

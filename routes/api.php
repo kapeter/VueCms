@@ -20,8 +20,9 @@ $api->version('v1',['namespace' => 'App\Http\Controllers\Api\V1'], function ($ap
 	$api->post('/login', 'Auth\LoginController@login');
 	$api->post('/logout', 'Auth\LoginController@logout');
 
-	//User
+	//RBAC
 	$api->resource('user','UserController');
+	$api->resource('permission','PermissionController');
 
 	//profile
 	$api->get('/profile','UserController@profile');

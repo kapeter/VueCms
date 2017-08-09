@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 
 class CategoriesTableSeeder extends Seeder

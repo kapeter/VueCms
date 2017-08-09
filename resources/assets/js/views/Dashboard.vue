@@ -1,6 +1,5 @@
 <template>
     <div id="page-container" class="sidebar-l sidebar-o side-scroll header-navbar-fixed" :class="{ 'sidebar-mini' : isMini }">
-
         <Sidebar></Sidebar>
         <HeaderBar></HeaderBar>
         <main id="main-container">

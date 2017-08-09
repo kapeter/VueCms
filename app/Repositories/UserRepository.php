@@ -28,10 +28,6 @@ class UserRepository
 	{
 		$result = $this->model;
 
-        if (isset($request->filter)){
-        	$result = $result->where('title', 'like', '%'.$request->filter.'%');
-        }
-
         if ( isset($request->sort) ){
             $orderby = explode('|', $request->sort);
             $result = $result->orderBy($orderby[0], $orderby[1]);
