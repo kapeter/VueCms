@@ -15,14 +15,9 @@ class CreatePermissionsTable extends Migration
     {
         Schema::create('permissions', function (Blueprint $table) {
             $table->increments('id');
-            $table->tinyInteger('parent_id')->unsigned()->default(0);
-            $table->string('url')->unique();
+            $table->string('route')->unique();
             $table->string('title');
-            $table->string('type');
             $table->text('description');
-            $table->boolean('is_menu');
-            $table->string('icon');
-            $table->integer('order')->unsigned()->default(0);
             $table->timestamps();
         });
     }

@@ -9,34 +9,13 @@
                     <img class="img-avatar img-avatar128 img-avatar-thumb" :src="thisUser.avatar" :alt="thisUser.name">
                 </div>
                 <div class="push-30 animated fadeInUp">
-                    <h2 class="h3 font-w600 text-white push-5">{{ thisUser.name }}</h2>
-                    <h3 class="h5 text-white-op">{{ userRole }}</h3>
+                    <h2 class="h3 font-w600 text-white push-5" style="text-transform:uppercase;">{{ thisUser.name }}</h2>
+                    <h3 class="h5 text-white">{{ userRole }}</h3>
+                    <p class="push-10-t text-white-op">账户于{{ dateInfo.createTime }}创建，已运行{{ dateInfo.duration }}天。</p>
                 </div>
             </div>
             <!-- END Basic Info -->
 
-            <!-- Stats -->
-            <div class="block-content text-center">
-                <div class="row items-push text-uppercase">
-                    <div class="col-xs-6 col-sm-3">
-                        <div class="font-w700 text-gray-darker animated fadeIn">Sales</div>
-                        <a class="h2 font-w300 text-primary animated flipInX" href="javascript:void(0)">22000</a>
-                    </div>
-                    <div class="col-xs-6 col-sm-3">
-                        <div class="font-w700 text-gray-darker animated fadeIn">Products</div>
-                        <a class="h2 font-w300 text-primary animated flipInX" href="javascript:void(0)">16</a>
-                    </div>
-                    <div class="col-xs-6 col-sm-3">
-                        <div class="font-w700 text-gray-darker animated fadeIn">Followers</div>
-                        <a class="h2 font-w300 text-primary animated flipInX" href="javascript:void(0)">2600</a>
-                    </div>
-                    <div class="col-xs-6 col-sm-3">
-                        <div class="font-w700 text-gray-darker animated fadeIn">3603 Ratings</div>
-                        <a class="h2 font-w300 text-primary animated flipInX" href="javascript:void(0)">2600</a>
-                    </div>
-                </div>
-            </div>
-            <!-- END Stats -->
         </div>
         <!-- END User Header -->
 
@@ -155,9 +134,22 @@
         computed: {
         	userRole() {
         		return this.thisUser.is_admin == true ? '系统管理员' : '编辑者';
-        	}
+        	},
+            dateInfo() {
+                let createTime = 0;
+                let duration = 0;
+                if ('created_at' in this.thisUser){
+                    createTime = this.thisUser.created_at.date.substring(0,10);
+                    let interval = Date.parse(new Date()) - Date.parse(new Date(createTime));
+                    duration = Math.floor(interval / (1000 * 60 * 60 * 24));                    
+                }
+                return {
+                    createTime: createTime,
+                    duration: duration
+                }
+            }
         },
-        created() {
+        mounted() {
            	this.loadData();
         },
         methods: {

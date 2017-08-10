@@ -14,14 +14,9 @@ class PermissionsTableSeeder extends Seeder
     public function run()
     {
         DB::table('permissions')->insert([
-            'parent_id'     => 0,
-            'url'           => '/dashboard',
-            'title'         => '仪表盘',
-	        'type'          => 'page',
-            'description'   => '后台首页',
-	        'is_menu'       => true,
-            'icon'          => 'speedometer',
-            'order'         => 1,
+            'route'       => 'post',
+            'title'       => '文章管理',
+            'description' => '撰写文章并发布。',
             'created_at'  => Carbon::now(),
             'updated_at'  => Carbon::now()
         ]);
