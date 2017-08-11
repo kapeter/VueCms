@@ -12,44 +12,62 @@
                     </ul>
 	     		</div>
 
-	     		<div class="block-content">
-	     			<div class="table-responsive">
-                        <table class="js-table-sections table table-striped">
-                            <thead>
-                                <tr>
-                                    <th style="width:30px;"></th>
-                                    <th>显示名称</th>
-                                    <th>路由</th>
-                                    <th class="text-center">权限类型</th>
-                                    <th>描述</th>
-                                    <th class="text-center">是否为菜单</th>
-                                    <th class="text-center">操作</th>
-                                </tr>
-                            </thead>
-                            <tbody class="js-table-sections-header" v-for="field in fields">
-                                <tr>
-                                    <td class="text-center">
-                                        <i class="fa fa-angle-right"></i>
-                                    </td>
-                                    <td class="font-w600">{{ field.title }}</td>
-                                    <td>{{ field.url }}</td>
-                                    <td class="text-center">{{ field.type }}</td>
-                                    <td>{{ field.description }}</td>
-                                    <td class="text-center">
-                                        <span v-if="field.is_menu == 1" class="label label-success">是</span>
-                                        <span v-else class="label label-danger">否</span>
-                                    </td>
-                                    <td class="text-center">
-                                        <button class="btn btn-sm btn-default" @click="itemAction('edit-item', field)"><i class="fa fa-pencil"></i> 编辑</button>
-                                        <button class="btn btn-sm btn-danger" @click="itemAction('delete-item', field)"><i class="fa fa-times"></i> 删除</button>        
-                                    </td>
-                                </tr>
-                            </tbody>                                
-                        </table>
-					</div>
-			    </div>  		
+                <div class="block-content">
+                    <div class="table-responsive">
+                        <vuetable ref="vuetable"
+                            :api-url="routeList.browseUrl"
+                            :fields="fields"
+                            :sort-order="sortOrder"
+                            @vuetable:pagination-data="onPaginationData">
+                            <template slot="actions" scope="props">
+                                <div class="custom-actions">
+                                    <button class="btn btn-sm btn-default" @click="itemAction('edit-item', props.rowData)"><i class="fa fa-pencil"></i> 编辑</button>
+                                    <button class="btn btn-sm btn-danger" @click="itemAction('delete-item', props.rowData)"><i class="fa fa-times"></i> 删除</button>
+                                </div>
+                            </template>
+                        </vuetable> 
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 pagination-info">
+                            <vuetable-pagination-info ref="paginationInfo" info-class="pagination-info"></vuetable-pagination-info>
+                        </div>
+                        <div class="col-sm-6">
+                            <vuetable-pagination ref="pagination" @vuetable-pagination:change-page="onChangePage"></vuetable-pagination>
+                        </div>
+                    </div>
+                </div>		
 	     	</div>   
         </div>
+
+        <ElDialog :title="dialogTitle" v-model="dialogVisible">
+            <form class="form-horizontal">
+                <div class="form-group" :class="{ 'has-error' : errorInfo.route || !uniqueCheck }">
+                    <label for="slug" class="col-sm-2 control-label">唯一路由</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" v-model="formData.route">
+                        <div class="help-block animated fadeInDown" v-show="errorInfo.route">唯一路由不能为空</div>
+                        <div class="help-block animated fadeInDown" v-show="!uniqueCheck">该路由已被存在</div>
+                    </div>
+                </div>
+                <div class="form-group" :class="{ 'has-error' : errorInfo.title  }">
+                    <label for="name" class="col-sm-2 control-label">显示名称</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" v-model="formData.title">
+                        <div class="help-block animated fadeInDown" v-show="errorInfo.title">显示名称不能为空</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="name" class="col-sm-2 control-label">权限描述</label>
+                    <div class="col-sm-10">
+                        <textarea class="form-control" v-model="formData.description" rows="5"></textarea>
+                    </div>
+                </div>
+            </form>
+          <span slot="footer">
+            <button class="btn btn-default" @click="dialogVisible = false">取 消</button>
+            <button class="btn btn-info" @click="submitUser()">确 定</button>
+          </span>
+        </ElDialog>
 	</div>
 </template>
 
@@ -57,6 +75,14 @@
 	import ElDialog from '../../packages/dialog'
 
 	export default {
+        props: {
+            rowData: {
+                type: Object,
+            },
+            rowIndex: {
+                type: Number
+            }
+        },
         components: {
             ElDialog,
         },
@@ -65,68 +91,94 @@
 				crumbs: [
                     {to: null, text: '权限管理'},
                 ],
-                fields:[],
                 //API路由列表
                 routeList: {
-                    browseUrl    : '/api/permission',
+                    browseUrl : '/api/permission',
                 },
-		      	createDialogVisible: false,
-		      	editDialogVisible: false,
+                fields: [
+                    {
+                      title: '显示名称',
+                      name: 'title',
+                    },
+                    {
+                      title: '唯一路由',
+                      name: 'route',
+                    },
+                    {
+                      title: '权限描述',
+                      name: 'description',
+                    },
+                    {
+                      title: '创建时间',
+                      name: 'created_at',
+                      sortField: 'created_at',
+                      titleClass: 'text-center',
+                      dataClass: 'text-center',
+                      callback: 'dateFormat'
+                    },
+                    {
+                      name: '__slot:actions',
+                      title: '操作',
+                      titleClass: 'text-center',
+                      dataClass: 'text-center'
+                    }
+                ],
+                sortOrder: [
+                    { field: 'created_at', sortField: 'created_at', direction: 'desc'}
+                ],
+		      	dialogVisible: false,
+		      	dialogTitle: '新增权限',
 		      	uniqueCheck: true,
 		      	currentID: 0,
                 formData: {
-                	email: '',
-                    name: '',
-                    auth: '',
-                    pwd: '',
+                	route: '',
+                    title: '',
+                    description: '',
                 },
                 errorInfo: {
-                	email: false,
-                    name: false,
-                    auth: false,
-                    pwd: false,
+                	route: false,
+                    title: false,
+                    description: false,
                 },
-
 			}
 		},
-        mounted() {
-            let _self = this;
-            axios.get(_self.routeList.browseUrl)
-                .then(function (res) {
-                    _self.fields = res.data.data;
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-        },
         methods: {
         	dateFormat (value) {
         		return (value == null) ? '' : value.date.substring(0,10);
         	},
+            onPaginationData (paginationData) {
+                this.$refs.pagination.setPaginationData(paginationData);
+                this.$refs.paginationInfo.setPaginationData(paginationData);
+            },
+            onChangePage (page) {
+                this.$refs.vuetable.changePage(page)
+            },
 		    deleteSuccess() {
 		    	Vue.nextTick( () => this.$refs.vuetable.refresh() )
 		    },
             createDialog() {
                 this.freshDialog();
-                this.createDialogVisible = true;
+                this.dialogVisible = true;
             },
             editDialog(data) {
                 this.formData = {
-                	email: data.email,
-                    name: data.name,
-                    auth: data.is_admin,
+                	route: data.route,
+                    title: data.title,
+                    description: data.description,
                 };
                 this.currentID = data.id;
-                this.editDialogVisible = true;
+                this.clearError();
+                this.dialogTitle = '编辑权限';
+                this.dialogVisible = true;
             },
             freshDialog() {
                 this.formData = {
-                	email: '',
-                    name: '',
-                    auth: '',
-                    pwd: '',
+                    route: '',
+                    title: '',
+                    description: '',
                 };
                 this.currentID = 0;
+                this.clearError();
             },
 	        itemAction (action, data) {
 	        	let _self = this;
@@ -144,7 +196,7 @@
 	                },
 	                function(isConfirm){
 	                    if (isConfirm){
-	                        let deleteUrl = '/api/user/' + data.id;
+	                        let deleteUrl = _self.routeList.browseUrl + '/' + data.id;
 	                        axios.delete(deleteUrl)
 	                            .then(function(response){
 	                            	if (response.status == 200){
@@ -158,13 +210,7 @@
 	                    }
 	                });                
 	            }else{
-                    axios.get('/api/user/' + data.id)
-                        .then(function (res) {
-                            _self.editDialog(res.data.data);
-                        })
-                        .catch(function (error) {
-                            sweetAlert.error();
-                        })
+                    _self.editDialog(data);
 	            }
 	        },
             clearError() {
@@ -187,7 +233,7 @@
             //提交表单
             submitUser() {
                 let _self = this;
-                let apiUrl = '/api/user';
+                let apiUrl = _self.routeList.browseUrl;
                 _self.clearError();
 
                 if (!_self.checkData()){
@@ -195,7 +241,7 @@
                 }
 
                 if (_self.currentID != 0){
-                    apiUrl = '/api/user/' + _self.currentID;
+                    apiUrl += '/' + _self.currentID;
                     _self.formData['_method'] = 'PUT';
                 }
                 axios.post(apiUrl,_self.formData)
@@ -203,11 +249,7 @@
                         if (res.data.code && res.data.code == 10009){
                             _self.uniqueCheck = false;
                         }else{
-                        	if (_self.currentID != 0){
-                        		_self.editDialogVisible = false;
-                        	}else{
-                        		_self.createDialogVisible = false;
-                        	}
+                        	_self.dialogVisible = false;
                             sweetAlert.success();
                             _self.$refs.vuetable.refresh();
                         }
@@ -218,25 +260,7 @@
 </script>
 
 <style>
-	.el-radio-group{
-		line-height: 34px;
-	}
 	.modal-content .block{
 		margin-bottom: 0;
-	}
-	.el-select{
-		display: block;
-	}
-	.el-select-dropdown{
-		z-index: 3000!important;
-	}
-	.pwd-input .form-control{
-		display: inline-block;
-		width: auto;
-		min-width: 200px;
-		margin-right: 5px;
-	}
-	.pwd-input .btn-sm{
-		padding: 6px 10px;
 	}
 </style>

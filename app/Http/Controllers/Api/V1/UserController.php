@@ -51,7 +51,7 @@ class UserController extends BaseController
             'status' => false
         ];
 
-        if ( $this->userRepository->checkUniqueEmail(0,$data['email']) ){
+        if ( $this->userRepository->checkUnique('email',$data['email'],0) ){
             $this->userRepository->store($data);
             return $this->response->noContent()->setStatusCode(200);    
         }else{

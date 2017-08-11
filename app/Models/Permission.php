@@ -12,13 +12,8 @@ class Permission extends Model
      * @var array
      */
     protected $fillable = [
-        'parent_id',
-        'url',
+        'route',
         'title',
-        'type',
         'description',
-        'is_menu',
-        'icon',
-        'order'
     ];
 }

@@ -7,245 +7,179 @@
 	     		<div class="block-header">
                     <ul class="block-button">
                         <li>
-                            <a @click="createDialog()" class="btn btn-info"><i class="fa fa-plus"></i> 新增用户</a>
+                            <a @click="createDialog()" class="btn btn-info"><i class="fa fa-plus"></i> 新增角色</a>
                         </li>
                     </ul>
 	     		</div>
 
-	     		<div class="block-content">
-	     			<div class="table-responsive">
-						<vuetable ref="vuetable"
-						    api-url="/api/user"
-						    :fields="fields"
-						    :sort-order="sortOrder"
-						    @vuetable:pagination-data="onPaginationData"
-						    :append-params="moreParams">
-							<template slot="avatar" scope="props">
-								<img class="img-avatar img-avatar32" :src="props.rowData.avatar">
-						    </template>
-							<template slot="authShow" scope="props">
-								<span class="label label-info" v-if="props.rowData.is_admin == 1">超级管理员</span>
-								<span class="label label-success" v-else>普通用户</span>
-						    </template>
-							<template slot="actions" scope="props">
-						    	<div class="custom-actions">
-		        					<button class="btn btn-sm btn-default" @click="itemAction('edit-item', props.rowData)"><i class="fa fa-pencil"></i> 编辑</button>
-		        					<button class="btn btn-sm btn-danger" @click="itemAction('delete-item', props.rowData)"><i class="fa fa-times"></i> 删除</button>
-						    	</div>
-						    </template>
-						</vuetable> 
-					</div>
-					<div class="row">
-						<div class="col-sm-6 pagination-info">
-							<vuetable-pagination-info ref="paginationInfo" info-class="pagination-info"></vuetable-pagination-info>
-						</div>
-						<div class="col-sm-6">
-							<vuetable-pagination ref="pagination" @vuetable-pagination:change-page="onChangePage"></vuetable-pagination>
-						</div>
-					</div>
-			    </div>  		
+                <div class="block-content">
+                    <div class="table-responsive">
+                        <vuetable ref="vuetable"
+                            :api-url="routeList.browseUrl"
+                            :fields="fields"
+                            :sort-order="sortOrder"
+                            @vuetable:pagination-data="onPaginationData">
+                            <template slot="actions" scope="props">
+                                <div class="custom-actions">
+                                   <button class="btn btn-sm btn-info" @click="itemAction('build-item', props.rowData)"><i class="fa fa-bars"></i> 配置</button>
+                                    <button class="btn btn-sm btn-default" @click="itemAction('edit-item', props.rowData)"><i class="fa fa-pencil"></i> 编辑</button>
+                                    <button class="btn btn-sm btn-danger" @click="itemAction('delete-item', props.rowData)"><i class="fa fa-times"></i> 删除</button>
+                                </div>
+                            </template>
+                        </vuetable> 
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 pagination-info">
+                            <vuetable-pagination-info ref="paginationInfo" info-class="pagination-info"></vuetable-pagination-info>
+                        </div>
+                        <div class="col-sm-6">
+                            <vuetable-pagination ref="pagination" @vuetable-pagination:change-page="onChangePage"></vuetable-pagination>
+                        </div>
+                    </div>
+                </div>		
 	     	</div>   
         </div>
-        <!-- END Page Content -->
-        <ElDialog title="新增用户" v-model="createDialogVisible">
+
+        <ElDialog :title="dialogTitle" v-model="dialogVisible">
             <form class="form-horizontal">
-                <div class="form-group" :class="{ 'has-error' : errorInfo.email || !uniqueCheck }">
-                    <label for="slug" class="col-sm-2 control-label">注册邮箱</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" v-model="formData.email">
-                        <div class="help-block animated fadeInDown" v-show="errorInfo.email">邮箱不能为空</div>
-                        <div class="help-block animated fadeInDown" v-show="!uniqueCheck">该邮箱已被注册</div>
-                    </div>
-                </div>
-                <div class="form-group" :class="{ 'has-error' : errorInfo.name  }">
-                    <label for="name" class="col-sm-2 control-label">用户名</label>
+                <div class="form-group" :class="{ 'has-error' : errorInfo.name || !uniqueCheck }">
+                    <label for="slug" class="col-sm-2 control-label">唯一标识</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" v-model="formData.name">
-                        <div class="help-block animated fadeInDown" v-show="errorInfo.name">用户名不能为空</div>
+                        <div class="help-block animated fadeInDown" v-show="errorInfo.name">唯一标识不能为空</div>
+                        <div class="help-block animated fadeInDown" v-show="!uniqueCheck">该角色已被存在</div>
                     </div>
                 </div>
-                <div class="form-group" :class="{ 'has-error' : errorInfo.auth  }">
-                    <label for="model" class="col-sm-2 control-label">所属角色</label>
+                <div class="form-group" :class="{ 'has-error' : errorInfo.title  }">
+                    <label for="name" class="col-sm-2 control-label">显示名称</label>
                     <div class="col-sm-10">
-                        <el-select v-model="formData.auth" placeholder="请选择所属角色">
-                            <el-option
-                                v-for="item in roles"
-                                :label="item.label"
-                                :value="item.value" :key="item.value">
-                            </el-option>
-                        </el-select> 
-                        <div class="help-block animated fadeInDown" v-show="errorInfo.auth">请选择所属角色</div>                   
+                        <input type="text" class="form-control" v-model="formData.title">
+                        <div class="help-block animated fadeInDown" v-show="errorInfo.title">显示名称不能为空</div>
                     </div>
                 </div>
-                <div class="form-group" :class="{ 'has-error' : errorInfo.pwd  }">
-                    <label for="description" class="col-sm-2 control-label">登录密码</label>
-                    <div class="col-sm-10 pwd-input">
-						<input type="text" class="form-control" v-model="formData.pwd">
-						<button class="btn btn-sm btn-success" @click.prevent ="generatePwd()">生成密码</button>
-						<div class="help-block animated fadeInDown" v-show="errorInfo.pwd">密码不能为空</div>
+                <div class="form-group">
+                    <label for="name" class="col-sm-2 control-label">权限描述</label>
+                    <div class="col-sm-10">
+                        <textarea class="form-control" v-model="formData.description" rows="5"></textarea>
                     </div>
                 </div>
-
             </form>
           <span slot="footer">
-            <button class="btn btn-default" @click="createDialogVisible = false">取 消</button>
+            <button class="btn btn-default" @click="dialogVisible = false">取 消</button>
             <button class="btn btn-info" @click="submitUser()">确 定</button>
           </span>
-        </ElDialog>
-		<!-- 编辑用户信息 -->
-        <ElDialog title="编辑用户信息" v-model="editDialogVisible">
-            <form class="form-horizontal">
-            	<input type="hidden" name="id" v-model="currentID">
-                <div class="form-group">
-                    <label for="slug" class="col-sm-2 control-label">注册邮箱</label>
-                    <div class="col-sm-10">
-                    	<label class="control-label">{{ formData.email }}</label>
-                    </div>
-                </div>
-                <div class="form-group" :class="{ 'has-error' : errorInfo.name  }">
-                    <label for="name" class="col-sm-2 control-label">用户名</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" v-model="formData.name">
-                        <div class="help-block animated fadeInDown" v-show="errorInfo.name">用户名不能为空</div>
-                    </div>
-                </div>
-                <div class="form-group" :class="{ 'has-error' : errorInfo.auth  }">
-                    <label for="model" class="col-sm-2 control-label">所属角色</label>
-                    <div class="col-sm-10">
-                        <el-select v-model="formData.auth" placeholder="请选择所属角色">
-                            <el-option
-                                v-for="item in roles"
-                                :label="item.label"
-                                :value="item.value" :key="item.value">
-                            </el-option>
-                        </el-select> 
-                        <div class="help-block animated fadeInDown" v-show="errorInfo.auth">请选择所属角色</div>                   
-                    </div>
-                </div>
-            </form>
-          	<span slot="footer">
-            	<button class="btn btn-default" @click="editDialogVisible = false">取 消</button>
-            	<button class="btn btn-info" @click="submitUser()">确 定</button>
-          	</span>
         </ElDialog>
 	</div>
 </template>
 
 <script>
 	import ElDialog from '../../packages/dialog'
-	import roles from '../../config/roles.js'
 
 	export default {
-    	props: {
-	        rowData: {
-	            type: Object,
-	        },
-	        rowIndex: {
-	            type: Number
-	        }
-	    },
+        props: {
+            rowData: {
+                type: Object,
+            },
+            rowIndex: {
+                type: Number
+            }
+        },
         components: {
             ElDialog,
         },
 		data() {
 			return {
-				roles: roles,
 				crumbs: [
                     {to: null, text: '角色管理'},
                 ],
-		      	fields: [
-			        {
-			          title: '头像',
-			          name: '__slot:avatar',
-			          titleClass: 'text-center',
-			          dataClass: 'text-center'  
-			        },
-			        {
-			          title: '用户名',
-			          name: 'name',
-			          sortField: 'title',
-			        },
-			        {
-			          title: '邮箱',
-			          name: 'email',
-			        },
-			        {
-			          title: '角色',
-			          name: '__slot:authShow',
-			        },
-			        {
-			          title: '创建时间',
-			          name: 'created_at',
-			          sortField: 'updated_at',
-			          titleClass: 'text-center',
-			          dataClass: 'text-center',
-			          callback: 'dateFormat'
-			        },
-			        {
-			          name: '__slot:actions',
-			          title: '操作',
-			          titleClass: 'text-center',
-			          dataClass: 'text-center'
-			        }
-		      	],
-		      	sortOrder: [
-		        	{ field: 'created_at', sortField: 'created_at', direction: 'desc'}
-		      	],
-		      	moreParams: {},
-		      	createDialogVisible: false,
-		      	editDialogVisible: false,
+                //API路由列表
+                routeList: {
+                    browseUrl : '/api/role',
+                },
+                fields: [
+                    {
+                      title: '显示名称',
+                      name: 'title',
+                    },
+                    {
+                      title: '唯一标识',
+                      name: 'name',
+                    },
+                    {
+                      title: '角色描述',
+                      name: 'description',
+                    },
+                    {
+                      title: '创建时间',
+                      name: 'created_at',
+                      sortField: 'created_at',
+                      titleClass: 'text-center',
+                      dataClass: 'text-center',
+                      callback: 'dateFormat'
+                    },
+                    {
+                      name: '__slot:actions',
+                      title: '操作',
+                      titleClass: 'text-center',
+                      dataClass: 'text-center'
+                    }
+                ],
+                sortOrder: [
+                    { field: 'created_at', sortField: 'created_at', direction: 'desc'}
+                ],
+		      	dialogVisible: false,
+		      	dialogTitle: '新增角色',
 		      	uniqueCheck: true,
 		      	currentID: 0,
                 formData: {
-                	email: '',
-                    name: '',
-                    auth: '',
-                    pwd: '',
+                	name: '',
+                    title: '',
+                    description: '',
                 },
                 errorInfo: {
-                	email: false,
-                    name: false,
-                    auth: false,
-                    pwd: false,
+                	name: false,
+                    title: false,
+                    description: false,
                 },
-
 			}
 		},
         methods: {
         	dateFormat (value) {
         		return (value == null) ? '' : value.date.substring(0,10);
         	},
-		    onPaginationData (paginationData) {
-		      	this.$refs.pagination.setPaginationData(paginationData);
-		      	this.$refs.paginationInfo.setPaginationData(paginationData);
-		    },
-		    onChangePage (page) {
-		      	this.$refs.vuetable.changePage(page)
-		    },
+            onPaginationData (paginationData) {
+                this.$refs.pagination.setPaginationData(paginationData);
+                this.$refs.paginationInfo.setPaginationData(paginationData);
+            },
+            onChangePage (page) {
+                this.$refs.vuetable.changePage(page)
+            },
 		    deleteSuccess() {
 		    	Vue.nextTick( () => this.$refs.vuetable.refresh() )
 		    },
             createDialog() {
                 this.freshDialog();
-                this.createDialogVisible = true;
+                this.dialogVisible = true;
             },
             editDialog(data) {
                 this.formData = {
-                	email: data.email,
-                    name: data.name,
-                    auth: data.is_admin,
+                	name: data.name,
+                    title: data.title,
+                    description: data.description,
                 };
                 this.currentID = data.id;
-                this.editDialogVisible = true;
+                this.clearError();
+                this.dialogTitle = '编辑角色';
+                this.dialogVisible = true;
             },
             freshDialog() {
                 this.formData = {
-                	email: '',
                     name: '',
-                    auth: '',
-                    pwd: '',
+                    title: '',
+                    description: '',
                 };
                 this.currentID = 0;
+                this.clearError();
             },
 	        itemAction (action, data) {
 	        	let _self = this;
@@ -263,7 +197,7 @@
 	                },
 	                function(isConfirm){
 	                    if (isConfirm){
-	                        let deleteUrl = '/api/user/' + data.id;
+	                        let deleteUrl = _self.routeList.browseUrl + '/' + data.id;
 	                        axios.delete(deleteUrl)
 	                            .then(function(response){
 	                            	if (response.status == 200){
@@ -277,13 +211,7 @@
 	                    }
 	                });                
 	            }else{
-                    axios.get('/api/user/' + data.id)
-                        .then(function (res) {
-                            _self.editDialog(res.data.data);
-                        })
-                        .catch(function (error) {
-                            sweetAlert.error();
-                        })
+                    _self.editDialog(data);
 	            }
 	        },
             clearError() {
@@ -306,7 +234,7 @@
             //提交表单
             submitUser() {
                 let _self = this;
-                let apiUrl = '/api/user';
+                let apiUrl = _self.routeList.browseUrl;
                 _self.clearError();
 
                 if (!_self.checkData()){
@@ -314,7 +242,7 @@
                 }
 
                 if (_self.currentID != 0){
-                    apiUrl = '/api/user/' + _self.currentID;
+                    apiUrl += '/' + _self.currentID;
                     _self.formData['_method'] = 'PUT';
                 }
                 axios.post(apiUrl,_self.formData)
@@ -322,11 +250,7 @@
                         if (res.data.code && res.data.code == 10009){
                             _self.uniqueCheck = false;
                         }else{
-                        	if (_self.currentID != 0){
-                        		_self.editDialogVisible = false;
-                        	}else{
-                        		_self.createDialogVisible = false;
-                        	}
+                        	_self.dialogVisible = false;
                             sweetAlert.success();
                             _self.$refs.vuetable.refresh();
                         }
@@ -337,25 +261,7 @@
 </script>
 
 <style>
-	.el-radio-group{
-		line-height: 34px;
-	}
 	.modal-content .block{
 		margin-bottom: 0;
-	}
-	.el-select{
-		display: block;
-	}
-	.el-select-dropdown{
-		z-index: 3000!important;
-	}
-	.pwd-input .form-control{
-		display: inline-block;
-		width: auto;
-		min-width: 200px;
-		margin-right: 5px;
-	}
-	.pwd-input .btn-sm{
-		padding: 6px 10px;
 	}
 </style>

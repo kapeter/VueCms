@@ -81,6 +81,18 @@ trait BaseRepository
         return $this->getById($id)->delete();
     }
 
+
+    /**
+    *  check the uniqueness of fields
+    *
+    *  @param  \Illuminate\Http\Request  $request
+    */
+    public function checkUnique($key, $value, $id = 0)
+    {
+        $count = $this->model->where($key, $value)->where('id','<>',$id)->count();
+
+        return ($count != 0) ? false : true; 
+    }
 }
 
 ?>

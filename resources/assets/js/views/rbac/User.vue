@@ -69,9 +69,9 @@
                     <div class="col-sm-10">
                         <el-select v-model="formData.auth" placeholder="请选择所属角色">
                             <el-option
-                                v-for="item in roles"
-                                :label="item.label"
-                                :value="item.value" :key="item.value">
+                                v-for="role in roles"
+                                :label="role.title"
+                                :value="role.name" :key="role.value">
                             </el-option>
                         </el-select> 
                         <div class="help-block animated fadeInDown" v-show="errorInfo.auth">请选择所属角色</div>                   
@@ -114,9 +114,9 @@
                     <div class="col-sm-10">
                         <el-select v-model="formData.auth" placeholder="请选择所属角色">
                             <el-option
-                                v-for="item in roles"
-                                :label="item.label"
-                                :value="item.value" :key="item.value">
+                                v-for="role in roles"
+                                :label="role.title"
+                                :value="role.name" :key="role.value">
                             </el-option>
                         </el-select> 
                         <div class="help-block animated fadeInDown" v-show="errorInfo.auth">请选择所属角色</div>                   
@@ -133,7 +133,6 @@
 
 <script>
 	import ElDialog from '../../packages/dialog'
-	import roles from '../../config/roles.js'
 
 	export default {
     	props: {
@@ -149,10 +148,15 @@
         },
 		data() {
 			return {
-				roles: roles,
 				crumbs: [
                     {to: null, text: '用户管理'},
                 ],
+                //API路由列表
+                routeList: {
+                    browseUrl : '/api/user',
+                    roleUrl: '/api/role'
+                },
+                roles: [],
 		      	fields: [
 			        {
 			          title: '头像',
@@ -211,6 +215,16 @@
 
 			}
 		},
+        created() {
+            let _self = this;
+            axios.get(_self.routeList.roleUrl)
+                .then(function (res) {
+                    _self.roles = res.data.data;
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        },
         methods: {
         	dateFormat (value) {
         		return (value == null) ? '' : value.date.substring(0,10);
@@ -263,7 +277,7 @@
 	                },
 	                function(isConfirm){
 	                    if (isConfirm){
-	                        let deleteUrl = '/api/user/' + data.id;
+	                        let deleteUrl = _self.routeList.browseUrl + '/' + data.id;
 	                        axios.delete(deleteUrl)
 	                            .then(function(response){
 	                            	if (response.status == 200){
@@ -277,7 +291,7 @@
 	                    }
 	                });                
 	            }else{
-                    axios.get('/api/user/' + data.id)
+                    axios.get(_self.routeList.browseUrl + '/' + data.id)
                         .then(function (res) {
                             _self.editDialog(res.data.data);
                         })
@@ -323,7 +337,7 @@
             //提交表单
             submitUser() {
                 let _self = this;
-                let apiUrl = '/api/user';
+                let apiUrl = _self.routeList.browseUrl;
                 _self.clearError();
 
                 if (!_self.checkData()){
@@ -331,7 +345,7 @@
                 }
 
                 if (_self.currentID != 0){
-                    apiUrl = '/api/user/' + _self.currentID;
+                    apiUrl += '/' + _self.currentID;
                     _self.formData['_method'] = 'PUT';
                 }
                 axios.post(apiUrl,_self.formData)

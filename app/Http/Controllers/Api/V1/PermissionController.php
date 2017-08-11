@@ -26,8 +26,60 @@ class PermissionController extends BaseController
      */
     public function index(Request $request)
     {
-        $permissions = $this->permissionRepository->all();
+        $per_page = isset($request->per_page) ? $request->per_page : 10;
 
-        return $this->response->collection($permissions, new PermissionTransformer);
+        $permissions = $this->permissionRepository->paginate($per_page);
+
+        return $this->response->paginator($permissions, new PermissionTransformer);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $this->permissionRepository->destroy($id);
+
+        return $this->response->noContent()->setStatusCode(200);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $data = $request->all();
+
+        if ( $this->permissionRepository->checkUnique('route',$data['route']) ){
+            $this->permissionRepository->store($data);
+            return $this->response->noContent()->setStatusCode(200);    
+        }else{
+            return $this->response->array($this->errorMsg[10009]);
+        }
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $data = $request->all();
+
+        if ( $this->permissionRepository->checkUnique('route',$data['route'], $id) ){
+            $this->permissionRepository->update($id,$data);
+            return $this->response->noContent()->setStatusCode(200);    
+        }else{
+            return $this->response->array($this->errorMsg[10009]);
+        }
     }
 }

@@ -23,6 +23,7 @@ $api->version('v1',['namespace' => 'App\Http\Controllers\Api\V1'], function ($ap
 	//RBAC
 	$api->resource('user','UserController');
 	$api->resource('permission','PermissionController');
+	$api->resource('role','RoleController');
 
 	//profile
 	$api->get('/profile','UserController@profile');

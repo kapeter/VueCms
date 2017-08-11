@@ -37,17 +37,4 @@ class UserRepository
 
         return $result->paginate($per_page);
 	}
-
-
-	/**
-	*  check the uniqueness of email
-	*
-	*  @param  \Illuminate\Http\Request  $request
-	*/
-	public function checkUniqueEmail($id, $email)
-	{
-		$count = $this->model->where('email',$email)->where('id','<>',$id)->count();
-
-        return ($count != 0) ? false : true; 
-	}
 }
