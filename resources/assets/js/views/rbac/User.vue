@@ -22,8 +22,9 @@
 							<template slot="avatar" scope="props">
 								<img class="img-avatar img-avatar32" :src="props.rowData.avatar">
 						    </template>
-							<template slot="authShow" scope="props">
-								<span class="label label-success" v-if="props.rowData.role.is_admin == 1">{{ props.rowData.role.title }}</span>
+							<template slot="role" scope="props">
+                                <span class="label label-default" v-if="props.rowData.role == null">暂无角色</span>
+								<span class="label label-success" v-else-if="props.rowData.role.is_admin == 1">{{ props.rowData.role.title }}</span>
 								<span class="label label-info" v-else>{{ props.rowData.role.title }}</span>
 						    </template>
 							<template slot="actions" scope="props">
@@ -174,7 +175,7 @@
 			        },
 			        {
 			          title: '角色',
-			          name: '__slot:authShow',
+			          name: '__slot:role',
                       titleClass: 'text-center',
                       dataClass: 'text-center',
 			        },
