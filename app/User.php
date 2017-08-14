@@ -15,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'bio','is_admin','avatar','status'
+        'name', 'email', 'password', 'bio','avatar','status','role_id'
     ];
 
     /**
@@ -34,6 +34,16 @@ class User extends Authenticatable
      */
     public function posts()
     {
-        return $this->hasMany(App\Models\Post::class);
+        return $this->hasMany(\App\Models\Post::class);
+    }
+
+     /**
+     * Get the role for user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function role()
+    {
+        return $this->belongsTo(\App\Models\Role::class);
     }
 }

@@ -15,5 +15,6 @@ class Role extends Model
         'name',
         'title',
         'description',
+        'is_admin'
     ];
 }

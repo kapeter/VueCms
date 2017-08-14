@@ -19,7 +19,7 @@ import store from './store.js'
 import App from './App.vue'
 
 
-import { Switch, Radio, RadioGroup, Option, Select, Tabs, TabPane, Upload, Cascader } from 'element-ui'
+import { Switch, Radio, RadioGroup, Option, Select, Tabs, TabPane, Upload, Cascader, Checkbox, CheckboxGroup} from 'element-ui'
 
 Vue.use(Select)
 Vue.use(Option)
@@ -30,6 +30,8 @@ Vue.use(Tabs)
 Vue.use(TabPane)
 Vue.use(Upload)
 Vue.use(Cascader)
+Vue.use(Checkbox)
+Vue.use(CheckboxGroup)
 
 Vue.component(
     'page-heading', require('./components/Heading.vue')

@@ -17,14 +17,18 @@
                         <vuetable ref="vuetable"
                             :api-url="routeList.browseUrl"
                             :fields="fields"
-                            :sort-order="sortOrder"
                             @vuetable:pagination-data="onPaginationData">
+                            <template slot="is_admin" scope="props">
+                                <span v-if="props.rowData.is_admin != 1" class="label label-info">否</span>
+                                <span v-else class="label label-success">是</span>
+                            </template>
                             <template slot="actions" scope="props">
-                                <div class="custom-actions">
+                                <div class="custom-actions" v-if="props.rowData.is_admin != 1">
                                    <button class="btn btn-sm btn-info" @click="itemAction('build-item', props.rowData)"><i class="fa fa-bars"></i> 配置</button>
                                     <button class="btn btn-sm btn-default" @click="itemAction('edit-item', props.rowData)"><i class="fa fa-pencil"></i> 编辑</button>
                                     <button class="btn btn-sm btn-danger" @click="itemAction('delete-item', props.rowData)"><i class="fa fa-times"></i> 删除</button>
                                 </div>
+                                <div v-else>超级管理员信息无法修改</div>
                             </template>
                         </vuetable> 
                     </div>
@@ -66,7 +70,47 @@
             </form>
           <span slot="footer">
             <button class="btn btn-default" @click="dialogVisible = false">取 消</button>
-            <button class="btn btn-info" @click="submitUser()">确 定</button>
+            <button class="btn btn-info" @click="submitRole()">确 定</button>
+          </span>
+        </ElDialog>
+
+        <!-- 配置权限 -->
+        <ElDialog :title="confDialogTitle" v-model="confDialogVisible">
+            <form class="form-horizontal">
+                <div class="table-responsive">
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <th>系统模块</th>
+                                <th class="text-center">浏览</th>
+                                <th class="text-center">查看</th>
+                                <th class="text-center">编辑</th>
+                                <th class="text-center">删除</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="permission in permissions">
+                                <td>{{ permission.title }}</td>
+                                <td class="text-center">
+                                    <el-checkbox v-model="permission.can_create"></el-checkbox>
+                                </td>
+                                <td class="text-center">
+                                    <el-checkbox v-model="permission.can_browser"></el-checkbox>
+                                </td>
+                                <td class="text-center">
+                                    <el-checkbox v-model="permission.can_edit"></el-checkbox>
+                                </td>
+                                <td class="text-center">
+                                    <el-checkbox v-model="permission.can_delete"></el-checkbox>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </form>
+          <span slot="footer">
+            <button class="btn btn-default" @click="confDialogVisible = false">取 消</button>
+            <button class="btn btn-info" @click="submitPermission()">确 定</button>
           </span>
         </ElDialog>
 	</div>
@@ -110,9 +154,14 @@
                       name: 'description',
                     },
                     {
+                      title: '是否为超级管理员',
+                      name: '__slot:is_admin',
+                      titleClass: 'text-center',
+                      dataClass: 'text-center'
+                    },
+                    {
                       title: '创建时间',
                       name: 'created_at',
-                      sortField: 'created_at',
                       titleClass: 'text-center',
                       dataClass: 'text-center',
                       callback: 'dateFormat'
@@ -124,11 +173,10 @@
                       dataClass: 'text-center'
                     }
                 ],
-                sortOrder: [
-                    { field: 'created_at', sortField: 'created_at', direction: 'desc'}
-                ],
 		      	dialogVisible: false,
 		      	dialogTitle: '新增角色',
+                confDialogTitle: '',
+                confDialogVisible: false,
 		      	uniqueCheck: true,
 		      	currentID: 0,
                 formData: {
@@ -141,6 +189,7 @@
                     title: false,
                     description: false,
                 },
+                permissions: [],
 			}
 		},
         methods: {
@@ -161,17 +210,6 @@
                 this.freshDialog();
                 this.dialogVisible = true;
             },
-            editDialog(data) {
-                this.formData = {
-                	name: data.name,
-                    title: data.title,
-                    description: data.description,
-                };
-                this.currentID = data.id;
-                this.clearError();
-                this.dialogTitle = '编辑角色';
-                this.dialogVisible = true;
-            },
             freshDialog() {
                 this.formData = {
                     name: '',
@@ -183,36 +221,56 @@
             },
 	        itemAction (action, data) {
 	        	let _self = this;
-	            if (action == 'delete-item'){
-	                sweetAlert({
-	                    title: "危险操作",
-	                    text: "您确认删除该项信息吗？",
-	                    type: "warning",
-	                    showCancelButton: true,
-	                    confirmButtonColor: "#d26a5c",
-	                    confirmButtonText: "删  除",
-	                    cancelButtonText: "取  消",
-	                    closeOnConfirm: false,
-	                    showLoaderOnConfirm: true,
-	                },
-	                function(isConfirm){
-	                    if (isConfirm){
-	                        let deleteUrl = _self.routeList.browseUrl + '/' + data.id;
-	                        axios.delete(deleteUrl)
-	                            .then(function(response){
-	                            	if (response.status == 200){
-										sweetAlert.success();
-		                                _self.$refs.vuetable.refresh();
-	                            	}
-	                            })
-	                            .catch(function (error) {
-	                            	sweetAlert.error();
-								});
-	                    }
-	                });                
-	            }else{
-                    _self.editDialog(data);
-	            }
+                switch(action){
+                    case 'delete-item':
+                        sweetAlert({
+                            title: "危险操作",
+                            text: "您确认删除该项信息吗？",
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#d26a5c",
+                            confirmButtonText: "删  除",
+                            cancelButtonText: "取  消",
+                            closeOnConfirm: false,
+                            showLoaderOnConfirm: true,
+                        },
+                        function(isConfirm){
+                            if (isConfirm){
+                                let deleteUrl = _self.routeList.browseUrl + '/' + data.id;
+                                axios.delete(deleteUrl)
+                                    .then(function(response){
+                                        if (response.status == 200){
+                                            sweetAlert.success();
+                                            _self.$refs.vuetable.refresh();
+                                        }
+                                    })
+                                    .catch(function (error) {
+                                        sweetAlert.error();
+                                    });
+                            }
+                        });
+                        break;
+                    case 'edit-item':
+                        _self.formData = {
+                            name: data.name,
+                            title: data.title,
+                            description: data.description,
+                        };
+                        _self.currentID = data.id;
+                        _self.clearError();
+                        _self.dialogTitle = '编辑角色';
+                        _self.dialogVisible = true;                        
+                        break;
+                    case 'build-item':
+                        _self.currentID = data.id;
+                        _self.confDialogTitle = '编辑'+ data.title + '的权限';
+                        _self.confDialogVisible = true;
+                        axios.get(_self.routeList.browseUrl + '/' + data.id)
+                            .then(function(res){
+                                _self.permissions = res.data;
+                            });
+
+                }
 	        },
             clearError() {
                 for (let x in this.errorInfo){
@@ -231,8 +289,8 @@
                 }
                 return true;
             },
-            //提交表单
-            submitUser() {
+            //提交角色表单
+            submitRole() {
                 let _self = this;
                 let apiUrl = _self.routeList.browseUrl;
                 _self.clearError();
@@ -256,6 +314,13 @@
                         }
                     }) 
             },
+
+            //提交配置权限表单
+            submitPermission() {
+                let _self = this;
+                
+            }
+
         }
 	}
 </script>

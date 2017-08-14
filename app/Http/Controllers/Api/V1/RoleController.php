@@ -5,17 +5,21 @@ namespace App\Http\Controllers\Api\V1;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Api\V1\BaseController;
 use App\Repositories\RoleRepository;
+use App\Repositories\PermissionRepository;
 use App\Transformers\RoleTransformer;
 
 class RoleController extends BaseController
 {
     protected $roleRepository;
 
-    public function __construct(RoleRepository $roleRepository)
+    protected $permissionRepository;
+
+    public function __construct(RoleRepository $roleRepository, PermissionRepository $permissionRepository)
     {
         parent::__construct();
         
         $this->roleRepository = $roleRepository;
+        $this->permissionRepository = $permissionRepository;
 
         $this->middleware('blog.api');
     }
@@ -26,7 +30,7 @@ class RoleController extends BaseController
      */
     public function index(Request $request)
     {
-        $per_page = isset($request->per_page) ? $request->per_page : 10;
+        $per_page = 100;
 
         $roles = $this->roleRepository->paginate($per_page);
 
@@ -54,10 +58,19 @@ class RoleController extends BaseController
      */
     public function store(Request $request)
     {
-        $data = $request->all();
+        $data = array_merge($request->all(),
+            [
+            	'is_admin' => false
+            ]
+        );
 
         if ( $this->roleRepository->checkUnique('name',$data['name']) ){
-            $this->roleRepository->store($data);
+            $role = $this->roleRepository->store($data);
+            // 初始化权限
+            $permission = $this->permissionRepository->all();
+
+            $this->roleRepository->setPermission($role->id, $permission);
+
             return $this->response->noContent()->setStatusCode(200);    
         }else{
             return $this->response->array($this->errorMsg[10009]);
@@ -73,7 +86,15 @@ class RoleController extends BaseController
      */
     public function update(Request $request, $id)
     {
+    	//禁止修改管理员信息
+    	$role = $this->roleRepository->getById($id);
+    	if ($role->is_admin) {
+    		return $this->response->array($this->errorMsg[10010]);
+    	}
+
         $data = $request->all();
+        //禁止其他角色成为管理员
+        $data['is_admin'] = false;  
 
         if ( $this->roleRepository->checkUnique('name',$data['name'], $id) ){
             $this->roleRepository->update($id,$data);
@@ -81,5 +102,23 @@ class RoleController extends BaseController
         }else{
             return $this->response->array($this->errorMsg[10009]);
         }
+    }
+
+    /**
+     * show the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $list = $this->permissionRepository->all();
+        $permissions = $this->roleRepository->getPermission($id,$list);
+        foreach ($permissions as $item){
+            $permission_info = $this->permissionRepository->getById($item->permission_id);
+            $item->title = $permission_info->title;
+            $item->name = $permission_info->route;
+        }
+        return $this->response->array($permissions);
     }
 }

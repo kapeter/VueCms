@@ -18,6 +18,7 @@ class CreateRolesTable extends Migration
             $table->string('name')->unique();
             $table->string('title');
             $table->text('description');
+            $table->boolean('is_admin');
             $table->timestamps();
         });
     }

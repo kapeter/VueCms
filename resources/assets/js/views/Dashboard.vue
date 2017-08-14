@@ -22,17 +22,6 @@
             HeaderBar,
             FooterBar,
         },
-        created() {
-            let _self = this;
-            // 获取当前用户信息
-            axios.get('/api/profile')
-                .then(function (res) {
-                    _self.$store.state.theUser = res.data.data;
-                })
-                .catch(function (res) {
-                    console.log(res);
-                });            
-        },
         mounted() {
             let hWindow     = $(window).height();
             let hHeader     = $('#header-navbar').outerHeight();
@@ -43,6 +32,16 @@
             } else {
                 $('#main-container').css('min-height', hWindow - (hHeader + hFooter));
             }
+
+            let _self = this;
+            // 获取当前用户信息
+            axios.get('/api/profile')
+                .then(function (res) {
+                    _self.$store.state.theUser = res.data.data;
+                })
+                .catch(function (res) {
+                    console.log(res);
+                }); 
         },
         computed: {
             isMini() {

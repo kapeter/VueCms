@@ -42,17 +42,16 @@ class UserController extends BaseController
     public function store(Request $request)
     {
         $data = [
-            'name' => $request->name,
-            'email' => $request->email,
+            'role_id'  => $request->auth,
+            'name'     => $request->name,
+            'email'    => $request->email,
             'password' => encrypt($request->pwd),
-            'is_admin' => (int)$request->auth ? true : false,
-            'avatar' => '/img/avatar.jpg',
-            'bio' => '3123',
-            'status' => false
+            'avatar'   => '/img/avatar.jpg',
+            'status'   => false
         ];
 
         if ( $this->userRepository->checkUnique('email',$data['email'],0) ){
-            $this->userRepository->store($data);
+            $user = $this->userRepository->store($data);
             return $this->response->noContent()->setStatusCode(200);    
         }else{
             return $this->response->array($this->errorMsg[10009]);
@@ -83,7 +82,7 @@ class UserController extends BaseController
     {
         $data = [
             'name' => $request->name,
-            'is_admin' => (int)$request->auth ? true : false,
+            'role_id'  => $request->auth,
         ];
 
         if (isset($request->pwd)){

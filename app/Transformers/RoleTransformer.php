@@ -13,6 +13,7 @@ class RoleTransformer extends TransformerAbstract
             'name'          => $role['name'],
             'title'         => $role['title'],
             'description'   => $role['description'],
+            'is_admin'      => $role['is_admin'],
             'created_at'    => $role['created_at'],
         ];
     }

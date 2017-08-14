@@ -15,17 +15,16 @@
 	     		<div class="block-content">
 	     			<div class="table-responsive">
 						<vuetable ref="vuetable"
-						    api-url="/api/user"
+						    :api-url="routeList.browseUrl"
 						    :fields="fields"
 						    :sort-order="sortOrder"
-						    @vuetable:pagination-data="onPaginationData"
-						    :append-params="moreParams">
+						    @vuetable:pagination-data="onPaginationData">
 							<template slot="avatar" scope="props">
 								<img class="img-avatar img-avatar32" :src="props.rowData.avatar">
 						    </template>
 							<template slot="authShow" scope="props">
-								<span class="label label-info" v-if="props.rowData.is_admin == 1">超级管理员</span>
-								<span class="label label-success" v-else>普通用户</span>
+								<span class="label label-success" v-if="props.rowData.role.is_admin == 1">{{ props.rowData.role.title }}</span>
+								<span class="label label-info" v-else>{{ props.rowData.role.title }}</span>
 						    </template>
 							<template slot="actions" scope="props">
 						    	<div class="custom-actions">
@@ -50,7 +49,7 @@
         <ElDialog title="新增用户" v-model="createDialogVisible">
             <form class="form-horizontal">
                 <div class="form-group" :class="{ 'has-error' : errorInfo.email || !uniqueCheck }">
-                    <label for="slug" class="col-sm-2 control-label">注册邮箱</label>
+                    <label for="slug" class="col-sm-2 control-label">登录邮箱</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" v-model="formData.email">
                         <div class="help-block animated fadeInDown" v-show="errorInfo.email">邮箱不能为空</div>
@@ -71,7 +70,7 @@
                             <el-option
                                 v-for="role in roles"
                                 :label="role.title"
-                                :value="role.name" :key="role.value">
+                                :value="role.id" :key="role.id">
                             </el-option>
                         </el-select> 
                         <div class="help-block animated fadeInDown" v-show="errorInfo.auth">请选择所属角色</div>                   
@@ -85,19 +84,19 @@
 						<div class="help-block animated fadeInDown" v-show="errorInfo.pwd">密码不能为空</div>
                     </div>
                 </div>
-
             </form>
-          <span slot="footer">
-            <button class="btn btn-default" @click="createDialogVisible = false">取 消</button>
-            <button class="btn btn-info" @click="submitUser()">确 定</button>
-          </span>
+            <span slot="footer">
+                <button class="btn btn-default" @click="createDialogVisible = false">取 消</button>
+                <button class="btn btn-info" @click="submitUser()">确 定</button>
+            </span>
         </ElDialog>
+
 		<!-- 编辑用户信息 -->
         <ElDialog title="编辑用户信息" v-model="editDialogVisible">
             <form class="form-horizontal">
             	<input type="hidden" name="id" v-model="currentID">
                 <div class="form-group">
-                    <label for="slug" class="col-sm-2 control-label">注册邮箱</label>
+                    <label for="slug" class="col-sm-2 control-label">登录邮箱</label>
                     <div class="col-sm-10">
                     	<label class="control-label">{{ formData.email }}</label>
                     </div>
@@ -116,7 +115,7 @@
                             <el-option
                                 v-for="role in roles"
                                 :label="role.title"
-                                :value="role.name" :key="role.value">
+                                :value="role.id" :key="role.id">
                             </el-option>
                         </el-select> 
                         <div class="help-block animated fadeInDown" v-show="errorInfo.auth">请选择所属角色</div>                   
@@ -176,6 +175,8 @@
 			        {
 			          title: '角色',
 			          name: '__slot:authShow',
+                      titleClass: 'text-center',
+                      dataClass: 'text-center',
 			        },
 			        {
 			          title: '创建时间',
@@ -195,7 +196,6 @@
 		      	sortOrder: [
 		        	{ field: 'created_at', sortField: 'created_at', direction: 'desc'}
 		      	],
-		      	moreParams: {},
 		      	createDialogVisible: false,
 		      	editDialogVisible: false,
 		      	uniqueCheck: true,
@@ -247,7 +247,7 @@
                 this.formData = {
                 	email: data.email,
                     name: data.name,
-                    auth: data.is_admin,
+                    auth: data.role.id,
                 };
                 this.currentID = data.id;
                 this.editDialogVisible = true;

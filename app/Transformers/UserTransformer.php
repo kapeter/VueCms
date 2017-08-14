@@ -14,7 +14,7 @@ class UserTransformer extends TransformerAbstract
             'name'          => $user['name'],
 	        'avatar'        => $user['avatar'],
 	        'bio'           => $user['bio'],
-	        'is_admin'      => $user['is_admin'],
+	        'role'          => $user->role,
             'status'        => $user['status'],
 	        'updated_at'    => $user['updated_at'],
             'created_at'    => $user['created_at']

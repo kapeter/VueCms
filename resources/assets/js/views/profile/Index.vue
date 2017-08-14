@@ -141,7 +141,7 @@
                 if ('created_at' in this.thisUser){
                     createTime = this.thisUser.created_at.date.substring(0,10);
                     let interval = Date.parse(new Date()) - Date.parse(new Date(createTime));
-                    duration = Math.floor(interval / (1000 * 60 * 60 * 24));                    
+                    duration = Math.ceil(interval / (1000 * 60 * 60 * 24));                    
                 }
                 return {
                     createTime: createTime,
