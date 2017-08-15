@@ -16,7 +16,7 @@
                     <div class="table-responsive">
                         <vuetable ref="vuetable"
                             :api-url="routeList.browseUrl"
-                            :fields="fields"
+                            :tfields="tfields"
                             @vuetable:pagination-data="onPaginationData">
                             <template slot="is_admin" scope="props">
                                 <span v-if="props.rowData.is_admin != 1" class="label label-info">否</span>
@@ -117,7 +117,7 @@
 </template>
 
 <script>
-	import ElDialog from '../../packages/dialog'
+	import ElDialog from '../../components/dialog'
 
 	export default {
         props: {
@@ -140,7 +140,7 @@
                 routeList: {
                     browseUrl : '/api/role',
                 },
-                fields: [
+                tfields: [
                     {
                       title: '显示名称',
                       name: 'title',
@@ -268,6 +268,12 @@
                         axios.get(_self.routeList.browseUrl + '/' + data.id)
                             .then(function(res){
                                 _self.permissions = res.data;
+                                for (var i = _self.permissions.length - 1; i >= 0; i--) {
+                                    _self.permissions[i].can_browser = _self.permissions[i].can_browser ? true : false;
+                                    _self.permissions[i].can_create = _self.permissions[i].can_create ? true : false;
+                                    _self.permissions[i].can_edit = _self.permissions[i].can_edit ? true : false;
+                                    _self.permissions[i].can_delete = _self.permissions[i].can_delete ? true : false;
+                                }
                             });
 
                 }
@@ -318,7 +324,15 @@
             //提交配置权限表单
             submitPermission() {
                 let _self = this;
-                
+                let apiUrl = _self.routeList.browseUrl + '/build/' + _self.currentID;
+                axios.post(apiUrl,_self.permissions)
+                    .then(function(res){
+                        _self.confDialogVisible = false;
+                        sweetAlert.success();
+                    })
+                    .catch(function(error){
+                        console.log(error);
+                    });
             }
 
         }

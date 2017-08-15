@@ -16,7 +16,7 @@
 	     			<div class="table-responsive">
 						<vuetable ref="vuetable"
 						    :api-url="routeList.browseUrl"
-						    :fields="fields"
+						    :tfields="tfields"
 						    :sort-order="sortOrder"
 						    @vuetable:pagination-data="onPaginationData">
 							<template slot="avatar" scope="props">
@@ -132,7 +132,7 @@
 </template>
 
 <script>
-	import ElDialog from '../../packages/dialog'
+	import ElDialog from '../../components/dialog'
 
 	export default {
     	props: {
@@ -157,7 +157,7 @@
                     roleUrl: '/api/role'
                 },
                 roles: [],
-		      	fields: [
+		      	tfields: [
 			        {
 			          title: '头像',
 			          name: '__slot:avatar',

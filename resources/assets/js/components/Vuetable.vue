@@ -2,43 +2,43 @@
   <table :class="[css.tableClass]">
     <thead>
       <tr>
-        <template v-for="field in fields">
-          <template v-if="field.visible">
-            <template v-if="isSpecialField(field.name)">
-              <th v-if="extractName(field.name) == '__checkbox'"
-                :class="['vuetable-th-checkbox-'+trackBy, field.titleClass]">
-                <input type="checkbox" @change="toggleAllCheckboxes(field.name, $event)"
-                  :checked="checkCheckboxesState(field.name)">
+        <template v-for="tfield in tfields">
+          <template v-if="tfield.visible">
+            <template v-if="isSpecialtfield(tfield.name)">
+              <th v-if="extractName(tfield.name) == '__checkbox'"
+                :class="['vuetable-th-checkbox-'+trackBy, tfield.titleClass]">
+                <input type="checkbox" @change="toggleAllCheckboxes(tfield.name, $event)"
+                  :checked="checkCheckboxesState(tfield.name)">
               </th>
-              <th v-if="extractName(field.name) == '__component'"
-                  @click="orderBy(field, $event)"
-                  :class="['vuetable-th-component-'+trackBy, field.titleClass, {'sortable': isSortable(field)}]">
-                  {{ field.title || '' }}
-                  <i v-if="isInCurrentSortGroup(field) && field.title"
-                     :class="sortIcon(field)"
-                     :style="{opacity: sortIconOpacity(field)}"></i>
+              <th v-if="extractName(tfield.name) == '__component'"
+                  @click="orderBy(tfield, $event)"
+                  :class="['vuetable-th-component-'+trackBy, tfield.titleClass, {'sortable': isSortable(tfield)}]">
+                  {{ tfield.title || '' }}
+                  <i v-if="isInCurrentSortGroup(tfield) && tfield.title"
+                     :class="sortIcon(tfield)"
+                     :style="{opacity: sortIconOpacity(tfield)}"></i>
               </th>
-              <th v-if="extractName(field.name) == '__slot'"
-                  @click="orderBy(field, $event)"
-                  :class="['vuetable-th-slot-'+extractArgs(field.name), field.titleClass, {'sortable': isSortable(field)}]">
-                  {{ field.title || '' }}
-                  <i v-if="isInCurrentSortGroup(field) && field.title"
-                     :class="sortIcon(field)"
-                     :style="{opacity: sortIconOpacity(field)}"></i>
+              <th v-if="extractName(tfield.name) == '__slot'"
+                  @click="orderBy(tfield, $event)"
+                  :class="['vuetable-th-slot-'+extractArgs(tfield.name), tfield.titleClass, {'sortable': isSortable(tfield)}]">
+                  {{ tfield.title || '' }}
+                  <i v-if="isInCurrentSortGroup(tfield) && tfield.title"
+                     :class="sortIcon(tfield)"
+                     :style="{opacity: sortIconOpacity(tfield)}"></i>
               </th>
-              <th v-if="extractName(field.name) == '__sequence'"
-                  :class="['vuetable-th-sequence', field.titleClass || '']" v-html="field.title || ''">
+              <th v-if="extractName(tfield.name) == '__sequence'"
+                  :class="['vuetable-th-sequence', tfield.titleClass || '']" v-html="tfield.title || ''">
               </th>
-              <th v-if="notIn(extractName(field.name), ['__sequence', '__checkbox', '__component', '__slot'])"
-                  :class="['vuetable-th-'+field.name, field.titleClass || '']" v-html="field.title || ''">
+              <th v-if="notIn(extractName(tfield.name), ['__sequence', '__checkbox', '__component', '__slot'])"
+                  :class="['vuetable-th-'+tfield.name, tfield.titleClass || '']" v-html="tfield.title || ''">
               </th>
             </template>
             <template v-else>
-              <th @click="orderBy(field, $event)"
-                :id="'_' + field.name"
-                :class="['vuetable-th-'+field.name, field.titleClass,  {'sortable': isSortable(field)}]">
-                {{  getTitle(field) }}&nbsp;
-                <i v-if="isInCurrentSortGroup(field)" :class="sortIcon(field)" :style="{opacity: sortIconOpacity(field)}"></i>
+              <th @click="orderBy(tfield, $event)"
+                :id="'_' + tfield.name"
+                :class="['vuetable-th-'+tfield.name, tfield.titleClass,  {'sortable': isSortable(tfield)}]">
+                {{  getTitle(tfield) }}&nbsp;
+                <i v-if="isInCurrentSortGroup(tfield)" :class="sortIcon(tfield)" :style="{opacity: sortIconOpacity(tfield)}"></i>
               </th>
             </template>
           </template>
@@ -48,38 +48,38 @@
     <tbody v-cloak>
       <template v-for="(item, index) in tableData">
         <tr @dblclick="onRowDoubleClicked(item, $event)" @click="onRowClicked(item, $event)" :render="onRowChanged(item)" :class="onRowClass(item, index)">
-          <template v-for="field in fields">
-            <template v-if="field.visible">
-              <template v-if="isSpecialField(field.name)">
-                <td v-if="extractName(field.name) == '__sequence'" :class="['vuetable-sequence', field.dataClass]"
+          <template v-for="tfield in tfields">
+            <template v-if="tfield.visible">
+              <template v-if="isSpecialtfield(tfield.name)">
+                <td v-if="extractName(tfield.name) == '__sequence'" :class="['vuetable-sequence', tfield.dataClass]"
                   v-html="tablePagination.from + index">
                 </td>
-                <td v-if="extractName(field.name) == '__handle'" :class="['vuetable-handle', field.dataClass]">
+                <td v-if="extractName(tfield.name) == '__handle'" :class="['vuetable-handle', tfield.dataClass]">
                   <i :class="['sort-handle', css.sortHandleIcon]"></i>
                 </td>
-                <td v-if="extractName(field.name) == '__checkbox'" :class="['vuetable-checkboxes', field.dataClass]">
+                <td v-if="extractName(tfield.name) == '__checkbox'" :class="['vuetable-checkboxes', tfield.dataClass]">
                   <input type="checkbox"
-                    @change="toggleCheckbox(item, field.name, $event)"
-                    :checked="rowSelected(item, field.name)">
+                    @change="toggleCheckbox(item, tfield.name, $event)"
+                    :checked="rowSelected(item, tfield.name)">
                 </td>
-                <td v-if="extractName(field.name) === '__component'" :class="['vuetable-component', field.dataClass]">
-                    <component :is="extractArgs(field.name)" :row-data="item" :row-index="index"></component>
+                <td v-if="extractName(tfield.name) === '__component'" :class="['vuetable-component', tfield.dataClass]">
+                    <component :is="extractArgs(tfield.name)" :row-data="item" :row-index="index"></component>
                 </td>
-                <td v-if="extractName(field.name) === '__slot'" :class="['vuetable-slot', field.dataClass]">
-                  <slot :name="extractArgs(field.name)" :row-data="item" :row-index="index"></slot>
+                <td v-if="extractName(tfield.name) === '__slot'" :class="['vuetable-slot', tfield.dataClass]">
+                  <slot :name="extractArgs(tfield.name)" :row-data="item" :row-index="index"></slot>
                 </td>
               </template>
               <template v-else>
-                <td v-if="hasCallback(field)" :class="field.dataClass"
-                  @click="onCellClicked(item, field, $event)"
-                  @dblclick="onCellDoubleClicked(item, field, $event)"
-                  v-html="callCallback(field, item)"
+                <td v-if="hasCallback(tfield)" :class="tfield.dataClass"
+                  @click="onCellClicked(item, tfield, $event)"
+                  @dblclick="onCellDoubleClicked(item, tfield, $event)"
+                  v-html="callCallback(tfield, item)"
                 >
                 </td>
-                <td v-else :class="field.dataClass"
-                  @click="onCellClicked(item, field, $event)"
-                  @dblclick="onCellDoubleClicked(item, field, $event)"
-                  v-html="getObjectValue(item, field.name, '')"
+                <td v-else :class="tfield.dataClass"
+                  @click="onCellClicked(item, tfield, $event)"
+                  @dblclick="onCellDoubleClicked(item, tfield, $event)"
+                  v-html="getObjectValue(item, tfield.name, '')"
                 >
                 </td>
               </template>
@@ -92,7 +92,7 @@
               @click="onDetailRowClick(item, $event)"
               :class="[css.detailRowClass]"
             >
-              <td :colspan="countVisibleFields">
+              <td :colspan="countVisibletfields">
                 <component :is="detailRowComponent" :row-data="item" :row-index="index"></component>
               </td>
             </tr>
@@ -106,7 +106,7 @@
 <script>
 export default {
   props: {
-    fields: {
+    tfields: {
       type: Array,
       required: true
     },
@@ -219,7 +219,7 @@ export default {
     }
   },
   created: function() {
-    this.normalizeFields()
+    this.normalizetfields()
     if (this.loadOnStart) {
       this.loadData()
     }
@@ -233,26 +233,26 @@ export default {
 
       return this.detailRowComponent !== ''
     },
-    countVisibleFields: function() {
-      return this.fields.filter(function(field) {
-        return field.visible
+    countVisibletfields: function() {
+      return this.tfields.filter(function(tfield) {
+        return tfield.visible
       }).length
     }
   },
   methods: {
-    normalizeFields: function() {
-      if (typeof(this.fields) === 'undefined') {
-        this.warn('You need to provide "fields" prop.')
+    normalizetfields: function() {
+      if (typeof(this.tfields) === 'undefined') {
+        this.warn('You need to provide "tfields" prop.')
         return
       }
 
       let self = this
       let obj
-      this.fields.forEach(function(field, i) {
-        if (typeof (field) === 'string') {
+      this.tfields.forEach(function(tfield, i) {
+        if (typeof (tfield) === 'string') {
           obj = {
-            name: field,
-            title: self.setTitle(field),
+            name: tfield,
+            title: self.setTitle(tfield),
             titleClass: '',
             dataClass: '',
             callback: null,
@@ -260,34 +260,34 @@ export default {
           }
         } else {
           obj = {
-            name: field.name,
-            title: (field.title === undefined) ? self.setTitle(field.name) : field.title,
-            sortField: field.sortField,
-            titleClass: (field.titleClass === undefined) ? '' : field.titleClass,
-            dataClass: (field.dataClass === undefined) ? '' : field.dataClass,
-            callback: (field.callback === undefined) ? '' : field.callback,
-            visible: (field.visible === undefined) ? true : field.visible,
+            name: tfield.name,
+            title: (tfield.title === undefined) ? self.setTitle(tfield.name) : tfield.title,
+            sorttfield: tfield.sorttfield,
+            titleClass: (tfield.titleClass === undefined) ? '' : tfield.titleClass,
+            dataClass: (tfield.dataClass === undefined) ? '' : tfield.dataClass,
+            callback: (tfield.callback === undefined) ? '' : tfield.callback,
+            visible: (tfield.visible === undefined) ? true : tfield.visible,
           }
         }
-        Vue.set(self.fields, i, obj)
+        Vue.set(self.tfields, i, obj)
       })
     },
     setTitle: function(str) {
-      if (this.isSpecialField(str)) {
+      if (this.isSpecialtfield(str)) {
         return ''
       }
 
       return this.titleCase(str)
     },
-    getTitle: function(field) {
-      if (typeof field.title === 'undefined') {
-        return field.name.replace('.', ' ')
+    getTitle: function(tfield) {
+      if (typeof tfield.title === 'undefined') {
+        return tfield.name.replace('.', ' ')
       }
 
-      return field.title
+      return tfield.title
     },
-    isSpecialField: function(fieldName) {
-      return fieldName.slice(0, 2) === '__'
+    isSpecialtfield: function(tfieldName) {
+      return tfieldName.slice(0, 2) === '__'
     },
     titleCase: function(str) {
       return str.replace(/\w+/g, function(txt) {
@@ -382,7 +382,7 @@ export default {
       return params
     },
     getSortParam: function() {
-      if (!this.sortOrder || this.sortOrder.field == '') {
+      if (!this.sortOrder || this.sortOrder.tfield == '') {
         return ''
       }
 
@@ -396,11 +396,11 @@ export default {
       let result = '';
 
       for (let i = 0; i < this.sortOrder.length; i++) {
-        let fieldName = (typeof this.sortOrder[i].sortField === 'undefined')
-          ? this.sortOrder[i].field
-          : this.sortOrder[i].sortField;
+        let tfieldName = (typeof this.sortOrder[i].sorttfield === 'undefined')
+          ? this.sortOrder[i].tfield
+          : this.sortOrder[i].sorttfield;
 
-        result += fieldName + '|' + this.sortOrder[i].direction + ((i+1) < this.sortOrder.length ? ',' : '');
+        result += tfieldName + '|' + this.sortOrder[i].direction + ((i+1) < this.sortOrder.length ? ',' : '');
       }
 
       return result;
@@ -411,53 +411,53 @@ export default {
     extractArgs: function(string) {
       return string.split(':')[1]
     },
-    isSortable: function(field) {
-      return !(typeof field.sortField === 'undefined')
+    isSortable: function(tfield) {
+      return !(typeof tfield.sorttfield === 'undefined')
     },
-    isInCurrentSortGroup: function(field) {
-      return this.currentSortOrderPosition(field) !== false;
+    isInCurrentSortGroup: function(tfield) {
+      return this.currentSortOrderPosition(tfield) !== false;
     },
-    currentSortOrderPosition: function(field) {
-      if ( ! this.isSortable(field)) {
+    currentSortOrderPosition: function(tfield) {
+      if ( ! this.isSortable(tfield)) {
         return false
       }
 
       for (let i = 0; i < this.sortOrder.length; i++) {
-        if (this.fieldIsInSortOrderPosition(field, i)) {
+        if (this.tfieldIsInSortOrderPosition(tfield, i)) {
           return i;
         }
       }
 
       return false;
     },
-    fieldIsInSortOrderPosition(field, i) {
-      return this.sortOrder[i].field === field.name && this.sortOrder[i].sortField === field.sortField
+    tfieldIsInSortOrderPosition(tfield, i) {
+      return this.sortOrder[i].tfield === tfield.name && this.sortOrder[i].sorttfield === tfield.sorttfield
     },
-    orderBy: function(field, event) {
-      if ( ! this.isSortable(field)) return
+    orderBy: function(tfield, event) {
+      if ( ! this.isSortable(tfield)) return
 
       let key = this.multiSortKey.toLowerCase() + 'Key'
 
       if (this.multiSort && event[key]) { //adding column to multisort
-        this.multiColumnSort(field)
+        this.multiColumnSort(tfield)
       } else {
         //no multisort, or resetting sort
-        this.singleColumnSort(field)
+        this.singleColumnSort(tfield)
       }
 
       this.currentPage = 1    // reset page index
       this.loadData()
     },
-    multiColumnSort: function(field) {
-      let i = this.currentSortOrderPosition(field);
+    multiColumnSort: function(tfield) {
+      let i = this.currentSortOrderPosition(tfield);
 
-      if(i === false) { //this field is not in the sort array yet
+      if(i === false) { //this tfield is not in the sort array yet
         this.sortOrder.push({
-          field: field.name,
-          sortField: field.sortField,
+          tfield: tfield.name,
+          sorttfield: tfield.sorttfield,
           direction: 'asc'
         });
-      } else { //this field is in the sort array, now we change its state
+      } else { //this tfield is in the sort array, now we change its state
         if(this.sortOrder[i].direction === 'asc') {
           // switch direction
           this.sortOrder[i].direction = 'desc'
@@ -467,33 +467,33 @@ export default {
         }
       }
     },
-    singleColumnSort: function(field) {
+    singleColumnSort: function(tfield) {
       if (this.sortOrder.length === 0) {
         this.clearSortOrder()
       }
 
       this.sortOrder.splice(1); //removes additional columns
 
-      if (this.fieldIsInSortOrderPosition(field, 0)) {
+      if (this.tfieldIsInSortOrderPosition(tfield, 0)) {
         // change sort direction
         this.sortOrder[0].direction = this.sortOrder[0].direction === 'asc' ? 'desc' : 'asc'
       } else {
         // reset sort direction
         this.sortOrder[0].direction = 'asc'
       }
-      this.sortOrder[0].field = field.name
-      this.sortOrder[0].sortField = field.sortField
+      this.sortOrder[0].tfield = tfield.name
+      this.sortOrder[0].sorttfield = tfield.sorttfield
     },
     clearSortOrder: function() {
       this.sortOrder.push({
-        field: '',
-        sortField: '',
+        tfield: '',
+        sorttfield: '',
         direction: 'asc'
       });
     },
-    sortIcon: function(field) {
+    sortIcon: function(tfield) {
       let cls = {}
-      let i = this.currentSortOrderPosition(field);
+      let i = this.currentSortOrderPosition(tfield);
 
       if (i !== false) {
         if (this.sortOrder[i].direction == 'asc') {
@@ -505,22 +505,22 @@ export default {
 
       return cls;
     },
-    sortIconOpacity: function(field) {
+    sortIconOpacity: function(tfield) {
       /*
-       * fields with stronger precedence have darker color
+       * tfields with stronger precedence have darker color
        *
-       * if there are few fields, we go down by 0.3
-       * ex. 2 fields are selected: 1.0, 0.7
+       * if there are few tfields, we go down by 0.3
+       * ex. 2 tfields are selected: 1.0, 0.7
        *
        * if there are more we go down evenly on the given spectrum
-       * ex. 6 fields are selected: 1.0, 0.86, 0.72, 0.58, 0.44, 0.3
+       * ex. 6 tfields are selected: 1.0, 0.86, 0.72, 0.58, 0.44, 0.3
        */
       let max = 1.0,
           min = 0.3,
           step = 0.3
 
       let count = this.sortOrder.length;
-      let current = this.currentSortOrderPosition(field)
+      let current = this.currentSortOrderPosition(tfield)
 
 
       if(max - count * step < min) {
@@ -534,18 +534,18 @@ export default {
     hasCallback: function(item) {
       return item.callback ? true : false
     },
-    callCallback: function(field, item) {
-      if ( ! this.hasCallback(field)) return
+    callCallback: function(tfield, item) {
+      if ( ! this.hasCallback(tfield)) return
 
-      if(typeof(field.callback) == 'function') {
-       return field.callback(this.getObjectValue(item, field.name))
+      if(typeof(tfield.callback) == 'function') {
+       return tfield.callback(this.getObjectValue(item, tfield.name))
       }
 
-      let args = field.callback.split('|')
+      let args = tfield.callback.split('|')
       let func = args.shift()
 
       if (typeof this.$parent[func] === 'function') {
-        let value = this.getObjectValue(item, field.name)
+        let value = this.getObjectValue(item, tfield.name)
 
         return (args.length > 0)
           ? this.$parent[func].apply(this.$parent, [value].concat(args))
@@ -571,12 +571,12 @@ export default {
       }
       return obj
     },
-    toggleCheckbox: function(dataItem, fieldName, event) {
+    toggleCheckbox: function(dataItem, tfieldName, event) {
       let isChecked = event.target.checked
       let idColumn = this.trackBy
 
       if (dataItem[idColumn] === undefined) {
-        this.warn('__checkbox field: The "'+this.trackBy+'" field does not exist! Make sure the field you specify in "track-by" prop does exist.')
+        this.warn('__checkbox tfield: The "'+this.trackBy+'" tfield does not exist! Make sure the tfield you specify in "track-by" prop does exist.')
         return
       }
 
@@ -601,13 +601,13 @@ export default {
     isSelectedRow: function(key) {
       return this.selectedTo.indexOf(key) >= 0
     },
-    rowSelected: function(dataItem, fieldName){
+    rowSelected: function(dataItem, tfieldName){
       let idColumn = this.trackBy
       let key = dataItem[idColumn]
 
       return this.isSelectedRow(key)
     },
-    checkCheckboxesState: function(fieldName) {
+    checkCheckboxesState: function(tfieldName) {
       if (! this.tableData) return
 
       let self = this
@@ -642,7 +642,7 @@ export default {
         return true
       }
     },
-    toggleAllCheckboxes: function(fieldName, event) {
+    toggleAllCheckboxes: function(tfieldName, event) {
       let self = this
       let isChecked = event.target.checked
       let idColumn = this.trackBy
@@ -721,11 +721,11 @@ export default {
     onDetailRowClick: function(dataItem, event) {
       this.$emit(this.eventPrefix + 'detail-row-clicked', dataItem, event)
     },
-    onCellClicked: function(dataItem, field, event) {
-      this.$emit(this.eventPrefix + 'cell-clicked', dataItem, field, event)
+    onCellClicked: function(dataItem, tfield, event) {
+      this.$emit(this.eventPrefix + 'cell-clicked', dataItem, tfield, event)
     },
-    onCellDoubleClicked: function(dataItem, field, event) {
-      this.$emit(this.eventPrefix + 'cell-dblclicked', dataItem, field, event)
+    onCellDoubleClicked: function(dataItem, tfield, event) {
+      this.$emit(this.eventPrefix + 'cell-dblclicked', dataItem, tfield, event)
     },
     /*
      * API for externals

@@ -121,4 +121,23 @@ class RoleController extends BaseController
         }
         return $this->response->array($permissions);
     }
+
+    /**
+     * build the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function build(Request $request, $id)
+    {
+        $data = [];
+        foreach ($request->all() as $item) {
+            array_push($data, $this->array_to_object($item));
+        }
+
+        $this->roleRepository->setPermission($id, $data);
+
+        return $this->response->noContent()->setStatusCode(200);    
+    }
 }

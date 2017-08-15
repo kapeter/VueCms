@@ -8,7 +8,7 @@
 	     			<div class="table-responsive">
 						<vuetable ref="vuetable"
 						    api-url="/api/log"
-						    :fields="fields"
+						    :tfields="tfields"
 						    :sort-order="sortOrder"
 						    :css="css.table"
 						    @vuetable:pagination-data="onPaginationData">
@@ -43,7 +43,7 @@
 		    	crumbs: [
 		    		{to: null, text: '接口日志'}
 		    	],
-		      	fields: [
+		      	tfields: [
 			        {
 			          title: '控制器',
 			          name: 'controller',

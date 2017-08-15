@@ -23,8 +23,8 @@
 </template>
 
 <script>
-    import Breadcrumb from '../packages/breadcrumb';
-    import BreadcrumbItem from '../packages/breadcrumb-item';
+    import Breadcrumb from '../components/breadcrumb';
+    import BreadcrumbItem from '../components/breadcrumb-item';
 
 	export default {
         components: {

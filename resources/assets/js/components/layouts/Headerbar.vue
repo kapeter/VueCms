@@ -22,7 +22,7 @@
                             </a>
                         </li>
                         <li>
-                            <router-link tabindex="-1" :to="'/dashboard/profile'">
+                            <router-link tabindex="-1" :to="'/profile'">
                                 <i class="si si-user pull-right"></i>个人中心
                             </router-link>
                         </li>

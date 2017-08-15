@@ -24,10 +24,11 @@ $api->version('v1',['namespace' => 'App\Http\Controllers\Api\V1'], function ($ap
 	$api->resource('user','UserController');
 	$api->resource('permission','PermissionController');
 	$api->resource('role','RoleController');
+	$api->post('role/build/{id}','RoleController@build');
 
 	//profile
-	$api->get('/profile','UserController@profile');
-	$api->post('/profile','UserController@profile');
+	$api->get('profile','UserController@profile');
+	$api->post('profile','UserController@profile');
 
 	//Post
 	$api->resource('post','PostController');

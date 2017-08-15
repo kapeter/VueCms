@@ -16,7 +16,7 @@
                     <div class="table-responsive">
                         <vuetable ref="vuetable"
                             api-url="/api/category"
-                            :fields="fields"
+                            :tfields="tfields"
                             :css="css.table"
                             @vuetable:pagination-data="onPaginationData"
                             :append-params="moreParams">
@@ -114,7 +114,7 @@
 </template>
 
 <script>
-    import ElDialog from '../../packages/dialog'
+    import ElDialog from '../../components/dialog'
     import models from '../../config/models.js'
 
     export default {
@@ -145,7 +145,7 @@
                 uniqueCheck: true,
                 modalTitle: '新增目录',
                 currentID: 0,
-                fields: [
+                tfields: [
                     {
                       title: '名称  /  唯一标识',
                       name: '__slot:devideName',

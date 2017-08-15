@@ -14,13 +14,17 @@ require('./bootstrap');
  */
 
 import Vue from 'vue'
-import router from './routes.js'
-import store from './store.js'
+import router from './router'
+import store from './store'
+import config from './config'
 import App from './App.vue'
 
 
-import { Switch, Radio, RadioGroup, Option, Select, Tabs, TabPane, Upload, Cascader, Checkbox, CheckboxGroup} from 'element-ui'
+import VeeValidate from 'vee-validate'
+Vue.use(VeeValidate,config.validation);
 
+
+import { Switch, Radio, RadioGroup, Option, Select, Tabs, TabPane, Upload, Cascader, Checkbox, CheckboxGroup} from 'element-ui'
 Vue.use(Select)
 Vue.use(Option)
 Vue.use(Radio)

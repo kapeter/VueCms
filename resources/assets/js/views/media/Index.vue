@@ -165,7 +165,7 @@
 </template>
 
 <script>
-	import ElDialog from '../../packages/dialog'
+	import ElDialog from '../../components/dialog'
 	import { Loading } from 'element-ui'
 
 	export default {

@@ -16,8 +16,7 @@
                     <div class="table-responsive">
                         <vuetable ref="vuetable"
                             :api-url="routeList.browseUrl"
-                            :fields="fields"
-                            :sort-order="sortOrder"
+                            :tfields="tfields"
                             @vuetable:pagination-data="onPaginationData">
                             <template slot="actions" scope="props">
                                 <div class="custom-actions">
@@ -41,19 +40,23 @@
 
         <ElDialog :title="dialogTitle" v-model="dialogVisible">
             <form class="form-horizontal">
-                <div class="form-group" :class="{ 'has-error' : errorInfo.route || !uniqueCheck }">
+                <div class="form-group" :class="{ 'has-error' : errors.has('route') || !uniqueCheck }">
                     <label for="slug" class="col-sm-2 control-label">唯一路由</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" v-model="formData.route">
-                        <div class="help-block animated fadeInDown" v-show="errorInfo.route">唯一路由不能为空</div>
+                        <input type="text" class="form-control" v-model="formData.route" name="route" v-validate="'required'">
                         <div class="help-block animated fadeInDown" v-show="!uniqueCheck">该路由已被存在</div>
+                        <div class="help-block animated fadeInDown"  v-show="errors.has('route')">
+                            {{ errors.first('route') }}
+                        </div>
                     </div>
                 </div>
-                <div class="form-group" :class="{ 'has-error' : errorInfo.title  }">
+                <div class="form-group" :class="{ 'has-error' :  errors.has('title')  }">
                     <label for="name" class="col-sm-2 control-label">显示名称</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" v-model="formData.title">
-                        <div class="help-block animated fadeInDown" v-show="errorInfo.title">显示名称不能为空</div>
+                        <input type="text" class="form-control" v-model="formData.title" name="title" v-validate="'required'">
+                        <div class="help-block animated fadeInDown"  v-show="errors.has('title')">
+                            {{ errors.first('title') }}
+                        </div>
                     </div>
                 </div>
                 <div class="form-group">
@@ -72,7 +75,7 @@
 </template>
 
 <script>
-	import ElDialog from '../../packages/dialog'
+	import ElDialog from '../../components/dialog'
 
 	export default {
         props: {
@@ -95,7 +98,7 @@
                 routeList: {
                     browseUrl : '/api/permission',
                 },
-                fields: [
+                tfields: [
                     {
                       title: '显示名称',
                       name: 'title',
@@ -111,7 +114,6 @@
                     {
                       title: '创建时间',
                       name: 'created_at',
-                      sortField: 'created_at',
                       titleClass: 'text-center',
                       dataClass: 'text-center',
                       callback: 'dateFormat'
@@ -123,9 +125,6 @@
                       dataClass: 'text-center'
                     }
                 ],
-                sortOrder: [
-                    { field: 'created_at', sortField: 'created_at', direction: 'desc'}
-                ],
 		      	dialogVisible: false,
 		      	dialogTitle: '新增权限',
 		      	uniqueCheck: true,
@@ -134,11 +133,6 @@
                 	route: '',
                     title: '',
                     description: '',
-                },
-                errorInfo: {
-                	route: false,
-                    title: false,
-                    description: false,
                 },
 			}
 		},
@@ -167,7 +161,7 @@
                     description: data.description,
                 };
                 this.currentID = data.id;
-                this.clearError();
+                this.uniqueCheck = true;
                 this.dialogTitle = '编辑权限';
                 this.dialogVisible = true;
             },
@@ -178,7 +172,7 @@
                     description: '',
                 };
                 this.currentID = 0;
-                this.clearError();
+                this.uniqueCheck = true;
             },
 	        itemAction (action, data) {
 	        	let _self = this;
@@ -213,47 +207,30 @@
                     _self.editDialog(data);
 	            }
 	        },
-            clearError() {
-                for (let x in this.errorInfo){
-                    this.errorInfo[x] = false;
-                }
-                this.uniqueCheck = true;
-            },
-            //表单数据检查
-            checkData() {
-                let value = this.formData;
-                for (let x in value){
-                    if (value[x] === ''){
-                        this.errorInfo[x] = true;
-                        return false;
-                    }
-                }
-                return true;
-            },
             //提交表单
             submitUser() {
                 let _self = this;
-                let apiUrl = _self.routeList.browseUrl;
-                _self.clearError();
+                _self.$validator.validateAll().then((result) => {
+                    if (result) {
+                        let apiUrl = _self.routeList.browseUrl;
+                        _self.uniqueCheck = true;
 
-                if (!_self.checkData()){
-                    return false;
-                }
-
-                if (_self.currentID != 0){
-                    apiUrl += '/' + _self.currentID;
-                    _self.formData['_method'] = 'PUT';
-                }
-                axios.post(apiUrl,_self.formData)
-                    .then(function (res) {
-                        if (res.data.code && res.data.code == 10009){
-                            _self.uniqueCheck = false;
-                        }else{
-                        	_self.dialogVisible = false;
-                            sweetAlert.success();
-                            _self.$refs.vuetable.refresh();
+                        if (_self.currentID != 0){
+                            apiUrl += '/' + _self.currentID;
+                            _self.formData['_method'] = 'PUT';
                         }
-                    }) 
+                        axios.post(apiUrl,_self.formData)
+                            .then(function (res) {
+                                if (res.data.code && res.data.code == 10009){
+                                    _self.uniqueCheck = false;
+                                }else{
+                                    _self.dialogVisible = false;
+                                    sweetAlert.success();
+                                    _self.$refs.vuetable.refresh();
+                                }
+                            });
+                    }
+                });
             },
         }
 	}

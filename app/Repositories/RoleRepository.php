@@ -30,8 +30,9 @@ class RoleRepository
 							->where([
 								['role_id', '=', $id],
 								['permission_id', '=', $item->id]
-							])->first();
-			if (!isset($relation)){
+							]);
+			$result = $relation->first();
+			if (!isset($result)){
 				$this->insertPermissionTable($id, $item);
 			}else{
 				$relation->update(
@@ -60,8 +61,8 @@ class RoleRepository
 				$this->insertPermissionTable($id, $item);
 			}			
 		}
-
 		$relation = DB::table($this->relation_table)->where('role_id', $id)->get();
+
 		return $relation;
 	}
 

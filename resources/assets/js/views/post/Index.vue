@@ -9,7 +9,7 @@
 		     				<filter-bar></filter-bar>
 		     			</div>
 		     			<div class="col-sm-6">
-		     				<router-link to="/dashboard/post/create" class="btn btn-minw btn-info pull-right">
+		     				<router-link to="/post/create" class="btn btn-minw btn-info pull-right">
 								写文章
 		     				</router-link>	
 		     			</div>	
@@ -20,7 +20,7 @@
 	     			<div class="table-responsive">
 						<vuetable ref="vuetable"
 						    api-url="/api/post"
-						    :fields="fields"
+						    :tfields="tfields"
 						    :sort-order="sortOrder"
 						    @vuetable:pagination-data="onPaginationData"
 						    :append-params="moreParams">
@@ -65,7 +65,7 @@
 		    		{to: '/dashboard/post', text: '文章管理'},
 		    		{to: null, text: '所有文章'},
 		    	],
-		      	fields: [
+		      	tfields: [
 			        {
 			          title: '标题',
 			          name: 'title',

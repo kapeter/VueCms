@@ -11,15 +11,8 @@
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-});
+Route::get('/{path?}', function () {
+	
+    return view('index');
 
-
-/* Auth */
-$this->get('login', 'Auth\LoginController@show')->name('login');
-
-/* Dashboard */
-Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard'], function () {
-   Route::get('{path?}', 'HomeController@index')->where('path', '[\/\w\.-]*');
-});
+})->where('path', '[\/\w\.-]*');

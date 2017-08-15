@@ -2,7 +2,7 @@ export default [
     {
         name : '仪表盘',
         icon : 'si si-speedometer',
-        uri  : '/dashboard/'
+        uri  : '/'
     },
     {
     	name : 'Function Interface',
@@ -14,23 +14,23 @@ export default [
     	children : [
     		{
     			name : '文章列表',
-    			uri  : '/dashboard/post'
+    			uri  : '/post'
     		},
     		{
     			name : '写文章',
-    			uri  : '/dashboard/post/create',
+    			uri  : '/post/create',
     		}
     	]
     },
     {
         name : '媒体库',
         icon : 'si si-camera',
-        uri  : '/dashboard/media',
+        uri  : '/media',
     },
     {
         name : '个人中心',
         icon : 'si si-user',
-        uri  : '/dashboard/profile',
+        uri  : '/profile',
     },
     {
         name : 'System Interface',
@@ -38,13 +38,13 @@ export default [
     {
         name : '分类目录',
         icon : 'si si-grid',
-        uri  : '/dashboard/setting/category'
+        uri  : '/setting/category'
     },
 
     {
         name : '系统设置',
         icon : 'si si-settings',
-        uri  : '/dashboard/setting/system',
+        uri  : '/setting/system',
     },
 
     {
@@ -53,17 +53,17 @@ export default [
     {
         name : '用户管理',
         icon : 'si si-users',
-        uri  : '/dashboard/rbac/user',
+        uri  : '/rbac/user',
     },
     {
         name : '角色管理',
         icon : 'si si-target',
-        uri  : '/dashboard/rbac/role',
+        uri  : '/rbac/role',
     },
     {
         name : '权限管理',
         icon : 'si si-layers',
-        uri  : '/dashboard/rbac/permission',
+        uri  : '/rbac/permission',
     },
     {
         name : 'Log Interface',
@@ -71,6 +71,6 @@ export default [
     {
         name : '接口日志',
         icon : 'si si-notebook',
-        uri  : '/dashboard/log',
+        uri  : '/log',
     },
 ]
