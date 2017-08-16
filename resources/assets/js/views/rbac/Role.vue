@@ -46,19 +46,23 @@
 
         <ElDialog :title="dialogTitle" v-model="dialogVisible">
             <form class="form-horizontal">
-                <div class="form-group" :class="{ 'has-error' : errorInfo.name || !uniqueCheck }">
+                <div class="form-group" :class="{ 'has-error' : errors.has('name') || !uniqueCheck }">
                     <label for="slug" class="col-sm-2 control-label">唯一标识</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" v-model="formData.name">
-                        <div class="help-block animated fadeInDown" v-show="errorInfo.name">唯一标识不能为空</div>
+                        <input type="text" class="form-control" v-model="formData.name" name="name" v-validate="'required'" data-vv-as="唯一标识">
+                        <div class="help-block animated fadeInDown"  v-show="errors.has('name')">
+                            {{ errors.first('name') }}
+                        </div>
                         <div class="help-block animated fadeInDown" v-show="!uniqueCheck">该角色已被存在</div>
                     </div>
                 </div>
-                <div class="form-group" :class="{ 'has-error' : errorInfo.title  }">
+                <div class="form-group" :class="{ 'has-error' : errors.has('title')  }">
                     <label for="name" class="col-sm-2 control-label">显示名称</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" v-model="formData.title">
-                        <div class="help-block animated fadeInDown" v-show="errorInfo.title">显示名称不能为空</div>
+                        <input type="text" class="form-control" v-model="formData.title" name="title" v-validate="'required'">
+                        <div class="help-block animated fadeInDown"  v-show="errors.has('title')">
+                            {{ errors.first('title') }}
+                        </div>
                     </div>
                 </div>
                 <div class="form-group">
@@ -184,11 +188,6 @@
                     title: '',
                     description: '',
                 },
-                errorInfo: {
-                	name: false,
-                    title: false,
-                    description: false,
-                },
                 permissions: [],
 			}
 		},
@@ -207,17 +206,28 @@
 		    	Vue.nextTick( () => this.$refs.vuetable.refresh() )
 		    },
             createDialog() {
-                this.freshDialog();
-                this.dialogVisible = true;
-            },
-            freshDialog() {
                 this.formData = {
                     name: '',
                     title: '',
                     description: '',
                 };
                 this.currentID = 0;
-                this.clearError();
+                this.uniqueCheck = true;
+                this.errors.clear();
+                this.dialogTitle = '新增角色';
+                this.dialogVisible = true;
+            },
+            editDialog(data) {
+                this.formData = {
+                    route: data.route,
+                    title: data.title,
+                    description: data.description,
+                };
+                this.currentID = data.id;
+                this.uniqueCheck = true;
+                this.errors.clear();
+                this.dialogTitle = '编辑角色';
+                this.dialogVisible = true;
             },
 	        itemAction (action, data) {
 	        	let _self = this;
@@ -251,15 +261,7 @@
                         });
                         break;
                     case 'edit-item':
-                        _self.formData = {
-                            name: data.name,
-                            title: data.title,
-                            description: data.description,
-                        };
-                        _self.currentID = data.id;
-                        _self.clearError();
-                        _self.dialogTitle = '编辑角色';
-                        _self.dialogVisible = true;                        
+                        _self.editDialog(data);                        
                         break;
                     case 'build-item':
                         _self.currentID = data.id;
@@ -278,47 +280,30 @@
 
                 }
 	        },
-            clearError() {
-                for (let x in this.errorInfo){
-                    this.errorInfo[x] = false;
-                }
-                this.uniqueCheck = true;
-            },
-            //表单数据检查
-            checkData() {
-                let value = this.formData;
-                for (let x in value){
-                    if (value[x] === ''){
-                        this.errorInfo[x] = true;
-                        return false;
-                    }
-                }
-                return true;
-            },
             //提交角色表单
             submitRole() {
                 let _self = this;
-                let apiUrl = _self.routeList.browseUrl;
-                _self.clearError();
+                _self.$validator.validateAll().then((result) => {
+                    if (result) {
+                        let apiUrl = _self.routeList.browseUrl;
+                        _self.uniqueCheck = true;
 
-                if (!_self.checkData()){
-                    return false;
-                }
-
-                if (_self.currentID != 0){
-                    apiUrl += '/' + _self.currentID;
-                    _self.formData['_method'] = 'PUT';
-                }
-                axios.post(apiUrl,_self.formData)
-                    .then(function (res) {
-                        if (res.data.code && res.data.code == 10009){
-                            _self.uniqueCheck = false;
-                        }else{
-                        	_self.dialogVisible = false;
-                            sweetAlert.success();
-                            _self.$refs.vuetable.refresh();
+                        if (_self.currentID != 0){
+                            apiUrl += '/' + _self.currentID;
+                            _self.formData['_method'] = 'PUT';
                         }
-                    }) 
+                        axios.post(apiUrl,_self.formData)
+                            .then(function (res) {
+                                if (res.data.code && res.data.code == 10009){
+                                    _self.uniqueCheck = false;
+                                }else{
+                                    _self.dialogVisible = false;
+                                    sweetAlert.success();
+                                    _self.$refs.vuetable.refresh();
+                                }
+                            });
+                    }
+                });
             },
 
             //提交配置权限表单

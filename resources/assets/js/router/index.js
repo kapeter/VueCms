@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Dashboard from '../views/Dashboard.vue'
 import Parent from '../views/Parent.vue'
+import store from '../store'
 
 Vue.use(VueRouter)
 
@@ -88,13 +89,36 @@ const router = new VueRouter({
                     path: 'log',
                     component: require('../views/log/Index.vue')
                 },
-                {
-                    path: '*',
-                    component: require('../views/error/404.vue')
-                }
+
             ]
+        },
+        {
+            path: '*',
+            component: require('../views/error/404.vue')
         }
     ]
+})
+
+
+//路由拦截器
+router.beforeEach((to, from, next) => {
+    if (store.getters.token){
+        if (to.path == '/login'){
+            next({path : '/'});
+        }else{
+            if (!store.getters.hasUserInfo){
+                store.commit('getUserInfo');
+            }
+            next();
+        }    
+    }else{
+        if (to.path != '/login'){
+            next({path : '/login'}); 
+        }else{
+            next();
+        }
+    }
+    
 })
 
 export default router

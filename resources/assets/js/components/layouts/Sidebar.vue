@@ -10,10 +10,10 @@
                     <button class="btn btn-link text-white pull-right hidden-md hidden-lg" type="button" data-toggle="layout" data-action="sidebar_close">
                         <i class="fa fa-times"></i>
                     </button>
-                    <a class="h5 text-white" href="/dashboard">
+                    <router-link class="h5 text-white" to="/">
                         <img src="/img/logo-sm.png" alt="kapeter">
                         <span class="h4 sidebar-mini-hide">&nbsp;VueCMS</span>
-                    </a>
+                    </router-link >
                 </div>
                 <!-- END Side Header -->
 

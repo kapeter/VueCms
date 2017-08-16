@@ -22,7 +22,7 @@
         <!-- Main Content -->
         <form action="pages_profile_edit.html" method="post" onsubmit="return false;">
             <div class="block">
-                <ul class="nav nav-tabs nav-justified push-20">
+                <ul class="nav nav-tabs nav-tabs-alt nav-justified push-20">
                     <li class="active">
                         <a href="#personal" data-toggle="tab"><i class="fa fa-fw fa-pencil"></i> 个人设置</a>
                     </li>

@@ -2,32 +2,32 @@
 	<div>
 		<form enctype="multipart/form-data">
 	    	<div class="row">
-				<div class="col-sm-9">
+				<div class="col-lg-9 col-md-8">
 					<div class="block">
 						<div class="block-content">
-			     			<div class="form-group" v-for="field in fields" :class="{ 'has-error' : field.error  }">
-			     				<label :for="field.name">
-			     					{{ field.label }}
-			     					<span class="text-muted font-s13" v-if="field.info">（<i class="fa fa-info"></i> {{ field.info }}）</span>
+			     			<div class="form-group" v-for="formField in formFields" :class="{ 'has-error' : formField.error  }">
+			     				<label :for="formField.name">
+			     					{{ formField.label }}
+			     					<span class="text-muted font-s13" v-if="formField.info">（<i class="fa fa-info"></i> {{ formField.info }}）</span>
 			     				</label>
-			     				<div v-if="field.type == 'text'">
-			     					<input type="text" class="form-control" :name="field.name" v-model="field.value">
+			     				<div v-if="formField.type == 'text'">
+			     					<input type="text" class="form-control" :name="formField.name" v-model="formField.value">
 			     				</div>
-			     				<div v-if="field.type == 'textarea'">
-			     					<textarea class="form-control" :name="field.name" v-model="field.value" :rows=" !field.rows ? 3 : field.rows"></textarea>
+			     				<div v-if="formField.type == 'textarea'">
+			     					<textarea class="form-control" :name="formField.name" v-model="formField.value" :rows=" !formField.rows ? 3 : formField.rows"></textarea>
 			     				</div>
-			     				<div v-if="field.type == 'editor'" class="editor-content">
+			     				<div v-if="formField.type == 'editor'" class="editor-content">
 			     					<button class="btn btn-sm btn-default" @click.prevent="mediaDialogVisible = true">
 										<i class="fa fa-cloud-upload"></i> 添加媒体
 									</button>	
-			     					<textarea id="editor" :name="field.name"></textarea>
+			     					<textarea id="editor" :name="formField.name"></textarea>
 			     				</div>
-			     				<div class="help-block animated fadeInDown" v-show="field.error">提示：{{ field.label }}不能为空</div>
+			     				<div class="help-block animated fadeInDown" v-show="formField.error">提示：{{ formField.label }}不能为空</div>
 			     			</div>
 			     		</div>
 			     	</div>
 			    </div>
-			    <div class="col-sm-3">
+			    <div class="col-lg-3 col-md-4">
 			    	<!-- 发布模块 -->
 			    	<div slot="form-publish" class="block block-themed" :class="{ 'block-opt-hidden': isHidden.block_1 }">
 						<div class="block-header bg-info">
@@ -126,7 +126,7 @@
 	
 	export default {
 		props: {
-		    fields: {
+		    formFields: {
 		      	type: Array,
 		      	required: true
 		    },
@@ -191,8 +191,8 @@
 			// submit
 			formSubmit(isPublish = false) {
 				var _self = this;
-				for (let i = 0; i < _self.fields.length; i++ ){
-					_self.fields[i].error = false;
+				for (let i = 0; i < _self.formFields.length; i++ ){
+					_self.formFields[i].error = false;
 				}
 				let param = _self.serialize();
 				let backPath = _self.backUrl; 
@@ -238,8 +238,8 @@
         		axios.get(editUrl)
         			.then(function (response) {
         				let data = response.data.data;
-        				for (let i = 0; i < _self.fields.length; i++ ){
-        					let temp = _self.fields[i]; 
+        				for (let i = 0; i < _self.formFields.length; i++ ){
+        					let temp = _self.formFields[i]; 
         					temp.value = data[temp.name];
         					if (temp.type == 'editor'){
 								_self.simplemde.value(temp.value);
@@ -258,8 +258,8 @@
         	},
 			// refresh data if the action is create
 			freshData() {
-				for (let i = 0; i < this.fields.length; i++ ){
-					this.fields[i].value = '';
+				for (let i = 0; i < this.formFields.length; i++ ){
+					this.formFields[i].value = '';
 				}
 				this.createdDate = this.getNowDate();
 			},
@@ -292,8 +292,8 @@
 			// serialize data
 			serialize() {
 				let formData = new FormData();
-				for (let i = 0; i < this.fields.length; i++ ){
-					let temp = this.fields[i];
+				for (let i = 0; i < this.formFields.length; i++ ){
+					let temp = this.formFields[i];
 					switch (temp.type)
 					{
 						case 'editor':

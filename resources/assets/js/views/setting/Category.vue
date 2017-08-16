@@ -15,7 +15,7 @@
                 <div class="block-content block-content-full">
                     <div class="table-responsive">
                         <vuetable ref="vuetable"
-                            api-url="/api/category"
+                            :api-url="routeList.browseUrl"
                             :tfields="tfields"
                             :css="css.table"
                             @vuetable:pagination-data="onPaginationData"
@@ -55,22 +55,26 @@
         <ElDialog :title="modalTitle" v-model="dialogVisible" size="tiny">
             <form class="form-horizontal">
                 <input type="hidden" name="id" v-model="currentID">
-                <div class="form-group" :class="{ 'has-error' : errorInfo.name  }">
+                <div class="form-group" :class="{ 'has-error' : errors.has('name')  }">
                     <label for="name" class="col-sm-2 control-label">目录名称</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" v-model="formData.name">
-                        <div class="help-block animated fadeInDown" v-show="errorInfo.name">目录名称不能为空</div>
+                        <input type="text" class="form-control" v-model="formData.name" name="name" v-validate="'required'" data-vv-as="目录名称">
+                        <div class="help-block animated fadeInDown"  v-show="errors.has('name')">
+                            {{ errors.first('name') }}
+                        </div>
                     </div>
                 </div>
-                <div class="form-group" :class="{ 'has-error' : errorInfo.slug || !uniqueCheck }">
+                <div class="form-group" :class="{ 'has-error' : errors.has('slug') || !uniqueCheck }">
                     <label for="slug" class="col-sm-2 control-label">唯一标识</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" v-model="formData.slug" placeholder="仅支持英文、数字">
-                        <div class="help-block animated fadeInDown" v-show="errorInfo.slug">唯一标识不能为空</div>
+                        <input type="text" class="form-control" v-model="formData.slug" placeholder="仅支持英文、数字" v-validate="'required|alpha_num'" name="slug">
+                        <div class="help-block animated fadeInDown"  v-show="errors.has('slug')">
+                            {{ errors.first('slug') }}
+                        </div>
                         <div class="help-block animated fadeInDown" v-show="!uniqueCheck">唯一标识重复</div>
                     </div>
                 </div>
-                <div class="form-group" :class="{ 'has-error' : errorInfo.model  }">
+                <div class="form-group">
                     <label for="model" class="col-sm-2 control-label">所属模型</label>
                     <div class="col-sm-10">
                         <el-select v-model="formData.model" placeholder="请选择模型">
@@ -80,14 +84,12 @@
                                 :value="item.value" :key="item.value">
                             </el-option>
                       </el-select>
-                      <div class="help-block animated fadeInDown" v-show="errorInfo.model">请选择所属模型</div>
                     </div>
                 </div>
-                <div class="form-group" :class="{ 'has-error' : errorInfo.description  }">
+                <div class="form-group">
                     <label for="description" class="col-sm-2 control-label">目录描述</label>
                     <div class="col-sm-10">
                         <textarea class="form-control" v-model="formData.description" rows="3"></textarea>
-                        <div class="help-block animated fadeInDown" v-show="errorInfo.description">目录描述不能为空</div>
                     </div>
                 </div>
                 <div class="form-group">
@@ -129,18 +131,15 @@
                 crumbs: [
                     {to: null, text: '分类目录'},
                 ],
+                routeList: {
+                    browseUrl : '/api/category',
+                },
                 formData: {
                     name: '',
                     slug: '',
-                    model: '',
+                    model: 'post',
                     description: '',
                     parent_id: 0
-                },
-                errorInfo: {
-                    name: false,
-                    model: false,
-                    description: false,
-                    slug: false,
                 },
                 uniqueCheck: true,
                 modalTitle: '新增目录',
@@ -187,14 +186,23 @@
         },
         mounted() {
             let _self = this;
-            axios.get('/api/category')
+            axios.get(_self.routeList.browseUrl)
                 .then(function (res) {
                     _self.parentCategory = res.data.data;
                 })
         },
         methods: {
             createDialog() {
-                this.freshDialog();
+                this.formData = {
+                    name: '',
+                    slug: '',
+                    model: 'post',
+                    description: '',
+                    parent_id: 0
+                };
+                this.currentID = 0;
+                this.uniqueCheck = true;
+                this.errors.clear();
                 this.modalTitle = '新增目录';
                 this.dialogVisible = true;
             },
@@ -207,59 +215,34 @@
                     parent_id: data.parent_id
                 };
                 this.currentID = data.id;
+                this.uniqueCheck = true;
+                this.errors.clear();
                 this.modalTitle = '修改目录';
                 this.dialogVisible = true;
             },
-            freshDialog() {
-                this.formData = {
-                    name: '',
-                    slug: '',
-                    model: '',
-                    description: '',
-                    parent_id: 0
-                };
-                this.currentID = 0;
-            },
-            checkData() {
-                let value = this.formData;
-                for (let x in value){
-                    if (value[x] == '' && x != 'parent_id'){
-                        this.errorInfo[x] = true;
-                        return false;
-                    }
-                }
-                return true;
-            },
-            clearError() {
-                for (let x in this.errorInfo){
-                    this.errorInfo[x] = false;
-                }
-                this.uniqueCheck = true;
-            },
             submitCategory() {
                 let _self = this;
-                let apiUrl = '/api/category';
-                _self.clearError();
+                _self.$validator.validateAll().then((result) => {
+                    if (result) {
+                        let apiUrl = _self.routeList.browseUrl;
+                        _self.uniqueCheck = true;
 
-                if (!_self.checkData()){
-                    return false;
-                }
-
-                if (_self.currentID != 0){
-                    apiUrl = '/api/category/' + _self.currentID;
-                    _self.formData['_method'] = 'PUT';
-                }
-                axios.post(apiUrl,_self.formData)
-                    .then(function (res) {
-                        console.log(res);
-                        if (res.data.code && res.data.code == 10001){
-                            _self.uniqueCheck = false;
-                        }else{
-                            _self.dialogVisible = false;
-                            sweetAlert.success();
-                            _self.$refs.vuetable.refresh();
+                        if (_self.currentID != 0){
+                            apiUrl += '/' + _self.currentID;
+                            _self.formData['_method'] = 'PUT';
                         }
-                    }) 
+                        axios.post(apiUrl, _self.formData)
+                            .then(function (res) {
+                                if (res.data.code && res.data.code == 10009){
+                                    _self.uniqueCheck = false;
+                                }else{
+                                    _self.dialogVisible = false;
+                                    sweetAlert.success();
+                                    _self.$refs.vuetable.refresh();
+                                }
+                            });
+                    }
+                });
             },
             turnToEdit(model,id) {
                 this.$router.push({ path: '/dashboard/'+model+'/'+id+'/edit' });
@@ -289,7 +272,7 @@
                     },
                     function(isConfirm){
                         if (isConfirm){
-                            let deleteUrl = '/api/category/' + data.id;
+                            let deleteUrl = _self.routeList.browseUrl + '/' + data.id;
                             axios.delete(deleteUrl)
                                 .then(function(response){
                                     if (response.status == 200){
@@ -303,7 +286,7 @@
                         }
                     });                
                 }else{
-                    axios.get('/api/category/' + data.id)
+                    axios.get(_self.routeList.browseUrl + '/' + data.id)
                         .then(function (res) {
                             _self.editDialog(res.data.data);
                         })

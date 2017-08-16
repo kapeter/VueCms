@@ -6262,15 +6262,15 @@ a.block.block-link-hover3:active {
 }
 .block > .nav-tabs > li > a {
   margin-right: 0;
-  padding-top: 12px;
-  padding-bottom: 12px;
+  padding: 15px;
   color: #646464;
   font-weight: 600;
   border: 1px solid transparent;
   border-radius: 0;
+  line-height: 1;
 }
 .block > .nav-tabs > li > a:hover {
-  color: #5c90d2;
+  color: #66ccff;
   background-color: transparent;
   border-color: transparent;
 }
@@ -6290,14 +6290,14 @@ a.block.block-link-hover3:active {
   transition: all 0.15s ease-out;
 }
 .block > .nav-tabs.nav-tabs-alt > li > a:hover {
-  -webkit-box-shadow: 0 2px #5c90d2;
-  box-shadow: 0 2px #5c90d2;
+  -webkit-box-shadow: 0 2px #66ccff;
+  box-shadow: 0 2px #66ccff;
 }
 .block > .nav-tabs.nav-tabs-alt > li.active > a,
 .block > .nav-tabs.nav-tabs-alt > li.active > a:hover,
 .block > .nav-tabs.nav-tabs-alt > li.active > a:focus {
-  -webkit-box-shadow: 0 2px #5c90d2;
-  box-shadow: 0 2px #5c90d2;
+  -webkit-box-shadow: 0 2px #66ccff;
+  box-shadow: 0 2px #66ccff;
 }
 .block .block-content.tab-content {
   overflow: hidden;

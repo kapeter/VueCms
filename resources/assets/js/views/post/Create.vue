@@ -2,7 +2,7 @@
 	<div>
         <page-heading title="写文章" subTitle="New Article" :crumbs="crumbs"></page-heading>
         <div class="content">
- 			<vue-form ref="vueForm" url="post" action="create" :fields="fields">
+ 			<vue-form ref="vueForm" url="post" action="create" :formFields="formFields">
  			</vue-form>
         </div>
 	</div>
@@ -16,7 +16,7 @@
 		    		{to: '/dashboard/post', text: '文章管理'},
 		    		{to: null, text: '写文章'},
 		    	],
-				fields: [
+				formFields: [
 					{
 						label: '标题',
 						name: 'title',

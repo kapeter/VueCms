@@ -4,7 +4,7 @@
       <tr>
         <template v-for="tfield in tfields">
           <template v-if="tfield.visible">
-            <template v-if="isSpecialtfield(tfield.name)">
+            <template v-if="isSpecialField(tfield.name)">
               <th v-if="extractName(tfield.name) == '__checkbox'"
                 :class="['vuetable-th-checkbox-'+trackBy, tfield.titleClass]">
                 <input type="checkbox" @change="toggleAllCheckboxes(tfield.name, $event)"
@@ -50,7 +50,7 @@
         <tr @dblclick="onRowDoubleClicked(item, $event)" @click="onRowClicked(item, $event)" :render="onRowChanged(item)" :class="onRowClass(item, index)">
           <template v-for="tfield in tfields">
             <template v-if="tfield.visible">
-              <template v-if="isSpecialtfield(tfield.name)">
+              <template v-if="isSpecialField(tfield.name)">
                 <td v-if="extractName(tfield.name) == '__sequence'" :class="['vuetable-sequence', tfield.dataClass]"
                   v-html="tablePagination.from + index">
                 </td>
@@ -92,7 +92,7 @@
               @click="onDetailRowClick(item, $event)"
               :class="[css.detailRowClass]"
             >
-              <td :colspan="countVisibletfields">
+              <td :colspan="countVisibleFields">
                 <component :is="detailRowComponent" :row-data="item" :row-index="index"></component>
               </td>
             </tr>
@@ -219,7 +219,7 @@ export default {
     }
   },
   created: function() {
-    this.normalizetfields()
+    this.normalizeFields()
     if (this.loadOnStart) {
       this.loadData()
     }
@@ -233,14 +233,14 @@ export default {
 
       return this.detailRowComponent !== ''
     },
-    countVisibletfields: function() {
+    countVisibleFields: function() {
       return this.tfields.filter(function(tfield) {
         return tfield.visible
       }).length
     }
   },
   methods: {
-    normalizetfields: function() {
+    normalizeFields: function() {
       if (typeof(this.tfields) === 'undefined') {
         this.warn('You need to provide "tfields" prop.')
         return
@@ -262,7 +262,7 @@ export default {
           obj = {
             name: tfield.name,
             title: (tfield.title === undefined) ? self.setTitle(tfield.name) : tfield.title,
-            sorttfield: tfield.sorttfield,
+            sortField: tfield.sortField,
             titleClass: (tfield.titleClass === undefined) ? '' : tfield.titleClass,
             dataClass: (tfield.dataClass === undefined) ? '' : tfield.dataClass,
             callback: (tfield.callback === undefined) ? '' : tfield.callback,
@@ -273,7 +273,7 @@ export default {
       })
     },
     setTitle: function(str) {
-      if (this.isSpecialtfield(str)) {
+      if (this.isSpecialField(str)) {
         return ''
       }
 
@@ -286,7 +286,7 @@ export default {
 
       return tfield.title
     },
-    isSpecialtfield: function(tfieldName) {
+    isSpecialField: function(tfieldName) {
       return tfieldName.slice(0, 2) === '__'
     },
     titleCase: function(str) {
@@ -396,9 +396,9 @@ export default {
       let result = '';
 
       for (let i = 0; i < this.sortOrder.length; i++) {
-        let tfieldName = (typeof this.sortOrder[i].sorttfield === 'undefined')
+        let tfieldName = (typeof this.sortOrder[i].sortField === 'undefined')
           ? this.sortOrder[i].tfield
-          : this.sortOrder[i].sorttfield;
+          : this.sortOrder[i].sortField;
 
         result += tfieldName + '|' + this.sortOrder[i].direction + ((i+1) < this.sortOrder.length ? ',' : '');
       }
@@ -412,7 +412,7 @@ export default {
       return string.split(':')[1]
     },
     isSortable: function(tfield) {
-      return !(typeof tfield.sorttfield === 'undefined')
+      return !(typeof tfield.sortField === 'undefined')
     },
     isInCurrentSortGroup: function(tfield) {
       return this.currentSortOrderPosition(tfield) !== false;
@@ -423,15 +423,15 @@ export default {
       }
 
       for (let i = 0; i < this.sortOrder.length; i++) {
-        if (this.tfieldIsInSortOrderPosition(tfield, i)) {
+        if (this.fieldIsInSortOrderPosition(tfield, i)) {
           return i;
         }
       }
 
       return false;
     },
-    tfieldIsInSortOrderPosition(tfield, i) {
-      return this.sortOrder[i].tfield === tfield.name && this.sortOrder[i].sorttfield === tfield.sorttfield
+    fieldIsInSortOrderPosition(tfield, i) {
+      return this.sortOrder[i].tfield === tfield.name && this.sortOrder[i].sortField === tfield.sortField
     },
     orderBy: function(tfield, event) {
       if ( ! this.isSortable(tfield)) return
@@ -454,7 +454,7 @@ export default {
       if(i === false) { //this tfield is not in the sort array yet
         this.sortOrder.push({
           tfield: tfield.name,
-          sorttfield: tfield.sorttfield,
+          sortField: tfield.sortField,
           direction: 'asc'
         });
       } else { //this tfield is in the sort array, now we change its state
@@ -474,7 +474,7 @@ export default {
 
       this.sortOrder.splice(1); //removes additional columns
 
-      if (this.tfieldIsInSortOrderPosition(tfield, 0)) {
+      if (this.fieldIsInSortOrderPosition(tfield, 0)) {
         // change sort direction
         this.sortOrder[0].direction = this.sortOrder[0].direction === 'asc' ? 'desc' : 'asc'
       } else {
@@ -482,12 +482,12 @@ export default {
         this.sortOrder[0].direction = 'asc'
       }
       this.sortOrder[0].tfield = tfield.name
-      this.sortOrder[0].sorttfield = tfield.sorttfield
+      this.sortOrder[0].sortField = tfield.sortField
     },
     clearSortOrder: function() {
       this.sortOrder.push({
         tfield: '',
-        sorttfield: '',
+        sortField: '',
         direction: 'asc'
       });
     },

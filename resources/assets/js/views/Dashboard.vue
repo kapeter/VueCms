@@ -32,24 +32,6 @@
             } else {
                 $('#main-container').css('min-height', hWindow - (hHeader + hFooter));
             }
-
-            let _self = this;
-            // 获取当前用户信息
-            axios.get('/api/profile')
-                .then(function (res) {
-                    let user = res.data.data;
-                    _self.$store.state.theUser = user;
-                    //如果不是管理员，获取权限
-                    if (!user.role.is_admin){
-                        axios.get('/api/role/' + user.role.id)
-                            .then(function(res){
-                                _self.$store.state.theRole = res.data;
-                            });                        
-                    }
-                })
-                .catch(function (res) {
-                    console.log(res);
-                }); 
         },
         computed: {
             isMini() {

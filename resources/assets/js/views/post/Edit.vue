@@ -5,12 +5,8 @@
  			<vue-form ref="vueForm"
  				url="post"
 				action="edit"
-				:fields="fields"
+				:formFields="formFields"
 			>
-				<!-- 分类目录 -->
-				<div slot="form-category">
-					<p>dasssdasdasdas</p>
-				</div>
 
  			</vue-form>
         </div>
@@ -25,7 +21,7 @@
 		    		{to: '/dashboard/post', text: '文章管理'},
 		    		{to: null, text: '编辑文章'},
 		    	],
-				fields: [
+				formFields: [
 					{
 						label: '标题',
 						name: 'title',

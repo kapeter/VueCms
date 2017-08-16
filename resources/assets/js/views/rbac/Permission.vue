@@ -151,7 +151,15 @@
 		    	Vue.nextTick( () => this.$refs.vuetable.refresh() )
 		    },
             createDialog() {
-                this.freshDialog();
+                this.formData = {
+                    route: '',
+                    title: '',
+                    description: '',
+                };
+                this.currentID = 0;
+                this.uniqueCheck = true;
+                this.errors.clear();
+                this.dialogTitle = '新增权限';
                 this.dialogVisible = true;
             },
             editDialog(data) {
@@ -162,17 +170,9 @@
                 };
                 this.currentID = data.id;
                 this.uniqueCheck = true;
+                this.errors.clear();
                 this.dialogTitle = '编辑权限';
                 this.dialogVisible = true;
-            },
-            freshDialog() {
-                this.formData = {
-                    route: '',
-                    title: '',
-                    description: '',
-                };
-                this.currentID = 0;
-                this.uniqueCheck = true;
             },
 	        itemAction (action, data) {
 	        	let _self = this;

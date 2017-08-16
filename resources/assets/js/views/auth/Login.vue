@@ -40,7 +40,11 @@
                                 </div>
 
                                 <div class="form-group has-error login-error" v-show="loginError">
-                                    {{ loginErrorText }}
+                                    <div class="col-xs-12">
+                                        <div class="help-block animated fadeInDown">
+                                            {{ loginErrorText }}
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div class="form-group">
@@ -58,7 +62,7 @@
 
                                 <div class="form-group push-30-t">
                                     <div class="col-xs-12 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
-                                        <button class="btn btn-block btn-primary"  @click.prevent="login">登  录</button>
+                                        <button class="btn btn-block btn-primary"  @click.prevent="login()">登  录</button>
                                     </div>
                                 </div>
                             </form>
@@ -82,6 +86,7 @@
     export default{
         data(){
             return {
+                loginUrl: '/api/login',
                 loginData: {
                     email: '',
                     password: '',
@@ -100,6 +105,31 @@
         methods: {
             login() {
                 let _self = this;
+                _self.loginError = false;
+                _self.$validator.validateAll().then((result) => {
+                    if (result) {
+                        axios.post(_self.loginUrl, _self.loginData)
+                            .then(function (res) {
+                                if (res.data.code && res.data.code != 10000){
+                                    _self.loginError = true;
+                                    _self.loginErrorText = res.data.message;
+                                }else{
+                                    _self.setCookie('token', res.data.token);
+                                    _self.$store.dispatch('login').then(() => {
+                                        _self.$router.push({ path: '/' });
+                                    }).catch(err => {
+                                        console.log(res);
+                                    });
+                                    
+                                }
+                            });
+                    }
+                });
+            },
+            setCookie(key, value, expire) {
+                let exdate = new Date();
+                exdate.setDate(exdate.getDate() + expire);
+                document.cookie = key + "=" + value + ((expire==null) ? "" : ";expires="+exdate.toGMTString());
             }
         }
     }

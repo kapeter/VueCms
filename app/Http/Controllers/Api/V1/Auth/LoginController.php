@@ -37,7 +37,13 @@ class LoginController extends BaseController
         // all good so save the token to session and return the result
         $request->session()->put('access_token',$token);
 
-        return $this->response->array($this->errorMsg[10000]);    
+        return $this->response->array(
+            [
+                'code' => 10000, 
+                'message' => 'Success',
+                'token' => $token
+            ]
+        );    
     }
 
     /**

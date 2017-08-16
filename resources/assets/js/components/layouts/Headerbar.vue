@@ -3,7 +3,7 @@
         <!-- Header Navigation Right -->
         <ul class="nav-header pull-right">
             <li>
-                <a href="/" class="btn btn-default pull-right" data-toggle="tooltip" title="返回首页" data-placement="bottom">
+                <a href="/" class="btn btn-default pull-right" data-toggle="tooltip" title="返回前台" data-placement="bottom">
                     <i class="si si-grid"></i>
                 </a>
             </li>
@@ -77,11 +77,12 @@
         },
         methods: {
             doLogout() {
+                let _self = this;
                 axios.post('/api/logout')
                     .then(function (res) {
                         if (res.data.code == 10000){
-                            localStorage.removeItem("token");
-                            window.location.href = "/login";
+                            _self.$store.commit('logout');
+                            _self.$router.push('/login');
                         }else{
                             sweetAlert.error();
                         }

@@ -14,24 +14,22 @@ require('./bootstrap');
  */
 
 import Vue from 'vue'
-import router from './router'
 import store from './store'
+import router from './router'
 import config from './config'
 import App from './App.vue'
 
 
 import VeeValidate from 'vee-validate'
-Vue.use(VeeValidate,config.validation);
+Vue.use(VeeValidate, config.validation);
 
 
-import { Switch, Radio, RadioGroup, Option, Select, Tabs, TabPane, Upload, Cascader, Checkbox, CheckboxGroup} from 'element-ui'
+import { Switch, Radio, RadioGroup, Option, Select, Upload, Cascader, Checkbox, CheckboxGroup} from 'element-ui'
 Vue.use(Select)
 Vue.use(Option)
 Vue.use(Radio)
 Vue.use(RadioGroup)
 Vue.use(Switch)
-Vue.use(Tabs)
-Vue.use(TabPane)
 Vue.use(Upload)
 Vue.use(Cascader)
 Vue.use(Checkbox)
@@ -59,7 +57,7 @@ Vue.component(
 window.eventBus = new Vue();
 
 
-new Vue({
+window.VM = new Vue({
     store,
     router,
     render: h => h(App)

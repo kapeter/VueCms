@@ -49,22 +49,26 @@
         <!-- END Page Content -->
         <ElDialog title="新增用户" v-model="createDialogVisible">
             <form class="form-horizontal">
-                <div class="form-group" :class="{ 'has-error' : errorInfo.email || !uniqueCheck }">
+                <div class="form-group" :class="{ 'has-error' : errors.has('email') || !uniqueCheck }">
                     <label for="slug" class="col-sm-2 control-label">登录邮箱</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" v-model="formData.email">
-                        <div class="help-block animated fadeInDown" v-show="errorInfo.email">邮箱不能为空</div>
+                        <input type="text" class="form-control" v-model="formData.email" name="email" v-validate="'required|email'">
+                        <div class="help-block animated fadeInDown"  v-show="errors.has('email')">
+                            {{ errors.first('email') }}
+                        </div>
                         <div class="help-block animated fadeInDown" v-show="!uniqueCheck">该邮箱已被注册</div>
                     </div>
                 </div>
-                <div class="form-group" :class="{ 'has-error' : errorInfo.name  }">
+                <div class="form-group" :class="{ 'has-error' : errors.has('name') }">
                     <label for="name" class="col-sm-2 control-label">用户名</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" v-model="formData.name">
-                        <div class="help-block animated fadeInDown" v-show="errorInfo.name">用户名不能为空</div>
+                        <input type="text" class="form-control" v-model="formData.name" name="name" v-validate="'required'" data-vv-as="用户名">
+                        <div class="help-block animated fadeInDown"  v-show="errors.has('name')">
+                            {{ errors.first('name') }}
+                        </div>
                     </div>
                 </div>
-                <div class="form-group" :class="{ 'has-error' : errorInfo.auth  }">
+                <div class="form-group">
                     <label for="model" class="col-sm-2 control-label">所属角色</label>
                     <div class="col-sm-10">
                         <el-select v-model="formData.auth" placeholder="请选择所属角色">
@@ -73,16 +77,17 @@
                                 :label="role.title"
                                 :value="role.id" :key="role.id">
                             </el-option>
-                        </el-select> 
-                        <div class="help-block animated fadeInDown" v-show="errorInfo.auth">请选择所属角色</div>                   
+                        </el-select>                  
                     </div>
                 </div>
-                <div class="form-group" :class="{ 'has-error' : errorInfo.pwd  }">
+                <div class="form-group" :class="{ 'has-error' : errors.has('pwd')  }">
                     <label for="description" class="col-sm-2 control-label">登录密码</label>
                     <div class="col-sm-10 pwd-input">
-						<input type="text" class="form-control" v-model="formData.pwd">
+						<input type="text" class="form-control" v-model="formData.pwd" name="pwd" v-validate="'required'">
 						<button class="btn btn-sm btn-success" @click.prevent ="generatePwd()">生成密码</button>
-						<div class="help-block animated fadeInDown" v-show="errorInfo.pwd">密码不能为空</div>
+                        <div class="help-block animated fadeInDown"  v-show="errors.has('pwd')">
+                            {{ errors.first('pwd') }}
+                        </div>
                     </div>
                 </div>
             </form>
@@ -102,24 +107,28 @@
                     	<label class="control-label">{{ formData.email }}</label>
                     </div>
                 </div>
-                <div class="form-group" :class="{ 'has-error' : errorInfo.name  }">
+                <div class="form-group" :class="{ 'has-error' : errors.has('name') }">
                     <label for="name" class="col-sm-2 control-label">用户名</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" v-model="formData.name">
-                        <div class="help-block animated fadeInDown" v-show="errorInfo.name">用户名不能为空</div>
+                        <input type="text" class="form-control" v-model="formData.name" name="name" v-validate="'required'" data-vv-as="用户名">
+                        <div class="help-block animated fadeInDown"  v-show="errors.has('name')">
+                            {{ errors.first('name') }}
+                        </div>
                     </div>
                 </div>
-                <div class="form-group" :class="{ 'has-error' : errorInfo.auth  }">
+                <div class="form-group">
                     <label for="model" class="col-sm-2 control-label">所属角色</label>
-                    <div class="col-sm-10">
+                    <div class="col-sm-10" v-if="currentID != $store.state.theUser.id">
                         <el-select v-model="formData.auth" placeholder="请选择所属角色">
                             <el-option
                                 v-for="role in roles"
                                 :label="role.title"
                                 :value="role.id" :key="role.id">
                             </el-option>
-                        </el-select> 
-                        <div class="help-block animated fadeInDown" v-show="errorInfo.auth">请选择所属角色</div>                   
+                        </el-select>                    
+                    </div>
+                    <div class="col-sm-10" v-else>
+                        <label class="control-label">{{ $store.state.theUser.role.title }}</label>
                     </div>
                 </div>
             </form>
@@ -195,7 +204,7 @@
 			        }
 		      	],
 		      	sortOrder: [
-		        	{ field: 'created_at', sortField: 'created_at', direction: 'desc'}
+		        	{ tfield: 'created_at', sortField: 'created_at', direction: 'desc'}
 		      	],
 		      	createDialogVisible: false,
 		      	editDialogVisible: false,
@@ -204,16 +213,9 @@
                 formData: {
                 	email: '',
                     name: '',
-                    auth: '',
+                    auth: 1,
                     pwd: '',
                 },
-                errorInfo: {
-                	email: false,
-                    name: false,
-                    auth: false,
-                    pwd: false,
-                },
-
 			}
 		},
         created() {
@@ -241,7 +243,15 @@
 		    	Vue.nextTick( () => this.$refs.vuetable.refresh() )
 		    },
             createDialog() {
-                this.freshDialog();
+                this.formData = {
+                    email: '',
+                    name: '',
+                    auth: 1,
+                    pwd: '',
+                };
+                this.currentID = 0;
+                this.uniqueCheck = true;
+                this.errors.clear();
                 this.createDialogVisible = true;
             },
             editDialog(data) {
@@ -251,16 +261,9 @@
                     auth: data.role.id,
                 };
                 this.currentID = data.id;
+                this.uniqueCheck = true;
+                this.errors.clear();
                 this.editDialogVisible = true;
-            },
-            freshDialog() {
-                this.formData = {
-                	email: '',
-                    name: '',
-                    auth: '',
-                    pwd: '',
-                };
-                this.currentID = 0;
             },
 	        itemAction (action, data) {
 	        	let _self = this;
@@ -303,66 +306,46 @@
 	        },
             //生成密码
             generatePwd() {
-			  let iteration = 0;
-			  let password = "";
-			  let randomNumber;
-			  while (iteration < 12) {
-			    randomNumber = (Math.floor((Math.random() * 100)) % 94) + 33;
-			    if ((randomNumber >=33) && (randomNumber <=47)) { continue; }
-      			if ((randomNumber >=58) && (randomNumber <=64)) { continue; }
-      			if ((randomNumber >=91) && (randomNumber <=96)) { continue; }
-      			if ((randomNumber >=123) && (randomNumber <=126)) { continue; }
-			    iteration++;
-			    password += String.fromCharCode(randomNumber);
-			  }
+    			let iteration = 0;
+    			let password = "";
+    			let randomNumber;
+    			while (iteration < 12) {
+    			    randomNumber = (Math.floor((Math.random() * 100)) % 94) + 33;
+    			    if ((randomNumber >=33) && (randomNumber <=47)) { continue; }
+          			if ((randomNumber >=58) && (randomNumber <=64)) { continue; }
+          			if ((randomNumber >=91) && (randomNumber <=96)) { continue; }
+          			if ((randomNumber >=123) && (randomNumber <=126)) { continue; }
+    			    iteration++;
+    			    password += String.fromCharCode(randomNumber);
+    			}
 
-			  this.formData.pwd = password;
-            },
-            clearError() {
-                for (let x in this.errorInfo){
-                    this.errorInfo[x] = false;
-                }
-                this.uniqueCheck = true;
-            },
-            //表单数据检查
-            checkData() {
-                let value = this.formData;
-                for (let x in value){
-                    if (value[x] === ''){
-                        this.errorInfo[x] = true;
-                        return false;
-                    }
-                }
-                return true;
+			    this.formData.pwd = password;
             },
             //提交表单
             submitUser() {
                 let _self = this;
-                let apiUrl = _self.routeList.browseUrl;
-                _self.clearError();
+                _self.$validator.validateAll().then((result) => {
+                    if (result) {
+                        let apiUrl = _self.routeList.browseUrl;
+                        _self.uniqueCheck = true;
 
-                if (!_self.checkData()){
-                    return false;
-                }
-
-                if (_self.currentID != 0){
-                    apiUrl += '/' + _self.currentID;
-                    _self.formData['_method'] = 'PUT';
-                }
-                axios.post(apiUrl,_self.formData)
-                    .then(function (res) {
-                        if (res.data.code && res.data.code == 10009){
-                            _self.uniqueCheck = false;
-                        }else{
-                        	if (_self.currentID != 0){
-                        		_self.editDialogVisible = false;
-                        	}else{
-                        		_self.createDialogVisible = false;
-                        	}
-                            sweetAlert.success();
-                            _self.$refs.vuetable.refresh();
+                        if (_self.currentID != 0){
+                            apiUrl += '/' + _self.currentID;
+                            _self.formData['_method'] = 'PUT';
                         }
-                    }) 
+                        axios.post(apiUrl, _self.formData)
+                            .then(function (res) {
+                                if (res.data.code && res.data.code == 10009){
+                                    _self.uniqueCheck = false;
+                                }else{
+                                    _self.createDialogVisible = false;
+                                    _self.editDialogVisible = false;
+                                    sweetAlert.success();
+                                    _self.$refs.vuetable.refresh();
+                                }
+                            });
+                    }
+                });
             },
         }
 	}
