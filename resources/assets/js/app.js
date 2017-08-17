@@ -24,7 +24,7 @@ import VeeValidate from 'vee-validate'
 Vue.use(VeeValidate, config.validation);
 
 
-import { Switch, Radio, RadioGroup, Option, Select, Upload, Cascader, Checkbox, CheckboxGroup} from 'element-ui'
+import { Switch, Radio, RadioGroup, Option, Select, Upload, Cascader, Checkbox, CheckboxGroup } from 'element-ui'
 Vue.use(Select)
 Vue.use(Option)
 Vue.use(Radio)

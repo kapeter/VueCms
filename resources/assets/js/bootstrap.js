@@ -35,7 +35,7 @@ window.axios.defaults = {
 		'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
 	},
 	validateStatus: function (status) {
-    	return status < 500; 
+    	return status <= 500; 
 	}
 };
 

@@ -10,7 +10,7 @@
                 </div>
                 <div class="push-30 animated fadeInUp">
                     <h2 class="h3 font-w600 text-white push-5" style="text-transform:uppercase;">{{ thisUser.name }}</h2>
-                    <h3 class="h5 text-white">{{ userRole }}</h3>
+                    <h3 class="h5 text-white">{{ 'role' in thisUser ? thisUser.role.title : '' }}</h3>
                     <p class="push-10-t text-white-op">账户于{{ dateInfo.createTime }}创建，已运行{{ dateInfo.duration }}天。</p>
                 </div>
             </div>
@@ -132,9 +132,6 @@
             }
         },
         computed: {
-        	userRole() {
-        		return this.thisUser.is_admin == true ? '系统管理员' : '编辑者';
-        	},
             dateInfo() {
                 let createTime = 0;
                 let duration = 0;

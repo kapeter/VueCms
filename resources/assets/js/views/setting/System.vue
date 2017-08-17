@@ -87,7 +87,18 @@
 				crumbs: [
                     {to: null, text: '系统设置'},
                 ],
+                routeUrl: {
+                	systemUrl: '/api/setting/system'
+                },
+                system: [],
 			}
+		},
+		mounted() {
+			let _self = this;
+			axios.get(_self.routeUrl.systemUrl)
+				.then(function (res) {
+					_self.system = res.data;
+				});
 		}
 	}
 </script>
