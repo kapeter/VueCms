@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import setting from './setting'
 
 Vue.use(Vuex)
 
@@ -79,6 +80,10 @@ const store = new Vuex.Store({
 			context.commit('setToken');
 			context.commit('getUserInfo');
 		}
+	},
+
+	modules: {
+		setting: setting
 	}
 });
 

@@ -14,9 +14,9 @@ require('./bootstrap');
  */
 
 import Vue from 'vue'
+import config from './config'
 import store from './store'
 import router from './router'
-import config from './config'
 import App from './App.vue'
 
 

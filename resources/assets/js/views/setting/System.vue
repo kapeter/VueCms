@@ -95,7 +95,8 @@
 		},
 		mounted() {
 			let _self = this;
-			axios.get(_self.routeUrl.systemUrl)
+			console.log(this);
+			_self.$http.get(_self.routeUrl.systemUrl)
 				.then(function (res) {
 					_self.system = res.data;
 				});
