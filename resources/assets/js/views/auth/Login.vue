@@ -86,7 +86,7 @@
     export default{
         data(){
             return {
-                loginUrl: '/api/login',
+                loginUrl: 'login',
                 loginData: {
                     email: '',
                     password: '',
@@ -108,7 +108,7 @@
                 _self.loginError = false;
                 _self.$validator.validateAll().then((result) => {
                     if (result) {
-                        axios.post(_self.loginUrl, _self.loginData)
+                        _self.$http.post(_self.loginUrl, _self.loginData)
                             .then(function (res) {
                                 if (res.data.code && res.data.code != 10000){
                                     _self.loginError = true;

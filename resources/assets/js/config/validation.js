@@ -5,8 +5,8 @@ Validator.updateDictionary({
     zh_CN: Message_zh_CN
 });
 
-const config ={
+const validation ={
 	locale: 'zh_CN'
 }
 
-export default config
+export default validation

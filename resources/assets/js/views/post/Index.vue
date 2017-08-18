@@ -139,13 +139,13 @@
 		    	data.is_publish = !data.is_publish;
 		    	axios.post('/api/post/'+data.id+'/change',{is_publish: data.is_publish})
 		    		.catch(function (res) {
-		    			sweetAlert.error();
+		    			_self.$message.error();
 		    		})
 		    },
 	        itemAction (action, data) {
 	            if (action == 'delete-item'){
 	            	let _self = this;
-	                sweetAlert({
+	                _self.$message({
 	                    title: "危险操作",
 	                    text: "您确认删除该项信息吗？",
 	                    type: "warning",
@@ -162,12 +162,12 @@
 	                        axios.delete(deleteUrl)
 	                            .then(function(response){
 	                            	if (response.status == 200){
-										sweetAlert.success();
+										_self.$message.success();
 		                                _self.$refs.vuetable.refresh();
 	                            	}
 	                            })
 	                            .catch(function (error) {
-	                            	sweetAlert.error();
+	                            	_self.$message.error();
 								});
 	                    }
 	                });                

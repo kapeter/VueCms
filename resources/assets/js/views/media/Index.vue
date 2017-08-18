@@ -321,7 +321,7 @@
       				.then(function (res) {
       					_self.dictOptions = res.data;
       					_self.createDictVisible = false;
-      					sweetAlert.success();
+      					_self.$message.success();
       					_self.browseList();
       				})
       				.catch(function (error) {
@@ -367,7 +367,7 @@
 				if (item.type == 'folder'){	
 					warnText = '您确认删除该文件夹以及其中的所有文件吗？';
 				}
-                sweetAlert({
+                _self.$message({
                     title: "危险操作",
                     text: warnText,
                     type: "warning",

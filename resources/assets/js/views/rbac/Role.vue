@@ -142,7 +142,7 @@
                 ],
                 //API路由列表
                 routeList: {
-                    browseUrl : '/api/role',
+                    browseUrl : 'role',
                 },
                 tfields: [
                     {
@@ -233,32 +233,19 @@
 	        	let _self = this;
                 switch(action){
                     case 'delete-item':
-                        sweetAlert({
-                            title: "危险操作",
-                            text: "您确认删除该项信息吗？",
-                            type: "warning",
-                            showCancelButton: true,
-                            confirmButtonColor: "#d26a5c",
-                            confirmButtonText: "删  除",
-                            cancelButtonText: "取  消",
-                            closeOnConfirm: false,
-                            showLoaderOnConfirm: true,
-                        },
-                        function(isConfirm){
-                            if (isConfirm){
-                                let deleteUrl = _self.routeList.browseUrl + '/' + data.id;
-                                axios.delete(deleteUrl)
-                                    .then(function(response){
-                                        if (response.status == 200){
-                                            sweetAlert.success();
-                                            _self.$refs.vuetable.refresh();
-                                        }
-                                    })
-                                    .catch(function (error) {
-                                        sweetAlert.error();
-                                    });
-                            }
-                        });
+                        _self.$message.delete(function(){
+                            let deleteUrl = _self.routeList.browseUrl + '/' + data.id;
+                            _self.$http.delete(deleteUrl)
+                                .then(function(response){
+                                    if (response.status == 200){
+                                        _self.$message.success();
+                                        _self.$refs.vuetable.refresh();
+                                    }
+                                })
+                                .catch(function (error) {
+                                    _self.$message.error();
+                                });
+                        }) 
                         break;
                     case 'edit-item':
                         _self.editDialog(data);                        
@@ -267,7 +254,7 @@
                         _self.currentID = data.id;
                         _self.confDialogTitle = '编辑'+ data.title + '的权限';
                         _self.confDialogVisible = true;
-                        axios.get(_self.routeList.browseUrl + '/' + data.id)
+                        _self.$http.get(_self.routeList.browseUrl + '/' + data.id)
                             .then(function(res){
                                 _self.permissions = res.data;
                                 for (var i = _self.permissions.length - 1; i >= 0; i--) {
@@ -292,13 +279,13 @@
                             apiUrl += '/' + _self.currentID;
                             _self.formData['_method'] = 'PUT';
                         }
-                        axios.post(apiUrl,_self.formData)
+                        _self.$http.post(apiUrl,_self.formData)
                             .then(function (res) {
                                 if (res.data.code && res.data.code == 10009){
                                     _self.uniqueCheck = false;
                                 }else{
                                     _self.dialogVisible = false;
-                                    sweetAlert.success();
+                                    _self.$message.success();
                                     _self.$refs.vuetable.refresh();
                                 }
                             });
@@ -313,7 +300,7 @@
                 axios.post(apiUrl,_self.permissions)
                     .then(function(res){
                         _self.confDialogVisible = false;
-                        sweetAlert.success();
+                        _self.$message.success();
                     })
                     .catch(function(error){
                         console.log(error);

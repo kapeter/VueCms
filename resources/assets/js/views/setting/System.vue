@@ -88,14 +88,13 @@
                     {to: null, text: '系统设置'},
                 ],
                 routeUrl: {
-                	systemUrl: '/api/setting/system'
+                	systemUrl: 'setting/system'
                 },
                 system: [],
 			}
 		},
 		mounted() {
 			let _self = this;
-			console.log(this);
 			_self.$http.get(_self.routeUrl.systemUrl)
 				.then(function (res) {
 					_self.system = res.data;

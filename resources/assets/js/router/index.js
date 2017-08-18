@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Dashboard from '../views/Dashboard.vue'
 import Parent from '../views/Parent.vue'
 import store from '../store'
 
@@ -17,7 +16,7 @@ const router = new VueRouter({
         },
         {
             path: '/',
-            component: Dashboard,
+            component: require('../views/Dashboard.vue'),
             children: [
                 {
                     path: '/',

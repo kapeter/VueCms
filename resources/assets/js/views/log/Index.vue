@@ -7,7 +7,7 @@
 	     			<span class="text-info"><i class="fa fa-exclamation"></i> 接口日志不记录GET请求, 且只保留近30天的记录。</span>
 	     			<div class="table-responsive">
 						<vuetable ref="vuetable"
-						    api-url="/api/log"
+						    api-url="log"
 						    :tfields="tfields"
 						    :sort-order="sortOrder"
 						    :css="css.table"

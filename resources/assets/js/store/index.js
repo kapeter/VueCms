@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import setting from './setting'
 
 Vue.use(Vuex)
 
@@ -37,13 +36,13 @@ const store = new Vuex.Store({
 		},
 		// 获取当前用户信息
 		getUserInfo (state) {
-            axios.get('/api/profile')
+            Vue.http.get('profile')
                 .then(function (res) {
                     let user = res.data.data;
                     state.theUser = user;
                     //如果不是管理员，获取权限
                     if (!user.role.is_admin){
-                        axios.get('/api/role/' + user.role.id)
+                        Vue.http.get('role/' + user.role.id)
                             .then(function(res){
                                 state.theRole = res.data;
                             });                        
@@ -81,10 +80,6 @@ const store = new Vuex.Store({
 			context.commit('getUserInfo');
 		}
 	},
-
-	modules: {
-		setting: setting
-	}
 });
 
 export default store

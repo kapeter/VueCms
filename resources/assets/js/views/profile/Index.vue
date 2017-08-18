@@ -152,7 +152,7 @@
         methods: {
         	loadData() {
 	            let _self = this;
-	            axios.get('/api/profile')
+	            _self.$http.get('profile')
 	                .then(function (res) {
 	                    _self.thisUser = res.data.data;
 	                    _self.userName.value = _self.thisUser.name;
@@ -182,18 +182,18 @@
                         formData.append('newPwd',_self.newPwd.value);                        
                     }
 
-                    axios.post('/api/profile',formData)
+                    _self.$http.post('/api/profile',formData)
                         .then(function(res){
                             if (res.data.code && res.data.code == 10002){
                                 _self.currentPwd.hasError = true;
                                 _self.currentPwd.errorText = res.data.message;
                             }else{
-                                sweetAlert.success();
+                                _self.$message.success();
                                 _self.resetData();
                             }
                         })
                         .catch(function (err) {
-                            sweetAlert.error();
+                            _self.$message.error();
                         })
                 }
         	},

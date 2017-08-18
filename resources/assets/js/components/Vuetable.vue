@@ -308,7 +308,7 @@ export default {
 
       this.httpOptions['params'] = this.getAllQueryParams()
 
-      axios.get(this.apiUrl, this.httpOptions)
+      Vue.http.get(this.apiUrl, this.httpOptions)
         .then(success)
         .catch(failed);
     },
