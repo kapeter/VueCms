@@ -78,15 +78,11 @@
         methods: {
             doLogout() {
                 let _self = this;
-                axios.post('/api/logout')
-                    .then(function (res) {
-                        if (res.data.code == 10000){
-                            _self.$store.commit('logout');
-                            _self.$router.push('/login');
-                        }else{
-                            sweetAlert.error();
-                        }
-                    });
+                _self.$store.dispatch('logout').then(() => {
+                     _self.$router.push({ path: '/login' });
+                }).catch(err => {
+                    console.log(res);
+                });
             },
             sidebarMiniToggle() {
                 let winW = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;

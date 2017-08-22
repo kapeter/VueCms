@@ -34,8 +34,6 @@ class LoginController extends BaseController
             // something went wrong whilst attempting to encode the token
             return $this->response->array($this->errorMsg[10006]);
         }
-        // all good so save the token to session and return the result
-        $request->session()->put('access_token',$token);
 
         return $this->response->array(
             [
@@ -68,12 +66,8 @@ class LoginController extends BaseController
      */
     public function logout(Request $request)
     {
-
-        if ( $request->session()->has('access_token') ){
-            $request->session()->forget('access_token');        
-        }else{
-            return $this->response->array($this->errorMsg[10006]);
-        }
+        // $token = JWTAuth::getToken();
+        // JWTAuth::invalidate($token);
 
         return $this->response->array($this->errorMsg[10000]);        
     }

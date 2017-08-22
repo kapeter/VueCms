@@ -19,7 +19,7 @@
 	     		<div class="block-content">
 	     			<div class="table-responsive">
 						<vuetable ref="vuetable"
-						    api-url="/api/post"
+						    :api-url="routeList.browseUrl"
 						    :tfields="tfields"
 						    :sort-order="sortOrder"
 						    @vuetable:pagination-data="onPaginationData"
@@ -62,9 +62,12 @@
 		data () {
 		    return {
 		    	crumbs: [
-		    		{to: '/dashboard/post', text: '文章管理'},
+		    		{to: '/post', text: '文章管理'},
 		    		{to: null, text: '所有文章'},
 		    	],
+                routeList: {
+                    browseUrl : 'post',
+                },
 		      	tfields: [
 			        {
 			          title: '标题',
@@ -137,42 +140,29 @@
 		    changePublish(data) {
 		    	let _self = this;
 		    	data.is_publish = !data.is_publish;
-		    	axios.post('/api/post/'+data.id+'/change',{is_publish: data.is_publish})
+		    	_self.$http.post( _self.routeList.browseUrl + '/' + data.id +'/change',{is_publish: data.is_publish})
 		    		.catch(function (res) {
 		    			_self.$message.error();
 		    		})
 		    },
 	        itemAction (action, data) {
+	        	let _self = this;
 	            if (action == 'delete-item'){
-	            	let _self = this;
-	                _self.$message({
-	                    title: "危险操作",
-	                    text: "您确认删除该项信息吗？",
-	                    type: "warning",
-	                    showCancelButton: true,
-	                    confirmButtonColor: "#d26a5c",
-	                    confirmButtonText: "删  除",
-	                    cancelButtonText: "取  消",
-	                    closeOnConfirm: false,
-	                    showLoaderOnConfirm: true,
-	                },
-	                function(isConfirm){
-	                    if (isConfirm){
-	                        let deleteUrl = '/api/post/' + data.id;
-	                        axios.delete(deleteUrl)
-	                            .then(function(response){
-	                            	if (response.status == 200){
-										_self.$message.success();
-		                                _self.$refs.vuetable.refresh();
-	                            	}
-	                            })
-	                            .catch(function (error) {
-	                            	_self.$message.error();
-								});
-	                    }
-	                });                
+                    _self.$message.delete(function(){
+                        let deleteUrl = _self.routeList.browseUrl + '/' + data.id;
+                        _self.$http.delete(deleteUrl)
+                            .then(function(response){
+                                if (response.status == 200){
+                                    _self.$message.success();
+                                    _self.$refs.vuetable.refresh();
+                                }
+                            })
+                            .catch(function (error) {
+                                _self.$message.error();
+                            });
+                    })                 
 	            }else{
-					this.$router.push({ name: 'editPost', params: { id: data.id }});
+					_self.$router.push({ name: 'editPost', params: { id: data.id }});
 	            }
 	        }
         }

@@ -157,10 +157,7 @@
 	                    _self.thisUser = res.data.data;
 	                    _self.userName.value = _self.thisUser.name;
                         _self.userBio.value = _self.thisUser.bio;
-	                })
-	                .catch(function (res) {
-                        window.location.href = '/dashboard'; 
-	                });         		
+	                })       		
         	},
         	resetData() {
         		this.loadData();
@@ -182,7 +179,7 @@
                         formData.append('newPwd',_self.newPwd.value);                        
                     }
 
-                    _self.$http.post('/api/profile',formData)
+                    _self.$http.post('profile',formData)
                         .then(function(res){
                             if (res.data.code && res.data.code == 10002){
                                 _self.currentPwd.hasError = true;

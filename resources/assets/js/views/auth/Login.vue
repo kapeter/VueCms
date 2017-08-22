@@ -114,8 +114,7 @@
                                     _self.loginError = true;
                                     _self.loginErrorText = res.data.message;
                                 }else{
-                                    _self.setCookie('token', res.data.token);
-                                    _self.$store.dispatch('login').then(() => {
+                                    _self.$store.dispatch('login',res.data.token).then(() => {
                                         _self.$router.push({ path: '/' });
                                     }).catch(err => {
                                         console.log(res);
@@ -125,11 +124,6 @@
                             });
                     }
                 });
-            },
-            setCookie(key, value, expire) {
-                let exdate = new Date();
-                exdate.setDate(exdate.getDate() + expire);
-                document.cookie = key + "=" + value + ((expire==null) ? "" : ";expires="+exdate.toGMTString());
             }
         }
     }

@@ -132,7 +132,7 @@
                     {to: null, text: '分类目录'},
                 ],
                 routeList: {
-                    browseUrl : '/api/category',
+                    browseUrl : 'category',
                 },
                 formData: {
                     name: '',
@@ -186,7 +186,7 @@
         },
         mounted() {
             let _self = this;
-            axios.get(_self.routeList.browseUrl)
+            _self.$http.get(_self.routeList.browseUrl)
                 .then(function (res) {
                     _self.parentCategory = res.data.data;
                 })
@@ -231,7 +231,7 @@
                             apiUrl += '/' + _self.currentID;
                             _self.formData['_method'] = 'PUT';
                         }
-                        axios.post(apiUrl, _self.formData)
+                        _self.$http.post(apiUrl, _self.formData)
                             .then(function (res) {
                                 if (res.data.code && res.data.code == 10009){
                                     _self.uniqueCheck = false;
@@ -261,7 +261,7 @@
                 if (action == 'delete-item'){
                     _self.$message.delete(function(){
                         let deleteUrl = _self.routeList.browseUrl + '/' + data.id;
-                        axios.delete(deleteUrl)
+                        _self.$http.delete(deleteUrl)
                             .then(function(response){
                                 if (response.status == 200){
                                     _self.$message.success();
@@ -273,7 +273,7 @@
                             });
                     })               
                 }else{
-                    axios.get(_self.routeList.browseUrl + '/' + data.id)
+                    _self.$http.get(_self.routeList.browseUrl + '/' + data.id)
                         .then(function (res) {
                             _self.editDialog(res.data.data);
                         })

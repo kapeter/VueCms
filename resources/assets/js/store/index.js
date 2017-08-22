@@ -6,28 +6,17 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
 	state: {
 		isMini : false,
-		token : '',
+		token : null,
 		theUser : {},
 		theRole : {}, 
 	},
   	getters: {
-  		token: state => {
-  			if (!state.token) {
-	  			let myCookie = ""+document.cookie+";"; 
-				let searchKey = "token=";
-				let startOfCookie = myCookie.indexOf(searchKey);
-				let endOfCookie, result;
-				if(startOfCookie != -1){
-					startOfCookie += searchKey.length;
-					endOfCookie = myCookie.indexOf(";",startOfCookie);
-					result = myCookie.substring(startOfCookie,endOfCookie);
-				}
-				state.token = result;
-  			}
-  			return state.token;
+  		hasToken: state => {
+  			state.token = localStorage.getItem('token');
+  			return state.token == null ? false : true
   		},
 	    hasUserInfo: state => {
-	      return JSON.stringify(state.theUser) != "{}"
+	      	return JSON.stringify(state.theUser) != "{}"
 	    },
 	},
 	mutations: {
@@ -52,32 +41,26 @@ const store = new Vuex.Store({
                     console.log(res);
                 }); 
 		},
-		setToken(state) {
-  			let myCookie = ""+document.cookie+";"; 
-			let searchKey = "token=";
-			let startOfCookie = myCookie.indexOf(searchKey);
-			let endOfCookie, result;
-			if(startOfCookie != -1){
-				startOfCookie += searchKey.length;
-				endOfCookie = myCookie.indexOf(";",startOfCookie);
-				result = myCookie.substring(startOfCookie,endOfCookie);
-			}
-			state.token = result;
-		},
-		logout(state) {
+		forgetUserInfo(state) {
 			state.theUser = {};
 			state.theRole = {};
-			state.token = '';
-
-			let exp = new Date();
-			exp.setTime(exp.getTime() - 1);
-			document.cookie= "token=;expires="+exp.toGMTString();
+		},
+		setToken(state,token) {
+			localStorage.setItem("token", token);
+			state.token = token;
+		},
+		forgetToken(state) {
+			localStorage.removeItem("token");
+			state.token = null;
 		}
 	},
 	actions: {
-		login(context) {
-			context.commit('setToken');
-			context.commit('getUserInfo');
+		login({ commit }, token) {
+			commit('setToken', token);
+		},
+		logout({ commit }){
+			commit('forgetUserInfo');
+			commit('forgetToken');
 		}
 	},
 });

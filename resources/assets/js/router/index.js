@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Parent from '../views/Parent.vue'
-import store from '../store'
 
 Vue.use(VueRouter)
 
@@ -101,12 +100,12 @@ const router = new VueRouter({
 
 //路由拦截器
 router.beforeEach((to, from, next) => {
-    if (store.getters.token){
+    if (router.app.$store.getters.hasToken){
         if (to.path == '/login'){
             next({path : '/'});
         }else{
-            if (!store.getters.hasUserInfo){
-                store.commit('getUserInfo');
+            if (!router.app.$store.getters.hasUserInfo){
+                router.app.$store.commit('getUserInfo');
             }
             next();
         }    

@@ -18,7 +18,7 @@
 		data() {
 			return {
 		    	crumbs: [
-		    		{to: '/dashboard/post', text: '文章管理'},
+		    		{to: '/post', text: '文章管理'},
 		    		{to: null, text: '编辑文章'},
 		    	],
 				formFields: [

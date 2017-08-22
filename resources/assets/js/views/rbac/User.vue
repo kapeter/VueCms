@@ -162,8 +162,8 @@
                 ],
                 //API路由列表
                 routeList: {
-                    browseUrl : '/api/user',
-                    roleUrl: '/api/role'
+                    browseUrl : 'user',
+                    roleUrl: 'role'
                 },
                 roles: [],
 		      	tfields: [
@@ -220,7 +220,7 @@
 		},
         created() {
             let _self = this;
-            axios.get(_self.routeList.roleUrl)
+            _self.$http.get(_self.routeList.roleUrl)
                 .then(function (res) {
                     _self.roles = res.data.data;
                 })
@@ -270,7 +270,7 @@
 	            if (action == 'delete-item'){
                     _self.$message.delete(function(){
                         let deleteUrl = _self.routeList.browseUrl + '/' + data.id;
-                        axios.delete(deleteUrl)
+                        _self.$http.delete(deleteUrl)
                             .then(function(response){
                                 if (response.status == 200){
                                     _self.$message.success();
@@ -282,7 +282,7 @@
                             });
                     })                 
 	            }else{
-                    axios.get(_self.routeList.browseUrl + '/' + data.id)
+                    _self.$http.get(_self.routeList.browseUrl + '/' + data.id)
                         .then(function (res) {
                             _self.editDialog(res.data.data);
                         })
@@ -320,7 +320,7 @@
                             apiUrl += '/' + _self.currentID;
                             _self.formData['_method'] = 'PUT';
                         }
-                        axios.post(apiUrl, _self.formData)
+                        _self.$http.post(apiUrl, _self.formData)
                             .then(function (res) {
                                 if (res.data.code && res.data.code == 10009){
                                     _self.uniqueCheck = false;

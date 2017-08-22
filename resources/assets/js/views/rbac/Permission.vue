@@ -215,6 +215,9 @@
                                     _self.$message.success();
                                     _self.$refs.vuetable.refresh();
                                 }
+                            })
+                            .catch(function(err){
+                                _self.$message.error();
                             });
                     }
                 });

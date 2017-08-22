@@ -179,12 +179,12 @@
 		    	],
 		    	//API路由列表
 		    	routeList: {
-		    		browseUrl    : '/api/media',
-		    		newDictUrl   : '/api/media/create',
-		    		allDictUrl   : '/api/media/folders',
-		    		uploadUrl    : '/api/media/upload',
-		    		delFileUrl   : '/api/media/delete',
-		    		downloadUrl  : '/api/media/download'
+		    		browseUrl    : 'media',
+		    		newDictUrl   : 'media/create',
+		    		allDictUrl   : 'media/folders',
+		    		uploadUrl    : 'media/upload',
+		    		delFileUrl   : 'media/delete',
+		    		downloadUrl  : 'media/download'
 		    	},
 		    	addMediaVisible: false,
 		    	createDictVisible: false,
@@ -226,19 +226,19 @@
 	      		let loadingInstance = null;
 	      		let _self = this;
 	      		let url = _self.routeList.browseUrl + "?path=" + _self.currentDict;
-	      		let reqInterceptor = axios.interceptors.request.use(function (config) {
+	      		let reqInterceptor = _self.$http.interceptors.request.use(function (config) {
 	      			loadingInstance = Loading.service({target: '#file-body',body: "loading"});
 	      			return config;
 	      		});
-	      		let resInterceptor = axios.interceptors.response.use(function (response) {
+	      		let resInterceptor = _self.$http.interceptors.response.use(function (response) {
 	      			loadingInstance.close();
 	      			return response;
 	      		});
-				axios.get(url)
+				_self.$http.get(url)
 					.then(function (res) {
 						_self.currentList = res.data;
-						axios.interceptors.request.eject(reqInterceptor);
-						axios.interceptors.response.eject(resInterceptor);
+						_self.$http.interceptors.request.eject(reqInterceptor);
+						_self.$http.interceptors.response.eject(resInterceptor);
 					})
 	  				.catch(function (error) {
 	  					console.log(error);
@@ -287,7 +287,7 @@
 	      	//获取所有目录
 	      	allDicts() {
 	      		let _self = this;
-				axios.get(_self.routeList.allDictUrl)
+				_self.$http.get(_self.routeList.allDictUrl)
 					.then(function (res) {
 						_self.dictOptions = res.data;
 					})
@@ -317,7 +317,7 @@
 	      		}
 
       			_self.newDictObj.hasError = false;
-      			axios.post(_self.routeList.newDictUrl, { 'path': path })
+      			_self.$http.post(_self.routeList.newDictUrl, { 'path': path })
       				.then(function (res) {
       					_self.dictOptions = res.data;
       					_self.createDictVisible = false;
@@ -353,7 +353,7 @@
 	      	removeFileInUpload(file, fileList) {
 	      		let _self = this;
 	      		let filePath = file.response;
-      			axios.post(_self.routeList.delFileUrl, { 'origin': filePath, 'type': 'file' })
+      			_self.$http.post(_self.routeList.delFileUrl, { 'origin': filePath, 'type': 'file' })
       				.catch(function (error) {
       					console.log(error);
       				});
@@ -378,7 +378,7 @@
                 },
                 function(isConfirm){
                     if (isConfirm){
-		      			axios.post(url, item)
+		      			_self.$http.post(url, item)
 		      				.then(function () {
 		      					_self.browseList();
 		      				})

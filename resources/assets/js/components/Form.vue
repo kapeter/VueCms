@@ -159,11 +159,8 @@
         	}
         },
         computed: {
-        	apiUrl() {
-        		return '/api/' + this.url;
-        	},
         	backUrl() {
-        		return '/dashboard/' + this.url;
+        		return '/' + this.url;
         	},
         	publishedStatus() {
         		return  this.publishedDate != '' ? '于 <u class="text-primary">'+ this.publishedDate + '</u> 发布' : '未发布';
@@ -204,27 +201,26 @@
 
 					let submitUrl = '';
 					if (_self.action == 'create'){
-						submitUrl = _self.apiUrl;
+						submitUrl = _self.url;
 					}else{
-						submitUrl = _self.apiUrl + '/' + _self.uID;
+						submitUrl = _self.url + '/' + _self.uID;
 						param.append('_method', 'PUT');
 					}
-					axios.post(submitUrl, param)
+					_self.$http.post(submitUrl, param)
 						.then(function (res) {
-							sweetAlert.success();
+							 _self.$message.success();
 							_self.$router.push({ path: backPath });
 						})
 						.catch(function (error) {
-							sweetAlert.error();
-						    console.log(error);
+							 _self.$message.error();
 						});
 				}				
 			},
 			// get category list
 			getCategory() {
 				let _self = this;
-				let categoryUrl = '/api/category?model=' + _self.url;
-        		axios.get(categoryUrl)
+				let categoryUrl = 'category?model=' + _self.url;
+        		_self.$http.get(categoryUrl)
         			.then(function (response) {
         				_self.categories = response.data.data;
         			})
@@ -233,9 +229,9 @@
 			loadData() {
 				let _self = this;
 				_self.uID = _self.$route.params.id;
-				let editUrl = _self.apiUrl + '/' + _self.uID;
+				let editUrl = _self.url + '/' + _self.uID;
 
-        		axios.get(editUrl)
+        		_self.$http.get(editUrl)
         			.then(function (response) {
         				let data = response.data.data;
         				for (let i = 0; i < _self.formFields.length; i++ ){
@@ -304,7 +300,6 @@
 					}
 					if ( temp.required && temp.value == ''){
 						temp.error = true;
-						console.log(temp.error);
 						return false;
 					}
 					formData.append(temp.name, temp.value);
@@ -315,32 +310,19 @@
 			turnToTrash() {
 				let _self = this;
 				let backPath = _self.backUrl; 
-                sweetAlert({
-                    title: "危险操作",
-                    text: "您确认删除该项信息吗？",
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#d26a5c",
-                    confirmButtonText: "删  除",
-                    cancelButtonText: "取  消",
-                    closeOnConfirm: false,
-                    showLoaderOnConfirm: true,
-                },
-                function(isConfirm){
-                    if (isConfirm){
-                        let deleteUrl = '/api/post/' + _self.uID;
-                        axios.delete(deleteUrl)
-                            .then(function(response){
-                            	if (response.status == 200){
-									sweetAlert.success();
-	                                VM.$router.push({ path: backPath });
-                            	}
-                            })
-                            .catch(function (error) {
-                            	sweetAlert.error();
-							});
-                    }
-                });
+                _self.$message.delete(function(){
+                    let deleteUrl = _self.url + '/' + _self.uID;
+                    _self.$http.delete(deleteUrl)
+                        .then(function(response){
+                            if (response.status == 200){
+                                _self.$message.success();
+                                _self.$router.push({ path: backPath });
+                            }
+                        })
+                        .catch(function (error) {
+                            _self.$message.error();
+                        });
+                }) 
 			}
 		},
 	}

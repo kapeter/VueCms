@@ -10,23 +10,50 @@ export default {
 				'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
 			},
 			validateStatus: function (status) {
-		    	return status <= 500; 
-			}
+		    	return status <= 405; 
+			},
         })
 
+        //请求拦截器
+		http.interceptors.request.use(
+			config => {
+				config.headers = {
+					'Authorization': 'Bearer ' + localStorage.getItem('token')
+				};
+			    return config;
+			}, 
+			error => {
+		    	return Promise.reject(error);
+			}
+		);
+
+
+        //响应拦截器
 		http.interceptors.response.use(
 		    response => {
+	            switch (response.status) {
+	                case 401:
+	                	localStorage.removeItem('token');
+	                	window.location.href="/login";
+	                	break;
+	                case 400:
+	                	localStorage.removeItem('token');
+	                	window.location.href="/login";
+	                	break;
+	                case 405:
+	                	return Promise.reject();
+	                	break;
+	                default:
+	                	let token = response.headers.authorization; 
+	                	if (typeof(token) != 'undefined'){
+	                		localStorage.setItem('token', token.slice(7));
+	                	}
+	                	break;
+	            }
 		        return response;
 		    },
 		    //统一错误响应
 		    error => {
-		        if (error.response) {
-		            switch (error.response.status) {
-		                case 401:
-		                	window.location.href="/login";
-		                	break;
-		            }
-		        }
 		        return Promise.reject(error);
 		    }
 		)
