@@ -114,14 +114,15 @@ class UserController extends BaseController
      */
     public function profile(Request $request)
     {
+        $user = $request->session()->get('user');
+
         if($request->isMethod('post')){ 
-            $id = $request->user->id;
 
             $data['name'] = $request->name;
             $data['bio'] = $request->bio;
             
             if (isset($request->currentPwd)){
-                $credentials['email'] = $request->user->email;
+                $credentials['email'] = $user->email;
                 $credentials['password'] = $request->currentPwd;
                 if ( JWTAuth::attempt($credentials) ){
                     $data['password'] = bcrypt($request->newPwd);
@@ -130,12 +131,14 @@ class UserController extends BaseController
                 }                
             }
 
-            $this->userRepository->update($id,$data);
+            $this->userRepository->update($user->id,$data);
 
             return $this->response->noContent()->setStatusCode(200);
 
         }else{
-            return $this->response->item($request->user, new UserTransformer);
+            $user = $this->userRepository->getById($user->id);
+            
+            return $this->response->item($user, new UserTransformer);
         }        
     }    
 }

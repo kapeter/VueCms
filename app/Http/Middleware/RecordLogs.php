@@ -3,8 +3,6 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Tymon\JWTAuth\JWTAuth;
-use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use App\Repositories\LogRepository;
 /**
 * record logs
@@ -12,19 +10,13 @@ use App\Repositories\LogRepository;
 class RecordLogs
 {
 	/**
-     * @var \Tymon\JWTAuth\JWTAuth
-     */
-    protected $auth;
-
-	/**
      * @var App\Repositories\LogRepository
      */
     protected $logRepository;
 
 	
-	function __construct(LogRepository $logRepository, JWTAuth $auth)
+	function __construct(LogRepository $logRepository)
 	{
-		$this->auth = $auth;
 		$this->logRepository = $logRepository;
 	}
 
@@ -40,23 +32,15 @@ class RecordLogs
     	if ($request->method() == 'GET') return $next($request);
 
     	$route = $request->route()->getAction()['uses'];
-    	list($class, $action) = explode('@', $route);
+    	list($class, $action) = explode('@', $route); 
 
-		$token = $request->session()->get('access_token');
-		try {
-            $user = $this->auth->authenticate($token);
-        } catch(TokenExpiredException $e) {
-            $newToken = $this->auth->setToken($token)->refresh();
-            $request->session()->put('access_token',$newToken);
-
-            $user = $this->auth->authenticate($newToken);
-        } 
+        $user = $request->session()->get('user');
 
     	$log = [
             'controller'  => $class,
             'action'      => $action,
             'querystring' => empty($request->route()->parameters()) ? '' : json_encode($request->route()->parameters()),
-            'username'    => $user->name,
+            'username'    => empty($user) ? '' : $user->name,
             'ip'          => $request->ip(),
     	];
     	

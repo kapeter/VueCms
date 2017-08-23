@@ -27,9 +27,9 @@ class MediaRepository
 	// make a new folder
 	public function make($directory)
 	{
-		$path = $this->rootPath.$directory;
+		$path = $this->rootPath.'/'.$directory;
 
-		return Storage::makeDirectory($directory);
+		return Storage::makeDirectory($path);
 	}
 
     /**

@@ -45,11 +45,13 @@ class PostController extends BaseController
 
         $slug = $this->postRepository->getUniqueSlug($slug,null);
 
+        $user = $request->session()->get('user');
+
         $data = array_merge($request->all(),
             [
                 'slug' => $slug,                
-                'user_id' => $request->user->id,
-                'last_user_id' => $request->user->id,
+                'user_id' => $user->id,
+                'last_user_id' => $user->id,
                 'cover_img' => 'adsas',
                 'tag' => 'tag',
                 'is_draft' => isset($request->isPublish) ? false : true,
@@ -88,10 +90,12 @@ class PostController extends BaseController
 
         $slug = $this->postRepository->getUniqueSlug($slug, $id);
 
+        $user = $request->session()->get('user');
+
         $data = array_merge($request->all(),
             [
                 'slug' => $slug,                
-                'last_user_id' => $request->user->id,
+                'last_user_id' => $user->id,
                 'is_draft' => isset($request->isPublish) ? false : true,
                 'published_at' => isset($request->isPublish) ? Carbon::now() : null
             ]

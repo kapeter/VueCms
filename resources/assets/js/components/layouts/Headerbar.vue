@@ -78,11 +78,14 @@
         methods: {
             doLogout() {
                 let _self = this;
-                _self.$store.dispatch('logout').then(() => {
-                     _self.$router.push({ path: '/login' });
-                }).catch(err => {
-                    console.log(res);
-                });
+                _self.$http.post('logout')
+                    .then(function (res) {
+                        _self.$store.dispatch('logout').then(() => {
+                            _self.$router.push({ path: '/login' });
+                        }).catch(err => {
+                            console.log(res);
+                        });                       
+                    });
             },
             sidebarMiniToggle() {
                 let winW = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;

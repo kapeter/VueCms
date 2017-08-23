@@ -50,7 +50,7 @@ class CategoryRepository
 	{
 		$table = $model.'s';
 		if ( Schema::hasTable($table) ){
-			$query = DB::table($table)->where('category_id', $id)->orderBy('updated_at', 'desc')->get();
+			$query = DB::table($table)->where('category_id', $id)->whereNull('deleted_at')->orderBy('updated_at', 'desc')->get();
 
 			if ( $count = $query->count() ){
 				return [

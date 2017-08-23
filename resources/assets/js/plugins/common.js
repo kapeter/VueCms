@@ -46,12 +46,6 @@ var App = function() {
             animation: true,
             trigger: 'hover'
         });
-
-        // Initialize Tabs
-        $('[data-toggle="tabs"] a, .js-tabs a').click(function(e){
-            e.preventDefault();
-            jQuery(this).tab('show');
-        });
     };
 
     // Layout functionality

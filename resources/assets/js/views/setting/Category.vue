@@ -245,7 +245,7 @@
                 });
             },
             turnToEdit(model,id) {
-                this.$router.push({ path: '/dashboard/'+model+'/'+id+'/edit' });
+                this.$router.push({ path: '/'+model+'/'+id+'/edit' });
             },
             deleteSuccess() {
                 Vue.nextTick( () => this.$refs.vuetable.refresh() )

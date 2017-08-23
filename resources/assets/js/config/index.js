@@ -8,9 +8,11 @@ Vue.use(Http);
 Vue.use(Message);
 Vue.use(VeeValidate, validation);
 
-import { Switch, Radio, RadioGroup, Option, Select, Upload, Cascader, Checkbox, CheckboxGroup } from 'element-ui'
+import { Switch, Radio, RadioGroup, Option,  Tabs, TabPane, Select, Upload, Cascader, Checkbox, CheckboxGroup } from 'element-ui'
 Vue.use(Select)
 Vue.use(Option)
+Vue.use(Tabs)
+Vue.use(TabPane)
 Vue.use(Radio)
 Vue.use(RadioGroup)
 Vue.use(Switch)

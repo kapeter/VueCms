@@ -42,8 +42,6 @@ class NextIfAuthenticated extends BaseMiddleware
             return $this->respond('tymon.jwt.user_not_found', 'user_not_found', 404);
         }
 
-        $request->user = $user;
-
         return $next($request);
     }
 

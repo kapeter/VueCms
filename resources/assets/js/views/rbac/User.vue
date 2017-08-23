@@ -255,6 +255,7 @@
                 this.createDialogVisible = true;
             },
             editDialog(data) {
+                console.log(data);
                 this.formData = {
                 	email: data.email,
                     name: data.name,

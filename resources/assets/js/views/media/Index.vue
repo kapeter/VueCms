@@ -108,6 +108,7 @@
 			  	:action="routeList.uploadUrl"
 			  	:data="uploadData"
 			  	:on-remove="removeFileInUpload"
+			  	:http-request="uploadFile"
 			  	multiple>
 			  	<i class="el-icon-upload"></i>
 			  	<div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
@@ -201,6 +202,7 @@
 					errorText: ''
 				},
 				detailVisible: false,
+				
 			}
 		},
 		mounted() {
@@ -226,19 +228,9 @@
 	      		let loadingInstance = null;
 	      		let _self = this;
 	      		let url = _self.routeList.browseUrl + "?path=" + _self.currentDict;
-	      		let reqInterceptor = _self.$http.interceptors.request.use(function (config) {
-	      			loadingInstance = Loading.service({target: '#file-body',body: "loading"});
-	      			return config;
-	      		});
-	      		let resInterceptor = _self.$http.interceptors.response.use(function (response) {
-	      			loadingInstance.close();
-	      			return response;
-	      		});
 				_self.$http.get(url)
 					.then(function (res) {
 						_self.currentList = res.data;
-						_self.$http.interceptors.request.eject(reqInterceptor);
-						_self.$http.interceptors.response.eject(resInterceptor);
 					})
 	  				.catch(function (error) {
 	  					console.log(error);
@@ -319,9 +311,8 @@
       			_self.newDictObj.hasError = false;
       			_self.$http.post(_self.routeList.newDictUrl, { 'path': path })
       				.then(function (res) {
-      					_self.dictOptions = res.data;
       					_self.createDictVisible = false;
-      					_self.$message.success();
+      					_self.dictOptions = res.data;
       					_self.browseList();
       				})
       				.catch(function (error) {
@@ -381,6 +372,9 @@
 		      			_self.$http.post(url, item)
 		      				.then(function () {
 		      					_self.browseList();
+		      					if (item.type == 'folder'){
+		      						_self.allDicts();
+		      					}
 		      				})
 		      				.catch(function (error) {
 		      					console.log(error);
@@ -388,6 +382,21 @@
                     }
                 }); 
 	      	},
+
+	      	uploadFile(option) {
+	      		let _self = this;
+				let formData = new FormData();
+
+				if (option.data) {
+				    Object.keys(option.data).map(key => {
+				      	formData.append(key, option.data[key]);
+				    });
+				}
+
+				formData.append(option.filename, option.file);
+
+	      		_self.$http.post(_self.routeList.uploadUrl, formData);
+	      	}
 	    }
 	}
 </script>

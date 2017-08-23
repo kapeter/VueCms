@@ -59,6 +59,5 @@ class Kernel extends HttpKernel
 
         'blog.api' => \App\Http\Middleware\NextIfAuthenticated::class,
         'blog.log' => \App\Http\Middleware\RecordLogs::class,
-        'blog.refresh' => \Tymon\JWTAuth\Middleware\RefreshToken::class,
     ];
 }
