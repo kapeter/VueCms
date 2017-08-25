@@ -48,7 +48,7 @@
                     </div>
                 </div>
 				<div class="col-sm-4 col-md-3 col-lg-2" v-for="item in currentList">
-                    <div class="block block-rounded animated fadeIn">
+                    <div class="block block-rounded animated fadeIn media-box">
                         <div class="block-header">
                             <ul class="block-options">
                                 <li title="下载" v-if="item.type != 'folder'">
@@ -60,19 +60,19 @@
                             </ul>
                         </div>
                         <div class="block-content text-center">
-                            <div class="item item-2x item-circle bg-success-light text-success cursor-hover" v-if="item.type == 'audio'" @click.prevent="showInfo(item)">
+                            <div class="item item-2x item-circle bg-success-light text-success" v-if="item.type == 'audio'" @click.prevent="showInfo(item)">
 								<i  class="si si-music-tone-alt"></i>
                             </div>
-                            <div class="item item-2x item-circle bg-warning-light text-warning cursor-hover" v-if="item.type == 'text'" @click.prevent="showInfo(item)">
+                            <div class="item item-2x item-circle bg-warning-light text-warning" v-if="item.type == 'text'" @click.prevent="showInfo(item)">
 								<i  class="si si-book-open"></i>
                             </div>  
-                            <div class="item item-2x item-circle bg-danger-light text-danger cursor-hover" v-if="item.type == 'video'" @click.prevent="showInfo(item)">
+                            <div class="item item-2x item-circle bg-danger-light text-danger" v-if="item.type == 'video'" @click.prevent="showInfo(item)">
 								<i  class="si si-camcorder"></i>
                             </div> 
                             <div class="item-img" v-if="item.type == 'image'" @click.prevent="showInfo(item)">
                             	<img class="cursor-hover" :src="item.url" :alt="item.name">
                             </div>
-                            <div class="item item-2x item-circle bg-info-light text-info cursor-hover" v-if="item.type == 'folder'" @click="enterFolder(item)">
+                            <div class="item item-2x item-circle bg-info-light text-info" v-if="item.type == 'folder'" @click="enterFolder(item)">
 								<i  class="si si-folder-alt"></i>
                             </div>                           
                         </div>
@@ -202,7 +202,6 @@
 					errorText: ''
 				},
 				detailVisible: false,
-				
 			}
 		},
 		mounted() {
@@ -579,27 +578,20 @@
 	}
 	.item-img img{
 		max-width: 100%;
-		max-height: 100%;
 	}
 	.no-wrap{
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
 	}
-	.cursor-hover{
-		cursor: pointer;
+	.media-box{
+		border: 1px solid #fff;
 		transition: all 0.25s ease-out;
 	}
-	.bg-gray-light:hover{
-		background: #efefef;
+	.media-box:hover{
+		border: 1px solid #66ccff;
 	}
-	.bg-info-light:hover{
-		background: #daeefe;
-	}
-	.bg-warning-light:hover{
-		background: #fdedd6;
-	}
-	.item-img img:hover{
-		transform: scale(1.05);
+	.item-circle{
+		cursor: pointer;
 	}
 </style>

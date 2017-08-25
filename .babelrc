@@ -1,11 +1,14 @@
 {
   "presets": [
-    ["es2015", { "modules": false }]
+  	["es2015", { "modules": false }]
   ],
-  "plugins": [["component", [
-    {
-      "libraryName": "element-ui",
-      "styleLibraryName": "~resources/assets/css/theme"
-    }
-  ]]]
+  "plugins": [
+  	["component", [
+	    {
+	      "libraryName": "element-ui",
+	      "styleLibraryName": "~resources/assets/css/theme"
+	    }]
+	],
+	"syntax-dynamic-import"
+  ]
 }

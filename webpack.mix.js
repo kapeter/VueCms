@@ -29,13 +29,27 @@ mix.autoload({
 
 mix.js([
     'resources/assets/js/plugins/bootstrap.min.js',
-    'resources/assets/js/plugins/jquery.slimscroll.min.js',
     'resources/assets/js/plugins/jquery.scrollLock.min.js',
-    'resources/assets/js/plugins/jquery.appear.min.js',
+    'resources/assets/js/plugins/jquery.slimscroll.min.js',
     'resources/assets/js/plugins/common.js',    
 ], 'public/js/oneui.js');
 
 mix.js('resources/assets/js/app.js', 'public/js')
     .webpackConfig({
-        output: { chunkFilename: 'js/chunks/[name].chunk.js', publicPath: '/' }
+        output: { chunkFilename: 'js/chunks/[name].chunk.js', publicPath: '/' },
+        module: {
+            rules: [{
+              test: /\.js?$/,
+              use: [{
+                loader: 'babel-loader',
+                options: mix.config.babel()
+              }]
+            }]
+        }
     });
+
+if (mix.inProduction()) {
+    mix.version();
+}
+
+

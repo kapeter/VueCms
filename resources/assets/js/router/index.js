@@ -28,17 +28,17 @@ const router = new VueRouter({
                         {
                             path: '/',
                             name: 'showPost',
-                            component: require(/* webpackChunkName: "post" */ '../views/post/Index.vue')
+                            component: () => import(/* webpackChunkName: "post" */ '../views/post/Index.vue')
                         },
                         {
                             path: 'create',
                             name: 'createPost',
-                            component: require(/* webpackChunkName: "post" */ '../views/post/Create.vue')
+                            component: () => import(/* webpackChunkName: "post" */ '../views/post/Create.vue')
                         },
                         {
                             path: ':id/edit',
                             name: 'editPost',
-                            component: require(/* webpackChunkName: "post" */ '../views/post/Edit.vue')
+                            component: () => import(/* webpackChunkName: "post" */ '../views/post/Edit.vue')
                         }
                     ]
                 },
@@ -57,11 +57,11 @@ const router = new VueRouter({
                         {
                             path: 'category',
                             name: 'category',
-                            component: require(/* webpackChunkName: "setting" */ '../views/setting/Category.vue')
+                            component: () => import(/* webpackChunkName: "setting" */ '../views/setting/Category.vue')
                         },
                         {
                             path: 'system',
-                            component: require(/* webpackChunkName: "setting" */ '../views/setting/System.vue')
+                            component: () => import(/* webpackChunkName: "setting" */ '../views/setting/System.vue')
                         },
                     ]
                 },
@@ -71,15 +71,15 @@ const router = new VueRouter({
                     children: [
                         {
                             path: 'user',
-                            component: require(/* webpackChunkName: "rbac" */ '../views/rbac/User.vue')
+                            component: () => import(/* webpackChunkName: "rbac" */ '../views/rbac/User.vue')
                         },
                         {
                             path: 'role',
-                            component: require(/* webpackChunkName: "rbac" */ '../views/rbac/Role.vue')
+                            component: () => import(/* webpackChunkName: "rbac" */ '../views/rbac/Role.vue')
                         },
                         {
                             path: 'permission',
-                            component: require(/* webpackChunkName: "rbac" */ '../views/rbac/Permission.vue')
+                            component: () => import(/* webpackChunkName: "rbac" */ '../views/rbac/Permission.vue')
                         },
                     ]
                 },
