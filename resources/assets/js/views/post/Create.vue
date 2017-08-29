@@ -3,8 +3,21 @@
         <page-heading title="写文章" subTitle="New Article" :crumbs="crumbs"></page-heading>
         <div class="content">
  			<vue-form ref="vueForm" url="post" action="create" :formFields="formFields">
+ 				<div slot="moreBox">
+					<div class="block block-themed">
+						<div class="block-header bg-info">
+							<h3 class="block-title">封面图片</h3>
+						</div>
+						<div class="block-content text-center">
+							<a href="javascript:;" @click="posterDialogVisible = true" style="text-decoration:underline;">添加封面图片</a>				
+						</div>
+					</div> 
+ 				</div>
  			</vue-form>
         </div>
+        <ElDialog title="封面图片" v-model="posterDialogVisible" size="large">
+			<vue-media></vue-media>
+		</ElDialog>	
 	</div>
 </template>
 
@@ -49,6 +62,7 @@
 						value: '',
 					}
 				],
+				posterDialogVisible: false,
 			}
 		},
 		methods: {

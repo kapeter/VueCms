@@ -15,9 +15,17 @@ class PermissionRepository
 	use BaseRepository;
 
 	protected $model;
+
+	protected $relation_table = 'permission_role'; 
 	
 	public function __construct(Permission $permission)
 	{
 		$this->model = $permission;
+	}
+
+	//从关系表中将该权限删除
+	function delRelate($id)
+	{
+		DB::table($this->relation_table)->where('permission_id', $id)->delete();
 	}
 }

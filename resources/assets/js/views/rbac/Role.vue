@@ -121,8 +121,6 @@
 </template>
 
 <script>
-	import ElDialog from '../../components/dialog'
-
 	export default {
         props: {
             rowData: {
@@ -131,9 +129,6 @@
             rowIndex: {
                 type: Number
             }
-        },
-        components: {
-            ElDialog,
         },
 		data() {
 			return {
@@ -158,7 +153,7 @@
                       name: 'description',
                     },
                     {
-                      title: '是否为超级管理员',
+                      title: '是否为管理员',
                       name: '__slot:is_admin',
                       titleClass: 'text-center',
                       dataClass: 'text-center'
@@ -219,7 +214,7 @@
             },
             editDialog(data) {
                 this.formData = {
-                    route: data.route,
+                    name: data.name,
                     title: data.title,
                     description: data.description,
                 };
@@ -236,8 +231,10 @@
                         _self.$message.delete(function(){
                             let deleteUrl = _self.routeList.browseUrl + '/' + data.id;
                             _self.$http.delete(deleteUrl)
-                                .then(function(response){
-                                    if (response.status == 200){
+                                .then(function(res){
+                                    if (res.data.code && res.data.code == 10011){
+                                        _self.$message.error(res.data.message);
+                                    }else{
                                         _self.$message.success();
                                         _self.$refs.vuetable.refresh();
                                     }
@@ -251,9 +248,6 @@
                         _self.editDialog(data);                        
                         break;
                     case 'build-item':
-                        _self.currentID = data.id;
-                        _self.confDialogTitle = '编辑'+ data.title + '的权限';
-                        _self.confDialogVisible = true;
                         _self.$http.get(_self.routeList.browseUrl + '/' + data.id)
                             .then(function(res){
                                 _self.permissions = res.data;
@@ -263,6 +257,12 @@
                                     _self.permissions[i].can_edit = _self.permissions[i].can_edit ? true : false;
                                     _self.permissions[i].can_delete = _self.permissions[i].can_delete ? true : false;
                                 }
+                                _self.currentID = data.id;
+                                _self.confDialogTitle = '编辑'+ data.title + '的权限';
+                                _self.confDialogVisible = true;
+                            })
+                            .catch(function(){
+                                _self.$message.error();
                             });
 
                 }
@@ -297,7 +297,7 @@
             submitPermission() {
                 let _self = this;
                 let apiUrl = _self.routeList.browseUrl + '/build/' + _self.currentID;
-                axios.post(apiUrl,_self.permissions)
+                _self.$http.post(apiUrl,_self.permissions)
                     .then(function(res){
                         _self.confDialogVisible = false;
                         _self.$message.success();

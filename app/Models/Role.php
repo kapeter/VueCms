@@ -17,4 +17,14 @@ class Role extends Model
         'description',
         'is_admin'
     ];
+
+    /**
+     * Get the posts for the user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function users()
+    {
+        return $this->hasMany(\App\User::class);
+    }
 }

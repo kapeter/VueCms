@@ -29,15 +29,8 @@
 			    </div>
 			    <div class="col-lg-3 col-md-4">
 			    	<!-- 发布模块 -->
-			    	<div slot="form-publish" class="block block-themed" :class="{ 'block-opt-hidden': isHidden.block_1 }">
+			    	<div class="block block-themed">
 						<div class="block-header bg-info">
-	                        <ul class="block-options">
-	                            <li>
-	                                <button type="button" @click="toggleBlock('block_1')">
-	                                	<i class="si" :class="[isHidden.block_1 ? 'si-arrow-down' : 'si-arrow-up']"></i>
-	                                </button>
-	                            </li>
-	                        </ul>
 							<h3 class="block-title">发布模块</h3>
 						</div>
 						<div class="block-content">
@@ -83,34 +76,27 @@
 						</div>
 					</div>
 					<!-- 分类目录 -->
-					<div class="block" :class="{ 'block-opt-hidden': isHidden.block_2 }">
-						<div class="block-header" style="border-bottom: 1px solid #e9e9e9;">
-	                        <ul class="block-options">
-	                            <li>
-	                                <button type="button" @click="toggleBlock('block_2')">
-	                                	<i class="si" :class="[isHidden.block_2 ? 'si-arrow-down' : 'si-arrow-up']"></i>
-	                                </button>
-	                            </li>
-	                        </ul>
+					<div class="block block-themed">
+						<div class="block-header bg-info">
 							<h3 class="block-title">分类目录</h3>
 						</div>
 						<div class="block-content">
 							<!-- 分类目录 -->
-							<div class="form-category">
+							<div class="form-category row">
 							  	<el-radio-group v-model="categoryData">
-							    	<li v-for = "category in categories">
+							    	<li v-for = "category in categories" class="col-md-6">
 							    		<el-radio :label="category.id">
 							    			{{ category.name }}
 							    		</el-radio>
 							    	</li>
-							    	<li>
+							    	<li class="col-md-6">
 							    		<el-radio :label="0">未分类</el-radio>
 							    	</li>
 							  	</el-radio-group>
 							</div>
 						</div>
 					</div> 
-
+					<slot name="moreBox"></slot>
 			    </div>
 			</div>	
 		</form>
@@ -122,7 +108,6 @@
 
 <script>
 	import { default as SimpleMDE } from 'simplemde/dist/simplemde.min.js'
-	import ElDialog from '../components/dialog'
 	
 	export default {
 		props: {
@@ -139,15 +124,8 @@
 				required: true
 			}
 		},
-        components: {
-            ElDialog,
-        },
         data() {
         	return {
-    			isHidden: {
-					block_1: false,
-					block_2: false
-				},
 				simplemde: '',
 				uID: '',
 				createdDate: '',
@@ -178,9 +156,6 @@
 			this.getCategory();
 		},
 		methods: {
-			toggleBlock(name) {
-				this.isHidden[name] = !this.isHidden[name]; 
-			},
 			backToIndex() {
 				let backPath = this.backUrl; 
 				this.$router.push({ path: backPath });
@@ -346,7 +321,7 @@
 	}
 	.form-category li{
 		list-style: none;
-		margin-bottom: 10px;
+		line-height: 34px;
 	}
 	.editor-toolbar{
 		padding-right: 100px;

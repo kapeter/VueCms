@@ -30,13 +30,13 @@
 
         <div class="content">
 			<div class="row file-body" id="file-body">
-				<div class="col-sm-4 col-md-3 col-lg-2" v-if="!isRoot">
-                    <div class="block block-rounded animated fadeIn">
+				<div class="col-sm-6 col-md-4 col-lg-2" v-if="!isRoot" @click="goBack()">
+                    <div class="block block-rounded media-box">
                         <div class="block-header">
                         	<ul class="block-options"></ul>
                         </div>
                         <div class="block-content text-center">
-                            <div class="item item-2x item-circle bg-gray-light text-gray cursor-hover" @click="goBack()">
+                            <div class="item item-2x item-circle bg-gray-light text-gray">
 								<i  class="si si-action-undo"></i>
                             </div>                          
                         </div>
@@ -47,32 +47,32 @@
                         </div>
                     </div>
                 </div>
-				<div class="col-sm-4 col-md-3 col-lg-2" v-for="item in currentList">
-                    <div class="block block-rounded animated fadeIn media-box">
+				<div class="col-sm-6 col-md-4 col-lg-2" v-for="item in currentList">
+                    <div class="block block-rounded media-box"  @click.prevent="clickBoxEvent(item)">
                         <div class="block-header">
                             <ul class="block-options">
                                 <li title="下载" v-if="item.type != 'folder'">
-                                    <a :href="routeList.downloadUrl + '?path=' + item.origin" download><i class="si si-cloud-download"></i></a>
+                                    <a :href="routeList.downloadUrl + '?path=' + item.origin"><i class="si si-cloud-download"></i></a>
                                 </li>
                                 <li title="删除">
-                                    <button type="button" @click.prevent="deleteFileOrFolder(item)"><i class="si si-close"></i></button>
+                                    <button type="button" @click.stop="deleteFileOrFolder(item)"><i class="si si-close"></i></button>
                                 </li>
                             </ul>
                         </div>
                         <div class="block-content text-center">
-                            <div class="item item-2x item-circle bg-success-light text-success" v-if="item.type == 'audio'" @click.prevent="showInfo(item)">
+                            <div class="item item-2x item-circle bg-success-light text-success" v-if="item.type == 'audio'">
 								<i  class="si si-music-tone-alt"></i>
                             </div>
-                            <div class="item item-2x item-circle bg-warning-light text-warning" v-if="item.type == 'text'" @click.prevent="showInfo(item)">
+                            <div class="item item-2x item-circle bg-warning-light text-warning" v-if="item.type == 'text'">
 								<i  class="si si-book-open"></i>
                             </div>  
-                            <div class="item item-2x item-circle bg-danger-light text-danger" v-if="item.type == 'video'" @click.prevent="showInfo(item)">
+                            <div class="item item-2x item-circle bg-danger-light text-danger" v-if="item.type == 'video'">
 								<i  class="si si-camcorder"></i>
                             </div> 
-                            <div class="item-img" v-if="item.type == 'image'" @click.prevent="showInfo(item)">
+                            <div class="item-img" v-if="item.type == 'image'">
                             	<img class="cursor-hover" :src="item.url" :alt="item.name">
                             </div>
-                            <div class="item item-2x item-circle bg-info-light text-info" v-if="item.type == 'folder'" @click="enterFolder(item)">
+                            <div class="item item-2x item-circle bg-info-light text-info" v-if="item.type == 'folder'">
 								<i  class="si si-folder-alt"></i>
                             </div>                           
                         </div>
@@ -166,13 +166,9 @@
 </template>
 
 <script>
-	import ElDialog from '../../components/dialog'
 	import { Loading } from 'element-ui'
 
 	export default {
-		components: {
-			ElDialog
-		},
 		data() {
 			return {
 				crumbs: [
@@ -235,16 +231,17 @@
 	  					console.log(error);
 	  				})
 	      	},
-			showInfo(item){
-				this.activeItem = item;
-				this.detailVisible = true;
-			},
-			enterFolder(item){
-				this.currentDict = item.origin;
-				this.isRoot = false;
-				this.crumbsArr = this.currentDict.split('/');
-				this.browseList();
-			},
+	      	clickBoxEvent(item){
+	      		if (item.type == 'folder'){
+					this.currentDict = item.origin;
+					this.isRoot = false;
+					this.crumbsArr = this.currentDict.split('/');
+					this.browseList();	      			
+	      		}else{
+					this.activeItem = item;
+					this.detailVisible = true;	      			
+	      		}
+	      	},
 			//返回上一级
 			goBack(){
 				let temp = this.currentDict.split('/');
@@ -585,13 +582,11 @@
 		white-space: nowrap;
 	}
 	.media-box{
-		border: 1px solid #fff;
+		border: 1px solid rgba(0,0,0,.1);
 		transition: all 0.25s ease-out;
+		cursor: pointer;
 	}
 	.media-box:hover{
 		border: 1px solid #66ccff;
-	}
-	.item-circle{
-		cursor: pointer;
 	}
 </style>

@@ -28,7 +28,7 @@
                         <div class="block-content block-content-full clearfix">
 							<table class="table table-borderless">
 								<tbody>
-									<tr v-for="item in system">
+									<tr v-for="item in infoData.system">
 										<td class="font-w600">{{ item.label }}</td>
 										<td class="text-right">{{ item.value }}</td>
 									</tr>
@@ -47,7 +47,7 @@
                         <div class="block-content block-content-full clearfix">
                             <table class="table table-borderless">
                                 <tbody>
-                                    <tr v-for="item in system">
+                                    <tr v-for="item in infoData.database">
                                         <td class="font-w600">{{ item.label }}</td>
                                         <td class="text-right">{{ item.value }}</td>
                                     </tr>
@@ -70,17 +70,17 @@
                     {to: null, text: '系统设置'},
                 ],
                 routeUrl: {
-                	systemUrl: 'setting/system'
+                	infoUrl: 'setting/system'
                 },
-                system: [],
+                infoData: [],
                 tabActiveName: 'basic'
 			}
 		},
 		mounted() {
 			let _self = this;
-			_self.$http.get(_self.routeUrl.systemUrl)
+			_self.$http.get(_self.routeUrl.infoUrl)
 				.then(function (res) {
-					_self.system = res.data;
+					_self.infoData = res.data;
 				});
 		}
 	}

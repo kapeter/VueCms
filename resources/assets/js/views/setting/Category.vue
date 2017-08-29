@@ -116,13 +116,9 @@
 </template>
 
 <script>
-    import ElDialog from '../../components/dialog'
     import models from '../../config/models.js'
 
     export default {
-        components: {
-            ElDialog,
-        },
         data () {
             return {
                 models: models,

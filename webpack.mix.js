@@ -36,7 +36,7 @@ mix.js([
 
 mix.js('resources/assets/js/app.js', 'public/js')
     .webpackConfig({
-        output: { chunkFilename: 'js/chunks/[name].chunk.js', publicPath: '/' },
+        output: { chunkFilename: 'js/chunks/[id].chunk.js', publicPath: '/' },
         module: {
             rules: [{
               test: /\.js?$/,

@@ -15,6 +15,7 @@ class RoleRepository
 	use BaseRepository;
 
 	protected $model;
+
 	protected $relation_table = 'permission_role';
 	
 	public function __construct(Role $role)
@@ -67,7 +68,7 @@ class RoleRepository
 	}
 
 	//插入新的权限
-	function insertPermissionTable($id, $item)
+	public function insertPermissionTable($id, $item)
 	{
 		DB::table($this->relation_table)->insert(
 			[
@@ -79,5 +80,20 @@ class RoleRepository
 				'can_delete'    => isset($item->can_delete) ? $item->can_delete : false, 
 			]
 		);			
+	}
+
+	//从关系表中将该角色删除
+	public function delRelate($id)
+	{
+		DB::table($this->relation_table)->where('role_id', $id)->delete();
+	}
+
+
+	//判断该角色下是否有用户
+	public function hasUser($id)
+	{
+		$role = $this->getById($id);
+
+		return $role->users->count() != 0 ? true : false;
 	}
 }

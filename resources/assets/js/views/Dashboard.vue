@@ -22,17 +22,6 @@
             HeaderBar,
             FooterBar,
         },
-        mounted() {
-            let hWindow     = $(window).height();
-            let hHeader     = $('#header-navbar').outerHeight();
-            let hFooter     = $('#page-footer').outerHeight();
-
-            if ($('#page-container').hasClass('header-navbar-fixed')) {
-                $('#main-container').css('min-height', hWindow - hFooter);
-            } else {
-                $('#main-container').css('min-height', hWindow - (hHeader + hFooter));
-            }
-        },
         computed: {
             isMini() {
                 return this.$store.state.isMini;

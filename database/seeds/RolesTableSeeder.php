@@ -20,5 +20,14 @@ class RolesTableSeeder extends Seeder
             'created_at'  => Carbon::now(),
             'updated_at'  => Carbon::now()
         ]);
+
+        DB::table('roles')->insert([
+            'name'        => 'editor',
+            'title'       => '编辑者',
+            'description' => '拥有后台编辑权限。',
+            'is_admin'    => false,
+            'created_at'  => Carbon::now(),
+            'updated_at'  => Carbon::now()
+        ]);
     }
 }

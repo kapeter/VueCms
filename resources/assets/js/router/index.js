@@ -11,15 +11,15 @@ const router = new VueRouter({
     routes: [
         {
             path: '/login',
-            component: require('../views/auth/Login.vue')
+            component: () => import('../views/auth/Login.vue')
         },
         {
             path: '/',
-            component: require('../views/Dashboard.vue'),
+            component: () => import('../views/Dashboard.vue'),
             children: [
                 {
                     path: '/',
-                    component: require('../views/home/Index.vue')
+                    component: () => import('../views/home/Index.vue')
                 },
                 {
                     path: 'post',
@@ -44,11 +44,11 @@ const router = new VueRouter({
                 },
                 {
                     path: 'media',
-                    component: require('../views/media/Index.vue')
+                    component: () => import('../views/media/Index.vue')
                 },
                 {
                     path: 'profile',
-                    component: require('../views/profile/Index.vue')
+                    component: () => import('../views/profile/Index.vue')
                 },
                 {
                     path: 'setting',
@@ -85,14 +85,14 @@ const router = new VueRouter({
                 },
                 {
                     path: 'log',
-                    component: require('../views/log/Index.vue')
+                    component: () => import('../views/log/Index.vue')
                 },
 
             ]
         },
         {
             path: '*',
-            component: require('../views/error/404.vue')
+            component: () => import('../views/error/404.vue')
         }
     ]
 })

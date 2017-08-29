@@ -141,8 +141,6 @@
 </template>
 
 <script>
-	import ElDialog from '../../components/dialog'
-
 	export default {
     	props: {
 	        rowData: {
@@ -152,9 +150,6 @@
 	            type: Number
 	        }
 	    },
-        components: {
-            ElDialog,
-        },
 		data() {
 			return {
 				crumbs: [

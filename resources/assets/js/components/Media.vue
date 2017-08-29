@@ -1,119 +1,41 @@
 <template>
-	<div>
-		<ul class="folder-crumb">
-			<li>
-				<a href="#">媒体库</a>
-			</li>
-			<li>
-				<a href="#">posts</a>
-			</li>
-			<li>
-				<span>cover</span>
-			</li>
-		</ul>
-		<div class="file-body" id="file-body">
-			<ul class="media-content">
-				<li>
-					<div class="file-box" @mouseenter="showFileDetail($event)" @mouseleave="hideFileDetail($event)">
-						<div class="file-icon">
-							<i class="fa fa-file-text"></i>
-						</div>
-						<div class="file-text">
-							<h5>fileNamefileNamefileNamefileName</h5>
-							<span class="file-opera">
-								<a href="#">编辑</a>&nbsp;&nbsp;
-								<a href="#">删除</a>&nbsp;&nbsp;
-							</span>
-						</div>
-					</div>
-				</li>
-				<li>
-					<div class="file-box" @mouseenter="showFileDetail($event)" @mouseleave="hideFileDetail($event)">
-						<div class="file-icon">
-							<i class="fa fa-folder"></i>
-						</div>
-						<div class="file-text">
-							<h5>fileNamefileNamefileNamefileName</h5>
-							<span class="file-opera">
-								<a href="#">编辑</a>&nbsp;&nbsp;
-								<a href="#">删除</a>&nbsp;&nbsp;
-							</span>
-						</div>
-					</div>
-				</li>
-				<li>
-					<div class="file-box" @mouseenter="showFileDetail($event)" @mouseleave="hideFileDetail($event)">
-						<div class="file-icon">
-							<i class="fa fa-music"></i>
-						</div>
-						<div class="file-text">
-							<h5>fileNamefileNamefileNamefileName</h5>
-							<span class="file-opera">
-								<a href="#">编辑</a>&nbsp;&nbsp;
-								<a href="#">删除</a>&nbsp;&nbsp;
-							</span>
-						</div>
-					</div>
-				</li>
-				<li>
-					<div class="file-box" @mouseenter="showFileDetail($event)" @mouseleave="hideFileDetail($event)">
-						<div class="file-icon">
-							<i class="fa fa-video-camera"></i>
-						</div>
-						<div class="file-text">
-							<h5>fileNamefileNamefileNamefileName</h5>
-							<span class="file-opera">
-								<a href="#">编辑</a>&nbsp;&nbsp;
-								<a href="#">删除</a>&nbsp;&nbsp;
-							</span>
-						</div>
-					</div>
-				</li>	
-				<li>
-					<div class="file-box" @mouseenter="showFileDetail($event)" @mouseleave="hideFileDetail($event)">
-						<div class="file-icon">
-							<img src="/img/header-bg.jpg">
-						</div>
-						<div class="file-text">
-							<h5>fileNamefileNamefileNamefileName</h5>
-							<span class="file-opera">
-								<a href="#">编辑</a>&nbsp;&nbsp;
-								<a href="#">删除</a>&nbsp;&nbsp;
-							</span>
-						</div>
-					</div>
-				</li>
-				<li>
-					<div class="file-box" @mouseenter="showFileDetail($event)" @mouseleave="hideFileDetail($event)">
-						<div class="file-icon">
-							<img src="/img/avatar.jpg">
-						</div>
-						<div class="file-text">
-							<h5>fileNamefileNamefileNamefileName</h5>
-							<span class="file-opera">
-								<a href="#">编辑</a>&nbsp;&nbsp;
-								<a href="#">删除</a>&nbsp;&nbsp;
-							</span>
-						</div>
-					</div>
-				</li>			
-			</ul>
-			<div class="media-detail" v-show="detailVisible" :style="detailStyle">
-				<h4>详细信息</h4>
-				<dl>
-					<dt>文件名</dt>
-					<dd>fileNamefileNamefileNamefileNamefileNamefileNamefileNamefileNamefileNamefileNamefileNamefileName</dd>
-					<dt>文件类型</dt>
-					<dd>image/jpeg</dd>
-					<dt>文件大小</dt>
-					<dd>360 KB</dd>
-					<dt>引用地址</dt>
-					<dd>/storage/index.jpg</dd>
-				</dl>
-				<span class="triangle-left" v-if="detailIsRight"></span>
-				<span class="triangle-right" v-else></span>
-			</div>
-		</div>
+	<div class="row file-body" id="file-body">
+		<div class="col-sm-4 col-md-3 col-lg-2" v-if="!isRoot" @click="goBack()">
+            <div class="thumbnail-box text-center">
+                <div class="item text-gray">
+					<i  class="si si-action-undo"></i>
+                </div>                          
+                <div class="block-content text-center">
+                    <h3 class="h5 font-w300 text-black push-5 no-wrap">返回上一级</h3>
+                </div>
+            </div>
+        </div>
+		<div class="col-sm-4 col-md-3 col-lg-2" v-for="item in currentList">
+            <div class="thumbnail-box text-center" @click.prevent="clickBoxEvent(item)">
+                <div class="item text-success" v-if="item.type == 'audio'">
+					<i  class="si si-music-tone-alt"></i>
+                </div>
+                <div class="item text-warning" v-if="item.type == 'text'">
+					<i  class="si si-book-open"></i>
+                </div>  
+                <div class="item text-danger" v-if="item.type == 'video'">
+					<i  class="si si-camcorder"></i>
+                </div> 
+                <div class="thumbnail-img" v-if="item.type == 'image'">
+                    <div class="img-center">
+                        <img class="cursor-hover" :src="item.url" :alt="item.name">
+                    </div>
+                </div>
+                <div class="item text-info" v-if="item.type == 'folder'">
+					<i  class="si si-folder-alt"></i>
+                </div>                           
+                <div class="block-content text-center" v-if="item.type != 'image'" >
+                    <h3 class="h5 font-w300 text-black push-5 no-wrap">{{item.name}}</h3>
+                    <span v-if="item.type == 'folder'">点击图标进入</span>
+                    <span v-else>{{ item.size }}</span>
+                </div>
+            </div>
+        </div>
 	</div>
 </template>
 
@@ -121,203 +43,118 @@
 	export default {
 		data() {
 			return {
-				detailVisible: false,
-				detailStyle: {
-					top: '0px',
-					left:'0px',
+		    	//API路由列表
+		    	routeList: {
+		    		browseUrl    : 'media',
+		    		newDictUrl   : 'media/create',
+		    		allDictUrl   : 'media/folders',
+		    		uploadUrl    : 'media/upload',
+		    		delFileUrl   : 'media/delete',
+		    		downloadUrl  : 'media/download'
+		    	},
+		    	addMediaVisible: false,
+		    	createDictVisible: false,
+				dictOptions: {},
+				selectedDict: [],
+				currentDict:'public',
+				currentList:[],
+				crumbsArr: ['public'],
+				isRoot: true,
+				activeItem:{},
+				newDictObj: {
+					value:'',
+					hasError: false,
+					errorText: ''
 				},
-				detailIsRight: true
+				detailVisible: false,
 			}
 		},
-		methods: {
-			showFileDetail(event) {
-				if (document.body.clientWidth < 640 ){
-					return false;
-				}
-				let target = event.currentTarget;
-				let bodyWidth = document.getElementById('file-body').offsetWidth;
-				if (target.offsetLeft + 240 + 375 > bodyWidth){
-					this.detailStyle.left = target.offsetLeft - 385 + 'px';
-					this.detailIsRight = false;
-				}else{
-					this.detailStyle.left = target.offsetLeft + 240 + 'px';
-					this.detailIsRight = true;
-				}
-				this.detailStyle.top = target.offsetTop + 'px';
-				
-				this.detailVisible = true;
-			},
-			hideFileDetail() {
-				this.detailVisible = false;
-			}
-		}
+        mounted() {
+            this.browseList();
+        },
+        methods: {
+            //获取文件列表
+            browseList() {
+                let loadingInstance = null;
+                let _self = this;
+                let url = _self.routeList.browseUrl + "?path=" + _self.currentDict;
+                _self.$http.get(url)
+                    .then(function (res) {
+                        _self.currentList = res.data;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    })
+            }, 
+            //返回上一级
+            goBack(){
+                let temp = this.currentDict.split('/');
+                temp.pop();
+                if (temp.length == 1){
+                    this.isRoot = true;
+                    this.currentDict = temp[0];
+                }else{
+                    this.currentDict = temp.join('/');
+                }
+                this.crumbsArr = temp;
+                this.browseList();
+            },    
+            enterFolder(item){
+                this.currentDict = item.origin;
+                this.isRoot = false;
+                this.crumbsArr = this.currentDict.split('/');
+                this.browseList();
+            },       
+            clickBoxEvent(item){
+                if (item.type == 'folder'){
+                    this.enterFolder(item);
+                }
+            }
+        }
+		
 	}
+
 </script>
 
+
 <style>
-	.folder-crumb {
-		padding: 10px 20px;
-		margin:-20px -20px 0 -20px;
-		background: #f0f3f4;
-		list-style: none;
-		color: #999;
-	}
-	.folder-crumb > li {
-		float: left;
-	}
-	.folder-crumb > li::after{
-		content: '/';
-		padding: 0 10px;
-		color: #999;
-	}
-	.folder-crumb >li:last-child::after{
-		content: '';
-	}
-	.folder-crumb::after{
-		clear: both;
-		content: '';
-		height: 0;
-		display: block;
-	}
-	.file-body{
-		position: relative;
-	}
-	.media-content{
-		margin:10px -10px;
-		width: 100%;
-		display: flex;
-		list-style: none;
-		padding: 0;
-		flex-wrap: wrap;
-	}
-	.media-content::after{
-		content: '';
-		display: block;
-		height: 0;
-		clear: both;
-	}
-	.media-content > li {
-		flex: 1;
-		width: 100%;
-		min-width: 250px;
-		max-width: 250px;
-	}
-	.file-box{
-	    padding: 10px;
-	    margin: 10px;
-	    cursor: pointer;
-	    border-radius: 4px;
-	    border: 1px solid #e6e6e6;
-	    overflow: hidden;
-	    background: #f6f8f9;
-	    display: flex;
-	    color: #999;
-	    transition: all .2s ease-out;
-	}
-	.file-icon{
-		flex: 1;
-		font-size: 40px;
-	    text-align: center;
-	    padding-left: 0px;
-	    margin-left: 0px;
-	    margin-right: 10px;
-	}
-	.file-icon > img{
-		max-width: 100%;
-		max-height: 50px;
-	}
-	.file-text{
-		flex: 2;
-	    overflow: hidden;
-	    width: 100%;
-	}
-	.file-text h5 {
-	    margin-bottom: 2px;
-	    margin-top: 10px;
-	    max-height: 17px;
-	    height: 17px;
-	    overflow: hidden;
-	    font-size: 14px;
-	    text-overflow: ellipsis;
-	}
-	.file-text .file-opera > a {
-		font-size: 12px;
-		color: #999;
-	}
-	.file-text .file-opera > a:hover{
-		text-decoration: underline;
-	}
-	.file-box:hover{
-		color:#fff;
-		background: #66ccff;
-	}
-	.file-box:hover .file-opera > a {
-		color: #fff;
-	} 
-	.media-detail{
-		position: absolute;
-		right: 0;
-		top: 0;
-		width: 375px;
-		min-height: 80px;
-		padding: 15px;
-		box-sizing: border-box;
-	    border: 1px solid #e6e6e6;
-	    border-radius: 3px;
-	    background: #f6f8f9;
-	    z-index: 100;
-	    color: #646464;
-	}
-	.media-detail h4 {
-		font-size: 18px;
-		margin-bottom: 15px;
-		color: #66ccff;
-	}
-	.detail-img {
-		width: 100%;
-		margin-bottom: 15px;
-	}
-	.media-detail .detail-img > img {
-		max-width: 100%;
-	}
-	.media-detail dd {
-		margin-bottom: 10px;
-		text-indent: 2em;
-		text-overflow: ellipsis;
-		overflow: hidden;
-	}
-	.triangle-left,.triangle-right{
-		position: absolute;
-		top: 30px;
-	    width: 0;
-	    height: 0;
-	    border-top: 8px solid transparent;
-	    border-bottom: 8px solid transparent;
-	}
-	.triangle-left::before,.triangle-right::before {
-		content: '';
-		display: block;
-		position: absolute;
-		top: -7px;
-	    width: 0;
-	    height: 0;
-	    border-top: 7px solid transparent;
-	    border-bottom: 7px solid transparent;		
-	}
-	.triangle-left{
-		left: -10px;
-	    border-right: 10px solid #e6e6e6;
-	}
-	.triangle-left::before {
-		left: 2px;
-	    border-right: 9px solid #f6f8f9;
-	}
-	.triangle-right{
-		right: -10px;
-	    border-left: 10px solid #e6e6e6;
-	}
-	.triangle-right::before{
-		right: 2px;
-	    border-left: 9px solid #f6f8f9;
-	}
+    .thumbnail-box .item{
+        font-size: 42px;
+    }
+    .thumbnail-img{
+        position:relative;
+        width:100%;
+        height:0;
+        padding-top:100%;
+        overflow: hidden;
+    }
+    .img-center{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        -webkit-transform: translate(50%,50%);
+        -ms-transform: translate(50%,50%);
+        transform: translate(50%,50%);        
+    }
+    .img-center img{
+        position: absolute;
+        left: 0; 
+        top: 0;
+        height:100%;
+        transform: translate(-50%,-50%);
+    }
+    .thumbnail-box{
+        box-shadow: inset 0 0 15px rgba(0,0,0,.1), inset 0 0 0 1px rgba(0,0,0,.05);
+        border: 1px solid rgba(0,0,0,.1);
+        background: #f0f3f4;
+        cursor: pointer;
+        transition: all 0.25s ease-out;
+    }
+    .thumbnail-box:hover{
+        border: 1px solid #66ccff;
+        box-shadow: inset 0 0 15px rgba(102,204,255,.1), inset 0 0 0 1px rgba(102,204,255,.05);
+    }
+
 </style>

@@ -25,6 +25,7 @@ class BaseController extends Controller
         10008 => ['code' => 10008, 'message' => '文件不存在'],
         10009 => ['code' => 10009, 'message' => '当前邮箱已被注册'],
         10010 => ['code' => 10010, 'message' => '非法操作'],
+        10011 => ['code' => 10011, 'message' => '该角色下有用户存在，不可删除'],
     ];
 
     public function __construct()
@@ -45,7 +46,7 @@ class BaseController extends Controller
         }
         foreach ($arr as $k => $v) {
             if (gettype($v) == 'array' || getType($v) == 'object') {
-                $arr[$k] = (object)array_to_object($v);
+                $arr[$k] = (object)$this->array_to_object($v);
             }
         }
      
@@ -66,7 +67,7 @@ class BaseController extends Controller
                 return;
             }
             if (gettype($v) == 'object' || gettype($v) == 'array') {
-                $obj[$k] = (array)object_to_array($v);
+                $obj[$k] = (array)$this->object_to_array($v);
             }
         }
      

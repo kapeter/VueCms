@@ -9,10 +9,11 @@ export default {
             showConfirmButton: false
         });
 
-        message.error = () => message({ 
+        message.error = (text) => message({ 
             title: "操作失败", 
+            text: (typeof text != 'undifined') ? text : "",
             type: "error", 
-            timer: 1250, 
+            timer: (typeof text != 'undifined') ? 1750 : 1250, 
             showConfirmButton: false
         });
 

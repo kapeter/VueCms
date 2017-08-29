@@ -20,5 +20,13 @@ class PermissionsTableSeeder extends Seeder
             'created_at'  => Carbon::now(),
             'updated_at'  => Carbon::now()
         ]);
+
+        DB::table('permissions')->insert([
+            'route'       => 'media',
+            'title'       => '媒体库',
+            'description' => '多媒体资源管理。',
+            'created_at'  => Carbon::now(),
+            'updated_at'  => Carbon::now()
+        ]);
     }
 }

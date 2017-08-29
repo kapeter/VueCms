@@ -38,19 +38,6 @@ class RoleController extends BaseController
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        $this->roleRepository->destroy($id);
-
-        return $this->response->noContent()->setStatusCode(200);
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -88,6 +75,7 @@ class RoleController extends BaseController
     {
     	//禁止修改管理员信息
     	$role = $this->roleRepository->getById($id);
+
     	if ($role->is_admin) {
     		return $this->response->array($this->errorMsg[10010]);
     	}
@@ -132,6 +120,7 @@ class RoleController extends BaseController
     public function build(Request $request, $id)
     {
         $data = [];
+
         foreach ($request->all() as $item) {
             array_push($data, $this->array_to_object($item));
         }
@@ -139,5 +128,27 @@ class RoleController extends BaseController
         $this->roleRepository->setPermission($id, $data);
 
         return $this->response->noContent()->setStatusCode(200);    
+    }
+
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        if ($this->roleRepository->hasUser($id)){
+
+            return $this->response->array($this->errorMsg[10011]); 
+
+        }else{
+            $this->roleRepository->destroy($id);
+
+            $this->roleRepository->delRelate($id);  
+
+            return $this->response->noContent()->setStatusCode(200);      
+        } 
     }
 }

@@ -121,6 +121,9 @@ class MediaController extends BaseController
     public function download(Request $request)
     {
         $path = storage_path('app').'/'.$request->get('path');
+
+        var_dump($path);
+        exit();
         
         return response()->download($path);
 
