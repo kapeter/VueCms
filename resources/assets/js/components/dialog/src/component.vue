@@ -113,7 +113,7 @@
       },
       style() {
         return this.size === 'full' || this.size === 'large' ? {} : { 'top': this.top };
-      }
+      },
     },
 
     methods: {
@@ -196,7 +196,6 @@
     width:90%;
     height: 90%;
     top:0;
-    overflow:auto
   }
   .el-dialog--full {
     width:100%;
