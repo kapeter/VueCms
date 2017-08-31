@@ -52,7 +52,6 @@ class PostController extends BaseController
                 'slug' => $slug,                
                 'user_id' => $user->id,
                 'last_user_id' => $user->id,
-                'cover_img' => 'adsas',
                 'tag' => 'tag',
                 'is_draft' => isset($request->isPublish) ? false : true,
                 'published_at' => isset($request->isPublish) ? Carbon::now() : null

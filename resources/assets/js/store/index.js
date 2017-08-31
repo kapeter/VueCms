@@ -9,6 +9,8 @@ const store = new Vuex.Store({
 		token : null,
 		theUser : {},
 		theRole : {}, 
+		mediaIsChecked: false,
+		checkedMedia: {},
 	},
   	getters: {
   		hasToken: state => {
@@ -52,15 +54,25 @@ const store = new Vuex.Store({
 		forgetToken(state) {
 			localStorage.removeItem("token");
 			state.token = null;
+		},
+		changeMediaState(state, mark){
+			state.mediaIsChecked = mark;
+		},
+		changeMediaData(state, data){
+			state.checkedMedia = data;
 		}
 	},
 	actions: {
-		login({ commit }, token) {
+		login({ commit }, { token } ) {
 			commit('setToken', token);
 		},
 		logout({ commit }){
 			commit('forgetUserInfo');
 			commit('forgetToken');
+		},
+		changeMedia({ commit }, { mark, data }){
+			commit('changeMediaState', mark);
+			commit('changeMediaData', data);
 		}
 	},
 });

@@ -77,7 +77,7 @@ class MediaRepository
 			'name'         => end($fileName),
 			'type'         => explode('/', Storage::mimeType($filePath))[0],
 			'size'         => $this->fileSize($filePath),
-			'url'          => Storage::url($filePath),
+			'url'          => env('APP_URL').Storage::url($filePath),
 			'lastModified' => date('Y-m-d H:i:s', Storage::lastModified($filePath))
  		];
 	}

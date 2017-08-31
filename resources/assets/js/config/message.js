@@ -2,8 +2,9 @@ export default {
     install(Vue, option = {}) {
         const message = require('sweetalert/dist/sweetalert.min.js');
 
-        message.success = () => message({ 
+        message.success = (text) => message({ 
             title: "操作成功", 
+            text: (typeof text != 'undifined') ? text : "",
             type: "success", 
             timer: 1250, 
             showConfirmButton: false

@@ -1,6 +1,6 @@
 <template>
     <div class="row" @click.self="isChecked = false">
-        <div class="col-md-8 col-lg-9 thumbnail-body" :style="{ 'max-height' : maxHeight + 'px' }" @click.self="isChecked = false">
+        <div class="col-md-8 col-lg-9 thumbnail-body" :style="{ 'height' : maxHeight + 'px' }" @click.self="isChecked = false">
             <div class="col-8" v-if="!isRoot" @click="goBack()">
                 <div class="thumbnail-box">
                     <div class="file-center text-center">
@@ -42,7 +42,7 @@
             </div>
         </div>
         <div class="col-md-4 col-lg-3" @click.self="isChecked = false">
-            <div class="media-detail" v-show="isChecked">
+            <div class="thumbnail-detail" v-show="isChecked">
                 <h4>文件详情</h4>
                 <img v-if="activeItem.type == 'image'" :src="activeItem.url">
                 <dl class="row">
@@ -58,7 +58,7 @@
                     <dd class="col-sm-9" v-if="'lastModified' in activeItem">{{ activeItem.lastModified }}</dd>
                 </dl>               
             </div>
-            <div class="media-detail" v-show="!isChecked">
+            <div class="thumbnail-detail" v-show="!isChecked">
                 <h4>上传文件</h4>
                 <div class="form-group">
                     <el-cascader
@@ -92,6 +92,9 @@
 
 <script>
 	export default {
+        props: {
+            isClosed: Boolean,
+        },
 		data() {
 			return {
 		    	//API路由列表
@@ -125,6 +128,21 @@
         mounted() {
             this.allDicts();
             this.browseList();
+        },
+        beforeDestroy() {
+            this.isChecked = false;
+        },
+        watch: {
+            isClosed(val, oldVal) {
+                if (val) {
+                    this.isChecked = false;
+                    this.activeItem = {};
+                    this.$store.dispatch('changeMedia',{
+                        'mark': this.isChecked,
+                        'data': this.activeItem
+                    });
+                }
+            },
         },
         methods: {
             //获取文件列表
@@ -164,6 +182,10 @@
                 this.crumbsArr = temp;
                 this.browseList();
                 this.isChecked = false;
+                this.$store.dispatch('changeMedia',{
+                    'mark': this.isChecked,
+                    'data': this.activeItem
+                });
             },    
             enterFolder(item){
                 this.currentDict = item.origin;
@@ -171,6 +193,10 @@
                 this.crumbsArr = this.currentDict.split('/');
                 this.browseList();
                 this.isChecked = false;
+                this.$store.dispatch('changeMedia',{
+                    'mark': this.isChecked,
+                    'data': this.activeItem
+                });
             },       
             clickBoxEvent(item){
                 if (item.type == 'folder'){
@@ -182,6 +208,10 @@
                         this.isChecked = true;
                         this.activeItem = item;
                     }
+                    this.$store.dispatch('changeMedia',{
+                        'mark': this.isChecked,
+                        'data': this.activeItem
+                    });
                 }
             },
             //上传组件中移除文件的回调函数
@@ -310,26 +340,26 @@
         transform: translate(-50%,-50%);
         font-size: 2em;
     }
-    .media-detail{
+    .thumbnail-detail{
         padding-left: 10px;
     }
-    .media-detail h4 {
+    .thumbnail-detail h4 {
         font-size: 18px;
         margin-bottom: 15px;
         color: #66ccff;
         padding-bottom: 15px;
         border-bottom: 1px solid #ccc;
     }
-    .media-detail img {
+    .thumbnail-detail img {
         display: block;
         max-width: 100%;
         max-height: 300px;
         margin: 0 auto 15px auto;
     }
-    .media-detail dl{
+    .thumbnail-detail dl{
         margin-bottom: 0;
     }
-    .media-detail dd {
+    .thumbnail-detail dd {
         margin-bottom: 10px;
         word-break: break-word;
     }

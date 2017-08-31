@@ -17,11 +17,11 @@
     },
     methods: {
       doFilter () {
-        VM.$emit('filter-set', this.filterText)
+        this.$root.$emit('filter-set', this.filterText)
       },
       resetFilter () {
         this.filterText = ''
-        VM.$emit('filter-reset')
+        this.$root.$emit('filter-reset')
       }
     }
   }

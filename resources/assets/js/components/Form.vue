@@ -101,7 +101,11 @@
 			</div>	
 		</form>
 		<ElDialog title="添加媒体" v-model="mediaDialogVisible" size="large">
-			<vue-media></vue-media>
+			<vue-media :isClosed="!mediaDialogVisible"></vue-media>
+			<span slot="footer">
+	            <button class="btn btn-default" @click="mediaDialogVisible = false">关  闭</button>
+	            <button class="btn btn-info" @click="copyMediaUrl()" :disabled="!$store.state.mediaIsChecked">确定选择</button>
+	        </span>
 		</ElDialog>		
 	</div>
 </template>
@@ -114,6 +118,9 @@
 		    formFields: {
 		      	type: Array,
 		      	required: true
+		    },
+		    moreParams: {
+		    	type: Object,
 		    },
 			url: {
 				type: String,
@@ -133,7 +140,7 @@
 				publishedDate: '',
 				categories: {},
 				categoryData: 0,
-				mediaDialogVisible: false
+				mediaDialogVisible: false,
         	}
         },
         computed: {
@@ -216,6 +223,10 @@
 								_self.simplemde.value(temp.value);
         					}
         				}
+        				for (let x in _self.moreParams){
+        					let temp = _self.moreParams[x];
+        					temp.value = data[temp.name];
+        				}
         				_self.createdDate = _self.dateFormat(data['created_at']);
         				_self.updatedDate = _self.dateFormat(data['updated_at']);
         				_self.publishedDate = _self.dateFormat(data['published_at']);
@@ -279,6 +290,12 @@
 					}
 					formData.append(temp.name, temp.value);
 				}
+
+				for (let x in this.moreParams){
+					let temp = this.moreParams[x];
+					formData.append(temp.name, temp.value);
+				}
+
 				return formData;
 			},
 			// delete the data and back to the list
@@ -298,6 +315,14 @@
                             _self.$message.error();
                         });
                 }) 
+			},
+
+			copyMediaUrl() {
+				this.mediaDialogVisible = false;
+				//console.log(window.document.clipboardswf);
+				//window.document.clipboardswf.SetVariable('Text', this.$store.state.checkedMedia.url);  
+				//this.$http.success("链接已复制到剪贴板");
+				this.simplemde.value(this.simplemde.value() +  this.$store.state.checkedMedia.url);
 			}
 		},
 	}
@@ -334,6 +359,9 @@
 		right: 10px;
 		top: 10px;
 		z-index: 100;
+	}
+	.editor-content img{
+		max-width: 100%;
 	}
 </style>
 

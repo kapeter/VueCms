@@ -108,20 +108,20 @@
 		    }
 		},
 		mounted() {
-			eventBus.$on('filter-set', (filterText) => {
+			this.$root.$on('filter-set', (filterText) => {
 		      	this.moreParams = {
 		        	filter: filterText
 		      	};
 		      	Vue.nextTick( () => this.$refs.vuetable.refresh() );
 		    });
-		    eventBus.$on('filter-reset', () => {
+		    this.$root.$on('filter-reset', () => {
 		      	this.moreParams = {};
 		      	Vue.nextTick( () => this.$refs.vuetable.refresh() );
 		    });
 		},
 		beforeDestroy() {
-			eventBus.$off('filter-set');
-			eventBus.$off('filter-reset');
+			this.$root.$off('filter-set');
+			this.$root.$off('filter-reset');
 		},
         methods: {
         	dateFormat (value) {
