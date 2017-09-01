@@ -35,9 +35,9 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
-    'youdao' => [
-        'key' => env('YOUDAO_API_KEY'),
-        'from' => env('YOUDAO_KEY_FROM'),
+   'youdao' => [
+        'appKey' => env('YOUDAO_APP_KEY'),
+        'appSecret' => env('YOUDAO_APP_SECRET'),
     ],
 
 ];

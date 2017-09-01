@@ -9,12 +9,12 @@
 							<h3 class="block-title">封面图片</h3>
 						</div>
 						<div class="block-content text-center">
-							<div class="poster-img" v-show="moreParams.poster.value != ''">
+							<div class="poster-img" v-if="moreParams.poster.value">
 								<img :src="moreParams.poster.value">
 							</div>
-							<a href="javascript:;" @click="posterDialogVisible = true">{{moreParams.poster.value != '' ? '更改' : '添加' }}封面图片</a>
+							<a href="javascript:;" @click="posterDialogVisible = true">{{moreParams.poster.value ? '更改' : '添加' }}封面图片</a>
 							&nbsp;&nbsp;	
-							<a v-if="moreParams.poster.value != ''" href="javascript:;" @click="moreParams.poster.value = ''" class="text-danger">删除封面图片</a>			
+							<a v-if="moreParams.poster.value" href="javascript:;" @click="moreParams.poster.value = ''" class="text-danger">删除封面图片</a>			
 						</div>
 					</div> 
  				</div>
@@ -43,24 +43,21 @@
 						label: '标题',
 						name: 'title',
 						type: 'text',
-						required: true,
-						error: false,
+						validate: 'required',
 						value: '',
 					},
 					{
 						label: '正文内容',
 						name: 'content',
 						type: 'editor',
-						required: true,
-						error: false,
-						value: 'dasdas',
+						value: '',
+						validate: '',
 					},
 					{
 						label: '摘要',
 						name: 'description',
 						type: 'textarea',
-						rows: 4,
-						error: false,
+						validate: '',
 						value: '',
 					},
 					{
@@ -68,7 +65,8 @@
 						info: '仅支持英文、数字，单词之间用 “-” 连接。如果该项空白，系统会通过有道翻译自动填充',
 						name: 'slug',
 						type: 'text',
-						value: '',
+						validate: 'alpha_dash',
+						value: null,
 					}
 				],
 				posterDialogVisible: false,

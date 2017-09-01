@@ -17,7 +17,7 @@
                             <form class="form-horizontal push-30-t" autocomplete="off">
                                 <div class="form-group" :class="{'has-error' : errors.has('email') }">
                                     <div class="col-xs-12">
-                                        <div class="form-material form-material-primary floating">
+                                        <div class="form-material form-material-primary floating" :class="{ 'open' : loginData.email != ''}">
                                             <input v-validate="'required|email'" type="email" class="form-control" name="email" v-model="loginData.email">
                                             <label for="login-email"><i class="si si-user"></i> 登录邮箱</label>
                                         </div>
@@ -29,7 +29,7 @@
 
                                 <div class="form-group" :class="{'has-error' : errors.has('password') }">
                                     <div class="col-xs-12">
-                                        <div class="form-material form-material-primary floating">
+                                        <div class="form-material form-material-primary floating" :class="{ 'open' : loginData.password != ''}">
                                             <input v-validate="'required'" type="password" class="form-control" name="password" v-model="loginData.password">
                                             <label for="login-password"><i class="fa fa-eye-slash"></i> 登录密码</label>
                                         </div>
@@ -114,7 +114,7 @@
                                     _self.loginError = true;
                                     _self.loginErrorText = res.data.message;
                                 }else{
-                                    _self.$store.dispatch('login',res.data.token).then(() => {
+                                    _self.$store.dispatch('login',{ 'token' : res.data.token }).then(() => {
                                         _self.$router.push({ path: '/' });
                                     }).catch(err => {
                                         console.log(res);

@@ -49,7 +49,7 @@
                 <div class="form-group" :class="{ 'has-error' : errors.has('name') || !uniqueCheck }">
                     <label for="slug" class="col-sm-2 control-label">唯一标识</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" v-model="formData.name" name="name" v-validate="'required'" data-vv-as="唯一标识">
+                        <input type="text" class="form-control" v-model="formData.name" name="name" v-validate="'required|alpha_num'" data-vv-as="唯一标识">
                         <div class="help-block animated fadeInDown"  v-show="errors.has('name')">
                             {{ errors.first('name') }}
                         </div>

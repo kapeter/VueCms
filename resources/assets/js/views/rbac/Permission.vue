@@ -43,7 +43,7 @@
                 <div class="form-group" :class="{ 'has-error' : errors.has('route') || !uniqueCheck }">
                     <label for="slug" class="col-sm-2 control-label">唯一路由</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" v-model="formData.route" name="route" v-validate="'required'">
+                        <input type="text" class="form-control" v-model="formData.route" name="route" v-validate="'required|alpha'">
                         <div class="help-block animated fadeInDown" v-show="!uniqueCheck">该路由已被存在</div>
                         <div class="help-block animated fadeInDown"  v-show="errors.has('route')">
                             {{ errors.first('route') }}

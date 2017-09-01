@@ -14,7 +14,7 @@
 	            <div class="col-sm-4 text-right hidden-xs">
 					<ul class="block-button pull-right">
 						<li>
-							<button class="btn btn-info" @click="addMediaVisible = true">
+							<button class="btn btn-info" @click="openMediaDialog()">
 								<i class="fa fa-cloud-upload"></i> 添加媒体
 							</button>
 						</li>
@@ -212,6 +212,10 @@
 			}
 		},
 		methods: {
+			openAddMedia() {
+				this.addMediaVisible = true;
+				this.selectedDict = this.currentDict.split('/');
+			},
 	      	//添加媒体对话框关闭时的回调函数
 	      	closeAddMedia() {
 	      		this.$refs.mediaUpload.clearFiles();

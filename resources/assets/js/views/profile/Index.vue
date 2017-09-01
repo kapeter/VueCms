@@ -47,11 +47,10 @@
                                         <input class="form-control" type="text" id="profile-email" name="profile-email" v-model="userName.value">
                                         <div class="help-block animated fadeInDown" v-show="userName.hasError">用户名不能为空。</div>
                                 </div>
-                                <div class="form-group" :class="{ 'has-error' : userBio.hasError  }">
+                                <div class="form-group">
                                     <label for="profile-bio">个人签名</label>
                                     <textarea class="form-control" id="profile-bio" name="profile-bio" rows="10" v-model="userBio.value">
                                     </textarea>
-                                    <div class="help-block animated fadeInDown" v-show="userBio.hasError">个人签名不能为空</div>
                                 </div>
                             </div>
                         </div>
@@ -197,11 +196,6 @@
             validateData() {
                 if (this.userName.value == ''){
                      this.userName.hasError = true;
-                    return false;
-                }
-
-                if (this.userBio.value == ''){
-                    this.userBio.hasError = true;
                     return false;
                 }
 

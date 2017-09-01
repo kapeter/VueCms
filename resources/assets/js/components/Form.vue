@@ -5,16 +5,16 @@
 				<div class="col-lg-9 col-md-8">
 					<div class="block">
 						<div class="block-content">
-			     			<div class="form-group" v-for="formField in formFields" :class="{ 'has-error' : formField.error  }">
+			     			<div class="form-group" v-for="formField in formFields" :class="{ 'has-error' : errors.has(formField.name) }">
 			     				<label :for="formField.name">
 			     					{{ formField.label }}
-			     					<span class="text-muted font-s13" v-if="formField.info">（<i class="fa fa-info"></i> {{ formField.info }}）</span>
+			     					<span class="font-s13" v-if="formField.info">（<i class="fa fa-info"></i> {{ formField.info }}）</span>
 			     				</label>
 			     				<div v-if="formField.type == 'text'">
-			     					<input type="text" class="form-control" :name="formField.name" v-model="formField.value">
+			     					<input type="text" class="form-control" :name="formField.name" v-model="formField.value" v-validate="formField.validate" :data-vv-as="formField.label">
 			     				</div>
 			     				<div v-if="formField.type == 'textarea'">
-			     					<textarea class="form-control" :name="formField.name" v-model="formField.value" :rows=" !formField.rows ? 3 : formField.rows"></textarea>
+			     					<textarea class="form-control" :name="formField.name" v-model="formField.value" :rows=" !formField.rows ? 3 : formField.rows" v-validate="formField.validate" :data-vv-as="formField.label"></textarea>
 			     				</div>
 			     				<div v-if="formField.type == 'editor'" class="editor-content">
 			     					<button class="btn btn-sm btn-default" @click.prevent="mediaDialogVisible = true">
@@ -22,7 +22,9 @@
 									</button>	
 			     					<textarea id="editor" :name="formField.name"></textarea>
 			     				</div>
-			     				<div class="help-block animated fadeInDown" v-show="formField.error">提示：{{ formField.label }}不能为空</div>
+			     				<div class="help-block animated fadeInDown"  v-show="errors.has(formField.name)">
+		                            {{ errors.first(formField.name) }}
+		                        </div>
 			     			</div>
 			     		</div>
 			     	</div>
@@ -169,34 +171,35 @@
 			},
 			// submit
 			formSubmit(isPublish = false) {
-				var _self = this;
-				for (let i = 0; i < _self.formFields.length; i++ ){
-					_self.formFields[i].error = false;
-				}
-				let param = _self.serialize();
-				let backPath = _self.backUrl; 
-				if ( param != false ){
-					if (isPublish){
-						param.append('isPublish', 'true');
-					}
-					param.append('category_id', _self.categoryData);
+				let _self = this;
+				_self.$validator.validateAll().then((result) => {
+                    if (result) {
+						let param = _self.serialize();
+						let backPath = _self.backUrl; 
+						if ( param != false ){
+							if (isPublish){
+								param.append('isPublish', 'true');
+							}
+							param.append('category_id', _self.categoryData);
 
-					let submitUrl = '';
-					if (_self.action == 'create'){
-						submitUrl = _self.url;
-					}else{
-						submitUrl = _self.url + '/' + _self.uID;
-						param.append('_method', 'PUT');
-					}
-					_self.$http.post(submitUrl, param)
-						.then(function (res) {
-							 _self.$message.success();
-							_self.$router.push({ path: backPath });
-						})
-						.catch(function (error) {
-							 _self.$message.error();
-						});
-				}				
+							let submitUrl = '';
+							if (_self.action == 'create'){
+								submitUrl = _self.url;
+							}else{
+								submitUrl = _self.url + '/' + _self.uID;
+								param.append('_method', 'PUT');
+							}
+							_self.$http.post(submitUrl, param)
+								.then(function (res) {
+									 _self.$message.success();
+									_self.$router.push({ path: backPath });
+								})
+								.catch(function (error) {
+									 _self.$message.error();
+								});
+						}
+                    }
+                });			
 			},
 			// get category list
 			getCategory() {
@@ -256,7 +259,7 @@
 			newEditor() {
 				this.simplemde = new SimpleMDE({
 		            element: document.getElementById("editor"),
-		            autoDownloadFontAwesome: true,
+		            autoDownloadFontAwesome: false,
 		            tabSize: 4,
 		            toolbar: [
 		            	"heading","bold","italic", "strikethrough",
@@ -319,9 +322,6 @@
 
 			copyMediaUrl() {
 				this.mediaDialogVisible = false;
-				//console.log(window.document.clipboardswf);
-				//window.document.clipboardswf.SetVariable('Text', this.$store.state.checkedMedia.url);  
-				//this.$http.success("链接已复制到剪贴板");
 				this.simplemde.value(this.simplemde.value() +  this.$store.state.checkedMedia.url);
 			}
 		},
@@ -362,6 +362,12 @@
 	}
 	.editor-content img{
 		max-width: 100%;
+	}
+	.CodeMirror{
+		padding: 0 10px;
+	}
+	.CodeMirror, .CodeMirror-scroll {
+		max-height: 600px;
 	}
 </style>
 
