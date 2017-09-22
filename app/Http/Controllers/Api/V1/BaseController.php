@@ -31,6 +31,7 @@ class BaseController extends Controller
     public function __construct()
     {
         $this->middleware('blog.log',['except' => ['index','show']]);
+        $this->middleware('cors');
     }
 
     /**

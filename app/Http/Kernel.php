@@ -56,7 +56,7 @@ class Kernel extends HttpKernel
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-
+        'cors' => \App\Http\Middleware\Cors::class,
         'blog.api' => \App\Http\Middleware\NextIfAuthenticated::class,
         'blog.log' => \App\Http\Middleware\RecordLogs::class,
     ];
