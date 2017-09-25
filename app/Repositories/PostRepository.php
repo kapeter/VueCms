@@ -28,8 +28,12 @@ class PostRepository
 	{
 		$result = $this->model;
 
-        if (isset($request->filter)){
-        	$result = $result->where('title', 'like', '%'.$request->filter.'%');
+        if (isset($request->category) && $request->category != 0){
+        	$result = $result->where('category_id', $request->category);
+        }
+
+        if (isset($request->keyword)){
+        	$result = $result->where('title', 'like', '%'.$request->keyword.'%');
         }
 
         if ( isset($request->sort) ){

@@ -14,6 +14,15 @@ class CategoriesTableSeeder extends Seeder
     public function run()
     {
         DB::table('categories')->insert([
+            'name' => '未分类',
+            'parent_id' => 0,
+            'model' => 'post',
+            'slug' => 'untitled',
+            'description' => '未分类',
+            'created_at'  => Carbon::now(),
+            'updated_at'  => Carbon::now()
+        ]);
+        DB::table('categories')->insert([
             'name' => '前端开发',
             'parent_id' => 0,
             'model' => 'post',
@@ -27,15 +36,6 @@ class CategoriesTableSeeder extends Seeder
             'parent_id' => 0,
             'model' => 'post',
             'slug' => 'backend',
-            'description' => '永远相信美好的事情即将发生',
-            'created_at'  => Carbon::now(),
-            'updated_at'  => Carbon::now()
-        ]);
-        DB::table('categories')->insert([
-            'name' => '唯美风景',
-            'parent_id' => 0,
-            'model' => 'image',
-            'slug' => 'image',
             'description' => '永远相信美好的事情即将发生',
             'created_at'  => Carbon::now(),
             'updated_at'  => Carbon::now()

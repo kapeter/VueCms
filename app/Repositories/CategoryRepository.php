@@ -34,6 +34,8 @@ class CategoryRepository
         	$result = $result->where('model', $request->model);
         }
 
+        $result = $result->orderBy('id', 'desc');
+
         $per_page = isset($request->per_page) ? $request->per_page : 10;
 
         $result = $result->paginate($per_page);

@@ -51,4 +51,11 @@ class Post extends Model
 	public function lastUser(){
 	    return $this->belongsTo(\App\User::class, 'last_user_id');
 	}
+
+    /**
+     * Get the category for the blog article
+     */
+    public function category(){
+        return $this->belongsTo(Category::class, 'category_id');
+    }
 }

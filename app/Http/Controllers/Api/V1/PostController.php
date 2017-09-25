@@ -73,7 +73,11 @@ class PostController extends BaseController
     {
         $post = $this->postRepository->getById($id);
 
-        return $this->response->item($post, new PostTransformer);
+        if (isset($post)){
+            return $this->response->item($post, new PostTransformer);
+        }else{
+            return $this->response->array($this->errorMsg[10012]);
+        }
     }
 
     /**

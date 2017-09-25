@@ -31,7 +31,7 @@ $factory->define(App\Models\Post::class, function (Faker\Generator $faker) {
     $user_ids = App\User::pluck('id')->random();
     $title = $faker->sentence(mt_rand(3,10));
     return [
-        'category_id'  => 0,
+        'category_id'  => 1,
         'user_id'      => $user_ids,
         'last_user_id' => $user_ids,
         'slug'     => str_slug($title),
