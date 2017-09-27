@@ -25,8 +25,8 @@ class CreatePostsTable extends Migration
                 $table->text('content')->nullable();
                 $table->string('cover_img')->nullable();
                 $table->string('tag')->nullable();
-                $table->boolean('is_draft')->default(false);
-                $table->integer('view_count')->unsigned()->default(0)->index();
+                $table->string('recommend')->nullable();
+                $table->integer('view_count')->unsigned()->default(0);
                 $table->timestamp('published_at')->nullable();
                 $table->timestamps();
                 $table->softDeletes();

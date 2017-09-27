@@ -22,6 +22,11 @@
 									</button>	
 			     					<textarea id="editor" :name="formField.name"></textarea>
 			     				</div>
+			     				<div v-if="formField.type == 'checkbox'">
+								  	<el-checkbox-group v-model="formField.value">
+								    	<el-checkbox v-for=" item in formField.option" :label="item" :key="item"></el-checkbox>
+								  	</el-checkbox-group>
+			     				</div>
 			     				<div class="help-block animated fadeInDown"  v-show="errors.has(formField.name)">
 		                            {{ errors.first(formField.name) }}
 		                        </div>
@@ -91,9 +96,6 @@
 							    			{{ category.name }}
 							    		</el-radio>
 							    	</li>
-							    	<li class="col-md-6">
-							    		<el-radio :label="0">未分类</el-radio>
-							    	</li>
 							  	</el-radio-group>
 							</div>
 						</div>
@@ -141,7 +143,7 @@
 				updatedDate: '',
 				publishedDate: '',
 				categories: {},
-				categoryData: 0,
+				categoryData: 1,
 				mediaDialogVisible: false,
         	}
         },
@@ -221,10 +223,25 @@
         				let data = response.data.data;
         				for (let i = 0; i < _self.formFields.length; i++ ){
         					let temp = _self.formFields[i]; 
-        					temp.value = data[temp.name];
-        					if (temp.type == 'editor'){
-								_self.simplemde.value(temp.value);
-        					}
+							switch (temp.type)
+							{
+								case 'editor':
+									_self.simplemde.value(data[temp.name])
+									break;
+								case 'checkbox':
+									temp.value = [];
+									if (data[temp.name] != undefined && data[temp.name] != null){
+										let x = data[temp.name].split(',');
+										x.forEach((item) => {
+											item = parseInt(item);
+											temp.value.push(temp.option[item]);
+										});										
+									}
+									break;
+								default:
+									temp.value = data[temp.name];
+									break;
+							}
         				}
         				for (let x in _self.moreParams){
         					let temp = _self.moreParams[x];
@@ -233,7 +250,7 @@
         				_self.createdDate = _self.dateFormat(data['created_at']);
         				_self.updatedDate = _self.dateFormat(data['updated_at']);
         				_self.publishedDate = _self.dateFormat(data['published_at']);
-        				_self.categoryData = data['category_id'];
+        				_self.categoryData = data['category'].id;
         			});
 			},
 
@@ -244,7 +261,11 @@
 			// refresh data if the action is create
 			freshData() {
 				for (let i = 0; i < this.formFields.length; i++ ){
-					this.formFields[i].value = '';
+					if (this.formFields[i].value.constructor === Array){
+						this.formFields[i].value = [];
+					}else{
+						this.formFields[i].value = '';
+					}
 				}
 				this.createdDate = this.getNowDate();
 			},
@@ -284,12 +305,17 @@
 						case 'editor':
 							temp.value = this.simplemde.value();
 							break;
+						case 'checkbox':
+							let x = [];
+							for (let i = 0; i < temp.value.length; i++){
+								if (temp.option.includes(temp.value[i])) {
+									x.push(temp.option.indexOf(temp.value[i]))
+								}
+							} 
+							temp.value = x.join(',');
+							break;
 						default:
 							break;
-					}
-					if ( temp.required && temp.value == ''){
-						temp.error = true;
-						return false;
 					}
 					formData.append(temp.name, temp.value);
 				}
@@ -365,9 +391,19 @@
 	}
 	.CodeMirror{
 		padding: 0 10px;
+		border-radius: 0px;
 	}
 	.CodeMirror, .CodeMirror-scroll {
 		max-height: 600px;
+	}
+	.el-checkbox{
+		color: #666
+	}
+	.el-checkbox__inner{
+		border-radius: 0
+	}
+	.editor-toolbar{
+		border-radius: 0;
 	}
 </style>
 

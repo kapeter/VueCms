@@ -30,7 +30,7 @@ class Post extends Model
         'cover_img',
         'content',
         'description',
-        'is_draft',
+        'recommend',
         'tag',
         'view_count',
         'published_at',

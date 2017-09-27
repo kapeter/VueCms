@@ -139,7 +139,6 @@
 		    },
 		    changePublish(data) {
 		    	let _self = this;
-		    	data.is_publish = !data.is_publish;
 		    	_self.$http.post( _self.routeList.browseUrl + '/' + data.id +'/change',{is_publish: data.is_publish})
 		    		.catch(function (res) {
 		    			_self.$message.error();

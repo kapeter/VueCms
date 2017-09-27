@@ -39,7 +39,6 @@ $factory->define(App\Models\Post::class, function (Faker\Generator $faker) {
         'content'  => $faker->paragraph,
         'cover_img'   => $faker->imageUrl(),
         'description' => $faker->sentence,
-        'is_draft'         => false,
         'published_at'     => $faker->dateTimeBetween($startDate = '-2 months', $endDate = 'now')
     ];
 });

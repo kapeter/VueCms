@@ -49,7 +49,7 @@
 
 		::-webkit-scrollbar-thumb  
 		{  
-		    background-color: #777;  
+		    background-color: #999;  
 		}  
 	</style>
 </head>

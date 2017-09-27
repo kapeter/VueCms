@@ -67,13 +67,20 @@
 						type: 'text',
 						validate: 'alpha_dash',
 						value: null,
+					},
+					{
+						label: '文章推荐位',
+						name: 'recommend',
+						type: 'checkbox',
+						option: ['首页推荐位','次级推荐位'],
+						value: [],
 					}
 				],
 				posterDialogVisible: false,
 				moreParams:{
 					poster: {
 						name: 'cover_img',
-						value: ''
+						value: null
 					}
 				}
 			}

@@ -41,33 +41,26 @@ class CategoryRepository
         $result = $result->paginate($per_page);
 
         foreach ($result as $value) {
-        	$value['detail'] = $this->getDetailById($value->id, $value->model);
+        	$table = $value->model.'s';
+			if ( Schema::hasTable($table) ){
+				$query = DB::table($table)->where('category_id', $value->id)->whereNull('deleted_at')->orderBy('updated_at', 'desc');
+
+				if ($this->reqIsFromFront($request)){
+		            $query = $query->whereNotNull('published_at');
+		        }
+		        $query = $query->get();
+
+				if ( $count = $query->count() ){
+					$value['detail'] = ['count' => $count, 'model' => $value->model, 'article' => $query->first()];
+				}else{
+					$value['detail'] = ['count' => 0, 'model' => $value->model, 'article' => ''];
+				}
+			}else{
+				$value['detail'] = ['count' => 0, 'model' => $value->model, 'article' => ''];
+			}        	
         }
 
         return $result;
-
-	}
-
-	public function getDetailById($id,$model)
-	{
-		$table = $model.'s';
-		if ( Schema::hasTable($table) ){
-			$query = DB::table($table)->where('category_id', $id)->whereNull('deleted_at')->orderBy('updated_at', 'desc')->get();
-
-			if ( $count = $query->count() ){
-				return [
-					'count'      => $count,
-					'model'      => $model,
-					'article'    => $query->first(),
-				];
-			}
-		}
-
-		return [
-			'count'      => 0,
-			'model'      => $model,
-			'article'    => '',
-		];
 
 	}
 }

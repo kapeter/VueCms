@@ -45,17 +45,17 @@
             <div class="thumbnail-detail" v-show="isChecked">
                 <h4>文件详情</h4>
                 <img v-if="activeItem.type == 'image'" :src="activeItem.url">
-                <dl class="row">
-                    <dt class="col-sm-3">文件名</dt>
-                    <dd class="col-sm-9">{{ activeItem.name }}</dd>
-                    <dt class="col-sm-3">文件类型</dt>
-                    <dd class="col-sm-9">{{ activeItem.type }}</dd>
-                    <dt class="col-sm-3" v-if="'size' in activeItem">文件大小</dt>
-                    <dd class="col-sm-9" v-if="'size' in activeItem">{{ activeItem.size }}</dd>
-                    <dt class="col-sm-3">引用地址</dt>
-                    <dd class="col-sm-9">{{ activeItem.url }}</dd>
-                    <dt class="col-sm-3" v-if="'lastModified' in activeItem">最近修改</dt>
-                    <dd class="col-sm-9" v-if="'lastModified' in activeItem">{{ activeItem.lastModified }}</dd>
+                <dl>
+                    <dt>文件名</dt>
+                    <dd>{{ activeItem.name }}</dd>
+                    <dt>文件类型</dt>
+                    <dd>{{ activeItem.type }}</dd>
+                    <dt v-if="'size' in activeItem">文件大小</dt>
+                    <dd v-if="'size' in activeItem">{{ activeItem.size }}</dd>
+                    <dt>引用地址</dt>
+                    <dd>{{ activeItem.url }}</dd>
+                    <dt v-if="'lastModified' in activeItem">最近修改</dt>
+                    <dd v-if="'lastModified' in activeItem">{{ activeItem.lastModified }}</dd>
                 </dl>               
             </div>
             <div class="thumbnail-detail" v-show="!isChecked">

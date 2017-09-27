@@ -28,8 +28,16 @@ class PostRepository
 	{
 		$result = $this->model;
 
+        if ($this->reqIsFromFront($request)){
+            $result = $result->whereNotNull('published_at');
+        }
+
         if (isset($request->category) && $request->category != 0){
         	$result = $result->where('category_id', $request->category);
+        }
+
+        if (isset($request->recommend)){
+        	$result = $result->where('recommend', 'like', '%'.$request->recommend.'%');
         }
 
         if (isset($request->keyword)){
@@ -39,6 +47,8 @@ class PostRepository
         if ( isset($request->sort) ){
             $orderby = explode('|', $request->sort);
             $result = $result->orderBy($orderby[0], $orderby[1]);
+        }else{
+        	$result = $result->orderBy('published_at', 'desc');
         }
 
         $per_page = isset($request->per_page) ? $request->per_page : 10;

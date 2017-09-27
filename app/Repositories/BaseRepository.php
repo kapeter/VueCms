@@ -93,6 +93,11 @@ trait BaseRepository
 
         return ($count != 0) ? false : true; 
     }
+
+    public function reqIsFromFront($request)
+    {
+        return null == $request->header('authorization') ? true : false;
+    }
 }
 
 ?>
