@@ -393,9 +393,6 @@
 		padding: 0 10px;
 		border-radius: 0px;
 	}
-	.CodeMirror, .CodeMirror-scroll {
-		max-height: 600px;
-	}
 	.el-checkbox{
 		color: #666
 	}

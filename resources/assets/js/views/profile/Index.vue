@@ -20,7 +20,7 @@
         <!-- END User Header -->
 
         <!-- Main Content -->
-        <form action="pages_profile_edit.html" method="post" onsubmit="return false;">
+        <form>
             <div class="block">
                 <ul class="nav nav-tabs nav-tabs-alt nav-justified push-20">
                     <li class="active">

@@ -14,7 +14,7 @@
 	            <div class="col-sm-4 text-right hidden-xs">
 					<ul class="block-button pull-right">
 						<li>
-							<button class="btn btn-info" @click="openMediaDialog()">
+							<button class="btn btn-info" @click="openAddMedia()">
 								<i class="fa fa-cloud-upload"></i> 添加媒体
 							</button>
 						</li>

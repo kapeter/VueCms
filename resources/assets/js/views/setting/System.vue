@@ -7,11 +7,32 @@
         		<div class="col-lg-9 col-md-8">
 			        <!-- Block Tabs Alternative Style -->
                     <div class="block">
-                        <el-tabs v-model="tabActiveName">
-                            <el-tab-pane label="基础设置" name="basic">基础设置</el-tab-pane>
-                            <el-tab-pane label="用户设置" name="user">用户设置</el-tab-pane>
-                            <el-tab-pane label="自定义设置" name="diy">自定义设置</el-tab-pane>
-                        </el-tabs>
+                        <form>
+                            <el-tabs v-model="tabActiveName">
+                                <el-tab-pane label="基础设置" name="basic">
+                                    <div class="form-group" v-for="item in devideTab(settingData,'basic')">
+                                        <label :for="item.name" class="control-label">{{ item.title }}</label>
+                                        <input type="text" :name="item.name" v-model="item.value" class="form-control">
+                                    </div>
+                                </el-tab-pane>
+                                <el-tab-pane label="用户设置" name="user">
+                                    <div class="form-group" v-for="item in devideTab(settingData,'user')">
+                                        <label :for="item.name" class="control-label">{{ item.title }}</label>
+                                        <input type="text" :name="item.name" v-model="item.value" class="form-control">
+                                    </div>
+                                </el-tab-pane>
+                                <el-tab-pane label="自定义设置" name="diy">
+                                    <div class="form-group" v-for="item in devideTab(settingData,'diy')">
+                                        <label :for="item.name" class="control-label">{{ item.title }}</label>
+                                        <input type="text" :name="item.name" v-model="item.value" class="form-control">
+                                    </div>
+                                </el-tab-pane>
+                            </el-tabs>
+                            <div class="block-content block-content-full text-center">
+                                <button type="submit" class="btn btn-info"> 保存设置 </button>
+                                <button type="submit" class="btn btn-warning">  重置表单 </button>
+                            </div>
+                        </form>
                     </div>
                     <!-- END Block Tabs Alternative Style -->
         		</div>
@@ -28,7 +49,7 @@
                         <div class="block-content block-content-full clearfix">
 							<table class="table table-borderless">
 								<tbody>
-									<tr v-for="item in infoData.system">
+									<tr v-for="item in systemData.system">
 										<td class="font-w600">{{ item.label }}</td>
 										<td class="text-right">{{ item.value }}</td>
 									</tr>
@@ -47,7 +68,7 @@
                         <div class="block-content block-content-full clearfix">
                             <table class="table table-borderless">
                                 <tbody>
-                                    <tr v-for="item in infoData.database">
+                                    <tr v-for="item in systemData.database">
                                         <td class="font-w600">{{ item.label }}</td>
                                         <td class="text-right">{{ item.value }}</td>
                                     </tr>
@@ -70,18 +91,38 @@
                     {to: null, text: '系统设置'},
                 ],
                 routeUrl: {
-                	infoUrl: 'setting/system'
+                	system: 'setting/system',
+                    setting: 'setting'
                 },
-                infoData: [],
+                systemData: [],
+                settingData: [],
                 tabActiveName: 'basic'
 			}
 		},
 		mounted() {
-			let _self = this;
-			_self.$http.get(_self.routeUrl.infoUrl)
-				.then(function (res) {
-					_self.infoData = res.data;
-				});
-		}
+            this.loadSystemData();
+            this.loadSettingData();
+		},
+        methods: {
+            loadSystemData () {
+                let _self = this;
+                _self.$http.get(_self.routeUrl.system)
+                    .then(function (res) {
+                        _self.systemData = res.data;
+                    });  
+            },
+            loadSettingData () {
+                let _self = this;
+                _self.$http.get(_self.routeUrl.setting)
+                    .then(function (res) {
+                        _self.settingData = res.data.settings;
+                    });  
+            },
+            devideTab(data, type) {
+                return data.filter((item) => {
+                    return item.type == type
+                });
+            }
+        }
 	}
 </script>

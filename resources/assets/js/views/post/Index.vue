@@ -181,6 +181,9 @@
 			display: block;
 		}
 	}
+	.custom-actions{
+		min-width: 128px;
+	}
 </style>
 
 

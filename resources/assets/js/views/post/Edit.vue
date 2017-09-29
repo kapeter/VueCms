@@ -9,12 +9,12 @@
 							<h3 class="block-title">封面图片</h3>
 						</div>
 						<div class="block-content text-center">
-							<div class="poster-img" v-if="moreParams.poster.value">
+							<div class="poster-img" v-show="moreParams.poster.value">
 								<img :src="moreParams.poster.value">
 							</div>
-							<a href="javascript:;" @click="posterDialogVisible = true">{{moreParams.poster.value ? '更改' : '添加' }}封面图片</a>
+							<a href="javascript:;" @click="posterDialogVisible = true">{{ moreParams.poster.value ? '更改' : '添加' }}封面图片</a>
 							&nbsp;&nbsp;	
-							<a v-if="moreParams.poster.value" href="javascript:;" @click="moreParams.poster.value = ''" class="text-danger">删除封面图片</a>			
+							<a v-show="moreParams.poster.value" href="javascript:;" @click="moreParams.poster.value = null" class="text-danger">删除封面图片</a>			
 						</div>
 					</div> 
  				</div>

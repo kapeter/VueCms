@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Api\V1\BaseController;
+use App\Repositories\SettingRepository;
 
 class SettingController extends BaseController
 {
@@ -12,9 +13,13 @@ class SettingController extends BaseController
 
    protected $dbInfo;
 
-   public function __construct()
+   protected $settingRepository;
+
+   public function __construct(SettingRepository $settingRepository)
    {
         parent::__construct();
+
+        $this->settingRepository = $settingRepository;
 
    }
 
@@ -44,4 +49,11 @@ class SettingController extends BaseController
 
 		return $this->response->array($data);
 	}
+
+   public function index(Request $request)
+   {
+      $settings = $this->settingRepository->getAllConf($request);
+
+      return $this->response->array($settings);
+   }
 }
