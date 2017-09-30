@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Api\V1\BaseController;
 use App\Repositories\SettingRepository;
+use App\Transformers\SettingTransformer;
 
 class SettingController extends BaseController
 {
@@ -54,6 +55,26 @@ class SettingController extends BaseController
    {
       $settings = $this->settingRepository->getAllConf($request);
 
-      return $this->response->array($settings);
+      if ($this->reqIsFromFront($request)) {
+         return $this->response->collection($settings, new SettingTransformer); 
+      }else{
+         return $this->response->array($settings); 
+      }
+
+      
+   }
+
+   public function store(Request $request)
+   {
+      $settings = $request->all();
+
+      foreach ($settings as $item) {
+         $setting = $this->settingRepository->getById($item['id']);
+         if (isset($setting)){
+            $this->settingRepository->update($item['id'], ['value' => $item['value']]);
+         }
+      }
+
+      return $this->response->noContent()->setStatusCode(200);
    }
 }

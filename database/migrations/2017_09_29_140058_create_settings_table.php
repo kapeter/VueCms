@@ -20,6 +20,7 @@ class CreateSettingsTable extends Migration
             $table->string('type');
             $table->string('value')->nullable();
             $table->boolean('is_public');
+            $table->timestamps();
         });
     }
 

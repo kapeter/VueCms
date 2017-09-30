@@ -51,4 +51,5 @@ $api->version('v1',['namespace' => 'App\Http\Controllers\Api\V1'], function ($ap
 	//Setting
 	$api->get('setting/system', 'SettingController@system');
 	$api->get('setting', 'SettingController@index');
+	$api->post('setting', 'SettingController@store');
 });

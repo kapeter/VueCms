@@ -75,5 +75,10 @@ class BaseController extends Controller
      
         return $obj;
     }
+
+    public function reqIsFromFront($request)
+    {
+        return null == $request->header('authorization') ? true : false;
+    }
 }
 

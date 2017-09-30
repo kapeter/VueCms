@@ -29,8 +29,8 @@
                                 </el-tab-pane>
                             </el-tabs>
                             <div class="block-content block-content-full text-center">
-                                <button type="submit" class="btn btn-info"> 保存设置 </button>
-                                <button type="submit" class="btn btn-warning">  重置表单 </button>
+                            <button class="btn btn-info" type="submit" @click.prevent="submitData()"><i class="fa fa-check push-5-r"></i> 保存设置 </button>
+                            <button class="btn btn-warning" @click.prevent="resetData()"><i class="fa fa-refresh push-5-r"></i> 重置表单 </button>
                             </div>
                         </form>
                     </div>
@@ -122,6 +122,20 @@
                 return data.filter((item) => {
                     return item.type == type
                 });
+            },
+            submitData() {
+                let _self = this;
+                _self.$http.post(_self.routeUrl.setting, _self.settingData)
+                    .then(function(res){
+                        _self.$message.success();
+                        _self.resetData();
+                    })
+                    .catch(function (err) {
+                        _self.$message.error();
+                    })
+            },
+            resetData() {
+                this.loadSettingData();
             }
         }
 	}

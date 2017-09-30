@@ -16,7 +16,7 @@
 		[v-cloak] {
 		  display: none;
 		}
-	    #loading{
+	    .loading{
 	        width: 100%;
 	        height: 100%;
 	        position: fixed;
@@ -54,7 +54,7 @@
 	</style>
 </head>
 <body>
-    <div id="loading">
+    <div id="loading" class="loading">
         <div class="loading-box">
             <img src="/img/loading.gif"> 
             <p>加载什么的最讨厌啦</p>              
