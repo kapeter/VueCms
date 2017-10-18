@@ -20,11 +20,11 @@
                             :css="css.table"
                             @vuetable:pagination-data="onPaginationData"
                             :append-params="moreParams">
-                            <template slot="devideName" scope="props">
+                            <template slot="devideName" slot-scope="props">
                                 <h4 class="h5 text-info">{{ props.rowData.name }}</h4>
                                 <span class="font-s13 text-muted">/ {{ props.rowData.slug }}</span>
                             </template>
-                            <template slot="recentLink" scope="props">
+                            <template slot="recentLink" slot-scope="props">
                                 <span v-if="props.rowData.detail.count == 0">无</span>
                                 <span v-else>
                                     <a @click="turnToEdit(props.rowData.detail.model, props.rowData.detail.article.id)" href="javascript:;">
@@ -34,7 +34,7 @@
                                     <em class="font-s13 text-muted">updated {{ props.rowData.detail.article.updated_at }}</em>
                                 </span>
                             </template>
-                            <template slot="actions" scope="props">
+                            <template slot="actions" slot-scope="props">
                                 <div class="custom-actions">
                                     <button class="btn btn-sm btn-default" @click="itemAction('edit-item', props.rowData)"><i class="fa fa-pencil"></i> 编辑</button>
                                     <button class="btn btn-sm btn-danger" @click="itemAction('delete-item', props.rowData)"><i class="fa fa-times"></i> 删除</button>

@@ -24,10 +24,10 @@
 						    :sort-order="sortOrder"
 						    @vuetable:pagination-data="onPaginationData"
 						    :append-params="moreParams">
-							<template slot="publishSwitch" scope="props">
+							<template slot="publishSwitch" slot-scope="props">
 								<el-switch v-model="props.rowData.is_publish" on-text="ON" off-text="OFF" @change="changePublish(props.rowData)"></el-switch>
 						    </template>
-							<template slot="actions" scope="props">
+							<template slot="actions" slot-scope="props">
 						    	<div class="custom-actions">
 		        					<button class="btn btn-sm btn-default" @click="itemAction('edit-item', props.rowData)"><i class="fa fa-pencil"></i> 编辑</button>
 		        					<button class="btn btn-sm btn-danger" @click="itemAction('delete-item', props.rowData)"><i class="fa fa-times"></i> 删除</button>

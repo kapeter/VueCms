@@ -18,11 +18,11 @@
                             :api-url="routeList.browseUrl"
                             :tfields="tfields"
                             @vuetable:pagination-data="onPaginationData">
-                            <template slot="is_admin" scope="props">
+                            <template slot="is_admin" slot-scope="props">
                                 <span v-if="props.rowData.is_admin != 1" class="label label-info">否</span>
                                 <span v-else class="label label-success">是</span>
                             </template>
-                            <template slot="actions" scope="props">
+                            <template slot="actions" slot-scope="props">
                                 <div class="custom-actions" v-if="props.rowData.is_admin != 1">
                                    <button class="btn btn-sm btn-info" @click="itemAction('build-item', props.rowData)"><i class="fa fa-bars"></i> 配置</button>
                                     <button class="btn btn-sm btn-default" @click="itemAction('edit-item', props.rowData)"><i class="fa fa-pencil"></i> 编辑</button>

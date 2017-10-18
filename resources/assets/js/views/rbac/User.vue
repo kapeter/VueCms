@@ -19,15 +19,15 @@
 						    :tfields="tfields"
 						    :sort-order="sortOrder"
 						    @vuetable:pagination-data="onPaginationData">
-							<template slot="avatar" scope="props">
+							<template slot="avatar" slot-scope="props">
 								<img class="img-avatar img-avatar32" :src="props.rowData.avatar">
 						    </template>
-							<template slot="role" scope="props">
+							<template slot="role" slot-scope="props">
                                 <span class="label label-default" v-if="props.rowData.role == null">暂无角色</span>
 								<span class="label label-success" v-else-if="props.rowData.role.is_admin == 1">{{ props.rowData.role.title }}</span>
 								<span class="label label-info" v-else>{{ props.rowData.role.title }}</span>
 						    </template>
-							<template slot="actions" scope="props">
+							<template slot="actions" slot-scope="props">
 						    	<div class="custom-actions">
 		        					<button class="btn btn-sm btn-default" @click="itemAction('edit-item', props.rowData)"><i class="fa fa-pencil"></i> 编辑</button>
 		        					<button class="btn btn-sm btn-danger" @click="itemAction('delete-item', props.rowData)"><i class="fa fa-times"></i> 删除</button>

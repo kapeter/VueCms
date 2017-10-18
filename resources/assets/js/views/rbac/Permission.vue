@@ -18,7 +18,7 @@
                             :api-url="routeList.browseUrl"
                             :tfields="tfields"
                             @vuetable:pagination-data="onPaginationData">
-                            <template slot="actions" scope="props">
+                            <template slot="actions" slot-scope="props">
                                 <div class="custom-actions">
                                     <button class="btn btn-sm btn-default" @click="itemAction('edit-item', props.rowData)"><i class="fa fa-pencil"></i> 编辑</button>
                                     <button class="btn btn-sm btn-danger" @click="itemAction('delete-item', props.rowData)"><i class="fa fa-times"></i> 删除</button>
