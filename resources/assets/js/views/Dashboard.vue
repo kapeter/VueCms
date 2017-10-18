@@ -1,14 +1,14 @@
 <template>
     <div id="page-container" class="sidebar-l sidebar-o side-scroll header-navbar-fixed" :class="{ 'sidebar-mini' : isMini }">
         <div v-if="isLogin">
-            <Sidebar></Sidebar>
-            <Header></Header>
+            <SideBar></SideBar>
+            <HeaderBar></HeaderBar>
             <main id="main-container">
                 <transition mode="out-in" enter-active-class="animated lightSpeedIn" leave-active-class="animated lightSpeedOut">
                     <router-view></router-view>
                 </transition>
             </main>
-            <Footer></Footer>            
+            <FooterBar></FooterBar>            
         </div>
         <div class="loading" v-else>
             <div class="loading-box">
@@ -20,15 +20,15 @@
 </template>
 
 <script>
-    import Sidebar from '../components/layouts/Sidebar.vue'
-    import Header from '../components/layouts/Header.vue'
-    import Footer from '../components/layouts/Footer.vue'
+    import SideBar from '../components/layouts/SideBar.vue'
+    import HeaderBar from '../components/layouts/HeaderBar.vue'
+    import FooterBar from '../components/layouts/FooterBar.vue'
 
     export default {
         components: {
-            Sidebar,
-            Header,
-            Footer
+            SideBar,
+            HeaderBar,
+            FooterBar
         },
         computed: {
             isMini() {
