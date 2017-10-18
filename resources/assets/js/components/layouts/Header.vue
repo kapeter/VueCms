@@ -97,7 +97,3 @@
         }
     }
 </script>
-
-<style>
-
-</style>

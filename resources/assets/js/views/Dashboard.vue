@@ -20,15 +20,15 @@
 </template>
 
 <script>
-    import Sidebar from '../components/layouts/Sidebar.vue';
-    import HeaderBar from '../components/layouts/HeaderBar.vue';
-    import FooterBar from '../components/layouts/FooterBar.vue';
+    import Sidebar from '../components/layouts/Sidebar.vue'
+    import Header from '../components/layouts/Header.vue'
+    import Footer from '../components/layouts/Footer.vue'
 
     export default {
         components: {
             Sidebar,
-            HeaderBar,
-            FooterBar,
+            Header,
+            Footer
         },
         computed: {
             isMini() {
