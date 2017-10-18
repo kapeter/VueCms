@@ -2,13 +2,13 @@
     <div id="page-container" class="sidebar-l sidebar-o side-scroll header-navbar-fixed" :class="{ 'sidebar-mini' : isMini }">
         <div v-if="isLogin">
             <Sidebar></Sidebar>
-            <HeaderBar></HeaderBar>
+            <Header></Header>
             <main id="main-container">
                 <transition mode="out-in" enter-active-class="animated lightSpeedIn" leave-active-class="animated lightSpeedOut">
                     <router-view></router-view>
                 </transition>
             </main>
-            <FooterBar></FooterBar>            
+            <Footer></Footer>            
         </div>
         <div class="loading" v-else>
             <div class="loading-box">
