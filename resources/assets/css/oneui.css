@@ -7170,73 +7170,26 @@ a.block.block-link-hover3:active {
 .push-30-l {
   margin-left: 30px !important;
 }
-.push-50 {
+.push-60 {
   margin-bottom: 50px !important;
 }
-.push-50-t {
+.push-60-t {
   margin-top: 50px !important;
 }
-.push-50-r {
+.push-60-r {
   margin-right: 50px !important;
 }
-.push-50-l {
+.push-60-l {
   margin-left: 50px !important;
 }
-.push-100 {
-  margin-bottom: 100px !important;
-}
-.push-100-t {
-  margin-top: 100px !important;
-}
-.push-100-r {
-  margin-right: 100px !important;
-}
-.push-100-l {
-  margin-left: 100px !important;
-}
-.push-150 {
-  margin-bottom: 150px !important;
-}
-.push-150-t {
-  margin-top: 150px !important;
-}
-.push-150-r {
-  margin-right: 150px !important;
-}
-.push-150-l {
-  margin-left: 150px !important;
-}
-.push-200 {
-  margin-bottom: 200px !important;
-}
-.push-200-t {
-  margin-top: 200px !important;
-}
-.push-200-r {
-  margin-right: 200px !important;
-}
-.push-200-l {
-  margin-left: 200px !important;
-}
-.push-300 {
-  margin-bottom: 300px !important;
-}
-.push-300-t {
-  margin-top: 300px !important;
-}
-.push-300-r {
-  margin-right: 300px !important;
-}
-.push-300-l {
-  margin-left: 300px !important;
-}
+
 .pulldown {
   position: relative;
   top: 45px;
 }
 @media screen and (min-width: 992px) {
   .pulldown {
-    top: 150px;
+    top: 175px;
   }
 }
 .remove-margin {
