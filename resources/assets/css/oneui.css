@@ -5467,7 +5467,7 @@ a.list-group-item:focus {
 }
 .bg-image {
   background-color: #f9f9f9;
-  background-position: 0 75%;
+  background-position: 0 50%;
   -webkit-background-size: cover;
   background-size: cover;
 }

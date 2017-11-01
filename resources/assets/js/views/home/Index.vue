@@ -1,12 +1,17 @@
 <template>
 	<div>
 	    <!-- Page Header -->
-	    <div class="bg-image overflow-hidden" style="background-image: url('/img/header-bg.jpg');">
-            <div class="content text-center">
-                <h1 class="h1 font-w300 animated fadeInDown push-30-t push-10">Hi, Master!</h1>
-                <h2 class="h5 font-w300 animated fadeInUp push-50">永远相信美好的事情即将发生。</h2>
+        <div class="bg-image overflow-hidden" style="background-image: url('/img/header-bg.jpg');">
+            <div class="content">
+                <div class="block block-transparent">
+                    <div class="block-content block-content-full">
+                        <h1 class="h1 font-w300 push-50-t push-5">Hello, Master</h1>
+                        <h2 class="h5 font-w300">Always believe that something wonderful is about to happen.</h2>
+                    </div>
+                </div>
             </div>
-	    </div>
+        </div>
+
 	    <!-- END Page Header -->
 	    
         <!-- Page Content -->

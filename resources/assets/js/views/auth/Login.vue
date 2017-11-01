@@ -145,11 +145,6 @@
                 c.height = h*pr
                 x.scale(pr, pr)
                 x.globalAlpha = 0.6
-                function i(){
-                    x.clearRect(0,0,w,h)
-                    q=[{x:0,y:h*.7+f},{x:0,y:h*.7-f}]
-                    while(q[1].x<w+f) d(q[0], q[1])
-                }
                 function d(i,j){   
                     x.beginPath()
                     x.moveTo(i.x, i.y)
@@ -168,8 +163,9 @@
                     var t = p + (z()*2-1.1)*f
                     return (t>h||t<0) ? y(p) : t
                 }
-                document.onclick = i
-                i()
+                x.clearRect(0,0,w,h)
+                q=[{x:0,y:h*.7+f},{x:0,y:h*.7-f}]
+                while(q[1].x<w+f) d(q[0], q[1])
             }
         }
     }
