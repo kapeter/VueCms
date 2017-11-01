@@ -98,7 +98,6 @@ class PostController extends BaseController
             [
                 'slug' => $slug,                
                 'last_user_id' => $user->id,
-                'published_at' => isset($request->isPublish) ? Carbon::now() : null
             ]
         );
 
