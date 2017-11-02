@@ -45,7 +45,7 @@ class PostController extends BaseController
 
         $slug = $this->postRepository->getUniqueSlug($slug,null);
 
-        $user = $request->session()->get('user');
+        $user = $this->getCurrentUser($request);
 
         $data = array_merge($request->all(),
             [
@@ -92,7 +92,7 @@ class PostController extends BaseController
 
         $slug = $this->postRepository->getUniqueSlug($slug, $id);
 
-        $user = $request->session()->get('user');
+        $user = $this->getCurrentUser($request);
 
         $data = array_merge($request->all(),
             [

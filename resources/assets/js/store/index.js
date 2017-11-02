@@ -8,7 +8,6 @@ const store = new Vuex.Store({
 		isMini : false,
 		token : null,
 		theUser : {},
-		theRole : {}, 
 		mediaIsChecked: false,
 		checkedMedia: {},
 	},
@@ -31,13 +30,6 @@ const store = new Vuex.Store({
                 .then(function (res) {
                     let user = res.data.data;
                     state.theUser = user;
-                    //如果不是管理员，获取权限
-                    if (!user.role.is_admin){
-                        Vue.http.get('role/' + user.role.id)
-                            .then(function(res){
-                                state.theRole = res.data;
-                            });                        
-                    }
                 })
                 .catch(function (res) {
                     console.log(res);

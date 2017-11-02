@@ -114,7 +114,7 @@ class UserController extends BaseController
      */
     public function profile(Request $request)
     {
-        $user = $request->session()->get('user');
+        $user = $this->getCurrentUser($request);
 
         if($request->isMethod('post')){ 
 
@@ -136,8 +136,6 @@ class UserController extends BaseController
             return $this->response->noContent()->setStatusCode(200);
 
         }else{
-            $user = $this->userRepository->getById($user->id);
-            
             return $this->response->item($user, new UserTransformer);
         }        
     }    

@@ -35,10 +35,6 @@ class LoginController extends BaseController
             return $this->response->array($this->errorMsg[10006]);
         }
 
-        $user = JWTAuth::authenticate($token);
-
-        $request->session()->put('user', $user);
-
         return $this->response->array(
             [
                 'code' => 10000, 
@@ -70,8 +66,6 @@ class LoginController extends BaseController
      */
     public function logout(Request $request)
     {
-        $request->session()->forget('user');
-
         return $this->response->array($this->errorMsg[10000]);        
     }
 

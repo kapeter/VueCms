@@ -5,13 +5,12 @@ export default {
     install(Vue, option = {}) {
         const http = axios.create({
 		    baseURL: Config.baseUrl != '' ? Config.baseUrl : 'http://' + window.location.host + '/api/',
-		 	headers: {
-				'X-Requested-With': 'XMLHttpRequest',
-				'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-			},
+		 // 	headers: {
+			// 	'Content-Type': 'application/x-www-form-urlencoded',
+			// },
 			validateStatus: function (status) {
 		    	return status <= 405; 
-			},
+			}
         })
 
         //请求拦截器

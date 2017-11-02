@@ -15,7 +15,8 @@ use Illuminate\Http\Request;
 
 $api = app('Dingo\Api\Routing\Router');
 
-$api->version('v1',['namespace' => 'App\Http\Controllers\Api\V1'], function ($api) {
+$api->version('v1',['middleware' => 'cors', 'namespace' => 'App\Http\Controllers\Api\V1'], function ($api) {
+
 	//Auth
 	$api->post('/login', 'Auth\LoginController@login');
 	$api->post('/logout', 'Auth\LoginController@logout');
@@ -27,8 +28,8 @@ $api->version('v1',['namespace' => 'App\Http\Controllers\Api\V1'], function ($ap
 	$api->post('role/build/{id}','RoleController@build');
 
 	//profile
-	$api->get('profile','UserController@profile');
-	$api->post('profile','UserController@profile');
+	$api->get('profile','UserController@profile')->name('profile.show');
+	$api->post('profile','UserController@profile')->name('profile.update');
 
 	//Post
 	$api->resource('post','PostController');

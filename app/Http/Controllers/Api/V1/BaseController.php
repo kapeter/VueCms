@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use Dingo\Api\Routing\Helpers;
 use App\Http\Controllers\Controller;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class BaseController extends Controller
 {
@@ -32,7 +33,6 @@ class BaseController extends Controller
     public function __construct()
     {
         $this->middleware('blog.log',['except' => ['index','show']]);
-        $this->middleware('cors');
     }
 
     /**
@@ -79,6 +79,14 @@ class BaseController extends Controller
     public function reqIsFromFront($request)
     {
         return null == $request->header('authorization') ? true : false;
+    }
+
+    public function getCurrentUser($request)
+    {
+        $token = JWTAuth::setRequest($request)->getToken();
+        $user = JWTAuth::authenticate($token);
+
+        return $user;
     }
 }
 

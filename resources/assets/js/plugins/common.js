@@ -43,20 +43,6 @@ var App = function() {
 
     // Layout functionality
     var uiLayout = function() {
-        // Resizes #main-container min height (push footer to the bottom)
-        var $resizeTimeout;
-
-        if ($lMain.length) {
-            uiHandleMain();
-
-            jQuery(window).on('resize orientationchange', function(){
-                clearTimeout($resizeTimeout);
-
-                $resizeTimeout = setTimeout(function(){
-                    uiHandleMain();
-                }, 150);
-            });
-        }
 
         // Init sidebar and side overlay custom scrolling
         uiHandleScroll('init');
@@ -70,30 +56,6 @@ var App = function() {
                     $lPage.removeClass('header-navbar-scroll');
                 }
             });
-        }
-
-        // Call layout API on button click
-        jQuery('[data-toggle="layout"]').on('click', function(){
-            var $btn = jQuery(this);
-
-            uiLayoutApi($btn.data('action'));
-
-            if ($lHtml.hasClass('no-focus')) {
-                $btn.blur();
-            }
-        });
-    };
-
-    // Resizes #main-container to fill empty space if exists
-    var uiHandleMain = function() {
-        var $hWindow     = jQuery(window).height();
-        var $hHeader     = $lHeader.outerHeight();
-        var $hFooter     = $lFooter.outerHeight();
-
-        if ($lPage.hasClass('header-navbar-fixed')) {
-            $lMain.css('min-height', $hWindow - $hFooter);
-        } else {
-            $lMain.css('min-height', $hWindow - ($hHeader + $hFooter));
         }
     };
 
@@ -181,100 +143,6 @@ var App = function() {
                         .attr('style', '');
                 }
             }
-        }
-    };
-
-    // Layout API
-    var uiLayoutApi = function($mode) {
-        var $windowW = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-
-        // Mode selection
-        switch($mode) {
-            case 'sidebar_pos_toggle':
-                $lPage.toggleClass('sidebar-l sidebar-r');
-                break;
-            case 'sidebar_pos_left':
-                $lPage
-                    .removeClass('sidebar-r')
-                    .addClass('sidebar-l');
-                break;
-            case 'sidebar_pos_right':
-                $lPage
-                    .removeClass('sidebar-l')
-                    .addClass('sidebar-r');
-                break;
-            case 'sidebar_toggle':
-                if ($windowW > 991) {
-                    $lPage.toggleClass('sidebar-o');
-                } else {
-                    $lPage.toggleClass('sidebar-o-xs');
-                }
-                break;
-            case 'sidebar_open':
-                if ($windowW > 991) {
-                    $lPage.addClass('sidebar-o');
-                } else {
-                    $lPage.addClass('sidebar-o-xs');
-                }
-                break;
-            case 'sidebar_close':
-                if ($windowW > 991) {
-                    $lPage.removeClass('sidebar-o');
-                } else {
-                    $lPage.removeClass('sidebar-o-xs');
-                }
-                break;
-            case 'sidebar_mini_on':
-                if ($windowW > 991) {
-                    $lPage.addClass('sidebar-mini');
-                }
-                break;
-            case 'sidebar_mini_off':
-                if ($windowW > 991) {
-                    $lPage.removeClass('sidebar-mini');
-                }
-                break;
-            case 'side_overlay_toggle':
-                $lPage.toggleClass('side-overlay-o');
-                break;
-            case 'side_overlay_open':
-                $lPage.addClass('side-overlay-o');
-                break;
-            case 'side_overlay_close':
-                $lPage.removeClass('side-overlay-o');
-                break;
-            case 'side_overlay_hoverable_toggle':
-                $lPage.toggleClass('side-overlay-hover');
-                break;
-            case 'side_overlay_hoverable_on':
-                $lPage.addClass('side-overlay-hover');
-                break;
-            case 'side_overlay_hoverable_off':
-                $lPage.removeClass('side-overlay-hover');
-                break;
-            case 'header_fixed_toggle':
-                $lPage.toggleClass('header-navbar-fixed');
-                break;
-            case 'header_fixed_on':
-                $lPage.addClass('header-navbar-fixed');
-                break;
-            case 'header_fixed_off':
-                $lPage.removeClass('header-navbar-fixed');
-                break;
-            case 'side_scroll_toggle':
-                $lPage.toggleClass('side-scroll');
-                uiHandleScroll();
-                break;
-            case 'side_scroll_on':
-                $lPage.addClass('side-scroll');
-                uiHandleScroll();
-                break;
-            case 'side_scroll_off':
-                $lPage.removeClass('side-scroll');
-                uiHandleScroll();
-                break;
-            default:
-                return false;
         }
     };
 
@@ -560,9 +428,6 @@ var App = function() {
                     uiScrollTo();
                     uiLoader('hide');
             }
-        },
-        layout: function($mode) {
-            uiLayoutApi($mode);
         },
         loader: function($mode) {
             uiLoader($mode);

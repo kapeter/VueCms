@@ -9,7 +9,7 @@
                 <!-- END Error Titles -->
             </div>
         </div>
-        <div class="row">
+        <div class="row push-60-t">
             <router-link to="/" class="btn btn-info">Back to Dashboard</router-link>
         </div>
         <div class="content pulldown text-muted text-center">

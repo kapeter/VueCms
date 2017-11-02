@@ -18,44 +18,26 @@
         <div class="content">
             <!-- Stats -->
             <div class="row">
-                <div class="col-xs-12 col-sm-3">
+                <div class="col-xs-12 col-lg-3 col-md-4">
                   <!-- Panel Web Designer -->
                     <div class="bg-info" style="background:-webkit-linear-gradient(right, #39c5bb, #39c5ee)">
-                    <div class="block block-themed block-transparent">
-                        <div class="block-content text-center">
-                            <div class="push push-30-t">
-                                <img class="img-avatar img-avatar96 img-avatar-thumb" :src="thisUser.avatar" :alt="thisUser.name">
-                            </div>
-                            <div class="push-30">
-                                <h2 class="block-title push-5 text-white">{{ thisUser.name }}</h2>
-                                <h3 class="h5 text-white-op">{{ userRole }}</h3>
-                                <p class="push-30-t text-white-op">上次登录时间<br>2017-07-04 15:36:23</p>
-                            </div>
-                        </div>
-                    </div>                        
-                    </div>
-
-                  <!-- End Panel Web Designer -->
-                    <!-- Category -->
-                    <div class="bg-city-light">
                         <div class="block block-themed block-transparent">
-                            <div class="block-header">
-                                <h3 class="block-title">邮箱动态<span class="pull-right">unread / 625</span></h3>
+                            <div class="block-content text-center">
+                                <div class="push push-30-t">
+                                    <img class="img-avatar img-avatar128 img-avatar-thumb" :src="thisUser.avatar" :alt="thisUser.name">
+                                </div>
+                                <div class="push-30 text-white-op">
+                                    <h3 class="font-w400 text-white push-5">{{ thisUser.name }}</h3>
+                                    <h5>{{ 'role' in thisUser ? thisUser.role.title : '编辑者' }}</h5>
+                                    <p class="push-30-t">上次登录时间<br>2017-07-04 15:36:23</p>
+                                    <p>上次登录IP<br>10.0.0.2</p>
+                                </div>
                             </div>
-                            <div class="block-content block-content-full text-center new-block">
-                                <h1 class="text-white font-s72 font-w300">
-                                    <i class="si si-notebook"></i>
-                                </h1>
-                            </div>
-                            <div class="block-content block-content-full text-center">
-                                <a class="text-white" href="#">永远相信美好的事即将发生</a><br>
-                                <span class="text-white-op font-s12"><em>Updated 10 hours ago</em></span>
-                            </div>
-                        </div>
+                        </div>                        
                     </div>
-                    <!-- END Category -->
+                  <!-- End Panel Web Designer -->
                 </div>
-                <div class="col-xs-12 col-sm-9">
+                <div class="col-xs-12 col-lg-9 col-md-8">
                     <div class="block block-rounded block-opt-refresh-icon8">
                         <div class="block-header">
                             <ul class="block-options">
@@ -88,36 +70,6 @@
                                     </div>
                                 </li>
                                 <!-- END System Notification -->
-                                
-                                <!-- Photo Notification -->
-                                <li>
-                                    <div class="list-timeline-time">4 hrs ago</div>
-                                    <i class="fa fa-picture-o list-timeline-icon bg-flat"></i>
-                                    <div class="list-timeline-content">
-                                        <p class="font-w600">+ 3 New Photos</p>
-                                        <p class="font-s13">Travel hacks and ideas!</p>
-                                        <!-- Gallery (.js-gallery class is initialized in App() -> uiHelperMagnific()) -->
-                                        <!-- For more info and examples you can check out http://dimsemenov.com/plugins/magnific-popup/ -->
-                                        <div class="row items-push js-gallery">
-                                            <div class="col-sm-6 col-lg-4">
-                                                <a class="img-link" href="assets/img/photos/photo2@2x.jpg">
-                                                    <img class="img-responsive" src="/img/photo28.jpg" alt="">
-                                                </a>
-                                            </div>
-                                            <div class="col-sm-6 col-lg-4">
-                                                <a class="img-link" href="assets/img/photos/photo8@2x.jpg">
-                                                    <img class="img-responsive" src="/img/photo29.jpg" alt="">
-                                                </a>
-                                            </div>
-                                            <div class="col-sm-6 col-lg-4">
-                                                <a class="img-link" href="assets/img/photos/photo16@2x.jpg">
-                                                    <img class="img-responsive" src="/img/photo33.jpg" alt="">
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <!-- END Photos Notification -->
 
                                 <!-- System Notification -->
                                 <li>
@@ -156,9 +108,6 @@
         computed: {
             thisUser() {
                 return this.$store.state.theUser;
-            },
-            userRole() {
-                return this.thisUser.is_admin == true ? '系统管理员' : '编辑者';
             }
         },
         mounted() {

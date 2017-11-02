@@ -3,7 +3,7 @@
 	    <!-- Page Header -->
 	    <div class="content bg-gray-lighter">
 	        <div class="row items-push">
-	            <div class="col-sm-8">
+	            <div class="col-sm-6">
 	                <ul class="nav nav-pills">
 						<li v-for="crumb in crumbsArr" @click="turnToFolder(crumb)">
 							<a href="javascript:void(0)" v-if="crumb == 'public'"><i class="fa fa-fw fa-folder-open-o push-5-r"></i>媒体库</a>
@@ -11,7 +11,7 @@
 						</li>
 	                </ul>
 	            </div>
-	            <div class="col-sm-4 text-right hidden-xs">
+	            <div class="col-sm-6 text-right hidden-xs">
 					<ul class="block-button pull-right">
 						<li>
 							<button class="btn btn-info" @click="openAddMedia()">

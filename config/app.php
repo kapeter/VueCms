@@ -175,6 +175,7 @@ return [
         Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
         \JellyBool\Translug\TranslugServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
+        Barryvdh\Cors\ServiceProvider::class,
 
         /*
          * Application Service Providers...

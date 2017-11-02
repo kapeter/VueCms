@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Repositories\LogRepository;
 /**
 * record logs
@@ -34,7 +35,8 @@ class RecordLogs
     	$route = $request->route()->getAction()['uses'];
     	list($class, $action) = explode('@', $route); 
 
-        $user = $request->session()->get('user');
+        $token = JWTAuth::setRequest($request)->getToken();
+        $user = JWTAuth::authenticate($token);
 
     	$log = [
             'controller'  => $class,

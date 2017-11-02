@@ -3,7 +3,7 @@
         <div v-if="isLogin">
             <SideBar></SideBar>
             <HeaderBar></HeaderBar>
-            <main id="main-container">
+            <main id="main-container" :style="{ 'min-height' : minH + 'px' }">
                 <transition mode="out-in" enter-active-class="animated lightSpeedIn" leave-active-class="animated lightSpeedOut">
                     <router-view></router-view>
                 </transition>
@@ -30,12 +30,33 @@
             HeaderBar,
             FooterBar
         },
+        data () {
+            return {
+                minH: 0
+            }
+        },
         computed: {
             isMini() {
                 return this.$store.state.isMini;
             },
             isLogin() {
                 return this.$store.state.theUser != {}
+            }
+        },
+        mounted () {
+            let _self = this;
+            let resizeTimeout = null;
+
+            _self.minH = window.outerHeight- 110;
+
+            window.onresize = () => {
+
+                clearTimeout(resizeTimeout);
+
+                resizeTimeout = setTimeout(function(){
+                    _self.minH = window.outerHeight - 110;
+                }, 150);
+                
             }
         }
     }

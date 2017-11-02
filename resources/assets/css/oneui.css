@@ -282,6 +282,9 @@ h6,
 .font-s13 {
   font-size: 13px !important;
 }
+.font-s24 {
+  font-size: 24px !important;
+}
 .font-s36 {
   font-size: 36px !important;
 }
@@ -9007,5 +9010,3 @@ div.tagsinput span.tag a:hover {
   float: left;
   margin-right: 5px;
 }
-
-
