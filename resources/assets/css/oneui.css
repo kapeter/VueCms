@@ -5298,10 +5298,6 @@ a.list-group-item:focus {
   overflow-x: hidden;
   background-color: #f0f3f4;
 }
-#main-container {
-  min-height: 970px;
-  min-height: calc(100% - 43px);
-}
 .content {
   margin: 0 auto;
   padding: 16px 14px 1px;

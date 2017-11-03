@@ -3,7 +3,7 @@
         <!-- Header Navigation Right -->
         <ul class="nav-header pull-right">
             <li>
-                <a href="/" class="btn btn-default pull-right" data-toggle="tooltip" title="返回前台" data-placement="bottom">
+                <a :href="frontend_site" class="btn btn-default pull-right" data-toggle="tooltip" title="返回前台" data-placement="bottom">
                     <i class="si si-grid"></i>
                 </a>
             </li>
@@ -48,7 +48,7 @@
         <ul class="nav-header pull-left">
             <li class="hidden-md hidden-lg">
                 <!-- Layout API, functionality initialized in App() -> uiLayoutApi() -->
-                <button class="btn btn-default" data-toggle="layout" data-action="sidebar_toggle" type="button">
+                <button class="btn btn-default" type="button" @click='sidebarMiniToggle'>
                     <i class="fa fa-navicon"></i>
                 </button>
             </li>
@@ -70,9 +70,28 @@
 
 <script>
     export default {
+        data() {
+            return {
+                frontend_site: '/'
+            }
+        },
         computed: {
             thisUser() {
                 return this.$store.state.theUser;
+            },
+            theConf() {
+                return this.$store.state.theConf;
+            }
+        },
+        watch: {
+            theConf (configs) {
+                if (configs.length > 0) {
+                    for (let i = 0; i < configs.length; i++){
+                        if (configs[i].name == 'site_url'){
+                            this.frontend_site = configs[i].value;
+                        }
+                    }
+                } 
             }
         },
         methods: {
@@ -87,9 +106,10 @@
             sidebarMiniToggle() {
                 let winW = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
                 if (winW > 991){
-                    $(this).toggleClass('sidebar-mini');
+                    this.$store.commit('sidebarMiniToggle');    
+                }else{
+                    this.$store.commit('sidebarHideenToggle');
                 }
-                this.$store.commit('sidebarMiniToggle');
             }
         }
     }

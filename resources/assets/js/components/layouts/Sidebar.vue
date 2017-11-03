@@ -7,7 +7,7 @@
             <div class="sidebar-content">
                 <!-- Side Header -->
                 <div class="side-header side-content">
-                    <button class="btn btn-link text-white pull-right hidden-md hidden-lg" type="button" data-toggle="layout" data-action="sidebar_close">
+                    <button class="btn btn-link text-white pull-right hidden-md hidden-lg"  @click='sidebarMiniToggle'>
                         <i class="fa fa-times"></i>
                     </button>
                     <router-link class="h5 text-white" to="/">
@@ -64,6 +64,14 @@
                     if ('isOpen' in this.menus[i] && this.menus[i].name != menu.name){
                         this.menus[i].isOpen = false;
                     }
+                }
+            },
+            sidebarMiniToggle() {
+                let winW = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+                if (winW > 991){
+                    this.$store.commit('sidebarMiniToggle');    
+                }else{
+                    this.$store.commit('sidebarHideenToggle');
                 }
             }
         }

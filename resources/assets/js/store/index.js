@@ -5,9 +5,15 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
 	state: {
+		apiUrl: {
+			profile: 'profile',
+			setting: 'setting'
+		},
 		isMini : false,
+		isHideen : false,
 		token : null,
 		theUser : {},
+		theConf : [],
 		mediaIsChecked: false,
 		checkedMedia: {},
 	},
@@ -24,21 +30,18 @@ const store = new Vuex.Store({
 		sidebarMiniToggle (state) {
 	  		state.isMini = !state.isMini;
 		},
-		// 获取当前用户信息
-		getUserInfo (state) {
-            Vue.http.get('profile')
-                .then(function (res) {
-                    let user = res.data.data;
-                    state.theUser = user;
-                })
-                .catch(function (res) {
-                    console.log(res);
-                }); 
+		sidebarHideenToggle (state) {
+			state.isHideen = !state.isHideen;
+		},
+
+		setUserInfo (state,user) {
+			state.theUser = user; 
 		},
 		forgetUserInfo(state) {
 			state.theUser = {};
 			state.theRole = {};
 		},
+
 		setToken(state,token) {
 			localStorage.setItem("token", token);
 			state.token = token;
@@ -47,12 +50,18 @@ const store = new Vuex.Store({
 			localStorage.removeItem("token");
 			state.token = null;
 		},
+
 		changeMediaState(state, mark){
 			state.mediaIsChecked = mark;
 		},
 		changeMediaData(state, data){
 			state.checkedMedia = data;
+		},
+
+		setConfig(state, data){
+			state.theConf = data;
 		}
+
 	},
 	actions: {
 		login({ commit }, { token } ) {
@@ -65,7 +74,28 @@ const store = new Vuex.Store({
 		changeMedia({ commit }, { mark, data }){
 			commit('changeMediaState', mark);
 			commit('changeMediaData', data);
-		}
+		},
+
+		getUserInfo(context) {
+	      Vue.http.get(context.state.apiUrl.profile)
+	        .then(function (res) {
+	          	context.commit('setUserInfo', res.data.data)
+	        })                
+	        .catch(function (res) {
+                console.log(res);
+            });			
+		},
+
+		config (context) {
+	      Vue.http.get(context.state.apiUrl.setting)
+	        .then(function (res) {
+	        	context.commit('setConfig', res.data.settings)
+	        })
+	        .catch(function (res) {
+                console.log(res);
+            });	
+	    }
+
 	},
 });
 

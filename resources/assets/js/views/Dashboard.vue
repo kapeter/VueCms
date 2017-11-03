@@ -1,5 +1,6 @@
 <template>
-    <div id="page-container" class="sidebar-l sidebar-o side-scroll header-navbar-fixed" :class="{ 'sidebar-mini' : isMini }">
+    <div id="page-container" class="sidebar-l sidebar-o side-scroll header-navbar-fixed" 
+        :class="{ 'sidebar-mini' : isMini, 'sidebar-o-xs' : isHideen }">
         <div v-if="isLogin">
             <SideBar></SideBar>
             <HeaderBar></HeaderBar>
@@ -39,24 +40,33 @@
             isMini() {
                 return this.$store.state.isMini;
             },
+            isHideen() {
+                return this.$store.state.isHideen;
+            },
             isLogin() {
                 return this.$store.state.theUser != {}
             }
         },
         mounted () {
-            let _self = this;
-            let resizeTimeout = null;
+            this.setMinHeight();
+            this.$store.dispatch('config')
+        },
+        methods: {
+            setMinHeight() {
+                let _self = this;
+                let resizeTimeout = null;
 
-            _self.minH = window.outerHeight- 110;
+                _self.minH = window.outerHeight- 110;
 
-            window.onresize = () => {
+                window.onresize = () => {
 
-                clearTimeout(resizeTimeout);
+                    clearTimeout(resizeTimeout);
 
-                resizeTimeout = setTimeout(function(){
-                    _self.minH = window.outerHeight - 110;
-                }, 150);
-                
+                    resizeTimeout = setTimeout(function(){
+                        _self.minH = window.outerHeight - 110;
+                    }, 300);
+                    
+                }                
             }
         }
     }

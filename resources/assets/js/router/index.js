@@ -105,7 +105,7 @@ router.beforeEach((to, from, next) => {
             next({path : '/'});
         }else{
             if (!router.app.$store.getters.hasUserInfo){
-                router.app.$store.commit('getUserInfo');
+                router.app.$store.dispatch('getUserInfo');
             }
             next();
         }    
