@@ -40,8 +40,8 @@ class PostRepository
         	$result = $result->where('recommend', 'like', '%'.$request->recommend.'%');
         }
 
-        if (isset($request->keyword)){
-        	$result = $result->where('title', 'like', '%'.$request->keyword.'%');
+        if (isset($request->filter)){
+        	$result = $result->where('title', 'like', '%'.$request->filter.'%');
         }
 
         if ( isset($request->sort) ){
