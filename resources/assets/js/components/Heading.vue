@@ -1,7 +1,7 @@
 <template>
     <!-- Page Header -->
-    <div class="content bg-gray-lighter">
-        <div class="row items-push">
+    <div class="content">
+        <div class="row">
             <div class="col-sm-7">
                 <h1 class="page-heading">
                     {{ title }} <small>{{ subTitle }}</small>

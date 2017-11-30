@@ -37,7 +37,8 @@
 	        text-align: center;
 	    }
 	    .loading-box p{
-	    	line-height: 2;
+	    	margin-top: 15px;
+	    	font-size: 16px;
 	    }
 
 		::-webkit-scrollbar  
@@ -57,7 +58,7 @@
     <div id="loading" class="loading">
         <div class="loading-box">
             <img src="/img/loading.gif"> 
-            <p>加载什么的最讨厌啦</p>              
+            <p>Now Loading …</p>              
         </div>
     </div>
   	<div id="app" v-cloak></div>

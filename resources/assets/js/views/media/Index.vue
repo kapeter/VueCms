@@ -1,8 +1,8 @@
 <template>
 	<div>
 	    <!-- Page Header -->
-	    <div class="content bg-gray-lighter">
-	        <div class="row items-push">
+	    <div class="content">
+	        <div class="row">
 	            <div class="col-sm-6">
 	                <ul class="nav nav-pills">
 						<li v-for="crumb in crumbsArr" @click="turnToFolder(crumb)">
@@ -48,7 +48,7 @@
                     </div>
                 </div>
 				<div class="col-sm-6 col-md-4 col-lg-2" v-for="item in currentList">
-                    <div class="block block-rounded media-box"  @click.prevent="clickBoxEvent(item)">
+                    <div class="block media-box"  @click.prevent="clickBoxEvent(item)">
                         <div class="block-header">
                             <ul class="block-options">
                                 <li title="下载" v-if="item.type != 'folder'">
@@ -586,7 +586,7 @@
 		white-space: nowrap;
 	}
 	.media-box{
-		border: 1px solid rgba(0,0,0,.1);
+		border: 1px solid rgba(0,0,0,0);
 		transition: all 0.25s ease-out;
 		cursor: pointer;
 	}

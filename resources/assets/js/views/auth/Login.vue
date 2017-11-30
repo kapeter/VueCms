@@ -181,7 +181,7 @@
         background-color: #fff;
         padding:30px 45px;
         box-sizing: border-box;
-        box-shadow: 0 1px 5px rgba(0,0,0,.15);
+        box-shadow: 0px 1px 15px 1px rgba(113, 106, 202, 0.08);
         position: relative;
         z-index: 10;
     }

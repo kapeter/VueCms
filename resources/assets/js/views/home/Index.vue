@@ -1,19 +1,5 @@
 <template>
-	<div>
-	    <!-- Page Header -->
-        <div class="bg-image overflow-hidden" style="background-image: url('/img/header-bg.jpg');">
-            <div class="content">
-                <div class="block block-transparent">
-                    <div class="block-content block-content-full">
-                        <h1 class="h1 font-w300 push-50-t push-5">Hello, Master</h1>
-                        <h2 class="h5 font-w300">Always believe that something wonderful is about to happen.</h2>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-	    <!-- END Page Header -->
-	    
+	<div>	    
         <!-- Page Content -->
         <div class="content">
             <!-- Stats -->

@@ -91,8 +91,8 @@
                 </div>
                 <div class="block-content block-content-full text-center">
                    
-                    <button class="btn btn-sm btn-info" type="submit" @click.prevent="submitData()"><i class="fa fa-check push-5-r"></i> 保存设置 </button>
-                    <button class="btn btn-sm btn-warning" @click.prevent="resetData()"><i class="fa fa-refresh push-5-r"></i> 重置表单 </button>
+                    <button class="btn btn-info" type="submit" @click.prevent="submitData()"><i class="fa fa-check push-5-r"></i> 保存设置 </button>
+                    <button class="btn btn-warning" @click.prevent="resetData()"><i class="fa fa-refresh push-5-r"></i> 重置表单 </button>
                 </div>
             </div>
         </form>
