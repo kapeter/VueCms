@@ -15,9 +15,9 @@ mix.copyDirectory('resources/assets/img','public/img');
 mix.copyDirectory('resources/assets/js/plugins','public/js/plugins');
 
 //封装OneUI的CSS和JS
-mix.combine(['resources/assets/css/simplemde.css'],'public/css/simplemde.css');
+mix.styles(['resources/assets/css/simplemde.css'],'public/css/simplemde.css');
 
-mix.combine([
+mix.styles([
     'resources/assets/css/bootstrap.min.css',
     'resources/assets/css/oneui.css',
     'resources/assets/css/sweetalert.css',
@@ -36,16 +36,7 @@ mix.js([
 
 mix.js('resources/assets/js/app.js', 'public/js')
     .webpackConfig({
-        output: { chunkFilename: 'js/chunks/[id].chunk.js', publicPath: '/' },
-        module: {
-            rules: [{
-              test: /\.js?$/,
-              use: [{
-                loader: 'babel-loader',
-                options: mix.config.babel()
-              }]
-            }]
-        }
+        output: { chunkFilename: 'js/chunks/[name].js', publicPath: '/' }
     });
 
 if (mix.inProduction()) {

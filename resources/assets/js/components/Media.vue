@@ -76,8 +76,9 @@
                         drag
                         :action="routeList.uploadUrl"
                         :data="uploadData"
-                        :on-remove="removeFileInUpload"
+                        :on-remove="handleRemove"
                         :http-request="uploadFile"
+                        :on-success="handleSuccess"
                         multiple>
                         <i class="el-icon-upload"></i>
                         <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
@@ -215,7 +216,7 @@
                 }
             },
             //上传组件中移除文件的回调函数
-            removeFileInUpload(file, fileList) {
+            handleRemove(file, fileList) {
                 let _self = this;
                 let filePath = file.response;
                 _self.$http.post(_self.routeList.delFileUrl, { 'origin': filePath, 'type': 'file' })
@@ -237,6 +238,10 @@
                 formData.append(option.filename, option.file);
 
                 _self.$http.post(_self.routeList.uploadUrl, formData);
+            },
+            handleSuccess () {
+                console.log('dasda');
+                this.browseList();
             }
         }
 		

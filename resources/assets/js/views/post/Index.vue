@@ -25,7 +25,7 @@
 						    @vuetable:pagination-data="onPaginationData"
 						    :append-params="moreParams">
 							<template slot="publishSwitch" slot-scope="props">
-								<el-switch v-model="props.rowData.is_publish" on-text="ON" off-text="OFF" @change="changePublish(props.rowData)"></el-switch>
+								<el-switch v-model="props.rowData.is_publish" @change="changePublish(props.rowData)"></el-switch>
 						    </template>
 							<template slot="actions" slot-scope="props">
 						    	<div class="custom-actions">

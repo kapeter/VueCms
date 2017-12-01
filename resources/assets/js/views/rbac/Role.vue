@@ -44,7 +44,7 @@
 	     	</div>   
         </div>
 
-        <ElDialog :title="dialogTitle" v-model="dialogVisible">
+        <ElDialog :title="dialogTitle" :visible.sync="dialogVisible" width="36%">
             <form class="form-horizontal">
                 <div class="form-group" :class="{ 'has-error' : errors.has('name') || !uniqueCheck }">
                     <label for="slug" class="col-sm-2 control-label">唯一标识</label>
@@ -79,7 +79,7 @@
         </ElDialog>
 
         <!-- 配置权限 -->
-        <ElDialog :title="confDialogTitle" v-model="confDialogVisible">
+        <ElDialog :title="confDialogTitle" :visible.sync="confDialogVisible" width="36%">
             <form class="form-horizontal">
                 <div class="table-responsive">
                     <table class="table table-condensed">

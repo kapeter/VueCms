@@ -47,7 +47,7 @@
 	     	</div>   
         </div>
         <!-- END Page Content -->
-        <ElDialog title="新增用户" v-model="createDialogVisible">
+        <ElDialog title="新增用户" :visible.sync="createDialogVisible" width="36%">
             <form class="form-horizontal">
                 <div class="form-group" :class="{ 'has-error' : errors.has('email') || !uniqueCheck }">
                     <label for="slug" class="col-sm-2 control-label">登录邮箱</label>
@@ -98,7 +98,7 @@
         </ElDialog>
 
 		<!-- 编辑用户信息 -->
-        <ElDialog title="编辑用户信息" v-model="editDialogVisible">
+        <ElDialog title="编辑用户信息" :visible.sync="editDialogVisible" width="36%">
             <form class="form-horizontal">
             	<input type="hidden" name="id" v-model="currentID">
                 <div class="form-group">
@@ -250,7 +250,6 @@
                 this.createDialogVisible = true;
             },
             editDialog(data) {
-                console.log(data);
                 this.formData = {
                 	email: data.email,
                     name: data.name,

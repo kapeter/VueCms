@@ -11,6 +11,7 @@ const router = new VueRouter({
     routes: [
         {
             path: '/login',
+            name: 'login',
             component: () => import('../views/auth/Login.vue')
         },
         {
@@ -19,6 +20,7 @@ const router = new VueRouter({
             children: [
                 {
                     path: '/',
+                    name: 'dashboard',
                     component: () => import('../views/home/Index.vue')
                 },
                 {
@@ -44,14 +46,17 @@ const router = new VueRouter({
                 },
                 {
                     path: 'media',
+                    name: 'media',
                     component: () => import('../views/media/Index.vue')
                 },
                 {
                     path: 'profile',
+                    name: 'profile',
                     component: () => import('../views/profile/Index.vue')
                 },
                 {
                     path: 'setting',
+                    name: 'setting',
                     component: Parent,
                     children: [
                         {
@@ -61,6 +66,7 @@ const router = new VueRouter({
                         },
                         {
                             path: 'system',
+                            name: 'system',
                             component: () => import(/* webpackChunkName: "setting" */ '../views/setting/System.vue')
                         },
                     ]
@@ -71,20 +77,24 @@ const router = new VueRouter({
                     children: [
                         {
                             path: 'user',
+                            name: 'user',
                             component: () => import(/* webpackChunkName: "rbac" */ '../views/rbac/User.vue')
                         },
                         {
                             path: 'role',
+                            name: 'role',
                             component: () => import(/* webpackChunkName: "rbac" */ '../views/rbac/Role.vue')
                         },
                         {
                             path: 'permission',
+                            name: 'permission',
                             component: () => import(/* webpackChunkName: "rbac" */ '../views/rbac/Permission.vue')
                         },
                     ]
                 },
                 {
                     path: 'log',
+                    name: 'log',
                     component: () => import('../views/log/Index.vue')
                 },
 

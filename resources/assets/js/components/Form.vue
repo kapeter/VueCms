@@ -104,7 +104,7 @@
 			    </div>
 			</div>	
 		</form>
-		<ElDialog title="添加媒体" v-model="mediaDialogVisible" size="large">
+		<ElDialog title="添加媒体" :visible.sync="mediaDialogVisible"  width="90%" top="2vh">
 			<vue-media :isClosed="!mediaDialogVisible"></vue-media>
 			<span slot="footer">
 	            <button class="btn btn-default" @click="mediaDialogVisible = false">关  闭</button>

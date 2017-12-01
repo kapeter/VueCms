@@ -38,7 +38,7 @@
 	     	</div>   
         </div>
 
-        <ElDialog :title="dialogTitle" v-model="dialogVisible">
+        <ElDialog :title="dialogTitle" :visible.sync="dialogVisible" width="36%">
             <form class="form-horizontal">
                 <div class="form-group" :class="{ 'has-error' : errors.has('route') || !uniqueCheck }">
                     <label for="slug" class="col-sm-2 control-label">唯一路由</label>

@@ -7,7 +7,7 @@
         		<div class="col-lg-9 col-md-8">
 			        <!-- Block Tabs Alternative Style -->
                     <div class="block">
-                        <form>
+                        <form style="padding:10px 20px">
                             <el-tabs v-model="tabActiveName">
                                 <el-tab-pane label="基础设置" name="basic">
                                     <div class="form-group" v-for="item in devideTab(settingData,'basic')">

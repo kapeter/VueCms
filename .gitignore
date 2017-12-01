@@ -1,12 +1,21 @@
-/node_modules
+# laravel
 /public
-/resources/assets/js/config/config.js
 /storage/*.key
 /vendor
 /.idea
-Homestead.json
-Homestead.yaml
 .env
-yarn.lock
+
+# composer
 composer.lock
+
+# node
+/node_modules
+
+# npm
 npm-debug.log.*
+
+# yarn
+yarn-error.log
+
+# frontend
+/resources/assets/js/config/config.js

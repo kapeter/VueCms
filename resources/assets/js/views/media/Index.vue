@@ -19,7 +19,7 @@
 							</button>
 						</li>
 						<li>
-							<button class="btn btn-info" @click="createDictVisible = true">
+							<button class="btn btn-info" @click="openNewDict()">
 								<i class="fa fa-plus"></i> 新增文件夹
 							</button>
 						</li>
@@ -212,6 +212,10 @@
 			}
 		},
 		methods: {
+			openNewDict() {
+				this.createDictVisible = true;
+				this.newDictObj = { value:'', hasError: false, errorText: ''};
+			},
 			openAddMedia() {
 				this.addMediaVisible = true;
 				this.selectedDict = this.currentDict.split('/');

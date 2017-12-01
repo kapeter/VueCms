@@ -52,7 +52,7 @@
         <!-- END Page Content -->
 
         <!-- Create Model -->
-        <ElDialog :title="modalTitle" v-model="dialogVisible" size="tiny">
+        <ElDialog :title="modalTitle" :visible.sync="dialogVisible" width="36%">
             <form class="form-horizontal">
                 <input type="hidden" name="id" v-model="currentID">
                 <div class="form-group" :class="{ 'has-error' : errors.has('name')  }">
