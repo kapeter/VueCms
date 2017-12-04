@@ -53,4 +53,7 @@ $api->version('v1',['middleware' => 'cors', 'namespace' => 'App\Http\Controllers
 	$api->get('setting/system', 'SettingController@system');
 	$api->get('setting', 'SettingController@index');
 	$api->post('setting', 'SettingController@store');
+
+	//Mail
+	$api->post('mail/send', 'MailController@index');
 });
