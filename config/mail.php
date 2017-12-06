@@ -120,4 +120,7 @@ return [
         ],
     ],
 
+    // 收发频率
+    'rate' => env('MAIL_ACCEPT_RATE', '10')
+
 ];

@@ -22,11 +22,14 @@ class contactMe extends Mailable
      *
      * @return void
      */
-    public function __construct($mySender, $mySubject, $myContent)
+    public function __construct($data)
     {
-        $this->mySender  = $mySender;
-        $this->mySubject  = $mySubject;
-        $this->myContent = $myContent;
+        $this->mySender = [
+            'address' => $data['email'],
+            'name' => $data['name']
+        ];
+        $this->mySubject = '来自kapeter.com的邮件 - '.$data['subject'];
+        $this->myContent = $data['content'];
     }
 
     /**
