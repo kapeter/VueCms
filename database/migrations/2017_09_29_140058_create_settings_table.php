@@ -18,6 +18,7 @@ class CreateSettingsTable extends Migration
             $table->string('name')->unique();
             $table->string('title');
             $table->string('type');
+            $table->string('info')->nullable();
             $table->string('value')->nullable();
             $table->boolean('is_public');
             $table->timestamps();

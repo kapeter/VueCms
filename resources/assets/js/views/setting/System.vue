@@ -11,7 +11,10 @@
                             <el-tabs v-model="tabActiveName">
                                 <el-tab-pane label="基础设置" name="basic">
                                     <div class="form-group" v-for="item in devideTab(settingData,'basic')">
-                                        <label :for="item.name" class="control-label">{{ item.title }}</label>
+                                        <label :for="item.name" class="control-label">
+                                            {{ item.title }}
+                                            <span class="font-s13" v-if="item.info">（<i class="fa fa-info"></i> {{ item.info }}）</span>
+                                        </label>
                                         <input type="text" :name="item.name" v-model="item.value" class="form-control">
                                     </div>
                                 </el-tab-pane>

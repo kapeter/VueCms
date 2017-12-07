@@ -98,6 +98,20 @@ trait BaseRepository
     {
         return null == $request->header('authorization') ? true : false;
     }
+
+    /**
+    *  通过某一字段查询值
+    *
+    *  @param  $column 字段名
+    *  @param  $data 字段值
+    * 
+    */
+   
+   public function getByColumn($column, $data)
+   {
+       return $this->model->where($column, $data)->get()->toArray();
+   }
+
 }
 
 ?>

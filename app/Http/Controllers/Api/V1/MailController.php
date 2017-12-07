@@ -7,21 +7,28 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\contactMe;
 use App\Http\Controllers\Api\V1\BaseController;
 use App\Repositories\MailRepository;
+use App\Repositories\SettingRepository;
 
 class MailController extends BaseController
 {
     protected $mailRepository;
 
-    public function __construct(MailRepository $mailRepository)
+    protected $settingRepository;
+
+    public function __construct(MailRepository $mailRepository, SettingRepository $settingRepository)
     {
         parent::__construct();
         
         $this->mailRepository = $mailRepository;
 
+        $this->settingRepository = $settingRepository;
+
         $this->middleware('blog.api', ['except' => ['send']]);
     }
+
+    
     /**
-     * Display a listing of the resource.
+     * 发送邮件给管理员邮箱
      *
      * @return \Illuminate\Http\Response
      */
@@ -34,7 +41,15 @@ class MailController extends BaseController
         );
 
         if ($this->mailRepository->checkRate($data['user_ip'])){
-            //Mail::to('121811847@qq.com')->send(new contactMe($data));
+            
+            // 将发送邮件加入消息队列
+            $adminEmailstr = $this->settingRepository->getByColumn('name', 'admin_email');
+            if (is_array($adminEmailstr) && !is_null($adminEmailstr[0]['value'])){
+                $adminEmails = explode(',', $adminEmailstr[0]['value']);
+                foreach ($adminEmails as $to) {
+                    Mail::to($to)->queue(new contactMe($data));  
+                }                
+            }
 
             foreach ($data as $value) {
                 $value = htmlentities($value, ENT_QUOTES, 'UTF-8');

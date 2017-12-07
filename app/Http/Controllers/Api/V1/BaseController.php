@@ -29,7 +29,7 @@ class BaseController extends Controller
         10011 => ['code' => 10011, 'message' => '该角色下有用户存在，不可删除'],
         10012 => ['code' => 10012, 'message' => '未搜寻到结果'],
         10013 => ['code' => 10013, 'message' => '邮件发送失败'],
-        10014 => ['code' => 10014, 'message' => '邮件发送频率过快']
+        10014 => ['code' => 10014, 'message' => '邮件发送频率过快，请稍后再试']
     ];
 
     public function __construct()
