@@ -18,8 +18,8 @@ $api = app('Dingo\Api\Routing\Router');
 $api->version('v1',['middleware' => 'cors', 'namespace' => 'App\Http\Controllers\Api\V1'], function ($api) {
 
 	//Auth
-	$api->post('/login', 'Auth\LoginController@login');
-	$api->post('/logout', 'Auth\LoginController@logout');
+	$api->post('/login', 'AuthController@login');
+	$api->post('/logout', 'AuthController@logout');
 
 	//RBAC
 	$api->resource('user','UserController');

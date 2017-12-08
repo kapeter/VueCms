@@ -113,7 +113,7 @@
                     if (result) {
                         _self.$http.post(_self.loginUrl, _self.loginData)
                             .then(function (res) {
-                                if (res.data.code && res.data.code != 10000){
+                                if ('code' in res.data && res.data.code != 10000){
                                     _self.loginError = true;
                                     _self.loginErrorText = res.data.message;
                                 }else{

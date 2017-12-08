@@ -46,7 +46,14 @@ export default [
         icon : 'si si-settings',
         uri  : '/setting/system',
     },
-
+    {
+        name : 'Message Interface',
+    },
+    {
+        name : '邮件管理',
+        icon : 'si si-envelope',
+        uri  : '/mail',
+    },
     {
         name : 'RBAC Interface',
     },

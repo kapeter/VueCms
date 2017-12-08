@@ -97,7 +97,11 @@ const router = new VueRouter({
                     name: 'log',
                     component: () => import('../views/log/Index.vue')
                 },
-
+                {
+                    path: 'mail',
+                    name: 'mail',
+                    component: () => import('../views/message/Inbox.vue')
+                },
             ]
         },
         {

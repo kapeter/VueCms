@@ -30,7 +30,7 @@ class SettingController extends BaseController
 			'system' => ['label' => '操作系统', 'value' => php_uname('s').' '.php_uname('r') ],
          'server_name' => ['label' => '服务器软件', 'value' =>  $_SERVER['SERVER_SOFTWARE'] ],
          'php'    => ['label' => 'PHP版本', 'value' => PHP_VERSION ],
-			'http_host' => ['label' => '后台域名', 'value' => $_SERVER["HTTP_HOST"] ]
+			'http_host' => ['label' => 'API域名', 'value' => $_SERVER["HTTP_HOST"] ]
 		];
 
       $query = DB::select('select version()');

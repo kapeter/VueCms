@@ -22,7 +22,7 @@
                             :append-params="moreParams">
                             <template slot="devideName" slot-scope="props">
                                 <h4 class="h5 text-info">{{ props.rowData.name }}</h4>
-                                <span class="font-s13 text-muted">/ {{ props.rowData.slug }}</span>
+                                <span class="font-s12 text-muted">{{ props.rowData.slug }}</span>
                             </template>
                             <template slot="recentLink" slot-scope="props">
                                 <span v-if="props.rowData.detail.count == 0">无</span>
@@ -31,7 +31,7 @@
                                         {{ props.rowData.detail.article.title }}
                                     </a>
                                     <br>
-                                    <em class="font-s13 text-muted">updated {{ props.rowData.detail.article.updated_at }}</em>
+                                    <em class="font-s12 text-muted">updated {{ props.rowData.detail.article.updated_at }}</em>
                                 </span>
                             </template>
                             <template slot="actions" slot-scope="props">

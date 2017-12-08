@@ -3,7 +3,7 @@
 	    <!-- Page Header -->
 	    <div class="content">
 	        <div class="row">
-	            <div class="col-sm-6">
+	            <div class="col-sm-6 media">
 	                <ul class="nav nav-pills">
 						<li v-for="crumb in crumbsArr" @click="turnToFolder(crumb)">
 							<a href="javascript:void(0)" v-if="crumb == 'public'"><i class="fa fa-fw fa-folder-open-o push-5-r"></i>媒体库</a>
@@ -87,7 +87,7 @@
 			</div>
         </div>
         <!-- 添加媒体Modal -->
-        <ElDialog title="添加媒体" :visible.sync="addMediaVisible" size="tiny" :before-close="closeAddMedia">
+        <ElDialog title="添加媒体" :visible.sync="addMediaVisible" width="36%" :before-close="closeAddMedia">
         	<div class="push-5">
         		<span class="text-info"><i class="fa fa-exclamation"></i> 若文件夹为空，则上传至媒体根目录。</span>
         	</div>
@@ -121,7 +121,7 @@
         <!-- 添加媒体Modal End-->
 
         <!-- 新增文件夹Modal -->
-        <ElDialog title="新增文件夹" :visible.sync="createDictVisible" size="tiny">
+        <ElDialog title="新增文件夹" :visible.sync="createDictVisible" width="36%">
         	<div class="form-group">
 	          	<el-cascader
 	          		ref="dict-cascader"
@@ -144,7 +144,7 @@
         <!-- 新增文件夹Modal End-->
 
         <!-- 详细信息Modal -->
-        <ElDialog title="详细信息" :visible.sync="detailVisible" size="tiny">
+        <ElDialog title="详细信息" :visible.sync="detailVisible" width="36%">
         	<div class="media-detail">
         		<img v-if="activeItem.type == 'image'" :src="activeItem.url">
 				<dl>
@@ -555,17 +555,18 @@
 		text-indent: 2em;
 		word-break: break-word;
 	}
-	.nav-pills{
+	.media .nav-pills{
 		font-size: 18px;
 	}
-	.nav-pills > li > a{
+	.media .nav-pills > li > a{
 		font-weight: normal;
 		text-transform: uppercase;
 		padding: 0;
 		padding-top: 6px;
 	}
-	.nav-pills > li > a:hover{
+	.media .nav-pills > li > a:hover,.media .nav-pills > li > a:focus{
 		color: #66ccff;
+		background-color: transparent;
 	}
 	.item{
 		font-size: 32px;

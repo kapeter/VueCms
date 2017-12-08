@@ -1561,8 +1561,7 @@ input[type="email"].form-control {
   background-color: #f4516c;
 }
 .nav-pills > li > a {
-  font-weight: 600;
-  color: #646464;
+  color: #666;
   border-radius: 3px;
 }
 .nav-pills > li > a:hover,
@@ -1574,10 +1573,10 @@ input[type="email"].form-control {
 .nav-pills > li.active > a:hover,
 .nav-pills > li.active > a:focus {
   color: #fff;
-  background-color: #5c90d2;
+  background-color: #66ccff;
 }
 .nav-pills > li.active > a > .badge {
-  color: #5c90d2;
+  color: #66ccff;
 }
 .pagination {
   border-radius: 0;
