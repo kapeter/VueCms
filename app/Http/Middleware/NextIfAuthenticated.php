@@ -5,9 +5,9 @@ use Closure;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Tymon\JWTAuth\Exceptions\JWTException;
-use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Tymon\JWTAuth\Http\Middleware\BaseMiddleware;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class NextIfAuthenticated extends BaseMiddleware {
 

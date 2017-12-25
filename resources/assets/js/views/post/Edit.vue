@@ -20,7 +20,7 @@
  				</div>
  			</vue-form>
         </div>
-        <ElDialog title="封面图片" v-model="posterDialogVisible" size="large">
+        <ElDialog title="封面图片" :visible.sync="posterDialogVisible"  width="90%" top="2vh">
 			<vue-media :isClosed="!posterDialogVisible"></vue-media>
 			<span slot="footer">
 	            <button class="btn btn-default" @click="posterDialogVisible = false">关  闭</button>
