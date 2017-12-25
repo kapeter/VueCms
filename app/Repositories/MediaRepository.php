@@ -13,7 +13,6 @@ use Illuminate\Http\File;
 */
 class MediaRepository 
 {
-	protected $rootPath = 'public';
 
 	protected $tempPath = 'temp';
 
@@ -27,9 +26,7 @@ class MediaRepository
 	// make a new folder
 	public function make($directory)
 	{
-		$path = $this->rootPath.'/'.$directory;
-
-		return Storage::makeDirectory($path);
+		return Storage::makeDirectory($directory);	
 	}
 
     /**
@@ -57,11 +54,15 @@ class MediaRepository
      *
      * @return Array
      */
-	public function folders()
+	public function folderIsExist($current, $newDirectory)
 	{
-		 $allPath = Storage::allDirectories($this->rootPath);
+		 $folders = Storage::directories($current);
 
-		 return json_encode($this->format($allPath));
+		 if (in_array($newDirectory, $folders)){
+		 	return true;
+		 }else{
+		 	return false;
+		 }
 	}
 
     /**
@@ -112,7 +113,7 @@ class MediaRepository
 			return false;
 		}else{
 			$this->delFile($filePath);
-			return Storage::putFile($this->rootPath.$directory, $file);
+			return Storage::putFile($directory, $file);
 		}
 	}
 
@@ -155,49 +156,5 @@ class MediaRepository
 	  	for ($i = 0; $size >= 1024 && $i < 4; $i++) $size /= 1024; 
 
 	  	return round($size, 2).$units[$i]; 
-	}
-
-    /**
-     * change the format of path array
-     *
-     * @return Array
-     */
-	public function format($arr)
-	{
-		$result = [];
-		$temp = [];
-		$hand = -1;
-		foreach ($arr as $key => $value) {
-			$str = str_replace($this->rootPath.'/',"",$value);
-			$temp = explode("/", $str);
-			$len = sizeof($temp);
-			if ($len == 1){
-				$hand++;
-				$result[$hand]['value'] = $temp[0];
-				$result[$hand]['label'] = $temp[0];
-				continue;
-			}else{
-				if (!isset($result[$hand]['children'])){
-					$result[$hand]['children'] = [];
-				}
-				$child = &$result[$hand]['children'];
-				foreach ($temp as $sKey => $sValue) {
-					if ($sKey == $len - 1){
-						array_push($child,['value'=> $sValue,'label'=>$sValue]);
-					}else{
-						foreach ($child as $tKey => $tValue) {
-							if ($tValue['value'] == $sValue){
-								if (!isset($child[$tKey]['children'])){
-									$child[$tKey]['children'] = [];
-								}
-								$child = &$child[$tKey]['children'];
-								break;
-							}
-						}
-					}
-				}
-			}
-		}
-		return $result;
 	}
 }

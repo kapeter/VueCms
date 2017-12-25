@@ -3,7 +3,7 @@
         <!-- Header Navigation Right -->
         <ul class="nav-header pull-right">
             <li>
-                <a :href="frontend_site" class="btn btn-default pull-right" data-toggle="tooltip" title="返回前台" data-placement="bottom">
+                <a :href="frontend_site" class="btn btn-default pull-right" data-toggle="tooltip" title="返回前台" data-placement="bottom" target="_blank">
                     <i class="si si-grid"></i>
                 </a>
             </li>

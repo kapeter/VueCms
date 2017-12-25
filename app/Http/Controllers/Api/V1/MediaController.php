@@ -9,6 +9,7 @@ use App\Transformers\MediaTransformer;
 
 class MediaController extends BaseController
 {
+    
     protected $mediaRepository;
 
     public function __construct(MediaRepository $mediaRepository)
@@ -53,10 +54,14 @@ class MediaController extends BaseController
     public function create(Request $request)
     {
         $path = $request->get('path');
+        $fullPath = $path . '/' . $request->get('name');
 
-        $this->mediaRepository->make($path);
-
-        return $this->mediaRepository->folders();
+        if (!$this->mediaRepository->folderIsExist($path, $fullPath)){
+            $this->mediaRepository->make($fullPath);
+            return $this->response->array($this->errorMsg[10000]);            
+        }else{
+            return $this->response->array($this->errorMsg[11002]);
+        }
     }
 
     /**
@@ -82,7 +87,7 @@ class MediaController extends BaseController
         $res = $this->mediaRepository->store($path, $file);
 
         if (!$res){
-            return $this->response->array($this->errorMsg[10007]);
+            return $this->response->array($this->errorMsg[11000]);
         }else{
             return $res;
         }
@@ -106,7 +111,7 @@ class MediaController extends BaseController
         }
 
         if (!$res){
-            return $this->response->array($this->errorMsg[10008]);
+            return $this->response->array($this->errorMsg[11001]);
         }else{
             return $this->response->array($this->errorMsg[10000]);
         }
@@ -121,9 +126,6 @@ class MediaController extends BaseController
     public function download(Request $request)
     {
         $path = storage_path('app').'/'.$request->get('path');
-
-        var_dump($path);
-        exit();
         
         return response()->download($path);
 

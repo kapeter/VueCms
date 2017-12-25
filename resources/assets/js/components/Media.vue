@@ -60,15 +60,13 @@
             </div>
             <div class="thumbnail-detail" v-show="!isChecked">
                 <h4>上传文件</h4>
-                <div class="form-group">
-                    <el-cascader
-                        ref="upload-cascader"
-                        :options="dictOptions"
-                        v-model="selectedDict"
-                        :change-on-select=true
-                        placeholder="请选择文件夹">
-                    </el-cascader>              
-                </div>
+                <ul class="current-list clearfix">
+                    <li><strong>当前文件夹：</strong></li>
+                    <li v-for="crumb in crumbsArr">
+                        <span v-if="crumb == 'public'">媒体库</span>
+                        <span v-else>/ {{ crumb }}</span>
+                    </li>
+                </ul>
                 <div>
                     <el-upload
                         ref="mediaUpload"
@@ -78,7 +76,7 @@
                         :data="uploadData"
                         :on-remove="handleRemove"
                         :http-request="uploadFile"
-                        :on-success="handleSuccess"
+                        :on-change="handleChange"
                         multiple>
                         <i class="el-icon-upload"></i>
                         <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
@@ -101,13 +99,9 @@
 		    	//API路由列表
 		    	routeList: {
 		    		browseUrl    : 'media',
-		    		newDictUrl   : 'media/create',
-		    		allDictUrl   : 'media/folders',
 		    		uploadUrl    : 'media/upload',
 		    		delFileUrl   : 'media/delete',
 		    	},
-				dictOptions: [],
-				selectedDict: [],
 				currentDict:'public',
 				currentList:[],
 				crumbsArr: ['public'],
@@ -119,7 +113,7 @@
         computed: {
             uploadData() {
                 return {
-                    'dict': this.selectedDict
+                    'dict': this.currentDict.split('/')
                 }
             },
             maxHeight() {
@@ -127,7 +121,6 @@
             }
         },
         mounted() {
-            this.allDicts();
             this.browseList();
         },
         beforeDestroy() {
@@ -159,17 +152,6 @@
                         console.log(error);
                     })
             }, 
-            //获取所有目录
-            allDicts() {
-                let _self = this;
-                _self.$http.get(_self.routeList.allDictUrl)
-                    .then(function (res) {
-                        _self.dictOptions = res.data;
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    })
-            },
             //返回上一级
             goBack(){
                 let temp = this.currentDict.split('/');
@@ -220,6 +202,9 @@
                 let _self = this;
                 let filePath = file.response;
                 _self.$http.post(_self.routeList.delFileUrl, { 'origin': filePath, 'type': 'file' })
+                    .then(function(res){
+                        _self.browseList();
+                    })
                     .catch(function (error) {
                         console.log(error);
                     });
@@ -239,8 +224,7 @@
 
                 _self.$http.post(_self.routeList.uploadUrl, formData);
             },
-            handleSuccess () {
-                console.log('dasda');
+            handleChange () {
                 this.browseList();
             }
         }
@@ -251,6 +235,17 @@
 
 
 <style> 
+    .current-list{
+        list-style: none;
+        padding: 0;
+        margin-bottom: 15px;
+    }
+    .current-list li{
+        float: left;
+        margin-right: 5px;
+        font-size: 16px;
+        text-transform: uppercase;
+    }
     .el-upload {
         width: 100%;
     }
