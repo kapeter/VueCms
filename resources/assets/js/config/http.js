@@ -1,10 +1,9 @@
 import axios from 'axios'
-import Config from './config'
 
 export default {
     install(Vue, option = {}) {
         const http = axios.create({
-		    baseURL: Config.baseUrl != '' ? Config.baseUrl : 'http://' + window.location.host + '/api/',
+		    baseURL: process.env.MIX_API_URL != '' ? process.env.MIX_API_URL : 'http://' + window.location.host + '/api/',
 		 // 	headers: {
 			// 	'Content-Type': 'application/x-www-form-urlencoded',
 			// },

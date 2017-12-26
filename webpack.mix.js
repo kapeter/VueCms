@@ -10,12 +10,10 @@ const { mix } = require('laravel-mix');
  | file for the application as well as bundling up all the JS files.
  |
  */
+
+//不需要打包
 mix.copyDirectory('resources/assets/fonts','public/fonts');
 mix.copyDirectory('resources/assets/img','public/img');
-mix.copyDirectory('resources/assets/js/plugins','public/js/plugins');
-
-//封装OneUI的CSS和JS
-mix.styles('resources/assets/css/simplemde.css','public/css/simplemde.css');
 
 mix.styles([
     'resources/assets/css/bootstrap.min.css',
@@ -23,7 +21,7 @@ mix.styles([
     'resources/assets/css/sweetalert.css',
 ], 'public/css/oneui.css');
 
-mix.combine([
+mix.scripts([
     'resources/assets/js/plugins/jquery.min.js',
     'resources/assets/js/plugins/bootstrap.min.js',
     'resources/assets/js/plugins/jquery.scrollLock.min.js',
@@ -31,11 +29,15 @@ mix.combine([
     'resources/assets/js/plugins/common.js',    
 ], 'public/js/oneui.js');
 
-mix.js('resources/assets/js/app.js', 'public/js');
-mix.webpackConfig({
-    output: { chunkFilename: 'js/chunks/[name].js', publicPath: '/' }
-});
 
-mix.version();
+//webpack打包
+mix.webpackConfig({
+    output: { chunkFilename: 'js/chunks/[name].js', publicPath: '/' },
+});
+mix.js('resources/assets/js/app.js', 'public/js').extract(['vue']);
+
+if (mix.inProduction()) {
+    mix.version();
+}
 
 

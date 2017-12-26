@@ -339,26 +339,6 @@ var App = function() {
      */
 
     /*
-     * Print Page functionality
-     *
-     * App.initHelper('print-page');
-     *
-     */
-    var uiHelperPrint = function() {
-        // Store all #page-container classes
-        var $pageCls = $lPage.prop('class');
-
-        // Remove all classes from #page-container
-        $lPage.prop('class', '');
-
-        // Print the page
-        window.print();
-
-        // Restore all #page-container classes
-        $lPage.prop('class', $pageCls);
-    };
-
-    /*
      * jQuery SlimScroll, for more examples you can check out http://rocha.la/jQuery-slimScroll
      *
      * App.initHelper('slimscroll');
@@ -437,9 +417,6 @@ var App = function() {
         },
         initHelper: function($helper) {
             switch ($helper) {
-                case 'print-page':
-                    uiHelperPrint();
-                    break;
                 case 'slimscroll':
                     uiHelperSlimscroll();
                     break;

@@ -2,7 +2,7 @@
 	<div>
         <page-heading title="编辑文章" subTitle="Edit Article" :crumbs="crumbs"></page-heading>
         <div class="content">
- 			<vue-form ref="vueForm" url="post" action="edit" :formFields="formFields" :moreParams="moreParams">
+ 			<vueForm ref="vueForm" url="post" action="edit" :formFields="formFields" :moreParams="moreParams">
  				<div slot="moreBox">
 					<div class="block block-themed">
 						<div class="block-header bg-info">
@@ -18,7 +18,7 @@
 						</div>
 					</div> 
  				</div>
- 			</vue-form>
+ 			</vueForm>
         </div>
         <ElDialog title="封面图片" :visible.sync="posterDialogVisible"  width="90%" top="2vh">
 			<vue-media :isClosed="!posterDialogVisible"></vue-media>
@@ -31,7 +31,11 @@
 </template>
 
 <script>
+	import vueForm from '../../components/Form.vue'
 	export default {
+		components: {
+		    vueForm
+		},
 		data() {
 			return {
 		    	crumbs: [

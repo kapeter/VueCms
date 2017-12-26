@@ -64,6 +64,8 @@
   	<div id="app" v-cloak></div>
 
  	<script src="{{ mix('js/oneui.js') }}"></script>
+ 	<script src="{{ mix('js/manifest.js') }}"></script>
+ 	<script src="{{ mix('js/vendor.js') }}"></script>
  	<script src="{{ mix('js/app.js') }}"></script>
  	<script type="text/javascript">
  		//移除loading动画

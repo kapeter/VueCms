@@ -12,16 +12,16 @@ const router = new VueRouter({
         {
             path: '/login',
             name: 'login',
-            component: () => import('../views/auth/Login.vue')
+            component: () => import(/* webpackChunkName: "auth" */ '../views/auth/Login.vue')
         },
         {
             path: '/',
-            component: () => import('../views/Dashboard.vue'),
+            component: () => import(/* webpackChunkName: "layout" */ '../views/Dashboard.vue'),
             children: [
                 {
                     path: '/',
                     name: 'dashboard',
-                    component: () => import('../views/home/Index.vue')
+                    component: () => import(/* webpackChunkName: "dashboard" */ '../views/home/Index.vue')
                 },
                 {
                     path: 'post',
@@ -47,12 +47,12 @@ const router = new VueRouter({
                 {
                     path: 'media',
                     name: 'media',
-                    component: () => import('../views/media/Index.vue')
+                    component: () => import(/* webpackChunkName: "media" */ '../views/media/Index.vue')
                 },
                 {
                     path: 'profile',
                     name: 'profile',
-                    component: () => import('../views/profile/Index.vue')
+                    component: () => import(/* webpackChunkName: "auth" */ '../views/profile/Index.vue')
                 },
                 {
                     path: 'setting',
@@ -95,18 +95,18 @@ const router = new VueRouter({
                 {
                     path: 'log',
                     name: 'log',
-                    component: () => import('../views/log/Index.vue')
+                    component: () => import(/* webpackChunkName: "log" */  '../views/log/Index.vue')
                 },
                 {
                     path: 'mail',
                     name: 'mail',
-                    component: () => import('../views/message/Inbox.vue')
+                    component: () => import(/* webpackChunkName: "message" */ '../views/message/Inbox.vue')
                 },
             ]
         },
         {
             path: '*',
-            component: () => import('../views/error/404.vue')
+            component: () => import(/* webpackChunkName: "error" */ '../views/error/404.vue')
         }
     ]
 })

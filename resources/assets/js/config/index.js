@@ -36,12 +36,8 @@ Vue.component(
     'filter-bar', require('../components/FilterBar.vue')
 );
 Vue.component(
-    'vue-form', require('../components/Form.vue')
-);
-Vue.component(
     'vue-media', require('../components/Media.vue')
 );
-
 Vue.component(
     'ElDialog', require('../components/dialog/src/component.vue')
 );

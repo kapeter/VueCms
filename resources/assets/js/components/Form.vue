@@ -16,11 +16,8 @@
 			     				<div v-if="formField.type == 'textarea'">
 			     					<textarea class="form-control" :name="formField.name" v-model="formField.value" :rows=" !formField.rows ? 3 : formField.rows" v-validate="formField.validate" :data-vv-as="formField.label"></textarea>
 			     				</div>
-			     				<div v-if="formField.type == 'editor'" class="editor-content">
-			     					<button class="btn btn-sm btn-default" @click.prevent="mediaDialogVisible = true">
-										<i class="fa fa-cloud-upload"></i> 添加媒体
-									</button>	
-			     					<textarea id="editor" :name="formField.name"></textarea>
+			     				<div v-if="formField.type == 'editor'">									
+									<tinyEditor v-model="formField.value" ref="tinyEditor"></tinyEditor>
 			     				</div>
 			     				<div v-if="formField.type == 'checkbox'">
 								  	<el-checkbox-group v-model="formField.value">
@@ -104,18 +101,12 @@
 			    </div>
 			</div>	
 		</form>
-		<ElDialog title="添加媒体" :visible.sync="mediaDialogVisible"  width="90%" top="2vh">
-			<vue-media :isClosed="!mediaDialogVisible"></vue-media>
-			<span slot="footer">
-	            <button class="btn btn-default" @click="mediaDialogVisible = false">关  闭</button>
-	            <button class="btn btn-info" @click="copyMediaUrl()" :disabled="!$store.state.mediaIsChecked">确定选择</button>
-	        </span>
-		</ElDialog>		
+	
 	</div>
 </template>
 
-<script>
-	import { default as SimpleMDE } from 'simplemde/dist/simplemde.min.js'
+<script>	
+	import tinyEditor from '../components/Editor.vue'
 	
 	export default {
 		props: {
@@ -135,16 +126,17 @@
 				required: true
 			}
 		},
+		components: {
+		    tinyEditor
+		},
         data() {
         	return {
-				simplemde: '',
 				uID: '',
 				createdDate: '',
 				updatedDate: '',
 				publishedDate: '',
 				categories: {},
 				categoryData: 1,
-				mediaDialogVisible: false,
         	}
         },
         computed: {
@@ -153,17 +145,15 @@
         	},
         	publishedStatus() {
         		return  this.publishedDate != '' ? '于 <u class="text-primary">'+ this.publishedDate + '</u> 发布' : '未发布';
-        	}
+        	},
 		},
 		mounted() {	
-			if (document.getElementById("editor")){
-				this.newEditor();			
-			}	
 			if (this.action && this.action == 'edit'){
 				this.loadData();
 			}else{
 				this.freshData();
 			}
+
 			this.getCategory();
 		},
 		methods: {
@@ -225,9 +215,6 @@
         					let temp = _self.formFields[i]; 
 							switch (temp.type)
 							{
-								case 'editor':
-									_self.simplemde.value(data[temp.name])
-									break;
 								case 'checkbox':
 									temp.value = [];
 									if (data[temp.name] != undefined && data[temp.name] != null){
@@ -276,25 +263,6 @@
 				let day = myDate.getDate();
 				return myDate.getFullYear() + "-" + (mon < 10 ? "0"+mon : mon) + "-" +(day < 10 ? "0"+day : day);				
 			},
-			// new a editor if needed
-			newEditor() {
-				this.simplemde = new SimpleMDE({
-		            element: document.getElementById("editor"),
-		            autoDownloadFontAwesome: false,
-		            tabSize: 4,
-		            toolbar: [
-		            	"heading","bold","italic", "strikethrough",
-		            	"|", 
-		            	"quote","code","unordered-list","ordered-list","horizontal-rule",
-		            	"|", 
-		            	"link","image","table",
-		            	"|",
-		            	"preview","side-by-side","fullscreen",
-		            	"|", 
-		            	"guide"
-		            ],
-		        });	
-			},
 			// serialize data
 			serialize() {
 				let formData = new FormData();
@@ -302,9 +270,6 @@
 					let temp = this.formFields[i];
 					switch (temp.type)
 					{
-						case 'editor':
-							temp.value = this.simplemde.value();
-							break;
 						case 'checkbox':
 							let x = [];
 							for (let i = 0; i < temp.value.length; i++){
@@ -348,15 +313,12 @@
 
 			copyMediaUrl() {
 				this.mediaDialogVisible = false;
-				this.simplemde.value(this.simplemde.value() +  this.$store.state.checkedMedia.url);
 			}
 		},
 	}
 </script>
 
 <style>
-	@import '/css/simplemde.css';
-
 	.block-content{
 		padding-bottom: 20px;
 	}
@@ -373,25 +335,6 @@
 	.form-category li{
 		list-style: none;
 		line-height: 34px;
-	}
-	.editor-toolbar{
-		padding-right: 100px;
-	}
-	.editor-content{
-		position: relative;
-	}
-	.editor-content > button {
-		position: absolute;
-		right: 10px;
-		top: 10px;
-		z-index: 100;
-	}
-	.editor-content img{
-		max-width: 100%;
-	}
-	.CodeMirror{
-		padding: 0 10px;
-		border-radius: 0px;
 	}
 	.el-checkbox{
 		color: #666
