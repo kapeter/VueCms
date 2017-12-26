@@ -88,7 +88,7 @@
 							<!-- 分类目录 -->
 							<div class="form-category row">
 							  	<el-radio-group v-model="categoryData">
-							    	<li v-for = "category in categories" class="col-md-6">
+							    	<li v-for = "category in categories" class="col-md-6 col-lg-4">
 							    		<el-radio :label="category.id">
 							    			{{ category.name }}
 							    		</el-radio>
@@ -341,6 +341,9 @@
 	}
 	.el-checkbox__inner{
 		border-radius: 0
+	}
+	.el-radio__label{
+		padding-left: 5px;
 	}
 	.editor-toolbar{
 		border-radius: 0;

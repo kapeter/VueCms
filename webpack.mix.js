@@ -32,7 +32,10 @@ mix.scripts([
 
 //webpack打包
 mix.webpackConfig({
-    output: { chunkFilename: 'js/chunks/[name].js', publicPath: '/' },
+    output: { 
+        chunkFilename:'js/chunks/[name].[chunkhash].js',
+        publicPath: '/'
+    },
 });
 mix.js('resources/assets/js/app.js', 'public/js').extract(['vue']);
 

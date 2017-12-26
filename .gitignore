@@ -16,6 +16,7 @@ npm-debug.log.*
 
 # yarn
 yarn-error.log
+yarn.lock
 
 # frontend
 /resources/assets/js/config/config.js
