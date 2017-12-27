@@ -22,8 +22,6 @@ mix.styles([
 ], 'public/css/oneui.css');
 
 mix.scripts([
-    'resources/assets/js/plugins/jquery.min.js',
-    'resources/assets/js/plugins/bootstrap.min.js',
     'resources/assets/js/plugins/jquery.scrollLock.min.js',
     'resources/assets/js/plugins/jquery.slimscroll.min.js',
     'resources/assets/js/plugins/common.js',    

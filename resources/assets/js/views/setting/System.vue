@@ -7,27 +7,39 @@
         		<div class="col-lg-9 col-md-8">
 			        <!-- Block Tabs Alternative Style -->
                     <div class="block">
-                        <form style="padding:10px 20px">
+                        <form>
                             <el-tabs v-model="tabActiveName">
                                 <el-tab-pane label="基础设置" name="basic">
-                                    <div class="form-group" v-for="item in devideTab(settingData,'basic')">
-                                        <label :for="item.name" class="control-label">
-                                            {{ item.title }}
-                                            <span class="font-s13" v-if="item.info">（<i class="fa fa-info"></i> {{ item.info }}）</span>
-                                        </label>
-                                        <input type="text" :name="item.name" v-model="item.value" class="form-control">
+                                    <div class="row">
+                                        <div class="col-sm-6 col-sm-offset-3 form-horizontal">
+                                            <div class="form-group" v-for="item in devideTab(settingData,'basic')">
+                                                <label :for="item.name">
+                                                    {{ item.title }}
+                                                    <span class="font-s13" v-if="item.info">（<i class="fa fa-info"></i> {{ item.info }}）</span>
+                                                </label>
+                                                <input type="text" :name="item.name" v-model="item.value" class="form-control">
+                                            </div>
+                                        </div>
                                     </div>
                                 </el-tab-pane>
                                 <el-tab-pane label="用户设置" name="user">
-                                    <div class="form-group" v-for="item in devideTab(settingData,'user')">
-                                        <label :for="item.name" class="control-label">{{ item.title }}</label>
-                                        <input type="text" :name="item.name" v-model="item.value" class="form-control">
+                                    <div class="row">
+                                        <div class="col-sm-6 col-sm-offset-3 form-horizontal">
+                                            <div class="form-group" v-for="item in devideTab(settingData,'user')">
+                                                <label :for="item.name">{{ item.title }}</label>
+                                                <input type="text" :name="item.name" v-model="item.value" class="form-control">
+                                            </div>
+                                        </div>
                                     </div>
                                 </el-tab-pane>
                                 <el-tab-pane label="自定义设置" name="diy">
-                                    <div class="form-group" v-for="item in devideTab(settingData,'diy')">
-                                        <label :for="item.name" class="control-label">{{ item.title }}</label>
-                                        <input type="text" :name="item.name" v-model="item.value" class="form-control">
+                                    <div class="row">
+                                        <div class="col-sm-6 col-sm-offset-3 form-horizontal">
+                                            <div class="form-group" v-for="item in devideTab(settingData,'diy')">
+                                                <label :for="item.name">{{ item.title }}</label>
+                                                <input type="text" :name="item.name" v-model="item.value" class="form-control">
+                                            </div>
+                                        </div>
                                     </div>
                                 </el-tab-pane>
                             </el-tabs>

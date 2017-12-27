@@ -20,6 +20,7 @@ Vue.use(Upload)
 Vue.use(Checkbox)
 Vue.use(CheckboxGroup)
 
+
 Vue.component(
     'page-heading', require('../components/Heading.vue')
 );

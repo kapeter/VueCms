@@ -24,51 +24,53 @@
 	        top: 0;
 	        z-index: 9999;
 	        background: #fff;
-	        transition: all .35s;
+	        transition: all .25s linear;
 	    }
 	    .loading-box{
-	        width: 160px;
-	        height: 160px;
+	        width: 150px;
+	        height: 150px;
 	        position: absolute;
 	        left:50%;
 	        top: 50%;
-	        margin-top: -80px;
-	        margin-left: -80px;
+	        margin-top: -100px;
+	        margin-left: -75px;
 	        text-align: center;
 	    }
+	    .loading-box .center{
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			margin-top: -36px;
+			margin-left: -26px;
+	    }
+	    .loading-box .circle{
+	    	animation: rotation 1s linear infinite;
+			-moz-animation: rotation 1s linear infinite;
+			-webkit-animation: rotation 1s linear infinite;
+			-o-animation: rotation 1s linear infinite;
+	    }
+		@-webkit-keyframes rotation{
+			from {-webkit-transform: rotate(0deg);}
+			to {-webkit-transform: rotate(360deg);}
+		}	    
 	    .loading-box p{
 	    	margin-top: 15px;
-	    	font-size: 16px;
+	    	font-size: 15px;
+	    	letter-spacing: 1px;
+	    	color: #333;
 	    }
-
-		::-webkit-scrollbar  
-		{  
-		    width: 5px;  
-		    height: 5px;  
-		    background-color: rgba(0,0,0,0.15);  
-		}  
-
-		::-webkit-scrollbar-thumb  
-		{  
-		    background-color: #999;  
-		}  
 	</style>
 </head>
 <body>
     <div id="loading" class="loading">
         <div class="loading-box">
-            <img src="/img/loading.gif"> 
+        	<img src="/img/circle.png" class="circle">
+            <img src="/img/logo-no-circle.png" class="center"> 
             <p>Now Loading …</p>              
         </div>
     </div>
   	<div id="app" v-cloak></div>
-
- 	<script src="{{ mix('js/oneui.js') }}"></script>
- 	<script src="{{ mix('js/manifest.js') }}"></script>
- 	<script src="{{ mix('js/vendor.js') }}"></script>
- 	<script src="{{ mix('js/app.js') }}"></script>
  	<script type="text/javascript">
- 		//移除loading动画
 	 	window.onload=function(){ 
 	 		var oLoad = document.getElementById('loading');
 	 		oLoad.style.opacity ='0';
@@ -77,5 +79,10 @@
 	 		},350);
 	 	}
  	</script>
+	<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+ 	<script src="{{ mix('js/oneui.js') }}"></script>
+ 	<script src="{{ mix('js/manifest.js') }}"></script>
+ 	<script src="{{ mix('js/vendor.js') }}"></script>
+ 	<script src="{{ mix('js/app.js') }}"></script>
 </body>
 </html>

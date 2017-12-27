@@ -3,27 +3,32 @@
         <!-- Header Navigation Right -->
         <ul class="nav-header pull-right">
             <li>
-                <a :href="frontend_site" class="btn btn-default pull-right" data-toggle="tooltip" title="返回前台" data-placement="bottom" target="_blank">
+                <a :href="frontend_site" class="btn btn-default pull-right" title="返回前台" target="_blank">
                     <i class="si si-grid"></i>
                 </a>
             </li>
             <li>
-                <div class="btn-group">
-                    <button class="btn btn-default btn-image dropdown-toggle" data-toggle="dropdown" type="button">
+                <div class="btn-group" :class="{ open: isOpen }">
+                    <button class="btn btn-default btn-image dropdown-toggle" type="button" @click="isOpen = !isOpen">
                         <img  :src="thisUser.avatar" :alt="thisUser.name">
                         <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-right">
                         <li class="dropdown-header">Profile</li>
                         <li>
-                            <a tabindex="-1" href="base_pages_inbox.html">
+                            <router-link tabindex="-1" :to="'/mail'">
                                 <i class="si si-envelope-open pull-right"></i>
                                 <span class="badge badge-primary pull-right">3</span>收件箱
-                            </a>
+                            </router-link>
                         </li>
                         <li>
                             <router-link tabindex="-1" :to="'/profile'">
                                 <i class="si si-user pull-right"></i>个人中心
+                            </router-link>
+                        </li>
+                        <li>
+                            <router-link tabindex="-1" :to="'/setting/system'">
+                                <i class="si si-settings pull-right"></i>系统设置
                             </router-link>
                         </li>
                         <li class="divider"></li>
@@ -72,7 +77,8 @@
     export default {
         data() {
             return {
-                frontend_site: '/'
+                frontend_site: '/',
+                isOpen: false
             }
         },
         computed: {

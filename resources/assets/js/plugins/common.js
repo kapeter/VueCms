@@ -26,19 +26,6 @@ var App = function() {
         $lHeader            = jQuery('#header-navbar');
         $lMain              = jQuery('#main-container');
         $lFooter            = jQuery('#page-footer');
-
-        // Initialize Tooltips
-        $('[data-toggle="tooltip"], .js-tooltip').tooltip({
-            container: 'body',
-            animation: false
-        });
-
-        // Initialize Popovers
-        $('[data-toggle="popover"], .js-popover').popover({
-            container: 'body',
-            animation: true,
-            trigger: 'hover'
-        });
     };
 
     // Layout functionality

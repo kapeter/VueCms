@@ -62,7 +62,7 @@
 
                     clearTimeout(resizeTimeout);
 
-                    resizeTimeout = setTimeout(function(){
+                    resizeTimeout = setTimeout(() => {
                         _self.minH = window.outerHeight - 110;
                     }, 300);
                     

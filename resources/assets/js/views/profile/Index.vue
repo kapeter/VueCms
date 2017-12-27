@@ -20,22 +20,10 @@
         <!-- END User Header -->
 
         <!-- Main Content -->
-        <form>
-            <div class="block">
-                <ul class="nav nav-tabs nav-tabs-alt nav-justified push-20">
-                    <li class="active">
-                        <a href="#personal" data-toggle="tab"><i class="fa fa-fw fa-pencil"></i> 个人设置</a>
-                    </li>
-                    <li>
-                        <a href="#password" data-toggle="tab"><i class="fa fa-fw fa-asterisk"></i> 密码设置</a>
-                    </li>
-                    <li>
-                        <a href="#avatar" data-toggle="tab"><i class="fa fa-fw fa-photo"></i> 头像修改</a>
-                    </li>
-                </ul>
-                <div class="block-content tab-content">
-                    <!-- Personal Tab -->
-                    <div class="tab-pane fade in active" id="personal">
+        <div class="block">
+            <form>
+                <el-tabs v-model="tabActiveName">
+                    <el-tab-pane label="个人设置" name="personal">
                         <div class="row">
                             <div class="col-sm-6 col-sm-offset-3 form-horizontal">
                                 <div class="form-group">
@@ -54,11 +42,8 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- END Personal Tab -->
-
-                    <!-- Password Tab -->
-                    <div class="tab-pane fade" id="password">
+                    </el-tab-pane>
+                    <el-tab-pane label="密码设置" name="password">
                         <div class="row">
                             <div class="col-sm-6 col-sm-offset-3 form-horizontal">
                                 <div class="form-group" :class="{ 'has-error' : currentPwd.hasError  }">
@@ -79,23 +64,18 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- END Password Tab -->
-
-                    <!-- Privacy Tab -->
-                    <div class="tab-pane fade" id="avatar">
+                    </el-tab-pane>
+                    <el-tab-pane label="头像修改" name="avatar">
                         <div class="row">
                         </div>
-                    </div>
-                    <!-- END Privacy Tab -->
-                </div>
+                    </el-tab-pane>
+                </el-tabs>
                 <div class="block-content block-content-full text-center">
-                   
                     <button class="btn btn-info" type="submit" @click.prevent="submitData()"><i class="fa fa-check push-5-r"></i> 保存设置 </button>
                     <button class="btn btn-warning" @click.prevent="resetData()"><i class="fa fa-refresh push-5-r"></i> 重置表单 </button>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
         <!-- END Main Content -->
     </div>
     <!-- END Page Content -->
@@ -105,6 +85,7 @@
     export default {
         data() {
             return {
+                tabActiveName: 'personal',
                 thisUser: {},
                 userName: {
                     value: '',
@@ -231,3 +212,21 @@
         }
     }
 </script>
+
+<style>
+    .el-tabs__nav{
+        width: 100%;
+    }
+    .el-tabs__header{
+        margin: 0 0 30px;
+    }
+    .el-tabs__item{
+        width: 33.3%;
+        text-align: center;
+        font-weight: bold;
+        height: auto;
+        line-height: 1;
+        padding: 20px;
+        font-size: 15px;
+    }
+</style>
