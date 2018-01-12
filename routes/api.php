@@ -18,8 +18,8 @@ $api = app('Dingo\Api\Routing\Router');
 $api->version('v1',['middleware' => 'cors', 'namespace' => 'App\Http\Controllers\Api\V1'], function ($api) {
 
 	//Auth
-	$api->post('/login', 'AuthController@login');
-	$api->post('/logout', 'AuthController@logout');
+	$api->post('/login', 'AuthController@login')->name('auth.login');
+	$api->post('/logout', 'AuthController@logout')->name('auth.logout');
 
 	//RBAC
 	$api->resource('user','UserController');
@@ -39,21 +39,19 @@ $api->version('v1',['middleware' => 'cors', 'namespace' => 'App\Http\Controllers
 	$api->resource('category','CategoryController');
 
 	//Log
-	$api->get('log','LogController@index');
+	$api->get('log','LogController@index')->name('log');
 
 	//Media
-	$api->get('media', 'MediaController@index');
-	$api->post('media/create', 'MediaController@create');
-	$api->get('media/folders', 'MediaController@folders');
-	$api->post('media/upload', 'MediaController@upload');
-	$api->post('media/delete', 'MediaController@delete');
-	$api->get('media/download', 'MediaController@download');
+	$api->get('media', 'MediaController@index')->name('media.list');
+	$api->post('media', 'MediaController@upload')->name('media.upload');
+	$api->delete('media', 'MediaController@delete')->name('media.delete');
+	$api->post('folder', 'MediaController@create')->name('folder.create');
 
 	//Setting
-	$api->get('setting/system', 'SettingController@system');
-	$api->get('setting', 'SettingController@index');
-	$api->post('setting', 'SettingController@store');
+	$api->get('system', 'SettingController@system')->name('setting.system');
+	$api->get('setting', 'SettingController@index')->name('setting.show');
+	$api->post('setting', 'SettingController@store')->name('setting.store');
 
 	//Mail
-	$api->post('mail/send', 'MailController@send');
+	$api->post('mail/send', 'MailController@send')->name('media.send');
 });

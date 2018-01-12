@@ -106,7 +106,7 @@
                     {to: null, text: '系统设置'},
                 ],
                 routeUrl: {
-                	system: 'setting/system',
+                	system: 'system',
                     setting: 'setting'
                 },
                 systemData: [],

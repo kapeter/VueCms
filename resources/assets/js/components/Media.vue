@@ -72,10 +72,11 @@
                         ref="mediaUpload"
                         class="media-upload"
                         drag
-                        :action="routeList.uploadUrl"
+                        :action="uploadUrl"
                         :data="uploadData"
-                        :on-remove="handleRemove"
-                        :http-request="handleRequest"
+                        :headers="headers"
+                        :on-remove="removeFileInUpload"
+                        :on-success="handleSuccess"
                         multiple>
                         <i class="el-icon-upload"></i>
                         <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
@@ -97,9 +98,7 @@
 			return {
 		    	//API路由列表
 		    	routeList: {
-		    		browseUrl    : 'media',
-		    		uploadUrl    : 'media/upload',
-		    		delFileUrl   : 'media/delete',
+		    		media : 'media'
 		    	},
 				currentDict:'public',
 				currentList:[],
@@ -113,6 +112,14 @@
             uploadData() {
                 return {
                     'dict': this.currentDict.split('/')
+                }
+            },
+            uploadUrl() {
+                return this.$http.defaults.baseURL + this.routeList.media
+            },
+            headers() {
+                return {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
                 }
             },
             maxHeight() {
@@ -141,7 +148,7 @@
             //获取文件列表
             browseList() {
                 let _self = this;
-                let url = _self.routeList.browseUrl + "?path=" + _self.currentDict;
+                let url = _self.routeList.media + "?path=" + _self.currentDict;
                 _self.$http.get(url)
                     .then(function (res) {
                         _self.currentList = res.data;
@@ -195,35 +202,20 @@
                     });
                 }
             },
-            handleRequest(option) {
-                let _self = this;
-                let formData = new FormData();
-
-                if (option.data) {
-                    Object.keys(option.data).map(key => {
-                        formData.append(key, option.data[key]);
-                    });
-                }
-
-                formData.append(option.filename, option.file);
-
-                _self.$http.post(_self.routeList.uploadUrl, formData)
-                    .then(function(res) {
-                        _self.browseList();
-                    });
-            },
             //上传组件中移除文件的回调函数
-            handleRemove(file, fileList) {
+            removeFileInUpload(file, fileList) {
                 let _self = this;
-                let filePath = file.response;
-                _self.$http.post(_self.routeList.delFileUrl, { 'origin': filePath, 'type': 'file' })
+                let url = _self.routeList.media + '?path=' + file.response + '&type=file';
+                _self.$http.delete(url)
                     .then(function(res){
                         _self.browseList();
                     })
                     .catch(function (error) {
                         console.log(error);
                     });
-
+            },
+            handleSuccess() {
+                this.browseList();
             }
         }
 		

@@ -65,16 +65,6 @@ class MediaController extends BaseController
     }
 
     /**
-     * get all folders
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function folders()
-    {
-        return $this->mediaRepository->folders();
-    }
-
-    /**
      * upload file
      *
      * @return \Illuminate\Http\Response
@@ -102,7 +92,7 @@ class MediaController extends BaseController
     public function delete(Request $request)
     {
         $type = $request->get('type');
-        $path = $request->get('origin');
+        $path = $request->get('path');
 
         if ($type == 'folder'){
             $res = $this->mediaRepository->delFolder($path);
@@ -117,18 +107,4 @@ class MediaController extends BaseController
         }
 
     }
-
-    /**
-     * download file
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function download(Request $request)
-    {
-        $path = storage_path('app').'/'.$request->get('path');
-        
-        return response()->download($path);
-
-    }
-
 }

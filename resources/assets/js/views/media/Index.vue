@@ -48,11 +48,11 @@
                     </div>
                 </div>
 				<div class="col-sm-6 col-md-4 col-lg-2" v-for="item in currentList">
-                    <div class="block media-box"  @click.prevent="clickBoxEvent(item)">
+                    <div class="block media-box"  @click="clickBoxEvent(item)">
                         <div class="block-header">
                             <ul class="block-options">
                                 <li title="下载" v-if="item.type != 'folder'">
-                                    <a :href="routeList.downloadUrl + '?path=' + item.origin"><i class="si si-cloud-download"></i></a>
+                                    <a :href="item.url" download @click.stop><i class="si si-cloud-download"></i></a>
                                 </li>
                                 <li title="删除">
                                     <button type="button" @click.stop="deleteFileOrFolder(item)"><i class="si si-close"></i></button>
@@ -88,11 +88,10 @@
         </div>
         <!-- 添加媒体Modal -->
         <ElDialog title="添加媒体" :visible.sync="addMediaVisible" width="36%" :before-close="closeAddMedia">
-
 			<ul class="current-list clearfix">
 				<li><strong>当前文件夹：</strong></li>
     			<li v-for="crumb in crumbsArr">
-    				<span v-if="crumb == 'public'">媒体库</span>
+    				<span v-if="crumb == 'public'">根目录</span>
 				    <span v-else>/ {{ crumb }}</span>
 				</li>
 			</ul>
@@ -100,11 +99,10 @@
         		ref="mediaUpload"
         		class="media-upload"
 			  	drag
-			  	:action="routeList.uploadUrl"
+			  	:action="uploadUrl"
 			  	:data="uploadData"
+			  	:headers="headers"
 			  	:on-remove="removeFileInUpload"
-			  	:file-list="fileList"
-			  	:http-request="uploadFile"
 			  	multiple>
 			  	<i class="el-icon-upload"></i>
 			  	<div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
@@ -170,11 +168,9 @@
 		    	],
 		    	//API路由列表
 		    	routeList: {
-		    		browseUrl    : 'media',
-		    		newDictUrl   : 'media/create',
-		    		uploadUrl    : 'media/upload',
-		    		delFileUrl   : 'media/delete',
-		    		downloadUrl  : 'media/download'
+		    		media    : 'media',
+		    		folder   : 'folder',
+		    		download : 'download'
 		    	},
 		    	addMediaVisible: false,
 		    	createDictVisible: false,
@@ -188,8 +184,7 @@
 					hasError: false,
 					errorText: ''
 				},
-				detailVisible: false,
-				fileList: []
+				detailVisible: false
 			}
 		},
 		mounted() {
@@ -199,6 +194,14 @@
 			uploadData() {
 				return {
 					'dict': this.currentDict.split('/')
+				}
+			},
+			uploadUrl() {
+				return this.$http.defaults.baseURL + this.routeList.media
+			},
+			headers() {
+				return {
+					'Authorization': 'Bearer ' + localStorage.getItem('token')
 				}
 			}
 		},
@@ -217,7 +220,7 @@
 	      	browseList() {
 	      		let loadingInstance = null;
 	      		let _self = this;
-	      		let url = _self.routeList.browseUrl + "?path=" + _self.currentDict;
+	      		let url = _self.routeList.media + "?path=" + _self.currentDict;
 				_self.$http.get(url)
 					.then(function (res) {
 						_self.currentList = res.data;
@@ -277,7 +280,7 @@
 	      			return false;
 	      		}
 
-      			_self.$http.post(_self.routeList.newDictUrl, { 'path': _self.currentDict, 'name': _self.newDictObj.value })
+      			_self.$http.post(_self.routeList.folder, { 'path': _self.currentDict, 'name': _self.newDictObj.value })
       				.then(function (res) {
       					if ('code' in res.data && res.data.code == 11002) {
 	      					_self.newDictObj.hasError = true;
@@ -295,8 +298,8 @@
 	      	//上传组件中移除文件的回调函数
 	      	removeFileInUpload(file, fileList) {
 	      		let _self = this;
-	      		let filePath = file.response;
-      			_self.$http.post(_self.routeList.delFileUrl, { 'origin': filePath, 'type': 'file' })
+	      		let url = _self.routeList.media + '?path=' + file.response + '&type=file';
+      			_self.$http.delete(url)
       				.catch(function (error) {
       					console.log(error);
       				});
@@ -306,9 +309,10 @@
 	      	deleteFileOrFolder(item) {
 				let _self = this;
 				let warnText = '您确认删除该文件吗？';
-				let url = _self.routeList.delFileUrl;
+				let params = { 'type': 'file', 'path': item.origin };
 				if (item.type == 'folder'){	
 					warnText = '您确认删除该文件夹以及其中的所有文件吗？';
+					params['type'] = 'folder'
 				}
                 _self.$message({
                     title: "危险操作",
@@ -321,7 +325,8 @@
                 },
                 function(isConfirm){
                     if (isConfirm){
-		      			_self.$http.post(url, item)
+                    	let url = _self.routeList.media + '?path=' + params.path + '&type=' + params.type 
+		      			_self.$http.delete(url)
 		      				.then(function () {
 		      					_self.browseList();
 		      				})
@@ -330,21 +335,6 @@
 		      				});
                     }
                 }); 
-	      	},
-
-	      	uploadFile(option) {
-	      		let _self = this;
-				let formData = new FormData();
-
-				if (option.data) {
-				    Object.keys(option.data).map(key => {
-				      	formData.append(key, option.data[key]);
-				    });
-				}
-
-				formData.append(option.filename, option.file);
-
-	      		_self.$http.post(_self.routeList.uploadUrl, formData);
 	      	}
 	    }
 	}
