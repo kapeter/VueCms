@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Parent from '../views/Parent.vue'
+import Parent from '../pages/Parent.vue'
 
 Vue.use(VueRouter)
 
@@ -12,16 +12,16 @@ const router = new VueRouter({
         {
             path: '/login',
             name: 'login',
-            component: () => import(/* webpackChunkName: "auth" */ '../views/auth/Login.vue')
+            component: () => import(/* webpackChunkName: "auth" */ '../pages/auth/Login.vue')
         },
         {
             path: '/',
-            component: () => import(/* webpackChunkName: "layout" */ '../views/Dashboard.vue'),
+            component: () => import(/* webpackChunkName: "layout" */ '../pages/Dashboard.vue'),
             children: [
                 {
                     path: '/',
                     name: 'dashboard',
-                    component: () => import(/* webpackChunkName: "dashboard" */ '../views/home/Index.vue')
+                    component: () => import(/* webpackChunkName: "dashboard" */ '../pages/home/Index.vue')
                 },
                 {
                     path: 'post',
@@ -30,83 +30,70 @@ const router = new VueRouter({
                         {
                             path: '/',
                             name: 'showPost',
-                            component: () => import(/* webpackChunkName: "post" */ '../views/post/Index.vue')
+                            component: () => import(/* webpackChunkName: "post" */ '../pages/post/Index.vue')
                         },
                         {
                             path: 'create',
                             name: 'createPost',
-                            component: () => import(/* webpackChunkName: "post" */ '../views/post/Create.vue')
+                            component: () => import(/* webpackChunkName: "post" */ '../pages/post/Create.vue')
                         },
                         {
                             path: ':id/edit',
                             name: 'editPost',
-                            component: () => import(/* webpackChunkName: "post" */ '../views/post/Edit.vue')
+                            component: () => import(/* webpackChunkName: "post" */ '../pages/post/Edit.vue')
                         }
                     ]
                 },
                 {
                     path: 'media',
                     name: 'media',
-                    component: () => import(/* webpackChunkName: "media" */ '../views/media/Index.vue')
+                    component: () => import(/* webpackChunkName: "media" */ '../pages/media/Index.vue')
                 },
                 {
                     path: 'profile',
                     name: 'profile',
-                    component: () => import(/* webpackChunkName: "auth" */ '../views/profile/Index.vue')
+                    component: () => import(/* webpackChunkName: "auth" */ '../pages/profile/Index.vue')
                 },
                 {
-                    path: 'setting',
-                    name: 'setting',
-                    component: Parent,
-                    children: [
-                        {
-                            path: 'category',
-                            name: 'category',
-                            component: () => import(/* webpackChunkName: "setting" */ '../views/setting/Category.vue')
-                        },
-                        {
-                            path: 'system',
-                            name: 'system',
-                            component: () => import(/* webpackChunkName: "setting" */ '../views/setting/System.vue')
-                        },
-                    ]
+                    path: 'category',
+                    name: 'category',
+                    component: () => import(/* webpackChunkName: "setting" */ '../pages/setting/Category.vue')
                 },
                 {
-                    path: 'rbac',
-                    component: Parent,
-                    children: [
-                        {
-                            path: 'user',
-                            name: 'user',
-                            component: () => import(/* webpackChunkName: "rbac" */ '../views/rbac/User.vue')
-                        },
-                        {
-                            path: 'role',
-                            name: 'role',
-                            component: () => import(/* webpackChunkName: "rbac" */ '../views/rbac/Role.vue')
-                        },
-                        {
-                            path: 'permission',
-                            name: 'permission',
-                            component: () => import(/* webpackChunkName: "rbac" */ '../views/rbac/Permission.vue')
-                        },
-                    ]
+                    path: 'system',
+                    name: 'system',
+                    component: () => import(/* webpackChunkName: "setting" */ '../pages/setting/System.vue')
+                },
+                {
+                    path: 'user',
+                    name: 'user',
+                    component: () => import(/* webpackChunkName: "rbac" */ '../pages/rbac/User.vue')
+                },
+                {
+                    path: 'role',
+                    name: 'role',
+                    component: () => import(/* webpackChunkName: "rbac" */ '../pages/rbac/Role.vue')
+                },
+                {
+                    path: 'permission',
+                    name: 'permission',
+                    component: () => import(/* webpackChunkName: "rbac" */ '../pages/rbac/Permission.vue')
                 },
                 {
                     path: 'log',
                     name: 'log',
-                    component: () => import(/* webpackChunkName: "log" */  '../views/log/Index.vue')
+                    component: () => import(/* webpackChunkName: "log" */  '../pages/log/Index.vue')
                 },
                 {
                     path: 'mail',
                     name: 'mail',
-                    component: () => import(/* webpackChunkName: "message" */ '../views/message/Inbox.vue')
+                    component: () => import(/* webpackChunkName: "message" */ '../pages/message/Inbox.vue')
                 },
             ]
         },
         {
             path: '*',
-            component: () => import(/* webpackChunkName: "error" */ '../views/error/404.vue')
+            component: () => import(/* webpackChunkName: "error" */ '../pages/error/404.vue')
         }
     ]
 })

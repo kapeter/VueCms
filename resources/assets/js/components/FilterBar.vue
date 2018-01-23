@@ -2,8 +2,8 @@
       <form class="form-inline">
         <div class="form-group">
           <input type="text" v-model="filterText" class="form-control" @keyup.enter="doFilter" placeholder="search…">
-          <button class="btn btn-info" @click.prevent="doFilter" data-toggle="tooltip" title="搜索"><i class="si si-magnifier"></i></button>
-          <button class="btn btn-default" @click.prevent="resetFilter" data-toggle="tooltip" title="重置"><i class="si si-refresh"></i></button>
+          <button class="btn btn-info" @click.prevent="doFilter" data-toggle="tooltip" title="搜索"><i class="fa fa-search"></i></button>
+          <button class="btn btn-default" @click.prevent="resetFilter" data-toggle="tooltip" title="重置"><i class="fa fa-refresh"></i></button>
         </div>
       </form>
 </template>

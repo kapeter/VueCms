@@ -1,83 +1,68 @@
 export default [
     {
-        name : '仪表盘',
-        icon : 'si si-speedometer',
-        uri  : '/'
-    },
-    {
     	name : 'Function Interface',
     },
     {
     	name : '文章管理',
-    	icon : 'si si-book-open',
-        isOpen : false,
-    	children : [
-    		{
-    			name : '文章列表',
-    			uri  : '/post'
-    		},
-    		{
-    			name : '写文章',
-    			uri  : '/post/create',
-    		}
-    	]
+    	icon : 'fa fa-book',
+        url  : 'post'
     },
     {
         name : '媒体库',
-        icon : 'si si-camera',
-        uri  : '/media',
+        icon : 'fa fa-camera',
+        url  : 'media',
     },
     {
         name : '个人中心',
-        icon : 'si si-user',
-        uri  : '/profile',
+        icon : 'fa fa-user',
+        url  : 'profile',
     },
     {
         name : 'System Interface',
     },
     {
         name : '分类目录',
-        icon : 'si si-grid',
-        uri  : '/setting/category'
+        icon : 'fa fa-cubes',
+        url  : 'category'
     },
 
     {
         name : '系统设置',
-        icon : 'si si-settings',
-        uri  : '/setting/system',
+        icon : 'fa fa-cogs',
+        url  : 'system',
     },
     {
         name : 'Message Interface',
     },
     {
         name : '邮件管理',
-        icon : 'si si-envelope',
-        uri  : '/mail',
+        icon : 'fa fa-envelope',
+        url  : 'mail',
     },
     {
         name : 'RBAC Interface',
     },
     {
         name : '用户管理',
-        icon : 'si si-users',
-        uri  : '/rbac/user',
+        icon : 'fa fa-users',
+        url  : 'user',
     },
     {
         name : '角色管理',
-        icon : 'si si-target',
-        uri  : '/rbac/role',
+        icon : 'fa fa-crosshairs',
+        url  : 'role',
     },
     {
         name : '权限管理',
-        icon : 'si si-layers',
-        uri  : '/rbac/permission',
+        icon : 'fa fa-key',
+        url  : 'permission',
     },
     {
         name : 'Log Interface',
     },
     {
         name : '接口日志',
-        icon : 'si si-notebook',
-        uri  : '/log',
+        icon : 'fa fa-bar-chart-o',
+        url  : 'log',
     },
 ]

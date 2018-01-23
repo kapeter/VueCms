@@ -4,7 +4,7 @@
         <!-- Page Content -->
         <div class="content">
 	     	<div class="block">
-	     		<div class="block-header">
+	     		<div class="block-header remove-padding-b">
                     <ul class="block-button">
                         <li>
                             <a @click="createDialog()" class="btn btn-info"><i class="fa fa-plus"></i> 新增权限</a>
@@ -18,6 +18,10 @@
                             :api-url="routeList.browseUrl"
                             :tfields="tfields"
                             @vuetable:pagination-data="onPaginationData">
+                            <template slot="title" slot-scope="props">
+                                <i :class="'fa fa-' + props.rowData.icon + ' push-5-r'"></i>
+                                {{ props.rowData.title }}
+                            </template>
                             <template slot="actions" slot-scope="props">
                                 <div class="custom-actions">
                                     <button class="btn btn-sm btn-default" @click="itemAction('edit-item', props.rowData)"><i class="fa fa-pencil"></i> 编辑</button>
@@ -39,30 +43,36 @@
         </div>
 
         <ElDialog :title="dialogTitle" :visible.sync="dialogVisible" width="36%">
-            <form class="form-horizontal">
+            <form>
                 <div class="form-group" :class="{ 'has-error' : errors.has('route') || !uniqueCheck }">
-                    <label for="slug" class="col-sm-2 control-label">唯一路由</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" v-model="formData.route" name="route" v-validate="'required|alpha'">
-                        <div class="help-block animated fadeInDown" v-show="!uniqueCheck">该路由已被存在</div>
-                        <div class="help-block animated fadeInDown"  v-show="errors.has('route')">
-                            {{ errors.first('route') }}
-                        </div>
+                    <label for="slug">唯一路由</label>
+                    <input type="text" class="form-control" v-model="formData.route" name="route" v-validate="'required|alpha'">
+                    <div class="help-block animated fadeInDown" v-show="!uniqueCheck">该路由已被存在</div>
+                    <div class="help-block animated fadeInDown"  v-show="errors.has('route')">
+                        {{ errors.first('route') }}
                     </div>
                 </div>
                 <div class="form-group" :class="{ 'has-error' :  errors.has('title')  }">
-                    <label for="name" class="col-sm-2 control-label">显示名称</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" v-model="formData.title" name="title" v-validate="'required'">
-                        <div class="help-block animated fadeInDown"  v-show="errors.has('title')">
-                            {{ errors.first('title') }}
-                        </div>
+                    <label for="name">显示名称</label>
+                    <input type="text" class="form-control" v-model="formData.title" name="title" v-validate="'required'">
+                    <div class="help-block animated fadeInDown"  v-show="errors.has('title')">
+                        {{ errors.first('title') }}
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="name" class="col-sm-2 control-label">权限描述</label>
-                    <div class="col-sm-10">
-                        <textarea class="form-control" v-model="formData.description" rows="5"></textarea>
+                    <label for="name">权限描述</label>
+                    <textarea class="form-control" v-model="formData.description" rows="5"></textarea>
+                </div>
+                <div class="form-group" :class="{ 'has-error' :  errors.has('icon')  }">
+                    <label for="name">
+                        菜单图标
+                        <span class="font-s13">
+                            （<i class="fa fa-info"></i> 本站使用 <a href="http://fontawesome.io/icons/">FontAwesome</a> 图标驱动，填写时请去除前缀fa-，例如：file）
+                        </span>
+                    </label>
+                    <input type="text" class="form-control" v-model="formData.icon" name="icon" v-validate="'required'">
+                    <div class="help-block animated fadeInDown"  v-show="errors.has('icon')">
+                        {{ errors.first('icon') }}
                     </div>
                 </div>
             </form>
@@ -95,8 +105,8 @@
                 },
                 tfields: [
                     {
+                      name: '__slot:title',
                       title: '显示名称',
-                      name: 'title',
                     },
                     {
                       title: '唯一路由',
@@ -128,6 +138,7 @@
                 	route: '',
                     title: '',
                     description: '',
+                    icon: ''
                 },
 			}
 		},
@@ -150,6 +161,7 @@
                     route: '',
                     title: '',
                     description: '',
+                    icon: ''
                 };
                 this.currentID = 0;
                 this.uniqueCheck = true;
@@ -162,6 +174,7 @@
                 	route: data.route,
                     title: data.title,
                     description: data.description,
+                    icon: data.icon
                 };
                 this.currentID = data.id;
                 this.uniqueCheck = true;

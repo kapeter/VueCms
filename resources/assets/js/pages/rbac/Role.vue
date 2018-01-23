@@ -4,7 +4,7 @@
         <!-- Page Content -->
         <div class="content">
 	     	<div class="block">
-	     		<div class="block-header">
+	     		<div class="block-header remove-padding-b">
                     <ul class="block-button">
                         <li>
                             <a @click="createDialog()" class="btn btn-info"><i class="fa fa-plus"></i> 新增角色</a>
@@ -45,31 +45,25 @@
         </div>
 
         <ElDialog :title="dialogTitle" :visible.sync="dialogVisible" width="36%">
-            <form class="form-horizontal">
+            <form>
                 <div class="form-group" :class="{ 'has-error' : errors.has('name') || !uniqueCheck }">
-                    <label for="slug" class="col-sm-2 control-label">唯一标识</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" v-model="formData.name" name="name" v-validate="'required|alpha_num'" data-vv-as="唯一标识">
-                        <div class="help-block animated fadeInDown"  v-show="errors.has('name')">
-                            {{ errors.first('name') }}
-                        </div>
-                        <div class="help-block animated fadeInDown" v-show="!uniqueCheck">该角色已被存在</div>
+                    <label>唯一标识</label>
+                    <input type="text" class="form-control" v-model="formData.name" name="name" v-validate="'required|alpha_num'" data-vv-as="唯一标识">
+                    <div class="help-block animated fadeInDown"  v-show="errors.has('name')">
+                        {{ errors.first('name') }}
                     </div>
+                    <div class="help-block animated fadeInDown" v-show="!uniqueCheck">该角色已被存在</div>
                 </div>
                 <div class="form-group" :class="{ 'has-error' : errors.has('title')  }">
-                    <label for="name" class="col-sm-2 control-label">显示名称</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" v-model="formData.title" name="title" v-validate="'required'">
-                        <div class="help-block animated fadeInDown"  v-show="errors.has('title')">
-                            {{ errors.first('title') }}
-                        </div>
+                    <label for="name">显示名称</label>
+                    <input type="text" class="form-control" v-model="formData.title" name="title" v-validate="'required'">
+                    <div class="help-block animated fadeInDown"  v-show="errors.has('title')">
+                        {{ errors.first('title') }}
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="name" class="col-sm-2 control-label">权限描述</label>
-                    <div class="col-sm-10">
-                        <textarea class="form-control" v-model="formData.description" rows="5"></textarea>
-                    </div>
+                    <label for="name">权限描述</label>
+                    <textarea class="form-control" v-model="formData.description" rows="5"></textarea>
                 </div>
             </form>
           <span slot="footer">
@@ -94,7 +88,10 @@
                         </thead>
                         <tbody>
                             <tr v-for="permission in permissions">
-                                <td>{{ permission.title }}</td>
+                                <td>
+                                    <i :class="'fa fa-' + permission.icon + ' push-5-r'"></i>
+                                    {{ permission.title }}
+                                </td>
                                 <td class="text-center">
                                     <el-checkbox v-model="permission.can_create"></el-checkbox>
                                 </td>
@@ -315,4 +312,7 @@
 	.modal-content .block{
 		margin-bottom: 0;
 	}
+    .el-checkbox__inner{
+        border-radius: 0;
+    }
 </style>

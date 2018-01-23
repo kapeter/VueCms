@@ -37,7 +37,7 @@
                         </div>
                         <div class="block-content text-center">
                             <div class="item item-2x item-circle bg-gray-light text-gray">
-								<i  class="si si-action-undo"></i>
+								<i  class="fa fa-reply"></i>
                             </div>                          
                         </div>
                         <div class="block-content block-content-full text-center mheight-100">
@@ -52,28 +52,28 @@
                         <div class="block-header">
                             <ul class="block-options">
                                 <li title="下载" v-if="item.type != 'folder'">
-                                    <a :href="item.url" download @click.stop><i class="si si-cloud-download"></i></a>
+                                    <a :href="item.url" download @click.stop><i class="fa fa-cloud-download"></i></a>
                                 </li>
                                 <li title="删除">
-                                    <button type="button" @click.stop="deleteFileOrFolder(item)"><i class="si si-close"></i></button>
+                                    <button type="button" @click.stop="deleteFileOrFolder(item)"><i class="fa fa-close"></i></button>
                                 </li>
                             </ul>
                         </div>
                         <div class="block-content text-center">
                             <div class="item item-2x item-circle bg-success-light text-success" v-if="item.type == 'audio'">
-								<i  class="si si-music-tone-alt"></i>
+								<i  class="fa fa-file-audio-o"></i>
                             </div>
                             <div class="item item-2x item-circle bg-warning-light text-warning" v-if="item.type == 'text'">
-								<i  class="si si-book-open"></i>
+								<i  class="fa fa-file-text-o"></i>
                             </div>  
                             <div class="item item-2x item-circle bg-danger-light text-danger" v-if="item.type == 'video'">
-								<i  class="si si-camcorder"></i>
+								<i  class="fa fa-file-movie-o"></i>
                             </div> 
                             <div class="item-img" v-if="item.type == 'image'">
                             	<img class="cursor-hover" :src="item.url" :alt="item.name">
                             </div>
                             <div class="item item-2x item-circle bg-info-light text-info" v-if="item.type == 'folder'">
-								<i  class="si si-folder-alt"></i>
+								<i  class="fa fa-folder-o"></i>
                             </div>                           
                         </div>
                         <div class="block-content block-content-full text-center mheight-100">
@@ -511,7 +511,7 @@
 	.item{
 		font-size: 32px;
 	}
-	.item .si{
+	.item .fa{
 		line-height: 100px;
 	}
 	.content .items-push > div{

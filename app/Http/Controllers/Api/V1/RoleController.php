@@ -106,6 +106,7 @@ class RoleController extends BaseController
             $permission_info = $this->permissionRepository->getById($item->permission_id);
             $item->title = $permission_info->title;
             $item->name = $permission_info->route;
+            $item->icon = $permission_info->icon;
         }
         return $this->response->array($permissions);
     }

@@ -21,9 +21,9 @@
 </template>
 
 <script>
-    import SideBar from '../components/layouts/SideBar.vue'
-    import HeaderBar from '../components/layouts/HeaderBar.vue'
-    import FooterBar from '../components/layouts/FooterBar.vue'
+    import SideBar from '../layouts/SideBar.vue'
+    import HeaderBar from '../layouts/HeaderBar.vue'
+    import FooterBar from '../layouts/FooterBar.vue'
 
     export default {
         components: {

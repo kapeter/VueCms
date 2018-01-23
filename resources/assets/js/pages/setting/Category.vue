@@ -5,7 +5,7 @@
         <div class="content">
             <!-- Frequently Asked Questions -->
             <div class="block">
-                <div class="block-header">
+                <div class="block-header remove-padding-b">
                     <ul class="block-button">
                         <li>
                             <a @click="createDialog()" class="btn btn-info"><i class="fa fa-plus"></i> 新增目录</a>
@@ -53,57 +53,47 @@
 
         <!-- Create Model -->
         <ElDialog :title="modalTitle" :visible.sync="dialogVisible" width="36%">
-            <form class="form-horizontal">
+            <form>
                 <input type="hidden" name="id" v-model="currentID">
                 <div class="form-group" :class="{ 'has-error' : errors.has('name')  }">
-                    <label for="name" class="col-sm-2 control-label">目录名称</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" v-model="formData.name" name="name" v-validate="'required'" data-vv-as="目录名称">
-                        <div class="help-block animated fadeInDown"  v-show="errors.has('name')">
-                            {{ errors.first('name') }}
-                        </div>
+                    <label for="name">目录名称</label>
+                    <input type="text" class="form-control" v-model="formData.name" name="name" v-validate="'required'" data-vv-as="目录名称">
+                    <div class="help-block animated fadeInDown"  v-show="errors.has('name')">
+                        {{ errors.first('name') }}
                     </div>
                 </div>
                 <div class="form-group" :class="{ 'has-error' : errors.has('slug') || !uniqueCheck }">
-                    <label for="slug" class="col-sm-2 control-label">唯一标识</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" v-model="formData.slug" placeholder="仅支持英文、数字" v-validate="'required|alpha_num'" name="slug">
-                        <div class="help-block animated fadeInDown"  v-show="errors.has('slug')">
-                            {{ errors.first('slug') }}
-                        </div>
-                        <div class="help-block animated fadeInDown" v-show="!uniqueCheck">唯一标识重复</div>
+                    <label for="slug">唯一标识</label>
+                    <input type="text" class="form-control" v-model="formData.slug" placeholder="仅支持英文、数字" v-validate="'required|alpha_num'" name="slug">
+                    <div class="help-block animated fadeInDown"  v-show="errors.has('slug')">
+                        {{ errors.first('slug') }}
                     </div>
+                    <div class="help-block animated fadeInDown" v-show="!uniqueCheck">唯一标识重复</div>
                 </div>
                 <div class="form-group">
-                    <label for="model" class="col-sm-2 control-label">所属模型</label>
-                    <div class="col-sm-10">
-                        <el-select v-model="formData.model" placeholder="请选择模型">
-                            <el-option
-                                v-for="item in models"
-                                :label="item.label"
-                                :value="item.value" :key="item.value">
-                            </el-option>
-                      </el-select>
-                    </div>
+                    <label for="model">所属模型</label>
+                    <el-select v-model="formData.model" placeholder="请选择模型">
+                        <el-option
+                            v-for="item in models"
+                            :label="item.label"
+                            :value="item.value" :key="item.value">
+                        </el-option>
+                    </el-select>
                 </div>
                 <div class="form-group">
-                    <label for="description" class="col-sm-2 control-label">目录描述</label>
-                    <div class="col-sm-10">
-                        <textarea class="form-control" v-model="formData.description" rows="3"></textarea>
-                    </div>
+                    <label for="description">目录描述</label>
+                    <textarea class="form-control" v-model="formData.description" rows="3"></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="parent" class="col-sm-2 control-label">父级目录</label>
-                    <div class="col-sm-10">
-                        <el-select v-model="formData.parent_id" placeholder="请选择父级目录">
-                            <el-option label="无" :value="0"></el-option>
-                            <el-option
-                              v-for="parent in parentCategory" v-if="parent.id != currentID"
-                              :label="parent.name"
-                              :value="parent.id" :key="parent.slug">
-                            </el-option>
-                        </el-select>
-                    </div>
+                    <label for="parent">父级目录</label>
+                    <el-select v-model="formData.parent_id" placeholder="请选择父级目录">
+                        <el-option label="无" :value="0"></el-option>
+                        <el-option
+                          v-for="parent in parentCategory" v-if="parent.id != currentID"
+                          :label="parent.name"
+                          :value="parent.id" :key="parent.slug">
+                        </el-option>
+                    </el-select>
                 </div>
             </form>
           <span slot="footer">

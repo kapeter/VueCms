@@ -4,7 +4,7 @@
         <ul class="nav-header pull-right">
             <li>
                 <a :href="frontend_site" class="btn btn-default pull-right" title="返回前台" target="_blank">
-                    <i class="si si-grid"></i>
+                    <i class="fa fa-external-link"></i>
                 </a>
             </li>
             <li>
@@ -17,30 +17,30 @@
                         <li class="dropdown-header">Profile</li>
                         <li>
                             <router-link tabindex="-1" :to="'/mail'">
-                                <i class="si si-envelope-open pull-right"></i>
-                                <span class="badge badge-primary pull-right">3</span>收件箱
+                                <i class="fa fa-envelope pull-right"></i>
+                                <span class="badge badge-info pull-right">3</span>收件箱
                             </router-link>
                         </li>
                         <li>
                             <router-link tabindex="-1" :to="'/profile'">
-                                <i class="si si-user pull-right"></i>个人中心
+                                <i class="fa fa-user pull-right"></i>个人中心
                             </router-link>
                         </li>
                         <li>
                             <router-link tabindex="-1" :to="'/setting/system'">
-                                <i class="si si-settings pull-right"></i>系统设置
+                                <i class="fa fa-cogs pull-right"></i>系统设置
                             </router-link>
                         </li>
                         <li class="divider"></li>
                         <li class="dropdown-header">Actions</li>
                         <li>
                             <a tabindex="-1" href="base_pages_lock.html">
-                                <i class="si si-lock pull-right"></i>锁定账户
+                                <i class="fa fa-lock pull-right"></i>锁定账户
                             </a>
                         </li>
                         <li>
                             <a tabindex="-1" @click.prevent="doLogout" href="javascript:;">
-                                <i class="si si-logout pull-right"></i>注销账户
+                                <i class="fa fa-sign-out pull-right"></i>注销账户
                             </a>
                         </li>
                     </ul>
@@ -65,7 +65,7 @@
             </li>
             <li>
                 <router-link :to="{ name: 'createPost' }" active-class='none' class="btn btn-default" data-toggle="tooltip" title="新增文章" data-placement="bottom">
-                    <i class="si si-note"></i>
+                    <i class="fa fa-pencil"></i>
                 </router-link>
             </li>
         </ul>

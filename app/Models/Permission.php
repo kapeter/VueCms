@@ -15,5 +15,6 @@ class Permission extends Model
         'route',
         'title',
         'description',
+        'icon'
     ];
 }

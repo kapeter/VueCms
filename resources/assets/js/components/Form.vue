@@ -319,9 +319,6 @@
 </script>
 
 <style>
-	.block-content{
-		padding-bottom: 20px;
-	}
 	textarea {
 		resize: none;
 	}

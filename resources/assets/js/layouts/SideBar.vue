@@ -20,23 +20,18 @@
                 <!-- Side Content -->
                 <div class="side-content">
                     <ul class="nav-main">
-                        <li v-for= "menu in menus" :class = "{ 'nav-main-heading' : !('icon' in menu), 'open' : ('isOpen' in menu && menu.isOpen) }">
-
-                            <a v-if=" 'children' in menu " href="javascript:;" class="nav-submenu" @click="toggleSubMenu(menu)">
-                                <i :class="menu.icon"></i><span class="sidebar-mini-hide">{{ menu.name }}</span>
-                            </a>
+                        <li>
+                            <router-link to="/" exact>
+                                <i class="fa fa-dashboard"></i><span class="sidebar-mini-hide">仪表盘</span>
+                            </router-link>                            
+                        </li>
+                        <li v-for= "menu in menus" :class = "{ 'nav-main-heading' : !('url' in menu) }">
                             
-                            <router-link v-else-if=" 'icon' in menu " :to="menu.uri" exact>
+                            <router-link v-if=" 'url' in menu " :to="'/' + menu.url" exact>
                                 <i :class="menu.icon"></i><span class="sidebar-mini-hide">{{ menu.name }}</span>
                             </router-link>
 
                             <span v-else class="sidebar-mini-hide">{{ menu.name }}</span>
-
-                            <ul v-if="'children' in menu">
-                                <li v-for="child in menu.children">
-                                    <router-link :to="child.uri" exact>{{ child.name }}</router-link>
-                                </li>
-                            </ul>
                         </li>
                     </ul>
                 </div>
@@ -49,7 +44,7 @@
 </template>
 
 <script>
-   import menus from '../../config/menus.js'
+   import menus from '../config/menus.js'
 
     export default {
         data () {
@@ -58,14 +53,6 @@
             }
         },
         methods: {
-            toggleSubMenu(menu) {
-                menu.isOpen = !menu.isOpen;
-                for (let i = 0; i<this.menus.length; i++){
-                    if ('isOpen' in this.menus[i] && this.menus[i].name != menu.name){
-                        this.menus[i].isOpen = false;
-                    }
-                }
-            },
             sidebarMiniToggle() {
                 let winW = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
                 if (winW > 991){

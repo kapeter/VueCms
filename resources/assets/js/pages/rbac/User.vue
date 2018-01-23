@@ -4,7 +4,7 @@
         <!-- Page Content -->
         <div class="content">
 	     	<div class="block">
-	     		<div class="block-header">
+	     		<div class="block-header remove-padding-b">
                     <ul class="block-button">
                         <li>
                             <a @click="createDialog()" class="btn btn-info"><i class="fa fa-plus"></i> 新增用户</a>
@@ -48,41 +48,35 @@
         </div>
         <!-- END Page Content -->
         <ElDialog title="新增用户" :visible.sync="createDialogVisible" width="36%">
-            <form class="form-horizontal">
+            <form>
                 <div class="form-group" :class="{ 'has-error' : errors.has('email') || !uniqueCheck }">
-                    <label for="slug" class="col-sm-2 control-label">登录邮箱</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" v-model="formData.email" name="email" v-validate="'required|email'">
-                        <div class="help-block animated fadeInDown"  v-show="errors.has('email')">
-                            {{ errors.first('email') }}
-                        </div>
-                        <div class="help-block animated fadeInDown" v-show="!uniqueCheck">该邮箱已被注册</div>
+                    <label for="slug">登录邮箱</label>
+                    <input type="text" class="form-control" v-model="formData.email" name="email" v-validate="'required|email'">
+                    <div class="help-block animated fadeInDown"  v-show="errors.has('email')">
+                        {{ errors.first('email') }}
                     </div>
+                    <div class="help-block animated fadeInDown" v-show="!uniqueCheck">该邮箱已被注册</div>
                 </div>
                 <div class="form-group" :class="{ 'has-error' : errors.has('name') }">
-                    <label for="name" class="col-sm-2 control-label">用户名</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" v-model="formData.name" name="name" v-validate="'required'" data-vv-as="用户名">
-                        <div class="help-block animated fadeInDown"  v-show="errors.has('name')">
-                            {{ errors.first('name') }}
-                        </div>
+                    <label for="name">用户名</label>
+                    <input type="text" class="form-control" v-model="formData.name" name="name" v-validate="'required'" data-vv-as="用户名">
+                    <div class="help-block animated fadeInDown"  v-show="errors.has('name')">
+                        {{ errors.first('name') }}
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="model" class="col-sm-2 control-label">所属角色</label>
-                    <div class="col-sm-10">
-                        <el-select v-model="formData.auth" placeholder="请选择所属角色">
-                            <el-option
-                                v-for="role in roles"
-                                :label="role.title"
-                                :value="role.id" :key="role.id">
-                            </el-option>
-                        </el-select>                  
-                    </div>
+                    <label for="model">所属角色</label>
+                    <el-select v-model="formData.auth" placeholder="请选择所属角色">
+                        <el-option
+                            v-for="role in roles"
+                            :label="role.title"
+                            :value="role.id" :key="role.id">
+                        </el-option>
+                    </el-select>                  
                 </div>
                 <div class="form-group" :class="{ 'has-error' : errors.has('pwd')  }">
-                    <label for="description" class="col-sm-2 control-label">登录密码</label>
-                    <div class="col-sm-10 pwd-input">
+                    <label for="description">登录密码</label>
+                    <div class="pwd-input">
 						<input type="text" class="form-control" v-model="formData.pwd" name="pwd" v-validate="'required'">
 						<button class="btn btn-sm btn-success" @click.prevent ="generatePwd()">生成密码</button>
                         <div class="help-block animated fadeInDown"  v-show="errors.has('pwd')">
@@ -99,37 +93,28 @@
 
 		<!-- 编辑用户信息 -->
         <ElDialog title="编辑用户信息" :visible.sync="editDialogVisible" width="36%">
-            <form class="form-horizontal">
+            <form cl>
             	<input type="hidden" name="id" v-model="currentID">
                 <div class="form-group">
-                    <label for="slug" class="col-sm-2 control-label">登录邮箱</label>
-                    <div class="col-sm-10">
-                    	<label class="control-label">{{ formData.email }}</label>
-                    </div>
+                    <label for="slug" class="control-label">登录邮箱</label>
+                    <div class="form-control-static font-w700">{{ formData.email }}</div>
                 </div>
                 <div class="form-group" :class="{ 'has-error' : errors.has('name') }">
-                    <label for="name" class="col-sm-2 control-label">用户名</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" v-model="formData.name" name="name" v-validate="'required'" data-vv-as="用户名">
-                        <div class="help-block animated fadeInDown"  v-show="errors.has('name')">
-                            {{ errors.first('name') }}
-                        </div>
+                    <label for="name">用户名</label>
+                    <input type="text" class="form-control" v-model="formData.name" name="name" v-validate="'required'" data-vv-as="用户名">
+                    <div class="help-block animated fadeInDown"  v-show="errors.has('name')">
+                        {{ errors.first('name') }}
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="model" class="col-sm-2 control-label">所属角色</label>
-                    <div class="col-sm-10" v-if="currentID != $store.state.theUser.id">
-                        <el-select v-model="formData.auth" placeholder="请选择所属角色">
-                            <el-option
-                                v-for="role in roles"
-                                :label="role.title"
-                                :value="role.id" :key="role.id">
-                            </el-option>
-                        </el-select>                    
-                    </div>
-                    <div class="col-sm-10" v-else>
-                        <label class="control-label">{{ $store.state.theUser.role.title }}</label>
-                    </div>
+                    <label for="model">所属角色</label>
+                    <el-select v-model="formData.auth" placeholder="请选择所属角色">
+                        <el-option
+                            v-for="role in roles"
+                            :label="role.title"
+                            :value="role.id" :key="role.id">
+                        </el-option>
+                    </el-select>                    
                 </div>
             </form>
           	<span slot="footer">
@@ -349,7 +334,7 @@
 	.pwd-input .form-control{
 		display: inline-block;
 		width: auto;
-		min-width: 200px;
+		min-width: 75%;
 		margin-right: 5px;
 	}
 	.pwd-input .btn-sm{

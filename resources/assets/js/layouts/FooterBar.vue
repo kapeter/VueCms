@@ -4,7 +4,7 @@
 			Powered by <i class="fa fa-heart text-city"></i> <a href="https://www.github.com/kapeter">Kapeter.com</a>
         </div>
         <div class="pull-left">
-            &copy; {{ thisYear }} VueCMS
+            &copy; 2017 - {{ thisYear }} VueCMS
         </div>
     </footer>
 </template>

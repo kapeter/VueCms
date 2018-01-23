@@ -16,6 +16,7 @@ const store = new Vuex.Store({
 		theConf : [],
 		mediaIsChecked: false,
 		checkedMedia: {},
+		menus: []
 	},
   	getters: {
   		hasToken: state => {

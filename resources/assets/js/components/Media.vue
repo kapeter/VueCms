@@ -6,7 +6,7 @@
                     <div class="file-center text-center">
                         <div class="thumbnail-text">
                             <div class="text-gray">
-                                <i  class="si si-action-undo"></i>
+                                <i class="fa fa-reply"></i>
                             </div>   
                             <h3 class="h5 font-w300 push-5 no-wrap">返回</h3>                        
                         </div>
@@ -16,21 +16,21 @@
             <div class="col-8" v-for="item in currentList">
                 <div class="thumbnail-box" @click.prevent="clickBoxEvent(item)">
                     <div class="checked-mask" v-show='isChecked && activeItem.origin == item.origin'>
-                        <i class="si si-check"></i>
+                        <i class="fa fa-check"></i>
                     </div>
                     <div class="file-center text-center" v-if="item.type != 'image'">
                         <div class="thumbnail-text">
                             <div class="text-success" v-if="item.type == 'audio'">
-                                <i  class="si si-music-tone-alt"></i>
+                                <i  class="fa fa-file-audio-o"></i>
                             </div>
                             <div class="text-warning" v-if="item.type == 'text'">
-                                <i  class="si si-book-open"></i>
+                                 <i  class="fa fa-file-text-o"></i>
                             </div>  
                             <div class="text-danger" v-if="item.type == 'video'">
-                                <i  class="si si-camcorder"></i>
+                                <i  class="fa fa-file-movie-o"></i>
                             </div>        
                             <div class="text-info" v-if="item.type == 'folder'">
-                                <i  class="si si-folder-alt"></i>
+                                <i  class="fa fa-folder-o"></i>
                             </div>   
                             <h3 class="h5 font-w300 push-5 no-wrap">{{item.name}}</h3>                        
                         </div>
