@@ -7,17 +7,22 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Api\V1\BaseController;
 use App\Transformers\UserTransformer;
 use App\Repositories\UserRepository;
+use App\Repositories\PermissionRepository;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class UserController extends BaseController
 {
     protected $userRepository;
 
-    public function __construct(UserRepository $userRepository)
+    protected $permissionRepository;
+
+    public function __construct(UserRepository $userRepository, PermissionRepository $permissionRepository)
     {
         parent::__construct();
         
         $this->userRepository = $userRepository;
+
+        $this->permissionRepository = $permissionRepository;
 
         $this->middleware('blog.api');
     }
@@ -116,6 +121,15 @@ class UserController extends BaseController
     {
         $user = $this->getCurrentUser($request);
 
+        $permissions = $this->permissionRepository->getPermissionByRoleId(2);  
+
+        // 超级管理员拥有全部的权限，不需要获取
+        // if ($user->role->id != 1){
+        //    $permissions = $this->permissionRepository->getPermissionByRoleId(2);  
+        // }else{
+        //     $permissions = [];
+        // }
+
         if($request->isMethod('post')){ 
 
             $data['name'] = $request->name;
@@ -131,12 +145,10 @@ class UserController extends BaseController
                 }                
             }
 
-            $this->userRepository->update($user->id,$data);
+            $user = $this->userRepository->update($user->id,$data);
 
-            return $this->response->noContent()->setStatusCode(200);
+        } 
 
-        }else{
-            return $this->response->item($user, new UserTransformer);
-        }        
+        return $this->response->item($user, new UserTransformer)->addMeta('permissions', $permissions);      
     }    
 }

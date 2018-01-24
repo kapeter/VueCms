@@ -1,29 +1,21 @@
 <template>
     <div id="page-container" class="sidebar-l sidebar-o side-scroll header-navbar-fixed" 
         :class="{ 'sidebar-mini' : isMini, 'sidebar-o-xs' : isHideen }">
-        <div v-if="isLogin">
-            <SideBar></SideBar>
-            <HeaderBar></HeaderBar>
-            <main id="main-container" :style="{ 'min-height' : minH + 'px' }">
-                <transition mode="out-in" enter-active-class="animated lightSpeedIn" leave-active-class="animated lightSpeedOut">
-                    <router-view></router-view>
-                </transition>
-            </main>
-            <FooterBar></FooterBar>            
-        </div>
-        <div class="loading" v-else>
-            <div class="loading-box">
-                <img src="/img/loading.gif"> 
-                <p>加载什么的最讨厌啦</p>              
-            </div>
-        </div>
+        <SideBar></SideBar>
+        <HeaderBar></HeaderBar>
+        <main id="main-container" :style="{ 'min-height' : minH + 'px' }">
+            <transition mode="out-in" enter-active-class="animated fadeInRight" leave-active-class="animated fadeOutRight">
+                <router-view></router-view>
+            </transition>
+        </main>
+        <FooterBar></FooterBar>            
     </div>
 </template>
 
 <script>
-    import SideBar from '../layouts/SideBar.vue'
-    import HeaderBar from '../layouts/HeaderBar.vue'
-    import FooterBar from '../layouts/FooterBar.vue'
+    import SideBar from './SideBar.vue'
+    import HeaderBar from './HeaderBar.vue'
+    import FooterBar from './FooterBar.vue'
 
     export default {
         components: {
@@ -42,9 +34,6 @@
             },
             isHideen() {
                 return this.$store.state.isHideen;
-            },
-            isLogin() {
-                return this.$store.state.theUser != {}
             }
         },
         mounted () {

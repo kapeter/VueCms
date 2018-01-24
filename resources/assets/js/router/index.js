@@ -16,7 +16,7 @@ const router = new VueRouter({
         },
         {
             path: '/',
-            component: () => import(/* webpackChunkName: "layout" */ '../pages/Dashboard.vue'),
+            component: () => import(/* webpackChunkName: "layout" */ '../layouts/Default.vue'),
             children: [
                 {
                     path: '/',
@@ -101,23 +101,25 @@ const router = new VueRouter({
 
 //路由拦截器
 router.beforeEach((to, from, next) => {
-    if (router.app.$store.getters.hasToken){
-        if (to.path == '/login'){
+    if (to.path == '/login'){
+        if (router.app.$store.getters.hasToken){
             next({path : '/'});
-        }else{
-            if (!router.app.$store.getters.hasUserInfo){
-                router.app.$store.dispatch('getUserInfo');
-            }
-            next();
-        }    
-    }else{
-        if (to.path != '/login'){
-            next({path : '/login'}); 
         }else{
             next();
         }
+    }else{
+        if (router.app.$store.getters.hasToken){
+            if (!router.app.$store.getters.hasUserInfo){
+                router.app.$store.dispatch('getUserInfo').then(() => {
+                    next();
+                });
+            }else{
+                next();
+            }           
+        }else{
+            next({path : '/login'}); 
+        }
     }
-    
 })
 
 export default router

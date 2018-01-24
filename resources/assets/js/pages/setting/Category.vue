@@ -106,12 +106,20 @@
 </template>
 
 <script>
-    import models from '../../config/models.js'
 
     export default {
         data () {
             return {
-                models: models,
+                models: [  
+                    {
+                        label: '文章模型',
+                        value: 'post',
+                    },
+                    {
+                        label: '相册模型',
+                        value: 'image'
+                    }
+                ],
                 parentCategory: [],
                 dialogVisible: false,
                 crumbs: [

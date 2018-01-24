@@ -18,7 +18,7 @@
                                     <div class="col-xs-12">
                                         <div class="form-material form-material-info floating" :class="{ 'open' : loginData.email != ''}">
                                             <input v-validate="'required|email'" type="email" class="form-control" name="email" v-model="loginData.email">
-                                            <label for="login-email"><i class="si si-user"></i> 登录邮箱</label>
+                                            <label for="login-email"><i class="fa fa-user"></i> 登录邮箱</label>
                                         </div>
                                         <div class="help-block text-right animated fadeInDown"  v-show="errors.has('email')">
                                             {{ errors.first('email') }}
@@ -49,14 +49,14 @@
                                 <div class="form-group">
                                     <div class="col-xs-6">
                                         <label class="css-input switch switch-sm switch-info">
-                                            <input type="checkbox" name="remember" v-model="loginData.remember"> <span></span> 记住我
+                                            <el-checkbox v-model="loginData.remember">记住我</el-checkbox>
                                         </label>
                                     </div>
-                                    <div class="col-xs-6">
+<!--                                     <div class="col-xs-6">
                                         <div class="font-s13 text-right push-5-t">
                                             <a href="#">忘记密码?</a>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
 
                                 <div class="form-group push-30-t">

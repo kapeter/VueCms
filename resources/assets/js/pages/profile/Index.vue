@@ -127,20 +127,13 @@
             }
         },
         mounted() {
-           	this.loadData();
+            this.resetData();
         },
         methods: {
-        	loadData() {
-	            let _self = this;
-	            _self.$http.get('profile')
-	                .then(function (res) {
-	                    _self.thisUser = res.data.data;
-	                    _self.userName.value = _self.thisUser.name;
-                        _self.userBio.value = _self.thisUser.bio;
-	                })       		
-        	},
         	resetData() {
-        		this.loadData();
+                this.thisUser = this.$store.state.theUser;
+                this.userName.value = this.thisUser.name;
+                this.userBio.value = this.thisUser.bio;
                 this.clearError();
                 this.clearInput();
         	},
@@ -166,6 +159,7 @@
                                 _self.currentPwd.errorText = res.data.message;
                             }else{
                                 _self.$message.success();
+                                _self.$store.commit('setUserInfo', res.data);
                                 _self.resetData();
                             }
                         })

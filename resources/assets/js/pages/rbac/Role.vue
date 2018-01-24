@@ -88,10 +88,7 @@
                         </thead>
                         <tbody>
                             <tr v-for="permission in permissions">
-                                <td>
-                                    <i :class="'fa fa-' + permission.icon + ' push-5-r'"></i>
-                                    {{ permission.title }}
-                                </td>
+                                <td>{{ permission.title }}</td>
                                 <td class="text-center">
                                     <el-checkbox v-model="permission.can_create"></el-checkbox>
                                 </td>

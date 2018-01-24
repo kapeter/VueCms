@@ -25,14 +25,16 @@
                                 <i class="fa fa-dashboard"></i><span class="sidebar-mini-hide">仪表盘</span>
                             </router-link>                            
                         </li>
-                        <li v-for= "menu in menus" :class = "{ 'nav-main-heading' : !('url' in menu) }">
-                            
-                            <router-link v-if=" 'url' in menu " :to="'/' + menu.url" exact>
-                                <i :class="menu.icon"></i><span class="sidebar-mini-hide">{{ menu.name }}</span>
-                            </router-link>
-
-                            <span v-else class="sidebar-mini-hide">{{ menu.name }}</span>
-                        </li>
+                        <div v-for= "(model, index) in menuList">
+                            <li class="nav-main-heading">
+                                <span class="sidebar-mini-hide">{{ model.name }}</span>
+                            </li>
+                            <li v-for="menu in menuList[index].children">
+                                <router-link :to="'/' + menu.url" exact>
+                                    <i :class="menu.icon"></i><span class="sidebar-mini-hide">{{ menu.name }}</span>
+                                </router-link>                                
+                            </li>
+                        </div>
                     </ul>
                 </div>
                 <!-- END Side Content -->
@@ -44,12 +46,32 @@
 </template>
 
 <script>
-   import menus from '../config/menus.js'
+   import menus from '../config/menus'
 
     export default {
         data () {
             return {
-                menus: menus,
+                menuList: [],
+            }
+        },
+        mounted() {
+            if (this.$store.state.theUser.role.is_admin){
+                this.menuList = menus;
+                return false;
+            }
+            for (let i = 0; i < menus.length; i++){
+                let children = [];
+                for (let j = 0; j < menus[i].children.length; j++){
+                    if (this.has(menus[i].children[j].url, 'browser')){
+                        children.push(menus[i].children[j])
+                    }
+                }
+                if (children.length > 0){
+                    this.menuList.push({
+                        name: menus[i].name,
+                        children: children
+                    })
+                }
             }
         },
         methods: {
@@ -60,6 +82,21 @@
                 }else{
                     this.$store.commit('sidebarHideenToggle');
                 }
+            },
+
+            has(route, handle) {
+                let permissions = this.$store.state.permissions;
+                for (let i = 0; i < permissions.length; i++){
+                    if (permissions[i].route == route){
+                        if (permissions[i]['can_' + handle] == 1){
+                            return true;
+                        }else{
+                            return false;
+                        }
+                        break;
+                    }
+                }
+                return false;
             }
         }
 

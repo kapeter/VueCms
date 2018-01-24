@@ -26,6 +26,18 @@ class UsersTableSeeder extends Seeder
             'updated_at'  => Carbon::now()
         ]);
 
+        DB::table('users')->insert([
+            'role_id' => 2,
+            'name' => 'flinys',
+            'email' => 'hfxsky@gmail.com',
+            'password' => bcrypt('123456'),
+            'avatar' => '/img/avatar.jpg',
+            'bio' => '永远相信美好的事情即将发生',
+            'status' => true,
+            'created_at'  => Carbon::now(),
+            'updated_at'  => Carbon::now()
+        ]);
+
         factory(User::class, 10)->create();
     }
 }

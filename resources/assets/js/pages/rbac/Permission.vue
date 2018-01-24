@@ -18,10 +18,6 @@
                             :api-url="routeList.browseUrl"
                             :tfields="tfields"
                             @vuetable:pagination-data="onPaginationData">
-                            <template slot="title" slot-scope="props">
-                                <i :class="'fa fa-' + props.rowData.icon + ' push-5-r'"></i>
-                                {{ props.rowData.title }}
-                            </template>
                             <template slot="actions" slot-scope="props">
                                 <div class="custom-actions">
                                     <button class="btn btn-sm btn-default" @click="itemAction('edit-item', props.rowData)"><i class="fa fa-pencil"></i> 编辑</button>
@@ -63,18 +59,6 @@
                     <label for="name">权限描述</label>
                     <textarea class="form-control" v-model="formData.description" rows="5"></textarea>
                 </div>
-                <div class="form-group" :class="{ 'has-error' :  errors.has('icon')  }">
-                    <label for="name">
-                        菜单图标
-                        <span class="font-s13">
-                            （<i class="fa fa-info"></i> 本站使用 <a href="http://fontawesome.io/icons/">FontAwesome</a> 图标驱动，填写时请去除前缀fa-，例如：file）
-                        </span>
-                    </label>
-                    <input type="text" class="form-control" v-model="formData.icon" name="icon" v-validate="'required'">
-                    <div class="help-block animated fadeInDown"  v-show="errors.has('icon')">
-                        {{ errors.first('icon') }}
-                    </div>
-                </div>
             </form>
           <span slot="footer">
             <button class="btn btn-default" @click="dialogVisible = false">取 消</button>
@@ -105,8 +89,8 @@
                 },
                 tfields: [
                     {
-                      name: '__slot:title',
                       title: '显示名称',
+                      name: 'title',
                     },
                     {
                       title: '唯一路由',

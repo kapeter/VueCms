@@ -17,7 +17,6 @@ class PermissionsTableSeeder extends Seeder
             'route'       => 'post',
             'title'       => '文章管理',
             'description' => '撰写文章并发布。',
-            'icon'        => 'book',
             'created_at'  => Carbon::now(),
             'updated_at'  => Carbon::now()
         ]);
@@ -26,7 +25,6 @@ class PermissionsTableSeeder extends Seeder
             'route'       => 'media',
             'title'       => '媒体库',
             'description' => '多媒体资源管理。',
-            'icon'        => 'camera',
             'created_at'  => Carbon::now(),
             'updated_at'  => Carbon::now()
         ]);

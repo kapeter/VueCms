@@ -16,25 +16,25 @@
                     <ul class="dropdown-menu dropdown-menu-right">
                         <li class="dropdown-header">Profile</li>
                         <li>
-                            <router-link tabindex="-1" :to="'/mail'">
+                            <router-link tabindex="-1" to="/mail">
                                 <i class="fa fa-envelope pull-right"></i>
                                 <span class="badge badge-info pull-right">3</span>收件箱
                             </router-link>
                         </li>
                         <li>
-                            <router-link tabindex="-1" :to="'/profile'">
+                            <router-link tabindex="-1" to="/profile">
                                 <i class="fa fa-user pull-right"></i>个人中心
                             </router-link>
                         </li>
                         <li>
-                            <router-link tabindex="-1" :to="'/setting/system'">
+                            <router-link tabindex="-1" to="/system">
                                 <i class="fa fa-cogs pull-right"></i>系统设置
                             </router-link>
                         </li>
                         <li class="divider"></li>
                         <li class="dropdown-header">Actions</li>
                         <li>
-                            <a tabindex="-1" href="base_pages_lock.html">
+                            <a tabindex="-1" href="javascript:;">
                                 <i class="fa fa-lock pull-right"></i>锁定账户
                             </a>
                         </li>
@@ -98,6 +98,9 @@
                         }
                     }
                 } 
+            },
+            $route () {
+                this.isOpen = false;
             }
         },
         methods: {

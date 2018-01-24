@@ -28,8 +28,7 @@ export default {
             cancelButtonText: "取  消",
             closeOnConfirm: false,
             showLoaderOnConfirm: true,
-        },
-        function(isConfirm){
+        }, function(isConfirm){
             if (isConfirm){
                 callback();
             }

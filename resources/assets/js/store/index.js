@@ -13,6 +13,7 @@ const store = new Vuex.Store({
 		isHideen : false,
 		token : null,
 		theUser : {},
+		permissions: [],
 		theConf : [],
 		mediaIsChecked: false,
 		checkedMedia: {},
@@ -35,12 +36,13 @@ const store = new Vuex.Store({
 			state.isHideen = !state.isHideen;
 		},
 
-		setUserInfo (state,user) {
-			state.theUser = user; 
+		setUserInfo (state, data) {
+			state.theUser = data.data; 
+			state.permissions = data.meta.permissions;
 		},
 		forgetUserInfo(state) {
 			state.theUser = {};
-			state.theRole = {};
+			state.permissions = [];
 		},
 
 		setToken(state,token) {
@@ -65,36 +67,41 @@ const store = new Vuex.Store({
 
 	},
 	actions: {
-		login({ commit }, { token } ) {
+		login({ commit, dispatch }, { token } ) {
 			commit('setToken', token);
+			dispatch('getUserInfo');
 		},
 		logout({ commit }){
 			commit('forgetUserInfo');
 			commit('forgetToken');
 		},
+
 		changeMedia({ commit }, { mark, data }){
 			commit('changeMediaState', mark);
 			commit('changeMediaData', data);
 		},
 
 		getUserInfo(context) {
-	      Vue.http.get(context.state.apiUrl.profile)
-	        .then(function (res) {
-	          	context.commit('setUserInfo', res.data.data)
-	        })                
-	        .catch(function (res) {
-                console.log(res);
-            });			
+		    return new Promise((resolve, reject) => {
+			    Vue.http.get(context.state.apiUrl.profile)
+			        .then(function (res) {
+			          	context.commit('setUserInfo', res.data);
+			          	resolve();
+			        })                
+			        .catch(function (res) {
+		                console.log(res);
+		            });	    	
+		    })		
 		},
 
 		config (context) {
-	      Vue.http.get(context.state.apiUrl.setting)
-	        .then(function (res) {
-	        	context.commit('setConfig', res.data.settings)
-	        })
-	        .catch(function (res) {
-                console.log(res);
-            });	
+	      	Vue.http.get(context.state.apiUrl.setting)
+		        .then(function (res) {
+		        	context.commit('setConfig', res.data.settings)
+		        })
+		        .catch(function (res) {
+	                console.log(res);
+	            });	
 	    }
 
 	},

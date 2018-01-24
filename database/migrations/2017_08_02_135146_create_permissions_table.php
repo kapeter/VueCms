@@ -18,7 +18,6 @@ class CreatePermissionsTable extends Migration
             $table->string('route')->unique();
             $table->string('title');
             $table->text('description');
-            $table->string('icon');
             $table->timestamps();
         });
     }
