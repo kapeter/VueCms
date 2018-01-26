@@ -18,6 +18,9 @@
                             :api-url="routeList.browseUrl"
                             :tfields="tfields"
                             @vuetable:pagination-data="onPaginationData">
+                            <template slot="is_except" slot-scope="props">
+                                <span v-if="props.rowData.is_except == 1" class="label label-success">是</span>
+                            </template>
                             <template slot="actions" slot-scope="props">
                                 <div class="custom-actions">
                                     <button class="btn btn-sm btn-default" @click="itemAction('edit-item', props.rowData)"><i class="fa fa-pencil"></i> 编辑</button>
@@ -58,6 +61,9 @@
                 <div class="form-group">
                     <label for="name">权限描述</label>
                     <textarea class="form-control" v-model="formData.description" rows="5"></textarea>
+                </div>
+                <div class="form-group">
+                    <el-checkbox v-model="formData.is_except">设为通用模块（所有用户均可访问）</el-checkbox>
                 </div>
             </form>
           <span slot="footer">
@@ -101,6 +107,12 @@
                       name: 'description',
                     },
                     {
+                      name: '__slot:is_except',
+                      title: '是否为通用模块',
+                      titleClass: 'text-center',
+                      dataClass: 'text-center'
+                    },
+                    {
                       title: '创建时间',
                       name: 'created_at',
                       titleClass: 'text-center',
@@ -118,12 +130,7 @@
 		      	dialogTitle: '新增权限',
 		      	uniqueCheck: true,
 		      	currentID: 0,
-                formData: {
-                	route: '',
-                    title: '',
-                    description: '',
-                    icon: ''
-                },
+                formData: {}
 			}
 		},
         methods: {
@@ -145,7 +152,7 @@
                     route: '',
                     title: '',
                     description: '',
-                    icon: ''
+                    is_except: false
                 };
                 this.currentID = 0;
                 this.uniqueCheck = true;
@@ -158,7 +165,7 @@
                 	route: data.route,
                     title: data.title,
                     description: data.description,
-                    icon: data.icon
+                    is_except: data.is_except ? true : false
                 };
                 this.currentID = data.id;
                 this.uniqueCheck = true;

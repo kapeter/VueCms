@@ -14,6 +14,7 @@ class Permission extends Model
     protected $fillable = [
         'route',
         'title',
-        'description'
+        'description',
+        'is_except'
     ];
 }

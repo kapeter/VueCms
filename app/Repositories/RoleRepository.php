@@ -32,9 +32,8 @@ class RoleRepository
 								['role_id', '=', $id],
 								['permission_id', '=', $item->id]
 							]);
-			$result = $relation->first();
-			if (!isset($result)){
-				$this->insertPermissionTable($id, $item);
+			if (!isset($relation)){
+				$this->insertRelationTable($id, $item);
 			}else{
 				$relation->update(
 					[
@@ -52,6 +51,7 @@ class RoleRepository
 	public function getPermission($id, $list)
 	{
 		//如果有未加入的权限，加入进去
+		$relation = [];
 		foreach ($list as $item){
 			$temp = DB::table($this->relation_table)
 							->where([
@@ -59,18 +59,18 @@ class RoleRepository
 								['permission_id', '=', $item->id]
 							])->first();
 			if (!isset($temp)){
-				$this->insertPermissionTable($id, $item);
-			}			
+				$temp = $this->insertRelationTable($id, $item);
+			}		
+			array_push($relation, $temp);
 		}
-		$relation = DB::table($this->relation_table)->where('role_id', $id)->get();
 
 		return $relation;
 	}
 
 	//插入新的权限
-	public function insertPermissionTable($id, $item)
+	public function insertRelationTable($id, $item)
 	{
-		DB::table($this->relation_table)->insert(
+		return DB::table($this->relation_table)->insert(
 			[
 				'role_id'       => $id,
 				'permission_id' => $item->id,
@@ -83,7 +83,7 @@ class RoleRepository
 	}
 
 	//从关系表中将该角色删除
-	public function delRelate($id)
+	public function delRelation($id)
 	{
 		DB::table($this->relation_table)->where('role_id', $id)->delete();
 	}

@@ -41,7 +41,7 @@ class CategoryController extends BaseController
     {
         $data = $request->all();
 
-        if ( $this->categoryRepository->checkUnique('slug',$data['slug'],0) ){
+        if ( $this->categoryRepository->checkUnique('slug', $data['slug'],0) ){
             $this->categoryRepository->store($data);
             return $this->response->noContent()->setStatusCode(200);    
         }else{
@@ -89,6 +89,9 @@ class CategoryController extends BaseController
      */
     public function destroy($id)
     {
+
+        $this->categoryRepository->delRelation($id);
+
         $this->categoryRepository->destroy($id);
 
         return $this->response->noContent()->setStatusCode(200);

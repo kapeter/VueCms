@@ -43,7 +43,7 @@ class PermissionController extends BaseController
     {
         $this->permissionRepository->destroy($id);
 
-        $this->permissionRepository->delRelate($id);
+        $this->permissionRepository->delRelation($id);
 
         return $this->response->noContent()->setStatusCode(200);
     }

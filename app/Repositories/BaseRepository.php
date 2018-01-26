@@ -109,7 +109,7 @@ trait BaseRepository
    
    public function getByColumn($column, $data)
    {
-       return $this->model->where($column, $data)->get()->toArray();
+       return $this->model->where($column, $data)->get();
    }
 
     /**

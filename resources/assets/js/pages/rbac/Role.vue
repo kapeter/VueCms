@@ -252,7 +252,7 @@
                                     _self.permissions[i].can_delete = _self.permissions[i].can_delete ? true : false;
                                 }
                                 _self.currentID = data.id;
-                                _self.confDialogTitle = '编辑'+ data.title + '的权限';
+                                _self.confDialogTitle = '编辑 '+ data.title + ' 的权限';
                                 _self.confDialogVisible = true;
                             })
                             .catch(function(){
@@ -309,7 +309,4 @@
 	.modal-content .block{
 		margin-bottom: 0;
 	}
-    .el-checkbox__inner{
-        border-radius: 0;
-    }
 </style>

@@ -13,6 +13,7 @@ class PermissionTransformer extends TransformerAbstract
             'route'         => $permission['route'],
             'title'         => $permission['title'],
             'description'   => $permission['description'],
+            'is_except'     => $permission['is_except'],
             'created_at'    => $permission['created_at'],
         ];
     }

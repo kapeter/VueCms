@@ -100,13 +100,12 @@ class RoleController extends BaseController
      */
     public function show($id)
     {
-        $list = $this->permissionRepository->all();
+        $list = $this->permissionRepository->getByColumn('is_except', false);
         $permissions = $this->roleRepository->getPermission($id,$list);
         foreach ($permissions as $item){
             $permission_info = $this->permissionRepository->getById($item->permission_id);
             $item->title = $permission_info->title;
             $item->name = $permission_info->route;
-            $item->icon = $permission_info->icon;
         }
         return $this->response->array($permissions);
     }
@@ -147,7 +146,7 @@ class RoleController extends BaseController
         }else{
             $this->roleRepository->destroy($id);
 
-            $this->roleRepository->delRelate($id);  
+            $this->roleRepository->delRelation($id);  
 
             return $this->response->noContent()->setStatusCode(200);      
         } 

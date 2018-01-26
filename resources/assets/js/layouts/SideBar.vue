@@ -88,7 +88,7 @@
                 let permissions = this.$store.state.permissions;
                 for (let i = 0; i < permissions.length; i++){
                     if (permissions[i].route == route){
-                        if (permissions[i]['can_' + handle] == 1){
+                        if (permissions[i]['can_' + handle] == 1 || permissions[i].is_except){
                             return true;
                         }else{
                             return false;

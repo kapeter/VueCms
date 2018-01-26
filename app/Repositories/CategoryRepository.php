@@ -43,7 +43,7 @@ class CategoryRepository
         foreach ($result as $value) {
         	$table = $value->model.'s';
 			if ( Schema::hasTable($table) ){
-				$query = DB::table($table)->where('category_id', $value->id)->whereNull('deleted_at')->orderBy('updated_at', 'desc');
+				$query = DB::table($table)->where('category_id', $value->id)->orderBy('updated_at', 'desc');
 
 				if ($this->reqIsFromFront($request)){
 		            $query = $query->whereNotNull('published_at');
@@ -62,5 +62,17 @@ class CategoryRepository
 
         return $result;
 
+	}
+
+
+	public function delRelation($id)
+	{
+		$current = $this->getById($id);
+
+		$table = $current->model.'s';
+
+		if ( Schema::hasTable($table) ){
+			$query = DB::table($table)->where('category_id', $current->id)->update(['category_id' => 1]);
+		}
 	}
 }

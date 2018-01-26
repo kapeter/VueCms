@@ -29,7 +29,7 @@ class PermissionRepository
      * @param int $id 权限ID
      * @return null
      */
-	public function delRelate($id)
+	public function delRelation($id)
 	{
 		DB::table($this->relation_table)->where('permission_id', $id)->delete();
 	}
@@ -43,14 +43,18 @@ class PermissionRepository
      */
 	public function getPermissionByRoleId($id)
 	{
-		$relations = DB::table($this->relation_table)->where('role_id', $id)->get()->toArray();
+		$permissions = $this->all();
 
 		$result = [];
 
-		foreach ($relations as $relation) {
+		foreach ($permissions as $permission) {
+			$relation = DB::table($this->relation_table)
+							->where([
+								['role_id', '=', $id],
+								['permission_id', '=', $permission->id]
+							])->first();
 			$relation = $this->object_to_array($relation);
-			$permission = $this->getById($relation['permission_id'])->toArray();
-			array_push($result, array_merge($permission, $relation));
+			array_push($result, array_merge($permission->toArray(), $relation));
 		}
 
 		return $result;
