@@ -68,10 +68,15 @@ class PostController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
         $post = $this->postRepository->getById($id);
 
+        // 如果来自前端，统计阅读量
+        if ($this->reqIsFromFront($request)){
+           $this->postRepository->update($id,['view_count' => $post->view_count + 1]); 
+        }
+        
         if (isset($post)){
             return $this->response->item($post, new PostTransformer);
         }else{

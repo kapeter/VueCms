@@ -81,6 +81,12 @@
 			          dataClass: 'text-center',
 			        },
 			        {
+			          title: '阅读量',
+			          name: 'view_count',
+			          titleClass: 'text-center',
+			          dataClass: 'text-center',
+			        },
+			        {
 			          name: '__slot:publishSwitch',
 			          title: '发布状态',
 			          titleClass: 'text-center',

@@ -20,6 +20,7 @@ class PostTransformer extends TransformerAbstract
             'recommend'     => $post['recommend'],
             'is_publish'    => isset($post['published_at']) ? true : false,
             'published_at'  => $post['published_at'],
+            'view_count'    => $post['view_count'],
 	        'updated_at'    => $post['updated_at'],
             'created_at'    => $post['created_at']
         ];
