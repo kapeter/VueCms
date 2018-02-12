@@ -3496,6 +3496,10 @@ kind-of@^4.0.0:
   dependencies:
     is-buffer "^1.1.5"
 
+konva@^1.7.6:
+  version "1.7.6"
+  resolved "http://registry.npm.taobao.org/konva/download/konva-1.7.6.tgz#7aceef1058b04127077c8f44653556b35b1133e6"
+
 laravel-mix@^1.6.2:
   version "1.7.2"
   resolved "http://registry.npm.taobao.org/laravel-mix/download/laravel-mix-1.7.2.tgz#4bf8444202948ce18f9cfd2e2508f82ea06106fe"
@@ -3960,11 +3964,7 @@ miller-rabin@^4.0.0:
     bn.js "^4.0.0"
     brorand "^1.0.1"
 
-"mime-db@>= 1.30.0 < 2":
-  version "1.32.0"
-  resolved "http://registry.npm.taobao.org/mime-db/download/mime-db-1.32.0.tgz#485b3848b01a3cda5f968b4882c0771e58e09414"
-
-mime-db@~1.30.0:
+"mime-db@>= 1.30.0 < 2", mime-db@~1.30.0:
   version "1.30.0"
   resolved "http://registry.npm.taobao.org/mime-db/download/mime-db-1.30.0.tgz#74c643da2dd9d6a45399963465b26d5ca7d71f01"
 
