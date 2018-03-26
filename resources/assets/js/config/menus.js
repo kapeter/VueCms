@@ -11,11 +11,17 @@ export default [
                 name : '媒体库',
                 icon : 'fa fa-camera',
                 url  : 'media',
-            },
+            }
+        ]
+    },
+
+    {
+        name : 'Message Interface',
+        children: [
             {
-                name : '个人中心',
-                icon : 'fa fa-user',
-                url  : 'profile',
+                name : '评论管理',
+                icon : 'fa fa-comments',
+                url  : 'mail',
             },
         ]
     },
@@ -34,17 +40,6 @@ export default [
                 icon : 'fa fa-cogs',
                 url  : 'system',
             },            
-        ]
-    },
-
-    {
-        name : 'Message Interface',
-        children: [
-            {
-                name : '邮件管理',
-                icon : 'fa fa-envelope',
-                url  : 'mail',
-            },
         ]
     },
 
@@ -73,9 +68,14 @@ export default [
         name : 'Log Interface',
         children: [
             {
+                name : '登录日志',
+                icon : 'fa fa-anchor',
+                url  : 'log/signin',
+            },
+            {
                 name : '接口日志',
                 icon : 'fa fa-bar-chart-o',
-                url  : 'log',
+                url  : 'log/operation',
             },
         ]
     },

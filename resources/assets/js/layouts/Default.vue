@@ -45,14 +45,14 @@
                 let _self = this;
                 let resizeTimeout = null;
 
-                _self.minH = window.outerHeight- 110;
+                _self.minH = window.innerHeight - 60;
 
                 window.onresize = () => {
 
                     clearTimeout(resizeTimeout);
 
                     resizeTimeout = setTimeout(() => {
-                        _self.minH = window.outerHeight - 110;
+                        _self.minH = window.innerHeight - 60;
                     }, 300);
                     
                 }                

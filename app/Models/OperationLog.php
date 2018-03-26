@@ -4,8 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Log extends Model
+class OperationLog extends Model
 {
+    /**
+     * 关联到模型的数据表
+     *
+     * @var string
+     */
+    protected $table = 'operation_logs';
+
 	/**
      * The attributes that are mass assignable.
      *

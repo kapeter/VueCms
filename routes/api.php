@@ -39,7 +39,8 @@ $api->version('v1',['middleware' => 'cors', 'namespace' => 'App\Http\Controllers
 	$api->resource('category','CategoryController');
 
 	//Log
-	$api->get('log','LogController@index')->name('log');
+	$api->get('log/operation','OperationLogController@index')->name('log.operation');
+	$api->get('log/signin','UserLogController@index')->name('log.signin');
 
 	//Media
 	$api->get('media', 'MediaController@index')->name('media.list');

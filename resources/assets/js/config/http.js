@@ -43,7 +43,7 @@ export default {
 	                	break;
 	                default:
 	                	let token = response.headers.authorization; 
-	                	if (typeof(token) != 'undefined'){
+	                	if (typeof(token) !== 'undefined'){
 	                		localStorage.setItem('token', token.slice(7));
 	                	}
 	                	break;

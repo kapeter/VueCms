@@ -5,17 +5,21 @@ namespace App\Http\Controllers\Api\V1;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Api\V1\BaseController;
 use Illuminate\Support\Facades\Auth;
+use App\Repositories\UserLogRepository;
 
 class AuthController extends BaseController
 {
+    protected $logRepository;
     /**
      * Create a new AuthController instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(UserLogRepository $logRepository)
     {
         $this->middleware('blog:api', ['except' => ['login']]);
+
+        $this->logRepository = $logRepository;
     }
     /**
      * Handle a login request to the application.
@@ -31,6 +35,15 @@ class AuthController extends BaseController
         $credentials = $request->only('email', 'password');  
 
         if ($token = $this->guard()->attempt($credentials)) {
+
+            $user = $this->me();
+            $data = [
+                'username' => $user->name,
+                'email'    => $user->email,
+                'ip'       => $request->ip(),
+            ];
+            $this->logRepository->store($data);
+
             return $this->respondWithToken($token);
         }else{
             return $this->response->array($this->errorMsg[10003]);
@@ -108,7 +121,6 @@ class AuthController extends BaseController
      */
     public function me()
     {
-        return response()->json($this->guard()->user());
+        return $this->guard()->user();
     }
-
 }

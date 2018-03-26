@@ -3,11 +3,11 @@
 namespace App\Transformers;
 
 use League\Fractal\TransformerAbstract;
-use App\Models\Log;
+use App\Models\OperationLog;
 
-class LogTransformer extends TransformerAbstract
+class OperationLogTransformer extends TransformerAbstract
 {
-    public function transform(Log $log) {
+    public function transform(OperationLog $log) {
         return [
         	'id'   		    => $log['id'],
             'controller'    => $log['controller'],

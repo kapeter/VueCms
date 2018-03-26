@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;
-use App\Repositories\LogRepository;
+use App\Repositories\OperationLogRepository;
 /**
 * record logs
 */
@@ -16,7 +16,7 @@ class RecordLogs
     protected $logRepository;
 
 	
-	function __construct(LogRepository $logRepository)
+	function __construct(OperationLogRepository $logRepository)
 	{
 		$this->logRepository = $logRepository;
 	}

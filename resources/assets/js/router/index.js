@@ -81,8 +81,20 @@ const router = new VueRouter({
                 },
                 {
                     path: 'log',
-                    name: 'log',
-                    component: () => import(/* webpackChunkName: "log" */  '../pages/log/Index.vue')
+                    component: Parent,
+                    children: [
+                        {
+                            path: 'operation',
+                            name: 'operation',
+                            component: () => import(/* webpackChunkName: "log" */  '../pages/log/Operation.vue')
+                        },
+                        {
+                            path: 'signin',
+                            name: 'signin',
+                            component: () => import(/* webpackChunkName: "log" */ '../pages/log/Signin.vue')
+                        }
+                    ]
+                    
                 },
                 {
                     path: 'mail',

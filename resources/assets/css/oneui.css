@@ -4342,6 +4342,7 @@ a.list-group-item:focus {
 }
 .header-navbar-fixed #main-container {
   padding-top: 60px;
+  padding-bottom: 60px;
 }
 @media screen and (min-width: 992px) {
   .header-navbar-fixed.sidebar-l.sidebar-o #header-navbar {

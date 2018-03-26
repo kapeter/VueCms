@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Models\Log;
+use App\Models\UserLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
@@ -10,13 +10,13 @@ use Illuminate\Support\Facades\Schema;
 /**
 *  Category Repository
 */
-class LogRepository 
+class UserLogRepository 
 {
 	use BaseRepository;
 
 	protected $model;
 	
-	public function __construct(Log $log)
+	public function __construct(UserLog $log)
 	{
 		$this->model = $log;
 	}

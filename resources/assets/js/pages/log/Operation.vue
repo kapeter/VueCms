@@ -9,7 +9,7 @@
 	     		<div class="block-content">
 	     			<div class="table-responsive">
 						<vuetable ref="vuetable"
-						    api-url="log"
+						    api-url="log/operation"
 						    :tfields="tfields"
 						    :sort-order="sortOrder"
 						    :css="css.table"
