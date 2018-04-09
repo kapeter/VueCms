@@ -16,12 +16,6 @@
                     <ul class="dropdown-menu dropdown-menu-right">
                         <li class="dropdown-header">Profile</li>
                         <li>
-                            <router-link tabindex="-1" to="/mail">
-                                <i class="fa fa-envelope pull-right"></i>
-                                <span class="badge badge-info pull-right">3</span>收件箱
-                            </router-link>
-                        </li>
-                        <li>
                             <router-link tabindex="-1" to="/profile">
                                 <i class="fa fa-user pull-right"></i>个人中心
                             </router-link>

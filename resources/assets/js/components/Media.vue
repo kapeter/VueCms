@@ -365,7 +365,7 @@
         box-sizing: border-box;
         border: 1px solid #66ccff;
     }
-    .checked-mask .si{
+    .checked-mask .fa{
         font-size: 2.5em;
         color: #fff;
         left: 50%;

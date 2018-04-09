@@ -55,4 +55,7 @@ $api->version('v1',['middleware' => 'cors', 'namespace' => 'App\Http\Controllers
 
 	//Mail
 	$api->post('mail/send', 'MailController@send')->name('media.send');
+
+	//Comment
+	$api->resource('comment','CommentController');
 });
