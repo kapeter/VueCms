@@ -19,10 +19,11 @@ class CreateCommentsTable extends Migration
             $table->integer('comment_relation_id');
             $table->string('comment_author');
             $table->string('comment_author_email');
-            $table->string('comment_author_url');
+            $table->string('comment_author_url')->nullable();
             $table->string('comment_author_ip');
             $table->string('comment_content');
-            $table->integer('comment_parent_id');
+            $table->integer('comment_parent_id')->default(0);
+            $table->boolean('comment_status')->default(false);
             $table->timestamps();
             $table->softDeletes();
         });

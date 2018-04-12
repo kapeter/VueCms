@@ -3,28 +3,32 @@
 namespace App\Http\Controllers\Api\V1;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Api\V1\BaseController;
+use App\Repositories\CommentRepository;
+use App\Transformers\CommentTransformer;
 
-class CommentController extends Controller
+class CommentController extends BaseController
 {
+    protected $commentRepository;
+
+    public function __construct(CommentRepository $commentRepository)
+    {
+        parent::__construct();
+        
+        $this->commentRepository = $commentRepository;
+
+        $this->middleware('blog.api');
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
-    }
+        $comments = $this->commentRepository->getCommentByPaginate($request);
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return $this->response->paginator($comments, new CommentTransformer);
     }
 
     /**
@@ -35,27 +39,25 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = array_merge($request->all(),
+            [
+                'comment_cotent' => htmlentities($request->comment_cotent),
+                'comment_author_ip' => $request->ip()
+            ]
+        );
+
+        $this->commentRepository->store($data);
+
+        return $this->response->noContent()->setStatusCode(200);
     }
 
     /**
-     * Display the specified resource.
+     * Store a newly created resource in storage.
      *
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function show(Request $request)
     {
         //
     }
@@ -80,6 +82,8 @@ class CommentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $this->commentRepository->destroy($id);
+
+        return $this->response->noContent()->setStatusCode(200);
     }
 }

@@ -10,6 +10,11 @@ import Arc from 'konva/src/shapes/Arc'
 import Line from 'konva/src/shapes/Line'
 
 export default {
+  data () {
+    return {
+      timer: null
+    }
+  },
   mounted () {
     const MAX_RADIUS = 60
     const MIN_RADIUS = 30
@@ -39,7 +44,7 @@ export default {
 
     animate()
 
-    setInterval(() => {
+    _self.timer = setInterval(() => {
       animate()
     }, 1750)
 
@@ -75,7 +80,6 @@ export default {
         })
         layerArc.add(arcs[i])
         
-
         arcs[i].to({
           angle: 360,
           duration: 1,
@@ -136,10 +140,13 @@ export default {
       layerLine.draw()
     }
   },
+  beforeDestroy () {
+    clearInterval(_self.timer)
+  },
   methods: {
     getRandom (lowerValue, upperValue) {
       return parseInt(Math.random() * (upperValue - lowerValue + 1) + lowerValue)
-    }
+    },
   }
 }
 </script>

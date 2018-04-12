@@ -16,7 +16,7 @@ class UserTransformer extends TransformerAbstract
 	        'bio'           => $user['bio'],
             'status'        => $user['status'],
             'role'          => $user->role,
-            'created_at'    => $user['created_at']
+            'created_at'    => $user['created_at']->toDateTimeString()
         ];
     }
 }

@@ -15,7 +15,7 @@ class OperationLogTransformer extends TransformerAbstract
             'querystring'   => $log['querystring'],
 	        'username'      => $log['username'],
             'ip'            => $log['ip'],
-	        'created_at'    => $log['created_at'],
+	        'created_at'    => $log['created_at']->toDateTimeString(),
         ];
     }
 }

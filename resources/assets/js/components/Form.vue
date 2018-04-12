@@ -234,17 +234,13 @@
         					let temp = _self.moreParams[x];
         					temp.value = data[temp.name];
         				}
-        				_self.createdDate = _self.dateFormat(data['created_at']);
-        				_self.updatedDate = _self.dateFormat(data['updated_at']);
-        				_self.publishedDate = _self.dateFormat(data['published_at']);
+        				_self.createdDate = data['created_at'];
+        				_self.updatedDate = data['updated_at'];
+        				_self.publishedDate = data['published_at'];
         				_self.categoryData = data['category'].id;
         			});
 			},
 
-			// change the data format
-			dateFormat (value) {
-        		return (value == null) ? '' : value.date.substring(0,10);
-        	},
 			// refresh data if the action is create
 			freshData() {
 				for (let i = 0; i < this.formFields.length; i++ ){

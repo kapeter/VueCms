@@ -21,7 +21,7 @@ export default [
             {
                 name : '评论管理',
                 icon : 'fa fa-comments',
-                url  : 'mail',
+                url  : 'comment',
             },
         ]
     },

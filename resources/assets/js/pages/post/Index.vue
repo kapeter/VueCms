@@ -75,8 +75,8 @@
 			          sortField: 'title',
 			        },
 			        {
-			          title: '作者',
-			          name: 'last_user',
+			          title: '所属栏目',
+			          name: 'category.name',
 			          titleClass: 'text-center',
 			          dataClass: 'text-center',
 			        },
@@ -97,8 +97,7 @@
 			          name: 'created_at',
 			          sortField: 'updated_at',
 			          titleClass: 'text-center',
-			          dataClass: 'text-center',
-			          callback: 'dateFormat'
+			          dataClass: 'text-center'
 			        },
 			        {
 			          name: '__slot:actions',
@@ -130,9 +129,6 @@
 			this.$root.$off('filter-reset');
 		},
         methods: {
-        	dateFormat (value) {
-        		return (value == null) ? '' : value.date.substring(0,10);
-        	},
 		    onPaginationData (paginationData) {
 		      	this.$refs.pagination.setPaginationData(paginationData);
 		      	this.$refs.paginationInfo.setPaginationData(paginationData);

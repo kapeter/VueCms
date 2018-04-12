@@ -13,7 +13,7 @@ class UserLogTransformer extends TransformerAbstract
             'username'    => $log['username'],
             'email'       => $log['email'],
             'ip'          => $log['ip'],
-	        'created_at'  => $log['created_at'],
+	        'created_at'  => $log['created_at']->toDateTimeString(),
         ];
     }
 }

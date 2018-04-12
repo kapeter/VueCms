@@ -20,4 +20,37 @@ class CommentRepository
 	{
 		$this->model = $comment;
 	}
+
+	/**
+	*  get Comment with Paginate
+	*
+	*  @param  \Illuminate\Http\Request  $request
+	*/
+	public function getCommentByPaginate(Request $request)
+	{
+		$result = $this->model;
+
+        $per_page = isset($request->per_page) ? $request->per_page : 10;
+
+        $result = $result->orderBy('created_at', 'desc');
+
+        $result = $result->paginate($per_page);
+
+        foreach ($result as $comment) {
+        	$table = $comment->comment_type.'s';
+			if ( Schema::hasTable($table) ){
+				$comment['relation'] = DB::table($table)->where('id', $comment->comment_relation_id)->first();
+			}else{
+				$comment['relation'] = null;
+			}   
+			// 获取父评论信息   	
+			if ($comment->comment_parent_id != 0){
+				$comment['parent'] = $this->getById($comment->comment_parent_id);
+			}
+        }
+
+        
+
+        return $result;
+	}
 }

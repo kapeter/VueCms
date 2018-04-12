@@ -101,6 +101,11 @@ const router = new VueRouter({
                     name: 'mail',
                     component: () => import(/* webpackChunkName: "message" */ '../pages/message/Inbox.vue')
                 },
+                {
+                    path: 'comment',
+                    name: 'comment',
+                    component: () => import(/* webpackChunkName: "message" */ '../pages/message/Comment.vue')
+                }
             ]
         },
         {

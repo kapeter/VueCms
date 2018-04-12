@@ -17,7 +17,7 @@ class CreateOperationLogsTable extends Migration
             $table->increments('id');
             $table->string('controller',50);
             $table->string('action',30);
-            $table->string('querystring',255);
+            $table->string('querystring',255)->nullable();
             $table->string('username',100);
             $table->string('ip',20);
             $table->timestamps();

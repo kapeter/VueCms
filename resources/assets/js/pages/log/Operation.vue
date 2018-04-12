@@ -76,8 +76,7 @@
 			          title: '操作时间',
 			          name: 'created_at',
 			          titleClass: 'text-center',
-			          dataClass: 'text-center',
-			          callback: 'dateFormat'
+			          dataClass: 'text-center'
 			        }
 		      	],
 		      	sortOrder: [
@@ -91,9 +90,6 @@
 		    }
 		},
         methods: {
-     		dateFormat (value) {
-        		return (value == null) ? '' : value.date.slice(0,-7);
-        	},
 		    onPaginationData (paginationData) {
 		      	this.$refs.pagination.setPaginationData(paginationData);
 		      	this.$refs.paginationInfo.setPaginationData(paginationData);

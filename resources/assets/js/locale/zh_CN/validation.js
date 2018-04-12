@@ -5,7 +5,8 @@ export default {
 		pwd: "密码",
 		title: "显示名称",
 		route: "路由",
-		slug: "唯一标识"
+		slug: "唯一标识",
+		content: "内容"
 	},
 	messages: {
 		required: (field, args) => { return field + '不能为空' },

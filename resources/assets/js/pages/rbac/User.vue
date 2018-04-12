@@ -173,8 +173,7 @@
 			          name: 'created_at',
 			          sortField: 'updated_at',
 			          titleClass: 'text-center',
-			          dataClass: 'text-center',
-			          callback: 'dateFormat'
+			          dataClass: 'text-center'
 			        },
 			        {
 			          name: '__slot:actions',
@@ -209,9 +208,6 @@
                 });
         },
         methods: {
-        	dateFormat (value) {
-        		return (value == null) ? '' : value.date.substring(0,10);
-        	},
 		    onPaginationData (paginationData) {
 		      	this.$refs.pagination.setPaginationData(paginationData);
 		      	this.$refs.paginationInfo.setPaginationData(paginationData);

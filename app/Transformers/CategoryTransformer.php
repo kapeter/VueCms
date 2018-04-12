@@ -16,8 +16,8 @@ class CategoryTransformer extends TransformerAbstract
 	        'model'         => $category['model'],
             'detail'        => $category['detail'],
 	        'description'   => $category['description'],
-	        'updated_at'    => $category['updated_at'],
-            'created_at'    => $category['created_at']
+	        'updated_at'    => $category['updated_at']->toDateTimeString(),
+            'created_at'    => $category['created_at']->toDateTimeString()
         ];
     }
 }

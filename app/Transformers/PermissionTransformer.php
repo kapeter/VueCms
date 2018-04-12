@@ -14,7 +14,7 @@ class PermissionTransformer extends TransformerAbstract
             'title'         => $permission['title'],
             'description'   => $permission['description'],
             'is_except'     => $permission['is_except'],
-            'created_at'    => $permission['created_at'],
+            'created_at'    => $permission['created_at']->toDateTimeString(),
         ];
     }
 }

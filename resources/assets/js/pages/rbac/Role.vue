@@ -157,7 +157,6 @@
                       name: 'created_at',
                       titleClass: 'text-center',
                       dataClass: 'text-center',
-                      callback: 'dateFormat'
                     },
                     {
                       name: '__slot:actions',
@@ -181,9 +180,6 @@
 			}
 		},
         methods: {
-        	dateFormat (value) {
-        		return (value == null) ? '' : value.date.substring(0,10);
-        	},
             onPaginationData (paginationData) {
                 this.$refs.pagination.setPaginationData(paginationData);
                 this.$refs.paginationInfo.setPaginationData(paginationData);

@@ -1123,68 +1123,6 @@ input[type="email"].form-control {
   font-size: 13px;
   color: #a4a4a4;
 }
-.has-success > label,
-.has-success .help-block,
-.has-success .control-label,
-.has-success .radio,
-.has-success .checkbox,
-.has-success .radio-inline,
-.has-success .checkbox-inline,
-.has-success.radio label,
-.has-success.checkbox label,
-.has-success.radio-inline label,
-.has-success.checkbox-inline label {
-  color: #34bfa3;
-}
-.has-success .form-control {
-  border-color: #34bfa3;
-  -webkit-box-shadow: none;
-  box-shadow: none;
-}
-.has-success .form-control:focus {
-  border-color: #34bfa3;
-  -webkit-box-shadow: none;
-  box-shadow: none;
-}
-.has-success .input-group-addon {
-  color: #34bfa3;
-  border-color: #34bfa3;
-  background-color: #fff;
-}
-.has-success .form-control-feedback {
-  color: #34bfa3;
-}
-.has-info > label,
-.has-info .help-block,
-.has-info .control-label,
-.has-info .radio,
-.has-info .checkbox,
-.has-info .radio-inline,
-.has-info .checkbox-inline,
-.has-info.radio label,
-.has-info.checkbox label,
-.has-info.radio-inline label,
-.has-info.checkbox-inline label {
-  color: #66ccff;
-}
-.has-info .form-control {
-  border-color: #66ccff;
-  -webkit-box-shadow: none;
-  box-shadow: none;
-}
-.has-info .form-control:focus {
-  border-color: #43a3e5;
-  -webkit-box-shadow: none;
-  box-shadow: none;
-}
-.has-info .input-group-addon {
-  color: #66ccff;
-  border-color: #66ccff;
-  background-color: #fff;
-}
-.has-info .form-control-feedback {
-  color: #66ccff;
-}
 .has-warning > label,
 .has-warning .help-block,
 .has-warning .control-label,
@@ -1342,95 +1280,6 @@ input[type="email"].form-control {
   background-color: #f3b760;
 }
 .badge-danger {
-  background-color: #f4516c;
-}
-.alert {
-  padding-bottom: 10px;
-  border-radius: 2px;
-  border: none;
-}
-.alert p {
-  margin-bottom: 5px !important;
-}
-.alert-success {
-  background-color: #e0f5e9;
-  color: #34bfa3;
-  -webkit-box-shadow: 0 2px #cdefdb;
-  box-shadow: 0 2px #cdefdb;
-}
-.alert-success hr {
-  border-top-color: #cdefdb;
-}
-.alert-success .alert-link {
-  color: #287b4b;
-}
-.alert-info {
-  background-color: #edf6fd;
-  color: #43a3e5;
-  -webkit-box-shadow: 0 2px #d6ebfa;
-  box-shadow: 0 2px #d6ebfa;
-}
-.alert-info hr {
-  border-top-color: #d6ebfa;
-}
-.alert-info .alert-link {
-  color: #1e8cd7;
-}
-.alert-warning {
-  background-color: #fdf3e5;
-  color: #efa231;
-  -webkit-box-shadow: 0 2px #fbe8cd;
-  box-shadow: 0 2px #fbe8cd;
-}
-.alert-warning hr {
-  border-top-color: #fbe8cd;
-}
-.alert-warning .alert-link {
-  color: #dc8911;
-}
-.alert-danger {
-  background-color: #f9eae8;
-  color: #f4516c;
-  -webkit-box-shadow: 0 2px #f4d8d4;
-  box-shadow: 0 2px #f4d8d4;
-}
-.alert-danger hr {
-  border-top-color: #f4d8d4;
-}
-.alert-danger .alert-link {
-  color: #9d392b;
-}
-.progress {
-  height: 24px;
-  border-radius: 2px;
-  -webkit-box-shadow: none;
-  box-shadow: none;
-}
-.progress.progress-mini {
-  height: 5px;
-}
-.progress.progress-mini .progress-bar {
-  line-height: 5px;
-}
-.progress-bar {
-  line-height: 24px;
-  font-weight: 600;
-  -webkit-box-shadow: none;
-  box-shadow: none;
-}
-.progress-bar-primary {
-  background-color: #5c90d2;
-}
-.progress-bar-success {
-  background-color: #34bfa3;
-}
-.progress-bar-info {
-  background-color: #66ccff;
-}
-.progress-bar-warning {
-  background-color: #f3b760;
-}
-.progress-bar-danger {
   background-color: #f4516c;
 }
 .nav-pills > li > a {
@@ -1628,6 +1477,7 @@ a.list-group-item:focus {
   padding: 10px;
   border-top: 1px solid #f0f0f0;
   vertical-align: middle;
+  max-width: 450px;
 }
 .table > thead > tr > th,
 .table > tbody > tr > th,
@@ -1805,28 +1655,6 @@ a.list-group-item:focus {
 }
 .table-responsive {
   -webkit-overflow-scrolling: touch;
-}
-.js-table-checkable tbody tr,
-.js-table-sections-header > tr {
-  cursor: pointer;
-}
-.js-table-sections-header > tr > td:first-child > i {
-  -webkit-transition: -webkit-transform 0.15s ease-out;
-  transition: transform 0.15s ease-out;
-}
-.js-table-sections-header + tbody {
-  display: none;
-}
-.js-table-sections-header.open > tr {
-  background-color: #f9f9f9;
-}
-.js-table-sections-header.open > tr > td:first-child > i {
-  -webkit-transform: rotate(90deg);
-  -ms-transform: rotate(90deg);
-  transform: rotate(90deg);
-}
-.js-table-sections-header.open + tbody {
-  display: table-row-group;
 }
 .modal-dialog{
   margin-left: auto;

@@ -79,8 +79,6 @@
 	 		},350);
 	 	}
  	</script>
-	<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
- 	<script src="{{ mix('js/oneui.js') }}"></script>
  	<script src="{{ mix('js/manifest.js') }}"></script>
  	<script src="{{ mix('js/vendor.js') }}"></script>
  	<script src="{{ mix('js/app.js') }}"></script>

@@ -21,13 +21,6 @@ mix.styles([
     'resources/assets/css/sweetalert.css',
 ], 'public/css/oneui.css');
 
-mix.scripts([
-    'resources/assets/js/plugins/jquery.scrollLock.min.js',
-    'resources/assets/js/plugins/jquery.slimscroll.min.js',
-    'resources/assets/js/plugins/common.js',    
-], 'public/js/oneui.js');
-
-
 //webpack打包
 mix.webpackConfig({
     output: { 
