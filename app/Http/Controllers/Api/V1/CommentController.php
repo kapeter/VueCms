@@ -17,7 +17,7 @@ class CommentController extends BaseController
         
         $this->commentRepository = $commentRepository;
 
-        $this->middleware('blog.api');
+        $this->middleware('blog.api',['except' => ['index', 'store']]);
     }
     /**
      * Display a listing of the resource.

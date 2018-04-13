@@ -32,6 +32,13 @@ class CommentRepository
 
         $per_page = isset($request->per_page) ? $request->per_page : 10;
 
+       	if (isset($request->comment_relation_id)) {
+       		$result = $result->where([
+			    ['comment_type', '=', $request->comment_type],
+			    ['comment_relation_id', '=', $request->comment_relation_id],
+			]);
+       	}
+
         $result = $result->orderBy('created_at', 'desc');
 
         $result = $result->paginate($per_page);
