@@ -71,13 +71,12 @@ class PostController extends BaseController
     public function show(Request $request, $id)
     {
         $post = $this->postRepository->getById($id);
-
-        // 如果来自前端，统计阅读量
-        if ($this->reqIsFromFront($request)){
-           $this->postRepository->update($id,['view_count' => $post->view_count + 1]); 
-        }
         
         if (isset($post)){
+            // 如果来自前端，统计阅读量
+            if ($this->reqIsFromFront($request)){
+               $this->postRepository->update($id,['view_count' => $post->view_count + 1]); 
+            }
             return $this->response->item($post, new PostTransformer);
         }else{
             return $this->response->array($this->errorMsg[10012]);
