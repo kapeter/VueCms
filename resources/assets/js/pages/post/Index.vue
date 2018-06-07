@@ -95,7 +95,6 @@
 			        {
 			          title: '创建时间',
 			          name: 'created_at',
-			          sortField: 'updated_at',
 			          titleClass: 'text-center',
 			          dataClass: 'text-center'
 			        },
@@ -141,7 +140,7 @@
 		    },
 		    changePublish(data) {
 		    	let _self = this;
-		    	_self.$http.post( _self.routeList.browseUrl + '/' + data.id +'/change',{is_publish: data.is_publish})
+		    	_self.$http.post( _self.routeList.browseUrl + '/' + data.id +'/change', {is_publish: data.is_publish})
 		    		.catch(function (res) {
 		    			_self.$message.error();
 		    		})

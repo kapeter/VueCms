@@ -13,7 +13,6 @@ class PostTransformer extends TransformerAbstract
             'title'         => $post['title'],
             'content'       => $post['content'],
             'category'      => $post->category,
-	        // 'last_user'     => $post->lastUser->name,
 	        'slug'          => $post['slug'],
 	        'cover_img'     => $post['cover_img'],
 	        'description'   => $post['description'],

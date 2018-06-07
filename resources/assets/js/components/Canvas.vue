@@ -20,7 +20,7 @@ export default {
     const MIN_RADIUS = 30
     const MAX_LENGTH = 250
     const MIN_LENGTH = 175
-    const MAX_WIDTH = 4
+    const MAX_WIDTH = 3
     const MIN_WIDTH = 1
     const MAX_COUNT = 6
     const MIN_COUNT = 2
@@ -141,7 +141,7 @@ export default {
     }
   },
   beforeDestroy () {
-    clearInterval(_self.timer)
+    clearInterval(this.timer)
   },
   methods: {
     getRandom (lowerValue, upperValue) {

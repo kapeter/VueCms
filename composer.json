@@ -12,6 +12,7 @@
         "jellybool/translug": "~2.0",
         "laravel/framework": "5.5.*",
         "laravel/tinker": "~1.0",
+        "mews/purifier": "^2.1",
         "tymon/jwt-auth": "1.0.0-rc.1"
     },
     "require-dev": {

@@ -43,16 +43,15 @@ class MailController extends BaseController
         if ($this->mailRepository->checkRate($data['user_ip'])){
             
             // 将发送邮件加入消息队列
-            $adminEmailstr = $this->settingRepository->getByColumn('name', 'admin_email');
-            if (is_array($adminEmailstr) && !is_null($adminEmailstr[0]['value'])){
-                $adminEmails = explode(',', $adminEmailstr[0]['value']);
+            $adminEmailstr = $this->settingRepository->getByColumn('name', 'admin_email')[0];
+            if (isset($adminEmailstr)){
+                $adminEmails = explode(',', $adminEmailstr->value);
                 foreach ($adminEmails as $to) {
                     Mail::to($to)->queue(new contactMe($data));  
                 }                
             }
-
             foreach ($data as $value) {
-                $value = htmlentities($value, ENT_QUOTES, 'UTF-8');
+                $value = clean($value);
             }
             $this->mailRepository->store($data);
 

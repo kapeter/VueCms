@@ -41,7 +41,7 @@ class CommentController extends BaseController
     {
         $data = array_merge($request->all(),
             [
-                'comment_cotent' => htmlentities($request->comment_cotent),
+                'comment_cotent' => clean($request->comment_cotent),
                 'comment_author_ip' => $request->ip()
             ]
         );
