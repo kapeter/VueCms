@@ -24,7 +24,7 @@
 	        top: 0;
 	        z-index: 9999;
 	        background: #fff;
-	        transition: all .25s linear;
+	        transition: all .25s ease-out;
 	    }
 	    .loading-box{
 	        width: 150px;
@@ -32,41 +32,16 @@
 	        position: absolute;
 	        left:50%;
 	        top: 50%;
-	        margin-top: -100px;
-	        margin-left: -75px;
+			transform: translate(-50%, -50%);
 	        text-align: center;
-	    }
-	    .loading-box .center{
-			position: absolute;
-			left: 50%;
-			top: 50%;
-			margin-top: -36px;
-			margin-left: -26px;
-	    }
-	    .loading-box .circle{
-	    	animation: rotation 1s linear infinite;
-			-moz-animation: rotation 1s linear infinite;
-			-webkit-animation: rotation 1s linear infinite;
-			-o-animation: rotation 1s linear infinite;
-	    }
-		@-webkit-keyframes rotation{
-			from {-webkit-transform: rotate(0deg);}
-			to {-webkit-transform: rotate(360deg);}
-		}	    
-	    .loading-box p{
-	    	margin-top: 15px;
-	    	font-size: 15px;
-	    	letter-spacing: 1px;
-	    	color: #333;
+			line-height: 150px;
 	    }
 	</style>
 </head>
 <body>
     <div id="loading" class="loading">
-        <div class="loading-box">
-        	<img src="/img/circle.png" class="circle">
-            <img src="/img/logo-no-circle.png" class="center"> 
-            <p>Now Loading …</p>              
+        <div class="loading-box">   
+			<img src="/svg/bars.svg" />     
         </div>
     </div>
   	<div id="app" v-cloak></div>
@@ -76,7 +51,7 @@
 	 		oLoad.style.opacity ='0';
 	 		setTimeout(function(){
 	 			oLoad.parentNode.removeChild(oLoad);
-	 		},350);
+	 		},300);
 	 	}
  	</script>
  	<script src="{{ mix('js/manifest.js') }}"></script>

@@ -14,6 +14,7 @@ const { mix } = require('laravel-mix');
 //不需要打包
 mix.copyDirectory('resources/assets/fonts','public/fonts');
 mix.copyDirectory('resources/assets/img','public/img');
+mix.copyDirectory('resources/assets/svg','public/svg');
 
 mix.styles([
     'resources/assets/css/bootstrap.min.css',
