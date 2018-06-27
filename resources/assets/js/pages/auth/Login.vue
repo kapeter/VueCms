@@ -12,7 +12,7 @@
                         <!-- END Login Title -->
 
                         <!-- Login Form -->
-                        <form class="form-horizontal push-60-t" autocomplete="off">
+                        <form class="form-horizontal push-30-t" autocomplete="off">
                             <div class="form-group" :class="{'has-error' : errors.has('email') }">
                                 <div class="col-xs-12">
                                     <div class="form-material form-material-info floating" :class="{ 'open' : loginData.email != ''}">
@@ -45,7 +45,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group push-30-t">
+                            <div class="push-30-t">
                                 <div class="text-center">
                                     <button class="btn btn-info login-btn"  @click.prevent="login()">{{ btnText }}</button>
                                 </div>
@@ -135,7 +135,7 @@
     }   
     .login-box{
         background-color: #fff;
-        padding:30px 45px;
+        padding:45px;
         box-sizing: border-box;
         box-shadow: 0px 1px 15px 1px rgba(113, 106, 202, 0.08);
         position: relative;

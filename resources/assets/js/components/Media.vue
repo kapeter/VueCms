@@ -13,7 +13,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-8" v-for="item in currentList">
+            <div class="col-8" v-for="item in currentList" :key="item.origin">
                 <div class="thumbnail-box" @click.prevent="clickBoxEvent(item)">
                     <div class="checked-mask" v-show='isChecked && activeItem.origin == item.origin'>
                         <i class="fa fa-check"></i>
@@ -62,7 +62,7 @@
                 <h4>上传文件</h4>
                 <ul class="current-list clearfix">
                     <li><strong>当前文件夹：</strong></li>
-                    <li v-for="crumb in crumbsArr">
+                    <li v-for="crumb in crumbsArr" :key="crumb">
                         <span v-if="crumb == 'public'">媒体库</span>
                         <span v-else>/ {{ crumb }}</span>
                     </li>

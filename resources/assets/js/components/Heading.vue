@@ -12,7 +12,7 @@
                     <li>
                         <BreadcrumbItem :to="{ path: '/' }"><i class="fa fa-dashboard crumb-head"></i> 仪表盘</BreadcrumbItem>
                     </li>
-                    <li v-for="crumb in crumbs" class="el-breadcrumb__item">
+                    <li v-for="crumb in crumbs" class="el-breadcrumb__item" :key="crumb.text">
                         <BreadcrumbItem :to="{ path: crumb.to }">{{ crumb.text }}</BreadcrumbItem>
                     </li>
                 </Breadcrumb>
